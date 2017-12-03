@@ -1,20 +1,19 @@
 <template>
-  <div class="home">
+  <div class="work-report-daily">
     {{msg}}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Homepage',
+  name: 'WorkReportDaily',
   data () {
     return {
-      msg: '善林 OA 首页'
+      msg: '发起日报'
     }
   },
   created () {
-    const paths = this.$route.path.split('/')
-    this.$store.dispatch('querySidebarList', paths[1])
+    console.log('##### WorkReportDaily created')
   }
 }
 </script>

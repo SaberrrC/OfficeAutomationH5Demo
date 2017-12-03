@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Homepage from '@/containers/Homepage'
 import WorkReport from '@/containers/WorkReport'
+import WorkReportDaily from '@/containers/WorkReportDaily'
+import WorkReportWeekly from '@/containers/WorkReportWeekly'
 import Setting from '@/containers/Setting'
 import SignIn from '@/containers/SignIn'
 
@@ -22,7 +24,20 @@ export default new Router({
     {
       path: '/work_report',
       name: 'WorkReport',
-      component: WorkReport
+      component: WorkReport,
+      redirect: '/work_report/daily',
+      children: [
+        {
+          path: 'daily',
+          name: 'WorkReportDaily',
+          component: WorkReportDaily
+        },
+        {
+          path: 'weekly',
+          name: 'WorkReportWeekly',
+          component: WorkReportWeekly
+        }
+      ]
     },
     {
       path: '/setting',

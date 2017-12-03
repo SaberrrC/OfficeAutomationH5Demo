@@ -1,21 +1,15 @@
 <template>
   <div class="work-report">
-    {{msg}}
+    <router-view/>
   </div>
 </template>
 
 <script>
 export default {
   name: 'WorkReport',
-  data () {
-    return {
-      msg: '工作汇报'
-    }
+  created () {
+    const paths = this.$route.path.split('/')
+    this.$store.dispatch('querySidebarList', paths[1])
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-
-</style>

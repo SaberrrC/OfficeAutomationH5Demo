@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1 id="logo"><img src="../assets/images/logo.png" alt="善林OA"></h1>
-    <div class="navigation">
+    <nav class="navigation">
       <Menu
         ref="navigation"
         mode="horizontal"
@@ -44,7 +44,7 @@
           </Dropdown>
         </MenuItem>
       </Menu>
-    </div>
+    </nav>
     <ul class="shortcut">
       <li
         v-for="item in shortcut"

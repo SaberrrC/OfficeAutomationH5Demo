@@ -1,19 +1,29 @@
 <template>
   <div id="app">
     <the-header/>
-    <router-view/>
+    <sidebar
+      v-if="sidebarList.length"
+      :list="sidebarList"/>
+    <section :class="['section', sidebarList.length ? '' : 'full-screen']">
+      <router-view/>
+    </section>
   </div>
 </template>
 
 <script>
 import TheHeader from '@/components/TheHeader'
+import Sidebar from '@/components/Sidebar'
 
 export default {
   name: 'app',
   components: {
-    TheHeader
+    TheHeader,
+    Sidebar
   },
   computed: {
+    sidebarList () {
+      return this.$store.state.sidebarList
+    }
   },
   created () {
   },
@@ -29,5 +39,15 @@ export default {
   font: 14px/1.6 'Microsoft Yahei', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.section {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  left: 240px;
+}
+.full-screen {
+  left: 0;
 }
 </style>
