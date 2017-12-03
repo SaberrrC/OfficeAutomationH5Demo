@@ -50,7 +50,7 @@
         v-for="item in shortcut"
         :key="item.id">
         <Dropdown
-          @on-click="handleSelect">
+          @on-click="handleClick($event)">
           <a href="javascript:void(0)">
             <Icon :type="item.iconType"/>
           </a>
@@ -80,9 +80,8 @@ export default {
     }
   },
   created () {
-    //  通过路由 path 分隔父级目录和子级目录，这里需要保证路由的规则性
-    const paths = this.$route.path.split('/')
-    this.activeName = paths[1]
+    //  刷新页面时初始化 activeName
+    this.activeName = this.getCurrentActiveName()
     //  TODO
     this.divideNavigation([
       {iconType: 'android-clipboard', name: '工作汇报', id: 'work_report', isShow: 1},
@@ -142,15 +141,31 @@ export default {
         }
       }
     },
-    handleSelect (id) {
+    getCurrentActiveName () {
+      //  通过路由 path 分隔父级目录和子级目录，这里需要保证路由的规则性
+      const paths = this.$route.path.split('/')
+      return paths[1]
+    },
+    handleSelect (id, next) {
       if (id) {
         //  判断是否外链
         if (~id.indexOf('://')) {
           window.location.href = id
         } else {
-          this.$router.push(`/${id}`)
+          this.$router.push(`/${id}`, () => {
+            if (next) next()
+          })
         }
+      } else {
+        //  二级菜单点击后重置回 navigation 的 currentActiveName
+        this.$refs.navigation.currentActiveName = this.getCurrentActiveName()
       }
+    },
+    handleClick (id) {
+      this.handleSelect(id, () => {
+        //  更新 navigation 的 currentActiveName
+        this.$refs.navigation.currentActiveName = this.getCurrentActiveName()
+      })
     }
   }
 }
@@ -182,6 +197,9 @@ export default {
 }
 .ivu-dropdown-item {
   font-size: 14px!important;
+  .ivu-icon {
+    margin-right: 4px;
+  }
 }
 .shortcut {
   float: right;
