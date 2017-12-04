@@ -165,6 +165,8 @@ export default {
       this.handleSelect(id, () => {
         //  更新 navigation 的 currentActiveName
         this.$refs.navigation.currentActiveName = this.getCurrentActiveName()
+        this.$store.dispatch('updateSidebarOpenName', this.getCurrentActiveName())
+        this.$store.dispatch('updateSidebarActiveName', this.$route.path.substring(1))
       })
     }
   }

@@ -5,14 +5,30 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    sidebarList: []
+    sidebar: {
+      activeName: '',
+      openName: '',
+      list: []
+    }
   },
   mutations: {
+    updateSidebarActiveName (state, newValue) {
+      state.sidebar.activeName = newValue
+    },
+    updateSidebarOpenName (state, newValue) {
+      state.sidebar.openName = newValue
+    },
     updateSidebarList (state, newValue) {
-      state.sidebarList = newValue
+      state.sidebar.list = newValue
     }
   },
   actions: {
+    updateSidebarActiveName (context, activeName) {
+      context.commit('updateSidebarActiveName', activeName)
+    },
+    updateSidebarOpenName (context, openName) {
+      context.commit('updateSidebarOpenName', openName)
+    },
     //  获取二级菜单列表，参数为模块 id
     querySidebarList (context, id) {
       /*

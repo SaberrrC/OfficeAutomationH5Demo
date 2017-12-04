@@ -1,9 +1,10 @@
 <template>
   <aside class="sidebar">
     <Menu
+      ref="sidebar"
       theme="dark"
       :active-name="activeName"
-      :open-names="[openName]"
+      :open-names="openNames"
       @on-select="handleSelect">
       <Submenu
         v-for="item in list"
@@ -16,7 +17,7 @@
         <MenuItem
           v-for="i in item.children"
           :key="i.id"
-          :name="i.id">
+          :name="`${item.id}/${i.id}`">
           {{i.name}}
         </MenuItem>
       </Submenu>
@@ -33,22 +34,40 @@ export default {
   data () {
     return {
       activeName: '',
-      openName: ''
+      openNames: []
+    }
+  },
+  computed: {
+  },
+  watch: {
+    '$route' (val) {
+      this.updateSidebar(val.path)
+      this.$refs.sidebar.updateOpened()
     }
   },
   created () {
-    const paths = this.$route.path.split('/')
-    this.activeName = paths[2]
-    this.openName = paths[1]
+    this.updateSidebar(this.$route.path)
+  },
+  updated () {
+    //  TODO 监控是否重绘，待删除
+    console.log('##### Sidebar updated')
   },
   methods: {
-    handleSelect (id) {
-      if (id) {
+    updateSidebar (path) {
+      this.activeName = path.substring(1)
+      this.addOpenList(path.split('/')[1], this.openNames)
+    },
+    //  防止重复添加数组元素
+    addOpenList (item, list) {
+      if (!~list.indexOf(item)) list.push(item)
+    },
+    handleSelect (path) {
+      if (path) {
         //  判断是否外链
-        if (~id.indexOf('://')) {
-          window.location.href = id
+        if (~path.indexOf('://')) {
+          window.location.href = path
         } else {
-          this.$router.push(`/${this.openName}/${id}`)
+          this.$router.push(`/${path}`)
         }
       }
     }
