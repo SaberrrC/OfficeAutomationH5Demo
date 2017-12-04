@@ -8,8 +8,7 @@
 export default {
   name: 'WorkReport',
   created () {
-    const paths = this.$route.path.split('/')
-    this.$store.dispatch('querySidebarList', paths[1])
+    this.$store.dispatch('querySidebarList', 'work_report')
   }
 }
 </script>

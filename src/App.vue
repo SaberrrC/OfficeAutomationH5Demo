@@ -35,6 +35,9 @@ export default {
 </script>
 
 <style>
+body {
+  background: #ebeff8;
+}
 #app {
   font: 14px/1.6 'Microsoft Yahei', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

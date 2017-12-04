@@ -207,7 +207,7 @@ export default {
     float: left;
     height: 60px;
     line-height: 60px;
-    font-size: 18px;
+    font-size: 20px;
     a {
       display: block;
       padding: 0 20px;

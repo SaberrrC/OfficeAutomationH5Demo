@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -14,9 +13,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    //  获取二级菜单列表，参数为模块 id
     querySidebarList (context, id) {
       /*
-      axios.get('/sidebar', {
+      $ajax.get('/sidebar', {
         params: {
           id
         }

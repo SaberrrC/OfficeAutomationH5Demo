@@ -1,6 +1,8 @@
 <template>
   <div class="work-report-daily">
-    {{msg}}
+    <Card>
+      <p slot="title">发起日报</p>
+    </Card>
   </div>
 </template>
 
@@ -9,7 +11,6 @@ export default {
   name: 'WorkReportDaily',
   data () {
     return {
-      msg: '发起日报'
     }
   },
   created () {
@@ -20,5 +21,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
+.work-report-daily {
+  padding: 20px;
+}
 </style>

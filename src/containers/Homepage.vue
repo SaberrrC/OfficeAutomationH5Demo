@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    {{msg}}
+    <Card :bordered="false">
+      <p slot="title">{{msg}}</p>
+    </Card>
   </div>
 </template>
 
@@ -13,13 +15,14 @@ export default {
     }
   },
   created () {
-    const paths = this.$route.path.split('/')
-    this.$store.dispatch('querySidebarList', paths[1])
+    this.$store.dispatch('querySidebarList', 'home')
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
+.home {
+  padding: 20px;
+}
 </style>
