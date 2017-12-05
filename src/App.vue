@@ -21,8 +21,9 @@ export default {
     Sidebar
   },
   computed: {
+    //  放在这一层是为了根据数组 length 判断是否隐藏 sidebar
     sidebarList () {
-      return this.$store.state.sidebarList
+      return this.$store.state.sidebar.list
     }
   },
   created () {

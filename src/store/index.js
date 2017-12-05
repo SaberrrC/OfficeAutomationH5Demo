@@ -1,36 +1,56 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import axios from 'axios'
+
 Vue.use(Vuex)
+
+//  TODO 临时测试环境变量
+const TEST_CONFIG = 'http://118.31.18.67:8084'
 
 export default new Vuex.Store({
   state: {
-    sidebarList: []
+    sidebar: {
+      activeName: '',
+      openName: '',
+      list: []
+    },
+    contacts: {
+      departments: []
+    }
   },
   mutations: {
+    updateSidebarActiveName (state, newValue) {
+      state.sidebar.activeName = newValue
+    },
+    updateSidebarOpenName (state, newValue) {
+      state.sidebar.openName = newValue
+    },
     updateSidebarList (state, newValue) {
-      state.sidebarList = newValue
+      state.sidebar.list = newValue
+    },
+    updateContacts (state, newValue) {
+      state.contacts.departments = newValue
     }
   },
   actions: {
+    updateSidebarActiveName (context, activeName) {
+      context.commit('updateSidebarActiveName', activeName)
+    },
+    updateSidebarOpenName (context, openName) {
+      context.commit('updateSidebarOpenName', openName)
+    },
     //  获取二级菜单列表，参数为模块 id
     querySidebarList (context, id) {
-      /*
-      $ajax.get('/sidebar', {
-        params: {
-          id
-        }
-      }).then(function (response) {
-        if (response.data && response.data.length) {
-          context.commit('updateSidebarList', response.data)
-        }
-      }).catch(function (err) {
-        console.log(err)
-      })
-      */
       //  TODO mock data
       if (id === 'home') {
-        context.commit('updateSidebarList', [])
+        context.commit('updateSidebarList', [
+          {
+            iconType: 'android-clipboard',
+            name: '善林OA',
+            id: 'home'
+          }
+        ])
       }
       if (id === 'work_report') {
         const list = [
@@ -57,6 +77,7 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', list)
       }
+
       if (id === 'meeting_admin') {
         const MeetList = [
           {
@@ -73,6 +94,24 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', MeetList)
       }
+
+    },
+    queryContacts (context, departmentId = '1') {
+      return axios.get(`${TEST_CONFIG}/organization/queryOrgAndUser`, {
+        params: {
+          token: '67713c352c5d4ae99e8fd7d498d092a51512442839196', //  TODO 临时测试
+          uid: '1', //  TODO 临时测试
+          orgId: departmentId
+        }
+      }).then(function (response) {
+        if (response.data && response.data.length) {
+          const data = response.data
+          console.log(data)
+          context.commit('updateContacts', data)
+        }
+      }).catch(function (err) {
+        console.log(err)
+      })
     }
   }
 })
