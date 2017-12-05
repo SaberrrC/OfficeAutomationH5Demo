@@ -6,6 +6,16 @@ import WorkReportDaily from '@/containers/WorkReportDaily'
 import WorkReportWeekly from '@/containers/WorkReportWeekly'
 import Setting from '@/containers/Setting'
 import SignIn from '@/containers/SignIn'
+import forgetPwd from '../containers/forgetPwd/forgetPwd.vue'
+import forgetPwdCode from '../containers/forgetPwd/code.vue'
+import forgetPwdEmail from '../containers/forgetPwd/email.vue'
+import forgetPwdSuccess from '../containers/forgetPwd/success.vue'
+import MeetingAdmin from '../containers/meet/Meet.vue'
+import MeetAdd from '../containers/meet/MeetAdd.vue'
+import MeetRoomEdit from '../containers/meet/MeetRoomEdit.vue'
+import MyMeeting from '../containers/meet/MyMeeting.vue'
+import MeetSummary from '../containers/meet/MeetSummary.vue'
+
 
 Vue.use(Router)
 
@@ -48,6 +58,28 @@ export default new Router({
       path: '/sign_in',
       name: 'SignIn',
       component: SignIn
+    },
+    {
+      path: '/forgetPwd',
+      name: 'forgetPwd',
+      component: forgetPwd,
+      children: [
+        { path: 'code', component: forgetPwdCode, name: 'forgetPwdCode' },
+        { path: 'email', component: forgetPwdEmail, name: 'forgetPwdEmail' },
+        { path: 'success', component: forgetPwdSuccess, name: 'forgetPwdSuccess' }
+      ]
+    },
+    {
+      path: '/meeting_admin',
+      name: 'MeetingAdmin',
+      component: MeetingAdmin,
+      redirect: '/meeting_admin/add',
+      children: [
+        { path: 'add', component: MeetAdd, name: 'MeetAdd' },
+        { path: 'meetRoomEdit', component: MeetRoomEdit, name: 'MeetRoomEdit' },
+        { path: 'myMeeting', component: MyMeeting, name: 'MyMeeting' },
+        { path: 'meetSummary', component: MeetSummary, name: 'MeetSummary' }
+      ]
     }
   ]
 })

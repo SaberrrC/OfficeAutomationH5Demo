@@ -57,6 +57,22 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', list)
       }
+      if (id === 'meeting_admin') {
+        const MeetList = [
+          {
+            iconType: 'easel',
+            name: '会议管理',
+            id: 'meeting_admin',
+            children: [
+              {name: '会议室预定', id: 'add'},
+              {name: '我的会议', id: 'myMeeting'},
+              {name: '会议纪要', id: 'meetSummary'},
+              {name: '会议室设置', id: 'meetRoomEdit'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', MeetList)
+      }
     }
   }
 })
