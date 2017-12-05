@@ -84,5 +84,8 @@ export default {
   left: 0;
   width: 240px;
   background: #495060;
+  .ivu-menu, .ivu-menu-item {
+    font-size: 16px;
+  }
 }
 </style>

@@ -22,6 +22,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .work-report-daily {
-  padding: 20px;
+  padding: 16px;
 }
 </style>
