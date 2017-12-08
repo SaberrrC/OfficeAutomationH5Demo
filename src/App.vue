@@ -4,7 +4,7 @@
     <sidebar
       v-if="sidebarList.length"
       :list="sidebarList"/>
-    <section :class="['section', sidebarList.length ? '' : 'full-screen']">
+    <section :class="['content', sidebarList.length ? '' : 'full-screen']">
       <router-view/>
     </section>
   </div>
@@ -23,7 +23,7 @@ export default {
   computed: {
     //  放在这一层是为了根据数组 length 判断是否隐藏 sidebar
     sidebarList () {
-      return this.$store.state.sidebar.list
+      return this.$store.state.sidebar
     }
   },
   created () {
@@ -35,7 +35,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 body {
   background: #ebeff8;
 }
@@ -44,7 +44,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.section {
+.content {
   position: absolute;
   top: 60px;
   right: 0;
@@ -53,5 +53,24 @@ body {
 }
 .full-screen {
   left: 0;
+}
+.organization .ivu-tree {
+  position: absolute;
+  top: 109px;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  overflow-y: auto;
+}
+.ivu-tree-title {
+  font-size: 14px;
+}
+.ivu-tree-title:hover, .ivu-tree-title-selected, .ivu-tree-title-selected:hover {
+  background: transparent;
+}
+.ivu-tree-arrow, .ivu-checkbox-wrapper, .ivu-tree-title {
+  margin-right: 0;
+  vertical-align: middle;
+  line-height: 19px;
 }
 </style>

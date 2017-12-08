@@ -1,13 +1,14 @@
-<template>
+<template xmlns:member-tree="http://www.w3.org/1999/html">
   <div class="home">
     <Row :gutter="16">
       <Col span="6">
-        <Card>
+        <Card class="organization">
           <h3 slot="title">
             <Icon type="person-stalker"/>
             通讯录
           </h3>
-          <contacts/>
+          <member-tree
+            :type="memberTreeType"/>
         </Card>
       </Col>
       <Col span="12">
@@ -37,16 +38,16 @@
 </template>
 
 <script>
-import Contacts from '@/components/Contacts'
+import MemberTree from '@/components/MemberTree'
 
 export default {
   name: 'Homepage',
   components: {
-    Contacts
+    MemberTree
   },
   data () {
     return {
-      msg: '善林 OA 首页'
+      memberTreeType: 'complex'
     }
   },
   created () {
@@ -58,9 +59,22 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .home {
+  position: relative;
+  height: 100%;
   padding: 16px;
+  .ivu-row, .ivu-col {
+    height: 100%;
+  }
 }
-.ivu-card {
-  margin-bottom: 16px;
+.organization {
+  position: relative;
+  height: 100%;
+  overflow-y: hidden;
+  .ivu-tree {
+    position: absolute;
+    top: 92px;
+    bottom: 0;
+    width: 100%;
+  }
 }
 </style>

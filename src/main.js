@@ -13,7 +13,6 @@ import axios from 'axios'
 Vue.prototype.$ajax = axios
 
 Vue.use(iView)
-console.log(1)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
