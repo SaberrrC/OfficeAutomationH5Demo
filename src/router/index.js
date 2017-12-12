@@ -6,6 +6,10 @@ import WorkReportDaily from '@/containers/WorkReportDaily'
 import WorkReportWeekly from '@/containers/WorkReportWeekly'
 import Setting from '@/containers/Setting'
 import SignIn from '@/containers/SignIn'
+import UserCenter from '@/containers/UserCenter'
+import UserCenterBasic from '@/containers/UserCenterBasic'
+import UserCenterPassword from '@/containers/UserCenterPassword'
+import UserCenterEmail from '@/containers/UserCenterEmail'
 
 Vue.use(Router)
 
@@ -48,6 +52,29 @@ export default new Router({
       path: '/sign_in',
       name: 'SignIn',
       component: SignIn
-    }
+    },
+    {
+      path: '/user_center',
+      name: 'UserCenter',
+      component: UserCenter,
+      redirect: '/user_center/basic',
+      children: [
+        {
+          path: 'basic',
+          name: 'UserCenterBasic',
+          component: UserCenterBasic
+        },
+        {
+          path: 'password',
+          name: 'UserCenterPassword',
+          component: UserCenterPassword
+        },
+        {
+          path: 'email',
+          name: 'UserCenterEmail',
+          component: UserCenterEmail
+        }
+      ]
+    },
   ]
 })

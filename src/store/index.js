@@ -59,6 +59,20 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', list)
       }
+      if (id === 'user_center') {
+        context.commit('updateSidebarList', [
+          {
+            iconType: 'person',
+            name: '个人中心',
+            id: 'user_center',
+            children: [
+              {name: '个人中心', id: 'basic'},
+              {name: '修改密码', id: 'password'},
+              {name: '修改邮箱', id: 'email'}
+            ]
+          }
+        ])
+      }
     },
     queryOrganization (context, departmentId = '1') {
       return axios.get(`${TEST_CONFIG}/organization/queryOrgAndUser`, {
