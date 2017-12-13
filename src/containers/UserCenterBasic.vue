@@ -33,7 +33,6 @@
             action="//jsonplaceholder.typicode.com/posts/"
             style="display: inline-block;">
             <Button type="primary">上传</Button>
-
           </Upload>
         </FormItem>
       </i-Form>
@@ -85,11 +84,11 @@
   .user-center-basic {
     padding: 16px;
     .upload-img {
-      float: left;
+      /*float: left;*/
       margin-right: 16px;
       img {
-        width: 200px;
-        height: 200px;
+        width: 120px;
+        height: 120px;
         border-radius: 10px;
       }
     }

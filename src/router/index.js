@@ -10,6 +10,14 @@ import UserCenter from '@/containers/UserCenter'
 import UserCenterBasic from '@/containers/UserCenterBasic'
 import UserCenterPassword from '@/containers/UserCenterPassword'
 import UserCenterEmail from '@/containers/UserCenterEmail'
+import Notice from '@/containers/Notice'
+import NoticeFrom from '@/containers/NoticeFrom'
+import NoticeTo from '@/containers/NoticeTo'
+import NoticeDepartment from '@/containers/NoticeDepartment'
+import NoticeCompany from '@/containers/NoticeCompany'
+import News from '@/containers/News'
+import NewsAdd from '@/containers/NewsAdd'
+import NewsAll from '@/containers/NewsAll'
 
 Vue.use(Router)
 
@@ -76,5 +84,51 @@ export default new Router({
         }
       ]
     },
+    {
+      path: '/notice',
+      name: 'Notice',
+      component: Notice,
+      redirect: '/notice/from',
+      children: [
+        {
+          path: 'from',
+          name: 'NoticeFrom',
+          component: NoticeFrom
+        },
+        {
+          path: 'to',
+          name: 'NoticeTo',
+          component: NoticeTo
+        },
+        {
+          path: 'department',
+          name: 'NoticeDepartment',
+          component: NoticeDepartment
+        },
+        {
+          path: 'company',
+          name: 'NoticeCompany',
+          component: NoticeCompany
+        }
+      ]
+    },
+    {
+      path: '/news_admin',
+      name: 'News',
+      component: News,
+      redirect: '/news_admin/add',
+      children: [
+        {
+          path: 'add',
+          name: 'NewsAdd',
+          component: NewsAdd
+        },
+        {
+          path: 'all',
+          name: 'NewsAll',
+          component: NewsAll
+        }
+      ]
+    }
   ]
 })
