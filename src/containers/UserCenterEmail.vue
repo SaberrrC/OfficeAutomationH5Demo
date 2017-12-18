@@ -20,8 +20,8 @@
     name: 'UserCenterEmail',
     data() {
       return {
-        formEmail:{
-          email:""
+        formEmail: {
+          email: ""
         }
       }
     },

@@ -5,10 +5,10 @@
 </template>
 
 <script>
-export default {
-  name: 'notice',
-  created () {
-    this.$store.dispatch('querySidebarList', 'notice')
+  export default {
+    name: 'notice',
+    created() {
+      this.$store.dispatch('querySidebarList', 'notice')
+    }
   }
-}
 </script>

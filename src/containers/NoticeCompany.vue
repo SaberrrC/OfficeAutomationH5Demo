@@ -52,7 +52,8 @@
             <td>
               <FormItem label="发布范围">
                 <i-select v-model="release" style="width:200px">
-                  <i-option v-for="item in releaseList" :value="item.value" :key="item.value">{{ item.label }}</i-option>
+                  <i-option v-for="item in releaseList" :value="item.value" :key="item.value">{{ item.label }}
+                  </i-option>
                 </i-select>
               </FormItem>
             </td>
@@ -79,11 +80,11 @@
         formItem: {
           title: ""
         },
-        release:"",
+        release: "",
         releaseMode: [],
-        releaseList:[{
-          label:"100",
-          value:1
+        releaseList: [{
+          label: "100",
+          value: 1
         }],
 
       }

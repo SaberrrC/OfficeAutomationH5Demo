@@ -23,7 +23,7 @@
           <tr>
             <td>
               <FormItem label="新闻标题">
-                <Input v-model="formItem.title" placeholder="请填写公告标题"></Input>
+                <Input v-model="formItem.title" :maxlength="10" placeholder="请填写公告标题"></Input>
               </FormItem>
             </td>
             <td>

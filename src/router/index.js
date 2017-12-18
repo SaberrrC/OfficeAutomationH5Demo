@@ -19,7 +19,7 @@ import News from '@/containers/News'
 import NewsAdd from '@/containers/NewsAdd'
 import NewsAll from '@/containers/NewsAll'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [

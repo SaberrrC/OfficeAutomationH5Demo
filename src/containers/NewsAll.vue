@@ -8,7 +8,7 @@
         <Input v-model="title" style="width:200px" placeholder="搜索标题" icon="search"></Input>
       </div>
       <div class="container">
-        <Table height="400" :columns="columns" :data="data"></Table>
+        <Table height="450" :columns="columns" :data="data"></Table>
         <br>
         <Page :total="100" show-sizer show-total></Page>
       </div>
@@ -22,7 +22,7 @@
     data() {
       return {
         isRead: "",
-        title:"",
+        title: "",
         readList: [{
           value: 1,
           label: "已读"

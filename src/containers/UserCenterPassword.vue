@@ -24,9 +24,9 @@
     data() {
       return {
         formPassword: {
-          passwdOld:"",
-          passwd:"",
-          passwdCheck:""
+          passwdOld: "",
+          passwd: "",
+          passwdCheck: ""
         }
       }
     },
