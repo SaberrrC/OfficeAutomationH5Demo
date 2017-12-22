@@ -73,7 +73,4 @@ body {
   vertical-align: middle;
   line-height: 19px;
 }
-.member-selector .search-bar {
-  margin-right: 16px;
-}
 </style>

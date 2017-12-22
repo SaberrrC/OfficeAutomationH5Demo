@@ -1,4 +1,4 @@
-<template xmlns:member-tree="http://www.w3.org/1999/html">
+<template>
   <div class="home">
     <Row :gutter="16">
       <Col span="5" class="home-col-1">
@@ -20,8 +20,11 @@
           <Icon type="ios-world-outline"/>
           公司新闻
         </h3>
+        <Button type="primary" @click="$store.dispatch('changeMemberSelector', true)">选择人员</Button>
         <member-selector
-          :modal="true"/>
+          v-if="memberSelectorIsShow"
+          :init-tree-data="initTreeData"
+          @getSelectedMembers="getSelectedMembers"/>
       </Card>
       <Card>
         <h3 slot="title">
@@ -54,6 +57,15 @@ export default {
   },
   data () {
     return {
+      //  TODO 这里是选择人员的初始化数组，不要和下面的混淆，一般根据业务场景异步取得
+      initTreeData: [
+        {
+          id: '1',
+          title: '善林金融',
+          loading: false,
+          children: []
+        }
+      ],
       treeData: [
         {
           id: '1',
@@ -64,8 +76,20 @@ export default {
       ]
     }
   },
+  computed: {
+    //  TODO 从 state 获取是否显示状态并利用计算属性触发更新
+    memberSelectorIsShow () {
+      return this.$store.state.showMemberSelector
+    }
+  },
   created () {
     this.$store.dispatch('querySidebarList', 'home')
+  },
+  methods: {
+    getSelectedMembers (data) {
+      //  TODO 在这里处理选中的数组
+      console.log(data)
+    }
   }
 }
 </script>
