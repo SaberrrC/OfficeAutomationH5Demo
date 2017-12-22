@@ -14,7 +14,9 @@ import Notice from '@/containers/Notice/Notice'
 import NoticeFrom from '@/containers/Notice/NoticeFrom'
 import NoticeTo from '@/containers/Notice/NoticeTo'
 import NoticeDepartment from '@/containers/Notice/NoticeDepartment'
+import NoticeDepartmentDetail from '@/containers/Notice/NoticeDepartmentDetail'
 import NoticeCompany from '@/containers/Notice/NoticeCompany'
+import NoticeCompanyDetail from '@/containers/Notice/NoticeCompanyDetail'
 import News from '@/containers/News/News'
 import NewsAdd from '@/containers/News/NewsAdd'
 import NewsAll from '@/containers/News/NewsAll'
@@ -109,6 +111,16 @@ export default new Router({
           path: 'company',
           name: 'NoticeCompany',
           component: NoticeCompany
+        },
+        {
+          path: 'department_detail',
+          name: 'NoticeDepartmentDetail',
+          component: NoticeDepartmentDetail
+        },
+        {
+          path: 'company_detail',
+          name: 'NoticeCompanyDetail',
+          component: NoticeCompanyDetail
         }
       ]
     },

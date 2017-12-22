@@ -1,17 +1,17 @@
 <template>
-	<div class="notice-company">
+	<div class="notice-department">
 		<Card>
-			<p slot="title">公司公告</p>
+			<p slot="title">部门公告</p>
 			<div slot="extra" class="card-title-extra">
 				<Button type="primary">取消</Button>
-				<Button type="primary" @click="companySubmit">发布</Button>
+				<Button type="primary" @click="noticeSubmit">发布</Button>
 			</div>
 			<i-form :model="formItem" :label-width="80" label-position="left">
 				<table cellpadding="0" cellspacing="0">
 					<tr>
 						<td>
 							<FormItem label="标题">
-								<Input v-model="formItem.title" placeholder="请输入标题"></Input>
+								<Input v-model="formItem.title" :maxlength="10" placeholder="请输入标题"></Input>
 							</FormItem>
 						</td>
 						<td>
@@ -42,7 +42,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2">
+						<td>
 							<FormItem label="相关附件">
 								<div class="demo-upload-list" v-for="item in uploadList">
 									<template v-if="item.status === 'finished'">
@@ -64,21 +64,11 @@
 								</Upload>
 							</FormItem>
 						</td>
-					</tr>
-					<tr>
-						<td>
-							<FormItem label="发布范围">
-								<i-select v-model="formItem.oIds" style="width:200px">
-									<i-option v-for="item in oIdsList" :value="item.value" :key="item.value">{{ item.label }}
-									</i-option>
-								</i-select>
-							</FormItem>
-						</td>
 						<td>
 							<FormItem label="发布方式">
 								<CheckboxGroup v-model="formItem.postType">
-									<Checkbox label="2" value="2">邮件</Checkbox>
-									<Checkbox label="1" value="1">消息</Checkbox>
+									<Checkbox label="2">邮件</Checkbox>
+									<Checkbox label="1">消息</Checkbox>
 								</CheckboxGroup>
 							</FormItem>
 						</td>
@@ -86,30 +76,27 @@
 				</table>
 			</i-form>
 		</Card>
+		<Modal title="View Image" v-model="visible">
+			<!--<iframe :src="'http://118.31.18.67:96' + imgName"  v-if="visible" style="width: 100%"></iframe>-->
+			<img :src="'http://118.31.18.67:96' + imgName" v-if="visible" style="width: 100%">
+		</Modal>
 	</div>
 </template>
 
 <script>
 	export default {
-		name: 'NoticeCompany',
+		name: 'NoticeDepartment',
 		data() {
 			return {
 				formItem: {
 					title: "",
 					content: "",
+					noticeType: 2,
 					noticeClass: "",
 					postType: [],
+					attachPath: [],
 					oIds: ""
 				},
-				release: "",
-				releaseMode: [],
-				oIdsList: [{
-					label: "400",
-					value: 400
-				}],
-				uploadList: [],
-				visible: false,
-				header: {},
 				noticeClassList: [{
 						value: 1,
 						label: "通知"
@@ -122,7 +109,10 @@
 						value: 3,
 						label: "活动"
 					}
-				]
+				],
+				uploadList: [],
+				visible: false,
+				header: {}
 			}
 		},
 		methods: {
@@ -165,6 +155,7 @@
 				}
 				return check;
 			},
+
 			formatPostType(postType) {
 				if(postType.length != 0) {
 					var postTypeNum = 0;
@@ -191,15 +182,15 @@
 			},
 
 			//发布部门公告
-			companySubmit() {
+			noticeSubmit() {
 				var data = {
 					title: this.formItem.title,
 					content: this.formItem.content,
-					noticeType: 1,
+					noticeType: 2,
 					noticeClass: this.formItem.noticeClass,
 					postType: this.formatPostType(this.formItem.postType),
 					attachPath: this.formatAttachPath(this.uploadList),
-					oIds: this.formItem.oIds
+					oIds: 400
 				};
 				console.log(data);
 				this.$ajax({
@@ -211,7 +202,7 @@
 					},
 					data: data
 				}).then((res) => {
-					console.log("发布公司公告", res.data)
+					console.log("发布部门公告", res.data)
 					if(res.data.code == "000000") {
 						this.$Message.success('发布成功');
 					} else {
@@ -227,12 +218,15 @@
 				uid: '54368'
 			}
 		},
+		created() {
+
+		}
 	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-	.notice-company {
+	.notice-department {
 		padding: 16px;
 		.card-title-extra {
 			width: 117px;

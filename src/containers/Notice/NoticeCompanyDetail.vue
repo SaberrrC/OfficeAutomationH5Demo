@@ -1,10 +1,9 @@
 <template>
-	<div class="notice-company">
+	<div class="notice-company-detail">
 		<Card>
 			<p slot="title">公司公告</p>
 			<div slot="extra" class="card-title-extra">
-				<Button type="primary">取消</Button>
-				<Button type="primary" @click="companySubmit">发布</Button>
+				<Button type="primary" @click="exit">退出</Button>
 			</div>
 			<i-form :model="formItem" :label-width="80" label-position="left">
 				<table cellpadding="0" cellspacing="0">
@@ -91,7 +90,7 @@
 
 <script>
 	export default {
-		name: 'NoticeCompany',
+		name: 'NoticeCompanyDetail',
 		data() {
 			return {
 				formItem: {
@@ -190,38 +189,36 @@
 				}
 			},
 
-			//发布部门公告
-			companySubmit() {
-				var data = {
-					title: this.formItem.title,
-					content: this.formItem.content,
-					noticeType: 1,
-					noticeClass: this.formItem.noticeClass,
-					postType: this.formatPostType(this.formItem.postType),
-					attachPath: this.formatAttachPath(this.uploadList),
-					oIds: this.formItem.oIds
-				};
-				console.log(data);
+			//获取公司公告详情信息
+			getCompanyData() {
+				var id = this.$route.params.id;
 				this.$ajax({
-					method: 'post',
-					url: '/oa-web/notice/create',
+					method: 'get',
+					url: '/oa-web/notice/' + id,
 					headers: {
 						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
 						uid: '357'
 					},
-					data: data
 				}).then((res) => {
-					console.log("发布公司公告", res.data)
+					console.log("获取公司公告详情信息", res.data)
 					if(res.data.code == "000000") {
-						this.$Message.success('发布成功');
+						var result = res.data.data;
+						if(result.length != 0){
+							this.formItem = result[0];
+						}
 					} else {
 						this.$Message.error(res.data.message);
 					}
 				}, (res) => {});
+			},
+			exit() {
+				this.$router.push({
+					path: '/notice/from'
+				})
 			}
 		},
 		mounted() {
-			//			this.uploadList = this.$refs.upload.fileList;
+			this.getCompanyData();
 			this.header = {
 				token: '554fb9447f5e4d6a83e8ce23cf6f208b',
 				uid: '54368'
@@ -232,10 +229,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-	.notice-company {
+	.notice-company-detail {
 		padding: 16px;
 		.card-title-extra {
-			width: 117px;
+			/*width: 117px;*/
 			position: absolute;
 			top: -4px;
 			right: 0;

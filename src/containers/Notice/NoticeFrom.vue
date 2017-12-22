@@ -36,9 +36,9 @@
 				</i-form>
 			</div>
 			<div class="container">
-				<Table height="450" :columns="columns" :data="data"></Table>
+				<Table height="450" :columns="columns" :data="data" @on-row-click="tableRowClick"></Table>
 				<br>
-				<Page :total="total" :current="pageNum" :on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
+				<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
 			</div>
 		</Card>
 	</div>
@@ -53,11 +53,10 @@
 				noticeType: 1,
 				noticeClass: 1,
 				dateFilter: 0,
-				readList: [
-          {
-            value: 0,
-            label: "全部"
-          },{
+				readList: [{
+						value: 0,
+						label: "全部"
+					}, {
 						value: 1,
 						label: "已读"
 					},
@@ -67,9 +66,9 @@
 					}
 				],
 				noticeTypeList: [{
-            value: 0,
-            label: "全部"
-          },{
+						value: 0,
+						label: "全部"
+					}, {
 						value: 1,
 						label: "公司公告"
 					},
@@ -79,9 +78,9 @@
 					}
 				],
 				noticeClassList: [{
-          value: 0,
-          label: "全部"
-        },{
+						value: 0,
+						label: "全部"
+					}, {
 						value: 1,
 						label: "通知"
 					},
@@ -119,94 +118,103 @@
 				pageNum: 1,
 				pageSize: 10,
 				columns: [{
-						title: 'Name',
-						key: 'name',
+						title: '标题',
+						key: 'title'
+					},
+					{
+						title: '已读',
+						key: 'isRead',
 						sortable: true
 					},
 					{
-						title: 'Age',
-						key: 'age',
-						sortable: true
-					},
-					{
-						title: 'Address',
-						key: 'address',
+						title: '类型',
+						key: 'noticeType',
+						sortable: true,
 						render: (h, params) => {
 							return h('div', [
-								h('i-switch', {
-									on: {
-										"on-change": (status) => {
-											this.showHomeChange(status, params)
-										}
-									}
-								}, params.row.showHome)
+								this.noticeTypeFormat(params.row.noticeType)
+							]);
+						}
+					},
+					{
+						title: '发起人',
+						key: 'postDeptId',
+						sortable: true
+					},
+					{
+						title: '公告类别',
+						key: 'noticeClass',
+						sortable: true,
+						render: (h, params) => {
+							return h('div', [
+								this.noticeClassFormat(params.row.noticeClass)
+							]);
+						}
+					},
+					{
+						title: '发布日期',
+						key: 'createTime',
+						sortable: true,
+						render: (h, params) => {
+							return h('div', [
+								this.dateFormat(params.row.createTime)
 							]);
 						}
 					}
 				],
-				data: [{
-						name: 'John Brown',
-						age: 18,
-						address: 'New York No. 1 Lake Park',
-						date: '2016-10-03'
-					},
-					{
-						name: 'Jim Green',
-						age: 24,
-						address: 'London No. 1 Lake Park',
-						date: '2016-10-01'
-					},
-					{
-						name: 'Joe Black',
-						age: 30,
-						address: 'Sydney No. 1 Lake Park',
-						date: '2016-10-02'
-					},
-					{
-						name: 'Jon Snow',
-						age: 26,
-						address: 'Ottawa No. 2 Lake Park',
-						date: '2016-10-04'
-					},
-					{
-						name: 'John Brown',
-						age: 18,
-						address: 'New York No. 1 Lake Park',
-						date: '2016-10-03'
-					},
-					{
-						name: 'Jim Green',
-						age: 24,
-						address: 'London No. 1 Lake Park',
-						date: '2016-10-01'
-					},
-					{
-						name: 'Joe Black',
-						age: 30,
-						address: 'Sydney No. 1 Lake Park',
-						date: '2016-10-02'
-					},
-					{
-						name: 'Jon Snow',
-						age: 26,
-						address: 'Ottawa No. 2 Lake Park',
-						date: '2016-10-04'
-					}
-				]
+				data: []
 			}
 		},
 		methods: {
 			//点击页码切换
 			handPageChange(val) {
 				this.pageNum = val;
-				this.getNewsData();
+				this.getNoticeData();
 			},
 
 			//每页显示条数切换
 			handPageSizeChange(val) {
 				this.pageSize = val;
-				this.getNewsData();
+				this.getNoticeData();
 			},
+			noticeTypeFormat(ele) {
+				switch(ele) {
+					case 1:
+						return "公司公告";
+						break;
+					case 2:
+						return "部门公告";
+						break;
+					default:
+						return "";
+				}
+			},
+			noticeClassFormat(ele) {
+				switch(ele) {
+					case 1:
+						return "通知";
+						break;
+					case 2:
+						return "表彰";
+						break;
+					case 3:
+						return "活动";
+						break;
+					default:
+						return "";
+				}
+			},
+
+			dateFormat(ele) {
+				var date = new Date(ele);
+				var y = date.getFullYear();
+				var m = date.getMonth() + 1;
+				m = m < 10 ? '0' + m : m;
+				var d = date.getDate();
+				d = d < 10 ? ('0' + d) : d;
+				return y + '-' + m + '-' + d;
+			},
+
 			getNoticeData() {
 				this.$ajax({
 					method: 'get',
@@ -222,21 +230,38 @@
 						dateFilter: this.dateFilter,
 						noticeType: this.noticeType,
 						noticeClass: this.noticeClass,
-						oIds: 400,
-					/*	postUserId:"",
-						postDeptId:"",
-						isHomeShow:""*/
+						oIds: 400
 					}
 				}).then((res) => {
 					console.log("发送给我的公告列表", res.data)
 					if(res.data.code == "000000") {
-
+						this.data = res.data.data.data;
+						this.total = res.data.data.total;
 					} else {
 						this.$Message.error(res.data.message);
 					}
 				}, (res) => {
 					this.$Message.error("信息获取失败");
 				});
+			},
+			tableRowClick(row,index){
+				console.log("row",row);
+				if(row.noticeType == 1){
+					this.$router.push({
+						name: 'NoticeCompanyDetail',
+						params: {
+							id: row.id
+						}
+					});
+				}
+				if(row.noticeType == 2){
+					this.$router.push({
+						name: 'NoticeDepartmentDetail',
+						params: {
+							id: row.id
+						}
+					});
+				}
 			}
 		},
 		watch: {
@@ -256,7 +281,6 @@
 				this.getNoticeData();
 			}
 		},
-		created() {},
 		mounted() {
 			this.getNoticeData();
 		}
