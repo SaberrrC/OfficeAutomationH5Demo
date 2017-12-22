@@ -14,7 +14,6 @@ axios.defaults.baseURL = 'http://118.31.18.67:8084' //  TODO 测试时跨域设�
 Vue.prototype.$ajax = axios
 
 Vue.use(iView)
-console.log(1)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

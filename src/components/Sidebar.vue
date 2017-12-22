@@ -37,12 +37,9 @@ export default {
       openNames: []
     }
   },
-  computed: {
-  },
   watch: {
     '$route' (val) {
       this.updateSidebar(val.path)
-      this.$refs.sidebar.updateOpened()
     }
   },
   created () {
@@ -56,6 +53,10 @@ export default {
     updateSidebar (path) {
       this.activeName = path.substring(1)
       this.addOpenList(path.split('/')[1], this.openNames)
+      this.$nextTick(() => {
+        this.$refs.sidebar.updateActiveName()
+        this.$refs.sidebar.updateOpened()
+      })
     },
     //  防止重复添加数组元素
     addOpenList (item, list) {

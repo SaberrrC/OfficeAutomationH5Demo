@@ -2,44 +2,25 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import axios from 'axios'
+axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.baseURL = 'http://118.31.18.67:8084' //  TODO 测试时跨域设置，后期可以删除
 
 Vue.use(Vuex)
 
-//  TODO 临时测试环境变量
-const TEST_CONFIG = 'http://118.31.18.67:8084'
-
 export default new Vuex.Store({
   state: {
-    sidebar: {
-      activeName: '',
-      openName: '',
-      list: []
-    },
-    contacts: {
-      departments: []
-    }
+    sidebar: [],
+    organization: []
   },
   mutations: {
-    updateSidebarActiveName (state, newValue) {
-      state.sidebar.activeName = newValue
-    },
-    updateSidebarOpenName (state, newValue) {
-      state.sidebar.openName = newValue
-    },
     updateSidebarList (state, newValue) {
-      state.sidebar.list = newValue
+      state.sidebar = newValue
     },
-    updateContacts (state, newValue) {
-      state.contacts.departments = newValue
+    updateOrganization (state, newValue) {
+      state.organization = newValue
     }
   },
   actions: {
-    updateSidebarActiveName (context, activeName) {
-      context.commit('updateSidebarActiveName', activeName)
-    },
-    updateSidebarOpenName (context, openName) {
-      context.commit('updateSidebarOpenName', openName)
-    },
     //  获取二级菜单列表，参数为模块 id
     querySidebarList (context, id) {
       //  TODO mock data
@@ -127,18 +108,18 @@ export default new Vuex.Store({
         context.commit('updateSidebarList', LogList)
       }
     },
-    queryContacts (context, departmentId = '1') {
-      return axios.get(`${TEST_CONFIG}/organization/queryOrgAndUser`, {
+    queryOrganization (context, departmentId = '1') {
+      return axios.get('/organization/queryOrgAndUser', {
         params: {
-          token: '67713c352c5d4ae99e8fd7d498d092a51512442839196', //  TODO 临时测试
-          uid: '1', //  TODO 临时测试
+          token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
+          uid: '84', //  TODO 临时测试
           orgId: departmentId
         }
       }).then(function (response) {
-        if (response.data && response.data.length) {
-          const data = response.data
-          console.log(data)
-          context.commit('updateContacts', data)
+        if (response.data) {
+          const result = response.data.data
+          context.commit('updateOrganization', result)
+          return result
         }
       }).catch(function (err) {
         console.log(err)
