@@ -77,7 +77,7 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', list)
       }
-
+//    会议管理
       if (id === 'meeting_admin') {
         const MeetList = [
           {
@@ -94,7 +94,38 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', MeetList)
       }
-
+//    审批流程
+      if (id === 'process') {
+        const ProcessList = [
+          {
+            iconType: 'compose',
+            name: '审批流程',
+            id: 'process',
+            children: [
+              {name: '发起申请', id: 'launchIndex'},
+              {name: '我的申请', id: 'myLaunch'},
+              {name: '待办事宜', id: 'toDo'},
+              {name: '已办事宜', id: 'haveToDo'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', ProcessList)
+      }
+//     日志管理
+      if (id === 'log_admin') {
+        const LogList = [
+          {
+            iconType: 'ios-paper-outline',
+            name: '日志管理',
+            id: 'log_admin',
+            children: [
+              {name: 'WEB日志导出', id: 'webLogList'},
+              {name: 'API日志导出', id: 'apiLogList'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', LogList)
+      }
     },
     queryContacts (context, departmentId = '1') {
       return axios.get(`${TEST_CONFIG}/organization/queryOrgAndUser`, {
