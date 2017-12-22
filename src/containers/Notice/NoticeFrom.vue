@@ -50,10 +50,14 @@
 		data() {
 			return {
 				isRead: 0,
-				noticeType: "",
-				noticeClass: "",
+				noticeType: 1,
+				noticeClass: 1,
 				dateFilter: 0,
-				readList: [{
+				readList: [
+          {
+            value: 0,
+            label: "全部"
+          },{
 						value: 1,
 						label: "已读"
 					},
@@ -63,6 +67,9 @@
 					}
 				],
 				noticeTypeList: [{
+            value: 0,
+            label: "全部"
+          },{
 						value: 1,
 						label: "公司公告"
 					},
@@ -72,6 +79,9 @@
 					}
 				],
 				noticeClassList: [{
+          value: 0,
+          label: "全部"
+        },{
 						value: 1,
 						label: "通知"
 					},
@@ -85,7 +95,7 @@
 					}
 				],
 				dateFilterList: [{
-						value: "",
+						value: 0,
 						label: "全部"
 					},
 					{
@@ -220,7 +230,7 @@
 				}).then((res) => {
 					console.log("发送给我的公告列表", res.data)
 					if(res.data.code == "000000") {
-						
+
 					} else {
 						this.$Message.error(res.data.message);
 					}

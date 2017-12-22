@@ -190,12 +190,12 @@
 					noticeClass: this.formItem.noticeClass,
 					postType: this.formatPostType(this.formItem.postType),
 					attachPath: this.formatAttachPath(this.uploadList),
-					oIds: "400"
+					oIds: 400
 				};
 				console.log(data);
 				this.$ajax({
 					method: 'post',
-					url: '/oa-web/notice/',
+					url: '/oa-web/notice/create',
 					headers: {
 						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
 						uid: '357'
