@@ -24,6 +24,8 @@ export default {
   },
   methods: {
     handleClick (data) {
+      console.log('#From MemberItem =>')
+      console.log(data)
       this.$emit('onMemberItemClick', data)
     }
   }

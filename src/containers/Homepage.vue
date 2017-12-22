@@ -21,10 +21,12 @@
           公司新闻
         </h3>
         <Button type="primary" @click="$store.dispatch('changeMemberSelector', true)">选择人员</Button>
-        <member-selector
-          v-if="memberSelectorIsShow"
-          :init-tree-data="initTreeData"
-          @getSelectedMembers="getSelectedMembers"/>
+        <keep-alive>
+          <member-selector
+            v-if="memberSelectorIsShow"
+            :init-tree-data="initTreeData"
+            @getSelectedMembers="getSelectedMembers"/>
+        </keep-alive>
       </Card>
       <Card>
         <h3 slot="title">

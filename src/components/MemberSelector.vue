@@ -48,6 +48,8 @@ export default {
   methods: {
     //  向已选中集合里添加对象，利用 object 的 key 值唯一性保证不重复
     handleMemberItemClick (data) {
+      console.log('#From MemberSelector =>')
+      console.log(data)
       this.$set(this.selected, data.uid, data)
     },
     handleRemove (id) {
@@ -62,7 +64,10 @@ export default {
         }
       }
       //  通过指定方法名称回传选中数据给父组件
-      if (selected.length) this.$emit('getSelectedMembers', selected)
+      if (selected.length) {
+        this.$store.dispatch('changeMemberSelector', false)
+        this.$emit('getSelectedMembers', selected)
+      }
     },
     handleCancel () {
       this.$store.dispatch('changeMemberSelector', false)
