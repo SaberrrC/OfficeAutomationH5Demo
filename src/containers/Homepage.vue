@@ -37,12 +37,12 @@
 </template>
 
 <script>
-import MemberTree from '@/components/MemberTree'
+import Contacts from '@/components/Contacts'
 
 export default {
   name: 'Homepage',
   components: {
-    MemberTree
+    Contacts
   },
   data () {
     return {

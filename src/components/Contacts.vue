@@ -1,15 +1,5 @@
 <template>
   <div class="contacts">
-    <div class="search-bar">
-      <Input
-        v-model="searchValue"
-        placeholder="搜索">
-      <Button
-        slot="append"
-        icon="ios-search"
-        @click="handleSearch"></Button>
-      </Input>
-    </div>
     <member-tree
       type="complex"
       :init-root-data="treeData"/>
@@ -26,7 +16,6 @@ export default {
   },
   data () {
     return {
-      searchValue: '',
       treeData: [
         {
           id: '1',
@@ -44,17 +33,10 @@ export default {
     console.log('##### MemberTree updated')
   },
   methods: {
-    handleSearch () {}
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.contacts {
-  height: 100%;
-}
-.search-bar {
-  margin-bottom: 16px;
-}
 </style>
