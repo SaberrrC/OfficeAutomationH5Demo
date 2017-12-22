@@ -1,4 +1,4 @@
-<template>
+<template xmlns:member-tree="http://www.w3.org/1999/html">
   <div class="home">
     <Row :gutter="16">
       <Col span="6">
@@ -37,12 +37,12 @@
 </template>
 
 <script>
-import Contacts from '@/components/Contacts'
+import MemberTree from '@/components/MemberTree'
 
 export default {
   name: 'Homepage',
   components: {
-    Contacts
+    MemberTree
   },
   data () {
     return {
