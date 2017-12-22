@@ -1,21 +1,27 @@
 <template xmlns:member-tree="http://www.w3.org/1999/html">
   <div class="home">
     <Row :gutter="16">
-      <Col span="6">
+      <Col span="5" class="home-col-1">
       <Card class="organization">
         <h3 slot="title">
           <Icon type="person-stalker"/>
           通讯录
         </h3>
-        <contacts/>
+        <member-tree
+          type="complex"
+          :show-checkbox="false"
+          :multiple="false"
+          :init-root-data="treeData"/>
       </Card>
       </Col>
-      <Col span="12">
+      <Col span="14" class="home-col-2">
       <Card>
         <h3 slot="title">
           <Icon type="ios-world-outline"/>
           公司新闻
         </h3>
+        <member-selector
+          :modal="true"/>
       </Card>
       <Card>
         <h3 slot="title">
@@ -24,7 +30,7 @@
         </h3>
       </Card>
       </Col>
-      <Col span="6">
+      <Col span="5">
       <Card>
         <h3 slot="title">
           <Icon type="ios-timer-outline"/>
@@ -37,15 +43,25 @@
 </template>
 
 <script>
-import Contacts from '@/components/Contacts'
+import MemberTree from '@/components/MemberTree'
+import MemberSelector from '@/components/MemberSelector'
 
 export default {
   name: 'Homepage',
   components: {
-    Contacts
+    MemberTree,
+    MemberSelector
   },
   data () {
     return {
+      treeData: [
+        {
+          id: '1',
+          title: '善林（上海）金融信息服务有限公司',
+          loading: false,
+          children: []
+        }
+      ]
     }
   },
   created () {
@@ -63,10 +79,15 @@ export default {
   .ivu-row, .ivu-col {
     height: 100%;
   }
+  .home-col-1 > div {
+    height: 100%;
+  }
+  .home-col-2 > div:first-child {
+    margin-bottom: 16px;
+  }
 }
 .organization {
   position: relative;
-  height: 100%;
   overflow-y: hidden;
   .ivu-tree {
     position: absolute;

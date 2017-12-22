@@ -11,6 +11,8 @@
       </Input>
     </div>
     <Tree
+      :show-checkbox="showCheckbox"
+      :multiple="multiple"
       :data="treeData"
       :load-data="loadData"
       :emptyText="emptyText"></Tree>
@@ -23,6 +25,8 @@ import MemberItem from '@/components/MemberItem'
 export default {
   name: 'MemberTree',
   props: {
+    showCheckbox: Boolean,
+    multiple: Boolean,
     initRootData: Array, //  初始化根节点数据
     type: String  //  个人信息是否完整模式，传入 'complex' 则显示电话号码和邮箱
   },
@@ -53,7 +57,7 @@ export default {
           console.log(err)
         })
       } else {
-        if (!this.treeData.length) this.treeData = this.initRootData
+        this.treeData = this.initRootData
       }
     },
     loadData (item, callback) {
@@ -111,7 +115,7 @@ export default {
     },
     //  点击成员回调函数
     handleMemberItemClick (data) {
-      console.log(data)
+      this.$emit('onMemberItemClick', data)
     }
   }
 }
