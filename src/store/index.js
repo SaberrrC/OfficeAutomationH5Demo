@@ -10,7 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     sidebar: [],
-    organization: []
+    organization: [],
+    showMemberSelector: false
   },
   mutations: {
     updateSidebarList (state, newValue) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     updateOrganization (state, newValue) {
       state.organization = newValue
+    },
+    changeMemberSelector (state, newValue) {
+      state.showMemberSelector = newValue
     }
   },
   actions: {
@@ -124,6 +128,9 @@ export default new Vuex.Store({
       }).catch(function (err) {
         console.log(err)
       })
+    },
+    changeMemberSelector (context, isShow) {
+      context.commit('changeMemberSelector', isShow)
     }
   }
 })
