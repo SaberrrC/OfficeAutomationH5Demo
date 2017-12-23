@@ -6,7 +6,7 @@
     </p>
     <div class="work-report-daily">
       <h3 slot="title">会议纪要</h3>
-      <Card class="content" shadow>
+      <Card class="contents" shadow>
           <Form :model="formItem" :label-width="80" label-position="left">
             <!--会议主题-->
               <Row>

@@ -15,7 +15,7 @@
             </ul>
           </div>
         </div>
-        <div class="content">
+        <div class="contents">
           <p slot="title" class="header">
           <span>
             <Row>
@@ -31,7 +31,7 @@
                       </i-Col>
                       <i-Col span="11" offset="2">
                         <FormItem label="搜索发起人">
-                          <Input placeholder="搜索发起人" icon="ios-search"></Input>
+                          <Input placeholder="搜索发起人" v-model="formItem.launchUser" icon="ios-search"></Input>
                         </FormItem>
                       </i-Col>
                     </Form>
@@ -45,7 +45,7 @@
           </span>
         </p>
           <div class="work-report-daily">
-            <Table ref="selection" :columns="columns4" :data="data1"></Table>
+            <Table ref="selection" :columns="toDoListHeader" :data="toDoList"></Table>
             <div style="margin: 10px;overflow: hidden">
               <Page
                 :total="launchTotal"
@@ -68,8 +68,8 @@
     data () {
       return {
         formItem: {
-          time: '',
-          status: ''
+          time: '0',
+          launchUser: ''
         },
         billType: '',                    // 发起类型
         launchTotal: 0,                 // 发起列表总条数
@@ -103,7 +103,7 @@
           {label: '加班申请', id: '6405', isActive: false},
           {label: '签卡申请', id: '6402', isActive: false}
         ],
-        columns4: [
+        toDoListHeader: [
           {
             type: 'selection',
             width: 30,
@@ -163,30 +163,11 @@
             }
           }
         ],
-        data1: [
-          {
-            type: '加班申请',
-            date: '10-03 10:30',
-            user: '朱展宏',
-            status: '未审批'
-          },
-          {
-            type: '签卡申请',
-            date: '10-03 10:30',
-            user: '朱展宏',
-            status: '未审批'
-          },
-          {
-            type: '调休申请',
-            date: '10-03 10:30',
-            user: '朱展宏',
-            status: '未审批'
-          }
-        ]
+        toDoList: []
       }
     },
     methods: {
-//    选择发起审批类型
+//    选择待我审批类型
       HrType (index) {
         var len = this.items.length
         for (var i = 0; i < len; i++) {
@@ -197,25 +178,60 @@
           }
         }
         this.billType = this.items[index].id
-//        this.getLaunchList()
+        this.getToDoList()
+      },
+//    获取待我审批列表
+      getToDoList () {
+        this.$ajax.get(`/MyAplication/selectMyAplication`, {
+          params: {
+            checkmanId: '010123381',
+            userName: this.formItem.launchUser,
+            isCheck: 'N',
+            pkBillType: this.billType,
+            time: this.formItem.time,
+            pageNum: this.launchCurrentPage,
+            pageSize: this.launchPageSize
+          },
+          headers: {
+            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
+            uid: '84' //  TODO 临时测试
+          }
+        }).then((response) => {
+          console.log(response)
+          if (response.data.code === '000000') {
+            this.launchTotal = response.data.data.total
+            var data = response.data.data.dataList
+            var len = data.length
+            for (var i = 0; i < len; i++) {
+              data[i].type = data[i].billTypeName
+              data[i].date = data[i].creationTime
+              data[i].user = data[i].approveStateName
+            }
+            this.toDoList = data
+          } else if (response.data.code === '020000') {
+            this.toDoList = []
+            this.$Message.info(response.data.message)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
       },
 //    选择发起时间
       checkTime () {
-        console.log(123)
-//        this.getMyLaunchList()
+        this.getToDoList()
       },
 //    分页
       changePage (page) {
         this.launchCurrentPage = page              // 发起列表当前页数
-        this.getMyLaunchList()
+        this.getToDoList()
       },
       pageSizeChange (pageSize) {
         this.launchPageSize = pageSize              // 发起列表每页显示条数
-        this.getMyLaunchList()
+        this.getToDoList()
       }
     },
     created () {
-      console.log('##### WorkReportDaily created')
+      this.getToDoList()
     }
   }
 </script>
@@ -239,7 +255,7 @@
     padding: 20px ;
     color: #1c2438;
   }
-  .content {
+  .contents {
     margin-left: 200px;
   }
   .nav ul li {

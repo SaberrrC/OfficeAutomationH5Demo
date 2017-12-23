@@ -16,7 +16,7 @@
       </div>
     </div>
 
-        <div class="content">
+        <div class="contents">
           <p slot="title" class="header">
           <span>
             <Row>
@@ -67,7 +67,7 @@
     data () {
       return {
         formItem: {
-          time: '',
+          time: '0',
           status: ''
         },
         billType: '',                    // 发起类型
@@ -122,8 +122,8 @@
             sortable: true
           },
           {
-            title: '状态',
-            key: 'status',
+            title: '审批时间',
+            key: 'processTime',
             align: 'center'
           }
         ],
@@ -132,19 +132,19 @@
             type: '加班申请',
             date: '10-03 10:30',
             user: '朱展宏',
-            status: '未审批'
+            processTime: '10-03 10:30'
           },
           {
             type: '签卡申请',
             date: '10-03 10:30',
             user: '朱展宏',
-            status: '未审批'
+            processTime: '10-03 10:30'
           },
           {
             type: '调休申请',
             date: '10-03 10:30',
             user: '朱展宏',
-            status: '未审批'
+            processTime: '10-03 10:30'
           }
         ]
       }
@@ -161,25 +161,60 @@
           }
         }
         this.billType = this.items[index].id
-//        this.getLaunchList()
+        this.getHaveToDoList()
       },
 //    选择发起时间
       checkTime () {
-        console.log(123)
-//        this.getMyLaunchList()
+        this.getHaveToDoList()
+      },
+//    获取已审批列表
+      getHaveToDoList () {
+        this.$ajax.get(`/MyAplication/selectMyAplication`, {
+          params: {
+            checkmanId: '010123381',
+            userName: this.formItem.launchUser,
+            isCheck: 'N',
+            pkBillType: this.billType,
+            time: this.formItem.time,
+            pageNum: this.launchCurrentPage,
+            pageSize: this.launchPageSize
+          },
+          headers: {
+            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
+            uid: '84' //  TODO 临时测试
+          }
+        }).then((response) => {
+          console.log(response)
+          if (response.data.code === '000000') {
+            this.launchTotal = response.data.data.total
+            var data = response.data.data.dataList
+            var len = data.length
+            for (var i = 0; i < len; i++) {
+              data[i].type = data[i].billTypeName
+              data[i].date = data[i].creationTime
+              data[i].processTime = data[i].approveStateName
+            }
+            this.toDoList = data
+          } else if (response.data.code === '020000') {
+            this.toDoList = []
+            this.$Message.info(response.data.message)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
       },
 //    分页
       changePage (page) {
         this.launchCurrentPage = page              // 发起列表当前页数
-        this.getMyLaunchList()
+        this.getHaveToDoList()
       },
       pageSizeChange (pageSize) {
         this.launchPageSize = pageSize              // 发起列表每页显示条数
-        this.getMyLaunchList()
+        this.getHaveToDoList()
       }
     },
     created () {
-      console.log('##### WorkReportDaily created')
+      this.getHaveToDoList()
     }
   }
 </script>
@@ -203,7 +238,7 @@
     padding: 20px ;
     color: #1c2438;
   }
-  .content {
+  .contents {
     margin-left: 200px;
   }
   .nav ul li {

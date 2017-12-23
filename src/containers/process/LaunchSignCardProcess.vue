@@ -65,13 +65,12 @@
               <div class="card">
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                    <FormItem label="签卡时间" prop="startTime">
+                    <FormItem label="签卡时间" prop="signTime">
                       <DatePicker
-                        v-model="billDetail.startTime"
+                        v-model="billDetail.signTime"
                         type="datetime"
                         format="yyyy-MM-dd HH:mm:ss"
-                        placeholder="请选择签卡时间"
-                        @on-open-change="changeStartTime">
+                        placeholder="请选择签卡时间">
                       </DatePicker>
                     </FormItem>
                   </i-Col>
@@ -82,8 +81,10 @@
               <div class="card">
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                    <FormItem label="签卡原因" prop="evectionRemark">
-                      <Input placeholder="请填写签卡原因" v-model="billDetail.evectionRemark"></Input>
+                    <FormItem label="签卡原因" prop="signCause">
+                      <Select v-model="billDetail.signCauseId" :label-in-value="true"  @on-change="v =>{ setOption(v,'billDetail')}">
+                        <Option v-for="(item,key) in type" :value="item.id">{{item.name}}</Option>
+                      </Select>
                     </FormItem>
                   </i-Col>
                 </Row>
@@ -95,8 +96,8 @@
               <div class="card">
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                    <FormItem label="签卡说明" prop="evectionAddress">
-                      <Input placeholder="请填写签卡说明" v-model="billDetail.evectionAddress"></Input>
+                    <FormItem label="签卡说明" prop="signRemark">
+                      <Input placeholder="请填写签卡说明" v-model="billDetail.signRemark"></Input>
                     </FormItem>
                   </i-Col>
                 </Row>
@@ -120,11 +121,10 @@
                 <div class="card">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                      <FormItem label="签卡时间" prop="startTime">
+                      <FormItem label="签卡时间" prop="signTime">
                         <DatePicker
-                          v-model="addBill.startTime"
+                          v-model="addBill.signTime"
                           type="datetime"
-                          @on-open-change="changeAddStartTime"
                           placeholder="请选择签卡时间">
                         </DatePicker>
                       </FormItem>
@@ -136,8 +136,10 @@
                 <div class="card">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                      <FormItem label="签卡原因" prop="evectionRemark">
-                        <Input placeholder="请填写签卡原因" v-model="addBill.evectionRemark"></Input>
+                      <FormItem label="签卡原因" prop="signCause">
+                        <Select v-model="addBill.signCauseId" :label-in-value="true"  @on-change="v =>{ setOption(v,'add')}">
+                          <Option v-for="(item,key) in type" :value="item.id">{{item.name}}</Option>
+                        </Select>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -149,8 +151,8 @@
                 <div class="card">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                      <FormItem label="签卡说明" prop="evectionAddress">
-                        <Input placeholder="请填写签卡说明" v-model="addBill.evectionAddress"></Input>
+                      <FormItem label="签卡说明" prop="signRemark">
+                        <Input placeholder="请填写签卡说明" v-model="addBill.signRemark"></Input>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -184,50 +186,28 @@
   export default {
     name: 'WorkReportDaily',
     data () {
-      const validateStartTime = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请选择签卡时间'))
-        } else {
-          if (this.billDetail.endTime !== '' && value > this.billDetail.endTime) {
-            callback(new Error('开始时间不能大于结束时间!'))
-          }
-        }
-      }
-      const validateEndTime = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请选择结束时间'))
-        } else if (value < this.billDetail.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
-        } else {
-          callback()
-        }
-      }
       return {
         showAddBill: false,
         showAddbillButton: true,
         showDeletebillButton: false,
         billTitle: {
           billCode: '',          // 签卡单号
-          type: '',              // 签卡类别
           applyDate: ''          // 申请日期
         },
-        type: [],              // 签卡类别
+        type: [],              // 签卡原因
         nCHREvectionApplyDeatil: [],               // 签卡明细
         billDetail: {
-          startTime: '',         // 开始日期
-          endTime: '',           // 结束日期
-          evectionAddress: '',   // 签卡地点
-          evectionRemark: '',    // 签卡原因
-          handOverPepole: '',    // 工作交接人
-          timeDifference: ''     // 时长
+          signTime: '',          // 签卡时间
+          signRemark: '',        // 签卡说明
+          signCause: '',         // 签卡原因
+          signCauseId: ''          // 签卡原因ID
         },
         addBill: {
-          startTime: '',         // 开始日期
-          endTime: '',           // 结束日期
-          evectionAddress: '',   // 签卡地点
-          evectionRemark: '',    // 签卡原因
-          handOverPepole: '',    // 工作交接人
-          timeDifference: ''     // 时长
+          signTime: '',      // 签卡时间
+          signRemark: '',    // 签卡说明
+          signCause: '',     // 签卡原因
+          signCauseId: ''    // 签卡原因ID
+
         },
         duration: '',          // 时长(单位)
         ruleBillTitle: {
@@ -236,37 +216,25 @@
           ]
         },
         rulebillDetail: {
-          startTime: [
-            { validator: validateStartTime, trigger: 'change' }
+          signTime: [
+            { required: true, type: 'date', message: '请选择签卡时间', trigger: 'change' }
           ],
-          endTime: [
-            { validator: validateEndTime, trigger: 'change' }
+          signRemark: [
+            { required: true, message: '请输入签卡说明', trigger: 'blur' }
           ],
-          evectionAddress: [
-            { required: true, message: '请输入签卡地点', trigger: 'blur' }
-          ],
-          evectionRemark: [
-            { required: true, message: '请输入签卡原因', trigger: 'blur' }
-          ],
-          handOverPepole: [
-            { required: true, message: '请选择交接人', trigger: 'blur' }
+          signCause: [
+            { required: true, message: '请选择签卡原因', trigger: 'blur' }
           ]
         },
         ruleaddBill: {
-          startTime: [
+          signTime: [
             { required: true, type: 'date', message: '请选择签卡时间', trigger: 'change' }
           ],
-          endTime: [
-            { required: true, type: 'date', message: '请选择结束时间', trigger: 'change' }
+          signRemark: [
+            { required: true, message: '请输入签卡说明', trigger: 'blur' }
           ],
-          evectionAddress: [
-            { required: true, message: '请输入签卡地点', trigger: 'blur' }
-          ],
-          evectionRemark: [
-            { required: true, message: '请输入签卡原因', trigger: 'blur' }
-          ],
-          handOverPepole: [
-            { required: true, message: '请选择交接人', trigger: 'blur' }
+          signCause: [
+            { required: true, message: '请选择签卡原因', trigger: 'blur' }
           ]
         }
       }
@@ -278,7 +246,7 @@
       getBillCode () {
         this.$ajax.get(`/nchrcommon/getBillCode`, {
           params: {
-            billType: '6403'
+            billType: '6402'
           },
           headers: {
             token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
@@ -292,18 +260,21 @@
           console.log(err)
         })
       },
-//    获取签卡类别
+//    获取签卡原因
       getBillType () {
-        this.$ajax.get(`/nchrEvection/queryBilltype`, {
-          params: {
-            itemtype: '2'
-          },
+        this.$ajax.get(`/nchrSign/findSignReason`, {
           headers: {
             token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
             uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
+            var data = response.data.data
+            var len = data.length
+            for (var i = 0; i < len; i++) {
+              data[i].id = data[i].SIGNCAUSEID
+              data[i].name = data[i].SIGNCAUSE
+            }
             this.type = response.data.data
           }
           console.log(this.type)
@@ -320,8 +291,31 @@
         var day = myDate.getDate()
         this.billTitle.applyDate = year + '-' + mouth + '-' + day
       },
+//    选择签卡原因
+      setOption (value, type) {
+        console.log(type)
+        console.log('add')
+        if (type === 'billDetail') {
+          this.billDetail.signCause = value.label
+          console.log(this.billDetail)
+          console.log(1)
+        }
+        if (type === 'add') {
+          this.addBill.signCause = value.label
+          console.log(this.addBill)
+          console.log(2)
+        }
+      },
+//    选择签卡原因(添加)
+      setAddOption (value, type) {
+        console.log(value)
+        console.log(type)
+        this.addBill.signCause = value.label
+        console.log(this.addBill)
+      },
 //    点击确定按钮（提交）
       submitEvectionApply () {
+        console.log(this.nCHREvectionApplyDeatil)
         var step = true
         if (this.showAddBill === false) {
           //      验证签卡类型
@@ -363,9 +357,9 @@
           })
         }
         if (step === true) {
-          if (this.nCHREvectionApplyDeatil.length === 0) {
+          if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddBill === false) {
             this.nCHREvectionApplyDeatil.push(this.billDetail)
-          } else if (this.nCHREvectionApplyDeatil.length === 1) {
+          } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddBill === true) {
             this.nCHREvectionApplyDeatil.push(this.addBill)
           }
           console.log(this.nCHREvectionApplyDeatil)
@@ -373,14 +367,29 @@
           return false
         }
 //      调添加签卡申请接口   // TODO
-        console.log(this.billTitle)
+        var len = this.nCHREvectionApplyDeatil.length
+        for (var i = 0; i < len; i++) {
+          var start = new Date(this.nCHREvectionApplyDeatil[i].signTime)
+          var startYear = start.getFullYear()
+          var startMouth = start.getMonth()
+          startMouth = startMouth === 0 ? 1 : startMouth + 1
+          var startDate = start.getDate()
+          startDate = startDate < 10 ? '0' + startDate : startDate
+          var startHours = start.getHours()
+          startHours = startHours < 10 ? '0' + startHours : startHours
+          var startMinutes = start.getMinutes()
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          var startSeconds = start.getSeconds()
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
+          this.nCHREvectionApplyDeatil[i].signTime = start
+        }
         var data = {
-          applyDate: this.billTitle.applyDate,
-          billCode: this.billTitle.billCode,
-          type: this.billTitle.type,
-          nCHREvectionApplyDeatil: this.nCHREvectionApplyDeatil
+          date: this.billTitle.applyDate,
+          monocode: this.billTitle.billCode,
+          nchrSignDetails: this.nCHREvectionApplyDeatil
         }  // TODO 组装数据
-        this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
+        this.$ajax.post(`/nchrSign/saveSign`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json',
             token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
@@ -389,6 +398,7 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
+            this.$router.push({path: 'myLaunch'})
           } else {
             this.$Message.error(response.data.message)
           }
@@ -396,35 +406,8 @@
           console.log(err)
         })
       },
-//    选择签卡类型
-      setOption (value, type) {
-        if (value.label === '签卡') {
-          this.duration = '天'
-          if (this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
-            // 判断开始时间小于结束时间
-            if (this.billDetail.startTime < this.billDetail.endTime) {
-              this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
-            }
-          }
-          if (this.showAddBill === true && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
-            this.getTimeDifference(this.addBill.startTime, this.addBill.endTime, 'add')
-          }
-        } else if (value.label === '外出') {
-          this.duration = '小时'
-          if (this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
-            // 判断开始时间小于结束时间
-            if (this.billDetail.startTime < this.billDetail.endTime) {
-              this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
-            }
-          }
-          if (this.showAddBill === true && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
-            this.getTimeDifference(this.addBill.startTime, this.addBill.endTime, 'add')
-          }
-        }
-      },
 //    点击添加按钮
       addBillDeatil () {
-//        this.nCHREvectionApplyDeatil.push(this.addBill)
         this.showAddBill = true
         this.showAddbillButton = false
         this.showDeletebillButton = true
@@ -440,86 +423,11 @@
         this.showAddbillButton = true
         this.showDeletebillButton = false
         this.nCHREvectionApplyDeatil.splice(1, 1)
-        this.addBill.startTime = '',
-        this.addBill.endTime = '',
-        this.addBill.evectionAddress = '',
-        this.addBill.evectionRemark = '',
-        this.addBill.handOverPepole = '',
-        this.addBill.timeDifference = '',
+        this.addBill.signRemark = ''
+        this.addBill.signCause = ''
+        this.addBill.signCauseId = ''
+        this.addBill.signTime = ''
         console.log(this.nCHREvectionApplyDeatil)
-      },
-//    开始时间改变(签卡明细)
-      changeStartTime (isOpen) {
-        // 判断时间选择器关闭并且开始时间和结束时间都不为空
-        if (isOpen === false && this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
-        // 判断开始时间小于结束时间
-          if (this.billDetail.startTime < this.billDetail.endTime) {
-            this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
-          }
-        }
-      },
-//    结束时间改变(签卡明细)
-      changeEndTime (isOpen) {
-        // 判断时间选择器关闭并且开始时间和结束时间都不为空
-        if (isOpen === false && this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
-          // 判断开始时间小于结束时间
-          if (this.billDetail.startTime < this.billDetail.endTime) {
-            this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
-          }
-        }
-      },
-      changeAddStartTime (isOpen) {
-        // 判断时间选择器关闭并且开始时间和结束时间都不为空
-        if (isOpen === false && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
-          // 判断开始时间小于结束时间
-          if (this.addBill.startTime < this.addBill.endTime) {
-            this.getTimeDifference(this.addBill.startTime, this.addBill.endTime, 'add')
-          }
-        }
-      },
-//    结束时间改变(签卡明细)
-      changeAddEndTime (isOpen) {
-        // 判断时间选择器关闭并且开始时间和结束时间都不为空
-        if (isOpen === false && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
-          // 判断开始时间小于结束时间
-          if (this.addBill.startTime < this.addBill.endTime) {
-            this.getTimeDifference(this.addBill.startTime, this.addBill.endTime, 'add')
-          }
-        }
-      },
-//    获取时长
-      getTimeDifference (startTime, endTime, type) {
-          this.$refs.billTitle.validate((valid) => {
-            if (valid) {
-              var start = new Date(startTime)
-              start = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate() + ' ' + start.getHours() + ':' + start.getMinutes() + ':' + start.getSeconds()
-              var end = new Date(endTime)
-              end = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' ' + end.getHours() + ':' + end.getMinutes() + ':' + end.getSeconds()
-              this.$ajax.get(`/nchrcommon/queryDuration`, {
-                params: {
-                  startTime: start,
-                  endTime: end,
-                  type: '6403',
-                  billCode: this.billTitle.billCode,
-                  applyType: this.billTitle.type
-                },
-                headers: {
-                  token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-                  uid: '84' //  TODO 临时测试
-                }
-              }).then((response) => {
-                if (response.data.code === '000000') {
-                  if (type === 'billDetail') {
-                    this.billDetail.timeDifference = response.data.data
-                  } else if (type === 'add') {
-                    this.addBill.timeDifference = response.data.data
-                  }
-                }
-              }).catch(function (err) {
-                console.log(err)
-              })
-            }
-          })
       },
       pageClose () {
         this.$router.push({path: 'launchIndex'})

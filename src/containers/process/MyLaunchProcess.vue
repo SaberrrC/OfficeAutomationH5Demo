@@ -15,7 +15,7 @@
         </div>
         </div>
 
-        <div class="content">
+        <div class="contents">
           <p slot="title" class="header">
           <span>
             <Row>
@@ -64,9 +64,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  //  TODO 临时测试环境变量
-  const TEST_CONFIG = 'http://118.31.18.67:8084'
+  import qs from 'qs'
   export default {
     name: 'WorkReportDaily',
     data () {
@@ -200,7 +198,7 @@
     methods: {
 //    获取我发起的列表
       getMyLaunchList () {
-        this.$ajax.get(`${TEST_CONFIG}/myApply/queryApproveByAll`, {
+        this.$ajax.get(`/myApply/queryApproveByAll`, {
           params: {
             time: this.formItem.time,
             approveState: this.formItem.status,
@@ -213,7 +211,7 @@
             uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
-//          console.log(response)
+          console.log(response)
           if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
             this.launchTotal = response.data.data.total
             var data = response.data.data.dataList
@@ -224,6 +222,8 @@
               data[i].status = data[i].approveStateName
             }
             this.myLaunchList = data
+          } else if (response.data.code === '000000' && response.data.data.dataList.length === 0) {
+            this.myLaunchList = []
           }
         }).catch(function (err) {
           console.log(err)
@@ -292,7 +292,7 @@
     padding: 20px ;
     color: #1c2438;
   }
-  .content {
+  .contents {
     margin-left: 200px;
   }
   .nav ul li {

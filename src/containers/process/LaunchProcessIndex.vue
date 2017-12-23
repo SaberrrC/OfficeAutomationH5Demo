@@ -64,29 +64,6 @@
       }
     },
     methods: {
-      getMeetRoom () {
-        axios.get(`${TEST_CONFIG}/newMeetingRooms`, {
-          params: {
-            token: '67713c352c5d4ae99e8fd7d498d092a51512442839196', //  TODO 临时测试
-            uid: '1' //  TODO 临时测试
-          }
-        }).then((response) => {
-          if (response.data.code === '000000') {
-
-          }
-        }).catch(function (err) {
-          console.log(err)
-        })
-      },
-      show (index) {
-        this.$Modal.info({
-          title: 'User Info',
-          content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
-        })
-      },
-      remove (index) {
-        this.data6.splice(index, 1)
-      },
 //    点击出差申请
       launchBill () {
         this.$router.push({ path: 'launchBill' })
@@ -110,7 +87,6 @@
       }
     },
     created () {
-      this.getMeetRoom()
     }
   }
 </script>

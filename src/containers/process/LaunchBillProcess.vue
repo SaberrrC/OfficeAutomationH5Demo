@@ -343,13 +343,14 @@
           applyDate: ''          // 申请日期
         },
         type: [],              // 出差类别
-        nCHREvectionApplyDeatil: [],               // 出差明细
+        nchrevectionApplyDetail: [],               // 出差明细
+        HandoverUser: [],
         billDetail: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
           evectionAddress: '',   // 出差地点
           evectionRemark: '',    // 出差原因
-          handOverPepole: '',    // 工作交接人
+          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
           timeDifference: ''     // 时长
         },
         addBill: {
@@ -357,7 +358,7 @@
           endTime: '',           // 结束日期
           evectionAddress: '',   // 出差地点
           evectionRemark: '',    // 出差原因
-          handOverPepole: '',    // 工作交接人
+          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
           timeDifference: ''     // 时长
         },
         duration: '',          // 时长(单位)
@@ -403,9 +404,8 @@
       }
     },
     methods: {
-      /*
-      * 获取出差单编号
-      * */
+
+//    获取出差单编号
       getBillCode () {
         this.$ajax.get(`/nchrcommon/getBillCode`, {
           params: {
@@ -494,23 +494,58 @@
           })
         }
         if (step === true) {
-          if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddBill === false) {
-            this.nCHREvectionApplyDeatil.push(this.billDetail)
-          } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddBill === true) {
-            this.nCHREvectionApplyDeatil.push(this.addBill)
+          if (this.nchrevectionApplyDetail.length === 0 && this.showAddBill === false) {
+            this.nchrevectionApplyDetail.push(this.billDetail)
+          } else if (this.nchrevectionApplyDetail.length === 1 && this.showAddBill === true) {
+            this.nchrevectionApplyDetail.push(this.addBill)
           }
-          console.log(this.nCHREvectionApplyDeatil)
+          console.log(this.nchrevectionApplyDetail)
         } else {
           return false
         }
 //      调添加出差申请接口   // TODO
-        console.log(this.billTitle)
+        var len = this.nchrevectionApplyDetail.length
+        console.log('nchrevectionApplyDetail=',this.nchrevectionApplyDetail)
+        for (var i = 0; i < len; i++) {
+          var start = new Date(this.nchrevectionApplyDetail[i].startTime)
+          var startYear = start.getFullYear()
+          var startMouth = start.getMonth()
+          startMouth = startMouth === 0 ? 1 : startMouth + 1
+          var startDate = start.getDate()
+          startDate = startDate < 10 ? '0' + startDate : startDate
+          var startHours = start.getHours()
+          startHours = startHours < 10 ? '0' + startHours : startHours
+          var startMinutes = start.getMinutes()
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          var startSeconds = start.getSeconds()
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
+          this.nchrevectionApplyDetail[i].startTime = start
+          var end = new Date(this.nchrevectionApplyDetail[i].endTime)
+          var endYear = end.getFullYear()
+          var endMouth = end.getMonth()
+          endMouth = endMouth === 0 ? 1 : endMouth + 1
+          var endDate = end.getDate()
+          endDate = endDate < 10 ? '0' + endDate : endDate
+          var endHours = end.getHours()
+          endHours = endHours < 10 ? '0' + endHours : endHours
+          var endMinutes = end.getMinutes()
+          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes
+          var endSeconds = end.getSeconds()
+          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
+          end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
+          this.nchrevectionApplyDetail[i].endTime = end
+          console.log('.nchrevectionApplyDetail',this.nchrevectionApplyDetail)
+          console.log('.nchrevectionApplyDetail[i].endTime',this.nchrevectionApplyDetail[i].endTime)
+        }
+
         var data = {
           applyDate: this.billTitle.applyDate,
           billCode: this.billTitle.billCode,
           type: this.billTitle.type,
-          nCHREvectionApplyDeatil: this.nCHREvectionApplyDeatil
+          nchrevectionApplyDetail: this.nchrevectionApplyDetail
         }  // TODO 组装数据
+        console.log('data',data)
         this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json',
@@ -520,6 +555,7 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
+            this.$router.push({path: 'myLaunch'})
           } else {
             this.$Message.error(response.data.message)
           }
@@ -555,29 +591,29 @@
       },
 //    点击添加按钮
       addBillDeatil () {
-//        this.nCHREvectionApplyDeatil.push(this.addBill)
+//        this.nchrevectionApplyDetail.push(this.addBill)
         this.showAddBill = true
         this.showAddbillButton = false
         this.showDeletebillButton = true
-        if (this.nCHREvectionApplyDeatil.length === 0) {              // TODO
-          this.nCHREvectionApplyDeatil.push(this.billDetail)
+        if (this.nchrevectionApplyDetail.length === 0) {              // TODO
+          this.nchrevectionApplyDetail.push(this.billDetail)
         }
-        this.nCHREvectionApplyDeatil.push(this.addBill)
-        console.log(this.nCHREvectionApplyDeatil)
+        this.nchrevectionApplyDetail.push(this.addBill)
+        console.log(this.nchrevectionApplyDetail)
       },
 //    点击取消添加
       deleteBillDeatil () {
         this.showAddBill = false
         this.showAddbillButton = true
         this.showDeletebillButton = false
-        this.nCHREvectionApplyDeatil.splice(1, 1)
+        this.nchrevectionApplyDetail.splice(1, 1)
         this.addBill.startTime = '',
         this.addBill.endTime = '',
         this.addBill.evectionAddress = '',
         this.addBill.evectionRemark = '',
         this.addBill.handOverPepole = '',
         this.addBill.timeDifference = '',
-        console.log(this.nCHREvectionApplyDeatil)
+        console.log(this.nchrevectionApplyDetail)
       },
 //    开始时间改变(出差明细)
       changeStartTime (isOpen) {
@@ -585,6 +621,12 @@
         if (isOpen === false && this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
         // 判断开始时间小于结束时间
           if (this.billDetail.startTime < this.billDetail.endTime) {
+            var start = new Date(this.billDetail.startTime)
+            start = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate() + ' ' + start.getHours() + ':' + start.getMinutes() + ':' + start.getSeconds()
+            this.billDetail.startTime = start
+            var end = new Date(this.billDetail.endTime)
+            end = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' ' + end.getHours() + ':' + end.getMinutes() + ':' + end.getSeconds()
+            this.billDetail.endTime = end
             this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
           }
         }
@@ -599,6 +641,7 @@
           }
         }
       },
+//    开始时间改变(添加出差明细)
       changeAddStartTime (isOpen) {
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
@@ -608,7 +651,7 @@
           }
         }
       },
-//    结束时间改变(出差明细)
+//    结束时间改变(添加出差明细)
       changeAddEndTime (isOpen) {
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
@@ -654,6 +697,24 @@
           }
         })
       },
+//    获取工作交接人
+      getHandoverUser () {
+        this.$ajax.get(`/HandoverUser/getHandoverUser`, {
+          headers: {
+            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
+            uid: '84' //  TODO 临时测试
+          }
+        }).then((response) => {
+          console.log(response)
+          if (response.data.code === '000000') {
+            this.HandoverUser = response.data.data
+            console.log(this.HandoverUser)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+//    页面关闭
       pageClose () {
         this.$router.push({path: 'launchIndex'})
       }
@@ -662,7 +723,7 @@
       this.getBillCode()
       this.getBillType()
       this.getTime()
-//      this.getTimeDifference()
+      this.getHandoverUser()
     }
   }
 </script>

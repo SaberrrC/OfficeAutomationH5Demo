@@ -71,7 +71,7 @@
       },
 //    调下载日志接口
       download (item) {     // TODO  参数动态化
-        window.location.href = 'http://118.31.18.67:8084/log/downlogs?logname=' + item + '&token=f19dc8a190f445a2a4cee5b5c3c872c0&uid=84'
+        window.location.href = 'http://10.255.232.234/oa-api/log/downlogs?logname=' + item + '&token=f19dc8a190f445a2a4cee5b5c3c872c0&uid=84'
       },
       changePage (page) {
         this.CurrentPage = page              // 发起列表当前页数

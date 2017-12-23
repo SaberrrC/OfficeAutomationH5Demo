@@ -316,14 +316,14 @@
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
           FurloughRemark: '',    // 休假事由
-          handOverPepole: '',    // 工作交接人
+          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
           timeDifference: ''     // 时长
         },
         addfurlough: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
           FurloughRemark: '',    // 休假事由
-          handOverPepole: '',    // 工作交接人
+          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
           timeDifference: ''     // 时长
         },
         duration: '',          // 时长(单位)
@@ -397,7 +397,6 @@
           if (response.data.code === '000000') {
             this.type = response.data.data
           }
-          console.log(this.type)
         }).catch(function (err) {
           console.log(err)
         })
@@ -454,9 +453,9 @@
           })
         }
         if (step === true) {
-          if (this.nCHREvectionApplyDeatil.length === 0) {
+          if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddfurlough === false) {
             this.nCHREvectionApplyDeatil.push(this.furloughDetail)
-          } else if (this.nCHREvectionApplyDeatil.length === 1) {
+          } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddfurlough === true) {
             this.nCHREvectionApplyDeatil.push(this.addfurlough)
           }
           console.log(this.nCHREvectionApplyDeatil)
@@ -464,15 +463,45 @@
           return false
         }
 //      调添加休假申请接口   // TODO
-        console.log(this.furloughTitle)
+        var len = this.nCHREvectionApplyDeatil.length
+        for (var i = 0; i < len; i++) {
+          var start = new Date(this.nCHREvectionApplyDeatil[i].startTime)
+          var startYear = start.getFullYear()
+          var startMouth = start.getMonth()
+          startMouth = startMouth === 0 ? 1 : startMouth + 1
+          var startDate = start.getDate()
+          startDate = startDate < 10 ? '0' + startDate : startDate
+          var startHours = start.getHours()
+          startHours = startHours < 10 ? '0' + startHours : startHours
+          var startMinutes = start.getMinutes()
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          var startSeconds = start.getSeconds()
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
+          this.nCHREvectionApplyDeatil[i].startTime = start
+          var end = new Date(this.nCHREvectionApplyDeatil[i].endTime)
+          var endYear = end.getFullYear()
+          var endMouth = end.getMonth()
+          endMouth = endMouth === 0 ? 1 : endMouth + 1
+          var endDate = end.getDate()
+          endDate = endDate < 10 ? '0' + endDate : endDate
+          var endHours = end.getHours()
+          endHours = endHours < 10 ? '0' + endHours : endHours
+          var endMinutes = end.getMinutes()
+          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes
+          var endSeconds = end.getSeconds()
+          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
+          end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
+          this.nCHREvectionApplyDeatil[i].endTime = end
+        }
         var data = {
           applyDate: this.furloughTitle.applyDate,
           billCode: this.furloughTitle.furloughCode,
-          date: '2017',
+          date: this.furloughTitle.date,
           type: this.furloughTitle.type,
-          nCHREvectionApplyDeatil: this.nCHREvectionApplyDeatil
+          nchrfurloughApplyDetail: this.nCHREvectionApplyDeatil
         }  // TODO 组装数据
-        this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
+        this.$ajax.post(`/nchrFurlough/submitFurlough`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json',
             token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
@@ -481,6 +510,7 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
+            this.$router.push({path: 'myLaunch'})
           } else {
             this.$Message.error(response.data.message)
           }
@@ -532,12 +562,11 @@
         this.showAddfurloughButton = true
         this.showDeletefurloughButton = false
         this.nCHREvectionApplyDeatil.splice(1, 1)
-        this.addfurlough.startTime = '',
-        this.addfurlough.endTime = '',
-        this.addfurlough.evectionAddress = '',
-        this.addfurlough.FurloughRemark = '',
-        this.addfurlough.handOverPepole = '',
-        this.addfurlough.timeDifference = '',
+        this.addfurlough.startTime = ''
+        this.addfurlough.endTime = ''
+        this.addfurlough.FurloughRemark = ''
+        this.addfurlough.handOverPepole = ''
+        this.addfurlough.timeDifference = ''
         console.log(this.nCHREvectionApplyDeatil)
       },
 //    开始时间改变(休假明细)
