@@ -6,6 +6,7 @@ import WorkReportDaily from '@/containers/WorkReportDaily'
 import WorkReportWeekly from '@/containers/WorkReportWeekly'
 import Setting from '@/containers/Setting'
 import SignIn from '@/containers/SignIn'
+import Demo from '@/containers/MemberSelectorDemo'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/sign_in',
       name: 'SignIn',
       component: SignIn
+    },
+    {
+      path: '/demo',
+      name: 'demo',
+      component: Demo
     }
   ]
 })

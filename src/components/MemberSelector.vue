@@ -5,7 +5,7 @@
       <div class="member-selector-body">
         <div class="options">
           <member-tree
-            :init-root-data="initTreeData"
+            :init-root-data="rootData"
             @onMemberItemClick="handleMemberItemClick"/>
         </div>
         <div class="selected">
@@ -42,8 +42,17 @@ export default {
   },
   data () {
     return {
+      rootData: [],
       selected: {}
     }
+  },
+  created () {
+    this.rootData = this.initTreeData
+  },
+  destroyed () {
+    this.selected = {}
+    this.rootData[0].children = []
+    this.rootData[0].expand = false
   },
   methods: {
     //  向已选中集合里添加对象，利用 object 的 key 值唯一性保证不重复
@@ -67,10 +76,14 @@ export default {
       if (selected.length) {
         this.$store.dispatch('changeMemberSelector', false)
         this.$emit('getSelectedMembers', selected)
+        //  通知父级移除自身
+        this.$emit('removeMemberSelector')
       }
     },
     handleCancel () {
       this.$store.dispatch('changeMemberSelector', false)
+      //  通知父级移除自身
+      this.$emit('removeMemberSelector')
     }
   }
 }

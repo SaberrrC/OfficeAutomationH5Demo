@@ -1,10 +1,12 @@
 <template>
   <div>
-    <Button type="primary" @click="$store.dispatch('changeMemberSelector', true)">选择人员</Button>
+    <Button type="primary" @click="doSelectMember(data1)">选择人员</Button>
+    <Button type="primary" @click="doSelectMember(data2)">这里也需要选择人员</Button>
     <member-selector
-      v-if="memberSelectorIsShow"
+      v-if="isShow"
       :init-tree-data="initTreeData"
-      @getSelectedMembers="getSelectedMembers"/>
+      @getSelectedMembers="getSelectedMembers"
+      @removeMemberSelector="handleRemove('isShow')"/>
   </div>
 </template>
 
@@ -18,29 +20,36 @@ export default {
   },
   data () {
     return {
+      isShow: false,
       //  这里是选择人员的初始化数组，一般根据业务场景异步取得
-      initTreeData: [
-        {
-          id: '1',
-          title: '善林金融',
-          loading: false,
-          children: []
-        }
-      ]
-    }
-  },
-  computed: {
-    //  从获取是否显示状态并利用计算属性触发更新
-    memberSelectorIsShow () {
-      return this.$store.state.showMemberSelector
+      initTreeData: []
     }
   },
   created () {
+    this.data1 = [{
+      id: '1',
+      title: '善林金融',
+      loading: false,
+      children: []
+    }]
+    this.data2 = [{
+      id: '1',
+      title: '善林金融2',
+      loading: false,
+      children: []
+    }]
   },
   methods: {
+    doSelectMember (data) {
+      this.initTreeData = data
+      this.isShow = true
+    },
     getSelectedMembers (data) {
       //  在这里处理选中的数组
       console.log(data)
+    },
+    handleRemove (name) {
+      this[name] = false
     }
   }
 }
