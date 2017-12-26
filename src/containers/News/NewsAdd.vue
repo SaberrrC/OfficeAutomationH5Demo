@@ -3,15 +3,15 @@
 		<Card>
 			<p slot="title">公司新闻</p>
 			<div slot="extra" class="card-title-extra">
-				<Button type="primary">取消</Button>
-				<Button type="primary" @click="submitNews">发布</Button>
+				<Button type="primary" @click="handleReset('formItem')">取消</Button>
+				<Button type="primary" @click="handleSubmit('formItem')">发布</Button>
 			</div>
-			<i-form :model="formItem" :label-width="80">
+			<i-form ref="formItem" :rules="ruleValidate" :model="formItem" :label-width="80">
 				<table cellpadding="0" cellspacing="0">
 					<tr>
 						<td>
 							<FormItem label="发布日期">
-								2017-10-09
+								{{GLOBAL_.FORMAT_TIME()}}
 							</FormItem>
 						</td>
 						<td>
@@ -22,19 +22,19 @@
 					</tr>
 					<tr>
 						<td>
-							<FormItem label="新闻标题">
+							<FormItem label="新闻标题" prop="newsTitle">
 								<i-input v-model="formItem.newsTitle" :maxlength="10" placeholder="请填写公告标题"></i-input>
 							</FormItem>
 						</td>
 						<td>
-							<FormItem label="新闻链接">
+							<FormItem label="新闻链接" prop="newsLink">
 								<i-input v-model="formItem.newsLink" placeholder="请添加需要跳转的链接" icon="link"></i-input>
 							</FormItem>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<FormItem label="新闻图片">
+							<FormItem label="新闻图片" prop="newsPhoto">
 								<div class="imgBox">
 									<img :src="imgUploadUrl" v-if="visible" />
 								</div>
@@ -56,21 +56,43 @@
 	export default {
 		name: 'NewsAdd',
 		data() {
+			const validateURL = (rule, value, callback) => {
+				if(value === '') {
+					callback(new Error('请输入新闻链接'));
+				} else {
+					if(!/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/.test(value)) {
+						callback(new Error('新闻链接格式有误'));
+					}
+					callback();
+				}
+			};
 			return {
 				formItem: {
 					newsTitle: "",
 					newsLink: "",
 					newsPhoto: ""
 				},
-				release: "",
-				releaseMode: [],
-				releaseList: [{
-					label: "100",
-					value: 1
-				}],
 				header: {},
 				visible: false,
 				imgUploadUrl: "",
+				ruleValidate: {
+					newsTitle: [{
+						required: true,
+						message: '请输入新闻标题',
+						trigger: 'blur'
+					}],
+					newsLink: [{
+						required: true,
+						validator: validateURL,
+						trigger: 'blur'
+					}],
+					newsPhoto: [{
+						required: true,
+						message: '请上传新闻图片',
+						trigger: 'change'
+					}]
+
+				}
 			}
 		},
 		methods: {
@@ -79,7 +101,7 @@
 				console.log(res);
 				if(res.code == "000000") {
 					this.visible = true;
-					this.imgUploadUrl = this.$GLOBAL_IMG_URL + res.data;
+					this.imgUploadUrl = this.GLOBAL_.IMG_URL + res.data;
 					this.formItem.newsPhoto = res.data;
 				} else {
 					this.$Message.error(res.errors);
@@ -104,30 +126,12 @@
 
 			//点击发布新闻
 			submitNews() {
-				if(!this.formItem.newsTitle) {
-					this.$Notice.warning({
-						title: '请输入新闻标题'
-					});
-					return;
-				}
-				if(!this.formItem.newsLink) {
-					this.$Notice.warning({
-						title: '请输入新闻链接'
-					});
-					return;
-				}
-				if(!this.formItem.newsPhoto) {
-					this.$Notice.warning({
-						title: '请上传新闻图片'
-					});
-					return;
-				}
 				this.$ajax({
 					method: 'post',
 					url: '/oa-web/news/saveNews',
 					headers: {
-						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-						uid: '357'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
 					data: this.formItem
 				}).then((res) => {
@@ -142,6 +146,16 @@
 						this.$Message.error(res.data.message);
 					}
 				}, (res) => {});
+			},
+			handleSubmit(name) {
+				this.$refs[name].validate((valid) => {
+					if(valid) {
+						this.submitNews();
+					}
+				})
+			},
+			handleReset(name) {
+				this.$refs[name].resetFields();
 			}
 
 		},
@@ -150,8 +164,8 @@
 
 		mounted() {
 			this.header = {
-				token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-				uid: '357'
+				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+				uid: '960'
 			}
 		}
 	}

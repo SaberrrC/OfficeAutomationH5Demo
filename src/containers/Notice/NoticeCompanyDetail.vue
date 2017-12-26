@@ -24,12 +24,12 @@
 					<tr>
 						<td>
 							<FormItem label="发布日期">
-								2017-10-09
+								{{dateFormat(formItem.createTime)}}
 							</FormItem>
 						</td>
 						<td>
 							<FormItem label="发布人">
-								朱展宏
+
 							</FormItem>
 						</td>
 					</tr>
@@ -43,23 +43,8 @@
 					<tr>
 						<td colspan="2">
 							<FormItem label="相关附件">
-								<div class="demo-upload-list" v-for="item in uploadList">
-									<template v-if="item.status === 'finished'">
-										<!--<iframe :src="item.url"></iframe>-->
-										<img :src="item.url">
-										<div class="demo-upload-list-cover">
-											<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-											<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-										</div>
-									</template>
-									<template v-else>
-										<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-									</template>
-								</div>
-								<Upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :before-upload="handleBeforeUpload" multiple type="drag" :headers="header" action="/oa-web/notice/upload" style="display: inline-block;width:58px;">
-									<div style="width: 58px;height:58px;line-height: 58px;">
-										<Icon type="camera" size="20"></Icon>
-									</div>
+								<Upload ref="upload" :on-success="handleSuccess" :before-upload="handleBeforeUpload" multiple :headers="header" action="/oa-web/notice/upload">
+									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
 							</FormItem>
 						</td>
@@ -98,7 +83,8 @@
 					content: "",
 					noticeClass: "",
 					postType: [],
-					oIds: ""
+					oIds: "",
+					createTime: ""
 				},
 				release: "",
 				releaseMode: [],
@@ -125,18 +111,29 @@
 			}
 		},
 		methods: {
+			dateFormat(ele) {
+				var date = new Date(ele);
+				var y = date.getFullYear();
+				var m = date.getMonth() + 1;
+				m = m < 10 ? '0' + m : m;
+				var d = date.getDate();
+				d = d < 10 ? ('0' + d) : d;
+				return y + '-' + m + '-' + d;
+			},
 			handleView(name) {
 				this.imgName = name;
 				this.visible = true;
 			},
 			handleRemove(file) {
-				this.uploadList.splice(this.uploadList.indexOf(file), 1);
+				console.log(this.GLOBAL_.IMG_URL + file.name)
+				window.open(this.GLOBAL_.IMG_URL + file.name);
+				
 			},
 			handleSuccess(res, file) {
 				console.log(res);
 				if(res.code == "000000") {
 					this.uploadList.push({
-						url: this.$GLOBAL_IMG_URL + res.data,
+						url: this.GLOBAL_.IMG_URL + res.data,
 						name: res.data,
 						status: "finished"
 					})
@@ -196,14 +193,14 @@
 					method: 'get',
 					url: '/oa-web/notice/' + id,
 					headers: {
-						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-						uid: '357'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
 				}).then((res) => {
 					console.log("获取公司公告详情信息", res.data)
 					if(res.data.code == "000000") {
 						var result = res.data.data;
-						if(result.length != 0){
+						if(result.length != 0) {
 							this.formItem = result[0];
 						}
 					} else {
@@ -212,16 +209,24 @@
 				}, (res) => {});
 			},
 			exit() {
-				this.$router.push({
-					path: '/notice/from'
-				})
+				if(this.$route.params.type == 2) {
+					this.$router.push({
+						path: '/notice/to'
+					})
+				}
+				if(this.$route.params.type == 1) {
+					this.$router.push({
+						path: '/notice/from'
+					})
+				}
+
 			}
 		},
 		mounted() {
 			this.getCompanyData();
 			this.header = {
-				token: '554fb9447f5e4d6a83e8ce23cf6f208b',
-				uid: '54368'
+				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+				uid: '960'
 			}
 		},
 	}

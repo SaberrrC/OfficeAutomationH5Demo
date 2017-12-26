@@ -23,14 +23,15 @@
 </template>
 
 <script>
+	import qs from "qs";
 	export default {
 		name: 'UserCenterEmail',
 		data() {
 			return {
-				oldEmail: "748115626@qq.com",
+				oldEmail: "",
 				email: "",
 				visible: true,
-				emailSuffix:""
+				emailSuffix: "@shanlinjinrong.com"
 			}
 		},
 		methods: {
@@ -40,7 +41,7 @@
 					method: 'get',
 					url: '/oa-web/user/getUserInfoById',
 					headers: {
-						token: '0030223a82984787b370a720d024b50c',
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
 					},
 					params: {
@@ -49,25 +50,25 @@
 				}).then((res) => {
 					console.log("getUserInfoById", res.data)
 					if(res.data.code == "000000") {
-						this.formBasic = res.data.data;
+						this.oldEmail = res.data.data.email;
 					} else {
 						this.$Message.error(res.data.message);
 					}
 				}, (res) => {});
 			},
-			
+
 			//修改邮箱地址
-			submitEmail(){
+			submitEmail() {
 				this.$ajax({
 					method: 'post',
 					url: '/oa-web/user/updateEmail',
 					headers: {
-						token: '0030223a82984787b370a720d024b50c',
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
 					},
-					data: {
+					data:qs.stringify({
 						email: this.email + this.emailSuffix
-					}
+					})
 				}).then((res) => {
 					console.log("邮箱地址修改", res.data)
 					if(res.data.code == "000000") {
@@ -83,9 +84,10 @@
 
 		mounted() {
 			this.header = {
-				token: '0030223a82984787b370a720d024b50c',
+				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 				uid: '960'
-			}
+			};
+			this.getEmail();
 		}
 	}
 </script>

@@ -50,8 +50,8 @@
 		data() {
 			return {
 				isHomeShow: 0,
-				noticeType: 1,
-				noticeClass: 1,
+				noticeType: 0,
+				noticeClass: 0,
 				dateFilter: 0,
 				isHomeShowList: [{
 						value: 0,
@@ -159,6 +159,9 @@
 						render: (h, params) => {
 							return h('div', [
 								h('i-switch', {
+									props: {
+										value: params.row.isHomepageShow ? true : false
+									},
 									on: {
 										"on-change": (status) => {
 											this.showHomeChange(status, params)
@@ -167,57 +170,28 @@
 								}, params.row.showHome)
 							]);
 						}
+					},
+					{
+						title: '操作',
+						key: 'id',
+						render: (h, params) => {
+							return h('div', [
+								h('Button', {
+									props: {
+										type:'primary',
+										size: 'small'
+									},
+									on: {
+										click: () => {
+											this.tableRowClick(params.row,params.index)
+										}
+									}
+								}, '查看详情')
+							]);
+						}
 					}
 				],
-				data: [{
-						name: 'John Brown',
-						age: 18,
-						address: 'New York No. 1 Lake Park',
-						date: '2016-10-03'
-					},
-					{
-						name: 'Jim Green',
-						age: 24,
-						address: 'London No. 1 Lake Park',
-						date: '2016-10-01'
-					},
-					{
-						name: 'Joe Black',
-						age: 30,
-						address: 'Sydney No. 1 Lake Park',
-						date: '2016-10-02'
-					},
-					{
-						name: 'Jon Snow',
-						age: 26,
-						address: 'Ottawa No. 2 Lake Park',
-						date: '2016-10-04'
-					},
-					{
-						name: 'John Brown',
-						age: 18,
-						address: 'New York No. 1 Lake Park',
-						date: '2016-10-03'
-					},
-					{
-						name: 'Jim Green',
-						age: 24,
-						address: 'London No. 1 Lake Park',
-						date: '2016-10-01'
-					},
-					{
-						name: 'Joe Black',
-						age: 30,
-						address: 'Sydney No. 1 Lake Park',
-						date: '2016-10-02'
-					},
-					{
-						name: 'Jon Snow',
-						age: 26,
-						address: 'Ottawa No. 2 Lake Park',
-						date: '2016-10-04'
-					}
-				]
+				data: []
 			}
 		},
 		methods: {
@@ -275,8 +249,8 @@
 					method: 'get',
 					url: '/oa-web/notice',
 					headers: {
-						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-						uid: '357'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
 					params: {
 						page: this.pageNum,
@@ -285,8 +259,8 @@
 						noticeType: this.noticeType,
 						noticeClass: this.noticeClass,
 						/*postUserId: 0,
-						postDeptId: 0,
-						isHomeShow: 0*/
+						postDeptId: 0,*/
+						isHomeShow: this.isHomeShow
 					}
 				}).then((res) => {
 					console.log("我发起的的公告列表", res.data)
@@ -308,12 +282,12 @@
 					method: 'post',
 					url: '/oa-web/notice/noticeIsShowHome',
 					headers: {
-						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-						uid: '357'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
 					data: {
 						id: params.row.id,
-						isHomepageShow: status * 1
+						isHomepageShow: status ? 1 : 2
 					}
 				}).then((res) => {
 					console.log("showHomeChange", res.data)
@@ -322,9 +296,29 @@
 					} else {
 						this.$Message.error(res.data.message);
 					}
-				}, (res) => {
-				});
+				}, (res) => {});
 			},
+			tableRowClick(row, index) {
+				console.log("row", row);
+				if(row.noticeType == 1) {
+					this.$router.push({
+						name: 'NoticeCompanyDetail',
+						params: {
+							id: row.id,
+							type:2
+						}
+					});
+				}
+				if(row.noticeType == 2) {
+					this.$router.push({
+						name: 'NoticeDepartmentDetail',
+						params: {
+							id: row.id,
+							type:2
+						}
+					});
+				}
+			}
 		},
 		watch: {
 			isHomeShow() {

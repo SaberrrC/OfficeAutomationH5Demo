@@ -3,8 +3,7 @@
 		<Card>
 			<p slot="title">部门公告</p>
 			<div slot="extra" class="card-title-extra">
-				<Button type="primary">取消</Button>
-				<Button type="primary" @click="noticeSubmit">发布</Button>
+				<Button type="primary" @click="exit">退出</Button>
 			</div>
 			<i-form :model="formItem" :label-width="80" label-position="left">
 				<table cellpadding="0" cellspacing="0">
@@ -25,7 +24,7 @@
 					<tr>
 						<td>
 							<FormItem label="发布日期">
-								2017-10-09
+								{{dateFormat(formItem.createTime)}}
 							</FormItem>
 						</td>
 						<td>
@@ -44,23 +43,8 @@
 					<tr>
 						<td>
 							<FormItem label="相关附件">
-								<div class="demo-upload-list" v-for="item in uploadList">
-									<template v-if="item.status === 'finished'">
-										<!--<iframe :src="item.url"></iframe>-->
-										<img :src="item.url">
-										<div class="demo-upload-list-cover">
-											<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-											<Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-										</div>
-									</template>
-									<template v-else>
-										<Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-									</template>
-								</div>
-								<Upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :before-upload="handleBeforeUpload" multiple type="drag" :headers="header" action="/oa-web/notice/upload" style="display: inline-block;width:58px;">
-									<div style="width: 58px;height:58px;line-height: 58px;">
-										<Icon type="camera" size="20"></Icon>
-									</div>
+								<Upload ref="upload" :on-success="handleSuccess" :before-upload="handleBeforeUpload" multiple :headers="header" action="/oa-web/notice/upload">
+									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
 							</FormItem>
 						</td>
@@ -95,7 +79,8 @@
 					noticeClass: "",
 					postType: [],
 					attachPath: [],
-					oIds: ""
+					oIds: "",
+					createTime: ""
 				},
 				noticeClassList: [{
 						value: 1,
@@ -116,6 +101,15 @@
 			}
 		},
 		methods: {
+			dateFormat(ele) {
+				var date = new Date(ele);
+				var y = date.getFullYear();
+				var m = date.getMonth() + 1;
+				m = m < 10 ? '0' + m : m;
+				var d = date.getDate();
+				d = d < 10 ? ('0' + d) : d;
+				return y + '-' + m + '-' + d;
+			},
 			handleView(name) {
 				this.imgName = name;
 				this.visible = true;
@@ -127,7 +121,7 @@
 				console.log(res);
 				if(res.code == "000000") {
 					this.uploadList.push({
-						url: this.$GLOBAL_IMG_URL + res.data,
+						url: this.GLOBAL_.IMG_URL + res.data,
 						name: res.data,
 						status: "finished"
 					})
@@ -181,45 +175,48 @@
 				}
 			},
 
-			//发布部门公告
-			noticeSubmit() {
-				var data = {
-					title: this.formItem.title,
-					content: this.formItem.content,
-					noticeType: 2,
-					noticeClass: this.formItem.noticeClass,
-					postType: this.formatPostType(this.formItem.postType),
-					attachPath: this.formatAttachPath(this.uploadList),
-					oIds: 400
-				};
-				console.log(data);
+			//获取公司公告详情信息
+			getDepartmentData() {
+				var id = this.$route.params.id;
 				this.$ajax({
-					method: 'post',
-					url: '/oa-web/notice/create',
+					method: 'get',
+					url: '/oa-web/notice/' + id,
 					headers: {
-						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-						uid: '357'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
-					data: data
 				}).then((res) => {
-					console.log("发布部门公告", res.data)
+					console.log("获取公司公告详情信息", res.data)
 					if(res.data.code == "000000") {
-						this.$Message.success('发布成功');
+						var result = res.data.data;
+						if(result.length != 0) {
+							this.formItem = result[0];
+						}
 					} else {
 						this.$Message.error(res.data.message);
 					}
 				}, (res) => {});
+			},
+			exit() {
+				if(this.$route.params.type == 2) {
+					this.$router.push({
+						path: '/notice/to'
+					})
+				}
+				if(this.$route.params.type == 1) {
+					this.$router.push({
+						path: '/notice/from'
+					})
+				}
 			}
 		},
 		mounted() {
 			//			this.uploadList = this.$refs.upload.fileList;
 			this.header = {
-				token: '554fb9447f5e4d6a83e8ce23cf6f208b',
-				uid: '54368'
-			}
-		},
-		created() {
-
+				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+				uid: '960'
+			};
+			this.getDepartmentData();
 		}
 	}
 </script>
@@ -229,7 +226,7 @@
 	.notice-department {
 		padding: 16px;
 		.card-title-extra {
-			width: 117px;
+			/*width: 117px;*/
 			position: absolute;
 			top: -4px;
 			right: 0;

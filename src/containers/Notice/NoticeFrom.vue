@@ -36,7 +36,7 @@
 				</i-form>
 			</div>
 			<div class="container">
-				<Table height="450" :columns="columns" :data="data" @on-row-click="tableRowClick"></Table>
+				<Table height="450" :columns="columns" :data="data"></Table>
 				<br>
 				<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
 			</div>
@@ -50,8 +50,8 @@
 		data() {
 			return {
 				isRead: 0,
-				noticeType: 1,
-				noticeClass: 1,
+				noticeType: 0,
+				noticeClass: 0,
 				dateFilter: 0,
 				readList: [{
 						value: 0,
@@ -160,6 +160,25 @@
 								this.dateFormat(params.row.createTime)
 							]);
 						}
+					},
+					{
+						title: '操作',
+						key: 'id',
+						render: (h, params) => {
+							return h('div', [
+								h('Button', {
+									props: {
+										type:'primary',
+										size: 'small'
+									},
+									on: {
+										click: () => {
+											this.tableRowClick(params.row,params.index)
+										}
+									}
+								}, '查看详情')
+							]);
+						}
 					}
 				],
 				data: []
@@ -220,8 +239,8 @@
 					method: 'get',
 					url: '/oa-web/notice',
 					headers: {
-						token: '554fb9447f5e4d6a83e8ce23cf6f208b',
-						uid: '54368'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
 					params: {
 						page: this.pageNum,
@@ -244,21 +263,23 @@
 					this.$Message.error("信息获取失败");
 				});
 			},
-			tableRowClick(row,index){
-				console.log("row",row);
-				if(row.noticeType == 1){
+			tableRowClick(row, index) {
+				console.log("row", row);
+				if(row.noticeType == 1) {
 					this.$router.push({
 						name: 'NoticeCompanyDetail',
 						params: {
-							id: row.id
+							id: row.id,
+							type: 1
 						}
 					});
 				}
-				if(row.noticeType == 2){
+				if(row.noticeType == 2) {
 					this.$router.push({
 						name: 'NoticeDepartmentDetail',
 						params: {
-							id: row.id
+							id: row.id,
+							type: 1
 						}
 					});
 				}

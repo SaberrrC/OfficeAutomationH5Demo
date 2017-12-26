@@ -77,6 +77,9 @@
 						render: (h, params) => {
 							return h('div', [
 								h('i-switch', {
+									props: {
+										value: params.row.showHome?true:false
+									},
 									on: {
 										"on-change": (status) => {
 											this.showHomeChange(status, params)
@@ -129,8 +132,8 @@
 					method: 'get',
 					url: '/oa-web/news/getNewsList',
 					headers: {
-						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-						uid: '357'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
 					params: {
 						time: this.newsTime,
@@ -145,7 +148,7 @@
 						this.total = result.total;
 						this.data = result.data;
 					} else {
-						this.$Message.error(res.data.message);
+//						this.$Message.error(res.data.message);
 					}
 				}, (res) => {
 				});
@@ -159,8 +162,8 @@
 					method: 'post',
 					url: '/oa-web/news/isShowHome',
 					headers: {
-						token: '9d52355800cf43cd9aaf6b5f5bf2bdcb',
-						uid: '357'
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
 					},
 					data: {
 						id: params.row.id,
@@ -171,7 +174,7 @@
 					if(res.data.code == "000000") {
 						this.getNewsData();
 					} else {
-						this.$Message.error(res.data.message);
+//						this.$Message.error(res.data.message);
 					}
 				}, (res) => {
 				});
@@ -183,7 +186,7 @@
 					method: 'get',
 					url: '/oa-web/news/deleteNews',
 					headers: {
-						token: '0030223a82984787b370a720d024b50c',
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
 					},
 					params: {
@@ -195,10 +198,10 @@
 						this.$Message.success("删除成功");
 						this.getNewsData();
 					} else {
-						this.$Message.error(res.data.message);
+//						this.$Message.error(res.data.message);
 					}
 				}, (res) => {
-					this.$Message.error(res.data.message);
+//					this.$Message.error(res.data.message);
 				});
 			}
 

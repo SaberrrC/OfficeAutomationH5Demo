@@ -80,7 +80,7 @@
 					method: 'get',
 					url: '/oa-web/user/getUserInfoById',
 					headers: {
-						token: '0030223a82984787b370a720d024b50c',
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
 					},
 					params: {
@@ -90,6 +90,9 @@
 					console.log("getUserInfoById", res.data)
 					if(res.data.code == "000000") {
 						this.formBasic = res.data.data;
+						if(this.formBasic.portrait){
+							this.visible = true;
+						}
 					} else {
 						this.$Message.error(res.data.message);
 					}
@@ -105,7 +108,7 @@
 		mounted() {
 			this.getUserInfoById();
 			this.header = {
-				token: '0030223a82984787b370a720d024b50c',
+				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 				uid: '960'
 			}
 		}
