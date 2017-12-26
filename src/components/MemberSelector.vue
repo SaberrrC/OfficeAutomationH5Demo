@@ -57,8 +57,6 @@ export default {
   methods: {
     //  向已选中集合里添加对象，利用 object 的 key 值唯一性保证不重复
     handleMemberItemClick (data) {
-      console.log('#From MemberSelector =>')
-      console.log(data)
       this.$set(this.selected, data.uid, data)
     },
     handleRemove (id) {

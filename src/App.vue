@@ -1,12 +1,17 @@
 <template>
   <div id="app">
-    <the-header/>
-    <sidebar
-      v-if="sidebarList.length"
-      :list="sidebarList"/>
-    <section :class="['content', sidebarList.length ? '' : 'full-screen']">
+    <template v-if="isLogin">
+      <the-header/>
+      <sidebar
+        v-if="sidebarList.length"
+        :list="sidebarList"/>
+      <section :class="['content', sidebarList.length ? '' : 'full-screen']">
+        <router-view/>
+      </section>
+    </template>
+    <template v-else>
       <router-view/>
-    </section>
+    </template>
   </div>
 </template>
 
@@ -19,6 +24,14 @@ export default {
   components: {
     TheHeader,
     Sidebar
+  },
+  data () {
+    return {
+      isLogin: false
+    }
+  },
+  created () {
+    this.isLogin = this.$store.state.token !== ''
   },
   computed: {
     //  放在这一层是为了根据数组 length 判断是否隐藏 sidebar

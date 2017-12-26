@@ -115,8 +115,6 @@ export default {
     },
     //  点击成员回调函数
     handleMemberItemClick (data) {
-      console.log('#From MemberTree =>')
-      console.log(data)
       this.$emit('onMemberItemClick', data)
     }
   }
