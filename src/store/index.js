@@ -31,7 +31,7 @@ export default new Vuex.Store({
       if (id === 'home') {
         context.commit('updateSidebarList', [
           {
-            iconType: 'android-clipboard',
+            iconType: 'home',
             name: '善林OA',
             id: 'home'
           }
@@ -70,13 +70,13 @@ export default new Vuex.Store({
           uid: '84', //  TODO 临时测试
           orgId: departmentId
         }
-      }).then(function (response) {
+      }).then((response) => {
         if (response.data) {
           const result = response.data.data
           context.commit('updateOrganization', result)
           return result
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     },
