@@ -10,12 +10,12 @@
 					<tr>
 						<td>
 							<FormItem label="标题">
-								<Input v-model="formItem.title" placeholder="请输入标题"></Input>
+								<Input v-model="formItem.title" placeholder="请输入标题" :disabled="disable"></Input>
 							</FormItem>
 						</td>
 						<td>
 							<FormItem label="公告类别">
-								<i-select v-model="formItem.noticeClass" placeholder="请选择状态">
+								<i-select v-model="formItem.noticeClass" placeholder="请选择状态" :disabled="disable">
 									<Option v-for="item in noticeClassList" :value="item.value" :key="item.value">{{ item.label }}</Option>
 								</i-select>
 							</FormItem>
@@ -24,35 +24,41 @@
 					<tr>
 						<td>
 							<FormItem label="发布日期">
-								{{dateFormat(formItem.createTime)}}
+								{{GLOBAL_.FORMAT_TIME(formItem.createTime)}}
 							</FormItem>
 						</td>
 						<td>
 							<FormItem label="发布人">
-
+								{{GLOBAL_.USER_NAME}}
 							</FormItem>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<FormItem label="内容">
-								<Input type="textarea" v-model="formItem.content" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入公告内容"></Input>
+								<Input type="textarea" v-model="formItem.content" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入公告内容" :disabled="disable"></Input>
 							</FormItem>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<FormItem label="相关附件">
-								<Upload ref="upload" :on-success="handleSuccess" :before-upload="handleBeforeUpload" multiple :headers="header" action="/oa-web/notice/upload">
-									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
+								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" action="/oa-web/notice/upload">
+									<Button type="ghost" icon="ios-cloud-upload-outline" :disabled="disable">上传附件</Button>
 								</Upload>
+								<div v-if="formItem.attachList">
+									<div v-for="item in formItem.attachList">Upload file: {{ item }}
+										<a id="downLoad" @click="oDownLoad(GLOBAL_.IMG_URL + item)">下载</a>
+									</div>
+								</div>
+
 							</FormItem>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<FormItem label="发布范围">
-								<i-select v-model="formItem.oIds" style="width:200px">
+								<i-select v-model="formItem.oIds" :disabled="disable">
 									<i-option v-for="item in oIdsList" :value="item.value" :key="item.value">{{ item.label }}
 									</i-option>
 								</i-select>
@@ -60,9 +66,9 @@
 						</td>
 						<td>
 							<FormItem label="发布方式">
-								<CheckboxGroup v-model="formItem.postType">
-									<Checkbox label="2" value="2">邮件</Checkbox>
-									<Checkbox label="1" value="1">消息</Checkbox>
+								<CheckboxGroup v-model="formItem.postTypeList">
+									<Checkbox label="2" value="2" :disabled="disable">邮件</Checkbox>
+									<Checkbox label="1" value="1" :disabled="disable">消息</Checkbox>
 								</CheckboxGroup>
 							</FormItem>
 						</td>
@@ -82,7 +88,7 @@
 					title: "",
 					content: "",
 					noticeClass: "",
-					postType: [],
+					postTypeList: [],
 					oIds: "",
 					createTime: ""
 				},
@@ -107,28 +113,11 @@
 						value: 3,
 						label: "活动"
 					}
-				]
+				],
+				disable: true
 			}
 		},
 		methods: {
-			dateFormat(ele) {
-				var date = new Date(ele);
-				var y = date.getFullYear();
-				var m = date.getMonth() + 1;
-				m = m < 10 ? '0' + m : m;
-				var d = date.getDate();
-				d = d < 10 ? ('0' + d) : d;
-				return y + '-' + m + '-' + d;
-			},
-			handleView(name) {
-				this.imgName = name;
-				this.visible = true;
-			},
-			handleRemove(file) {
-				console.log(this.GLOBAL_.IMG_URL + file.name)
-				window.open(this.GLOBAL_.IMG_URL + file.name);
-				
-			},
 			handleSuccess(res, file) {
 				console.log(res);
 				if(res.code == "000000") {
@@ -139,51 +128,6 @@
 					})
 				}
 
-			},
-			handleFormatError(file) {
-				this.$Notice.warning({
-					title: 'The file format is incorrect',
-					desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-				});
-			},
-			handleMaxSize(file) {
-				this.$Notice.warning({
-					title: 'Exceeding file size limit',
-					desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-				});
-			},
-			handleBeforeUpload() {
-				const check = this.uploadList.length < 5;
-				if(!check) {
-					this.$Notice.warning({
-						title: 'Up to five pictures can be uploaded.'
-					});
-				}
-				return check;
-			},
-			formatPostType(postType) {
-				if(postType.length != 0) {
-					var postTypeNum = 0;
-					for(var i = 0; i < postType.length; i++) {
-						postTypeNum = postTypeNum + postType[i] * 1;
-					}
-					return postTypeNum;
-				}
-			},
-
-			formatAttachPath(attachPath) {
-				if(attachPath.length != 0) {
-					var attachPathStr = "";
-					for(var i = 0; i < attachPath.length; i++) {
-						if(i > 0) {
-							attachPathStr = attachPathStr + "," + attachPath[i].name;
-						} else {
-							attachPathStr = attachPath[i].name;
-						}
-
-					}
-					return attachPathStr;
-				}
 			},
 
 			//获取公司公告详情信息
@@ -220,6 +164,55 @@
 					})
 				}
 
+			},
+			//判断浏览器类型
+			myBrowser() {
+				var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+				var isOpera = userAgent.indexOf("Opera") > -1;
+				if(isOpera) {
+					return "Opera"
+				}; //判断是否Opera浏览器
+				if(userAgent.indexOf("Firefox") > -1) {
+					return "FF";
+				} //判断是否Firefox浏览器
+				if(userAgent.indexOf("Chrome") > -1) {
+					return "Chrome";
+				}
+				if(userAgent.indexOf("Safari") > -1) {
+					return "Safari";
+				} //判断是否Safari浏览器
+				if(userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+					return "IE";
+				}; //判断是否IE浏览器
+				if(userAgent.indexOf("Trident") > -1) {
+					return "Edge";
+				} //判断是否Edge浏览器
+			},
+			SaveAs5(imgURL) {
+				var oPop = window.open(imgURL, "", "width=1, height=1, top=5000, left=5000");
+				for(; oPop.document.readyState != "complete";) {
+					if(oPop.document.readyState == "complete") break;
+				}
+				oPop.document.execCommand("SaveAs");
+				oPop.close();
+			},
+			oDownLoad(url) {
+				var odownLoad=document.getElementById("downLoad");
+				this.myBrowser();
+				if(this.myBrowser() === "IE" || this.myBrowser() === "Edge") {
+					//IE
+					odownLoad.href = "#";
+					var oImg = document.createElement("img");
+					oImg.src = url;
+					oImg.id = "downImg";
+					var odown = document.getElementById("down");
+					odown.appendChild(oImg);
+					this.SaveAs5(document.getElementById('downImg').src)
+				} else {
+					//!IE
+					odownLoad.href = url;
+					odownLoad.download = "";
+				}
 			}
 		},
 		mounted() {

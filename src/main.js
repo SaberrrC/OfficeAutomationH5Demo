@@ -13,6 +13,7 @@ import axios from 'axios'
 Vue.prototype.$ajax = axios;
 Vue.prototype.GLOBAL_ = {
 	IMG_URL: "http://118.31.18.67:96",
+	USER_NAME:"",
 	FORMAT_TIME: function(val) {
 		var date = val ? new Date(val) : new Date();
 		var y = date.getFullYear();
@@ -21,6 +22,26 @@ Vue.prototype.GLOBAL_ = {
 		var d = date.getDate();
 		d = d < 10 ? ('0' + d) : d;
 		return y + '-' + m + '-' + d;
+	},
+	USER_INFO: function() {
+		axios({
+			method: 'get',
+			url: '/oa-web/user/getUserInfoById',
+			headers: {
+				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+				uid: '960'
+			},
+			params: {
+				uid: "960"
+			}
+		}).then((res) => {
+			console.log("getUserInfoById", res.data)
+			if(res.data.code == "000000") {
+				this.USER_NAME = res.data.data.username;
+			} else {
+				this.$Message.error(res.data.message);
+			}
+		}, (res) => {});
 	}
 }
 

@@ -25,12 +25,12 @@
 					<tr>
 						<td>
 							<FormItem label="发布日期">
-								{{formItem.createTime}}
+								{{GLOBAL_.FORMAT_TIME()}}
 							</FormItem>
 						</td>
 						<td>
 							<FormItem label="发布人">
-
+								{{GLOBAL_.USER_NAME}}
 							</FormItem>
 						</td>
 					</tr>
@@ -84,7 +84,6 @@
 					postType: [],
 					attachPath: [],
 					oIds: "",
-					createTime: this.GLOBAL_.FORMAT_TIME(),
 					defaultList: []
 				},
 				noticeClassList: [{
@@ -163,10 +162,8 @@
 						url: this.GLOBAL_.IMG_URL + res.data,
 						name: res.data,
 						status: "finished"
-					})
-					this.formItem.defaultList.push({
-						name: res.data
-					})
+					});
+					this.formItem.defaultList.push(res.data);
 					this.$refs["formItem"].validate((valid) => {
 						if(valid) {
 							return;
@@ -229,9 +226,8 @@
 					content: this.formItem.content,
 					noticeType: "2",
 					noticeClass: this.formItem.noticeClass,
-					postType: this.formItem.postType,
-					attachPath: this.formItem.defaultList,
-					oIds: 400
+					postTypeList: this.formItem.postType,
+					attachList: this.formItem.defaultList
 				};
 				console.log(data);
 				this.$ajax({

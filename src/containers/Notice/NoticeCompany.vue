@@ -25,12 +25,12 @@
 					<tr>
 						<td>
 							<FormItem label="发布日期">
-								{{formItem.createTime}}
+								{{GLOBAL_.FORMAT_TIME()}}
 							</FormItem>
 						</td>
 						<td>
 							<FormItem label="发布人">
-								朱展宏
+								{{GLOBAL_.USER_NAME}}
 							</FormItem>
 						</td>
 					</tr>
@@ -44,7 +44,7 @@
 					<tr>
 						<td colspan="2">
 							<FormItem label="相关附件" prop="uploadList">
-								<Upload ref="upload" :on-success="handleSuccess" :before-upload="handleBeforeUpload" multiple :headers="header" action="/oa-web/notice/upload">
+								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" action="/oa-web/notice/upload">
 									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
 							</FormItem>
@@ -53,8 +53,8 @@
 					<tr>
 						<td>
 							<FormItem label="发布范围" prop="oIds">
-								<i-select v-model="formItem.oIds" style="width:200px">
-									<i-option v-for="item in oIdsList" :value="item.value" :key="item.value">{{ item.label }}
+								<i-select v-model="formItem.oIds" filterable multiple>
+									<i-option v-for="item in oIdsList" :value="item.id" :key="item.id">{{ item.name }}
 									</i-option>
 								</i-select>
 							</FormItem>
@@ -86,21 +86,21 @@
 				}
 			};
 			return {
+				modal1:true,
 				formItem: {
 					title: "",
 					content: "",
 					noticeClass: "",
 					postType: [],
-					oIds: "",
-					createTime: this.GLOBAL_.FORMAT_TIME(),
+					oIds: [],
 					uploadList: [],
-					uploadListajax:[]
+					defaultList: []
 				},
 				release: "",
 				releaseMode: [],
 				oIdsList: [{
-					label: "400",
-					value: "400"
+					name: "400",
+					id: "400"
 				}],
 				visible: false,
 				header: {},
@@ -140,6 +140,7 @@
 					}],
 					oIds: [{
 						required: true,
+						type: 'array',
 						message: '请选择发布范围',
 						trigger: 'change'
 					}],
@@ -154,21 +155,23 @@
 			}
 		},
 		methods: {
-			getTime() {
-				var date = new Date();
-				var y = date.getFullYear();
-				var m = date.getMonth() + 1;
-				m = m < 10 ? '0' + m : m;
-				var d = date.getDate();
-				d = d < 10 ? ('0' + d) : d;
-				return y + '-' + m + '-' + d;
-			},
-			handleView(name) {
-				this.imgName = name;
-				this.visible = true;
-			},
-			handleRemove(file) {
-				this.formItem.uploadList.splice(this.formItem.uploadList.indexOf(file), 1);
+			//获取发布范围部门名单
+			getDeprtmentList() {
+				this.$ajax({
+					method: 'get',
+					url: '/oa-web/organization/queryDepartment?departmentName=',
+					headers: {
+						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+						uid: '960'
+					}
+				}).then((res) => {
+					console.log("获取发布范围部门名单", res.data)
+					if(res.data.code == "000000") {
+						this.oIdsList = res.data.data.dataList;
+					} else {
+						this.$Message.error(res.data.message);
+					}
+				}, (res) => {});
 			},
 			handleSuccess(res, file) {
 				console.log(res);
@@ -177,64 +180,17 @@
 						url: this.GLOBAL_.IMG_URL + res.data,
 						name: res.data,
 						status: "finished"
-					})
-					this.formItem.uploadListajax.push({
-						name: res.data
-					})
-					this.$refs["formItem"].validate((valid) => {
-					if(valid) {
-						
-					} else {
-						this.$Message.error('Fail!');
-					}
-				})
-				}
-
-			},
-			handleFormatError(file) {
-				this.$Notice.warning({
-					title: 'The file format is incorrect',
-					desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-				});
-			},
-			handleMaxSize(file) {
-				this.$Notice.warning({
-					title: 'Exceeding file size limit',
-					desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-				});
-			},
-			handleBeforeUpload() {
-				const check = this.formItem.uploadList.length < 5;
-				if(!check) {
-					this.$Notice.warning({
-						title: 'Up to five pictures can be uploaded.'
 					});
-				}
-				return check;
-			},
-			formatPostType(postType) {
-				if(postType.length != 0) {
-					var postTypeNum = 0;
-					for(var i = 0; i < postType.length; i++) {
-						postTypeNum = postTypeNum + postType[i] * 1;
-					}
-					return postTypeNum;
-				}
-			},
+					this.formItem.defaultList.push(res.data);
+					this.$refs["formItem"].validate((valid) => {
+						if(valid) {
 
-			formatAttachPath(attachPath) {
-				if(attachPath.length != 0) {
-					var attachPathStr = "";
-					for(var i = 0; i < attachPath.length; i++) {
-						if(i > 0) {
-							attachPathStr = attachPathStr + "," + attachPath[i].name;
 						} else {
-							attachPathStr = attachPath[i].name;
+							this.$Message.error('Fail!');
 						}
-
-					}
-					return attachPathStr;
+					})
 				}
+
 			},
 
 			//发布部门公告
@@ -244,9 +200,9 @@
 					content: this.formItem.content,
 					noticeType: "1",
 					noticeClass: this.formItem.noticeClass,
-					postType: this.formItem.postType,
-					attachPath: this.formItem.uploadListajax,
-					oIds: this.formItem.oIds
+					postTypeList: this.formItem.postType,
+					attachList: this.formItem.defaultList,
+					oIds: this.formItem.oIds.join(",")
 				};
 				console.log(data);
 				this.$ajax({
@@ -280,11 +236,11 @@
 			}
 		},
 		mounted() {
-			//			this.uploadList = this.$refs.upload.fileList;
 			this.header = {
 				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 				uid: '960'
-			}
+			};
+			this.getDeprtmentList();
 		},
 	}
 </script>

@@ -12,8 +12,8 @@ module.exports = {
 		assetsPublicPath: '/',
 		proxyTable: {
 			'/oa-web': {
-				//				target: 'http://10.255.232.234/oa-api',
-				target: 'http://118.31.18.67:8084',
+				target: 'http://10.255.232.234/oa-api',
+				//				target: 'http://118.31.18.67:8084',
 				pathRewrite: {
 					'^/oa-web': '/'
 				},

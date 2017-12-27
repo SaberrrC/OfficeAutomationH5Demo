@@ -16,7 +16,7 @@
 						</td>
 						<td>
 							<FormItem label="发布人">
-								朱展宏
+								{{GLOBAL_.USER_NAME}}
 							</FormItem>
 						</td>
 					</tr>
