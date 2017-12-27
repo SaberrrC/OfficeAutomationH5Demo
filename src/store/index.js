@@ -16,10 +16,14 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    userInfo: {},
     sidebar: [],
     organization: []
   },
   mutations: {
+    queryUserInfo (state, newValue) {
+      state.userInfo = newValue
+    },
     updateSidebarList (state, newValue) {
       state.sidebar = newValue
     },
@@ -28,6 +32,18 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    //  获取当前用户信息
+    queryUserInfo (context) {
+      return axios.get('/user/getUserInfoById').then((response) => {
+        if (response.data && response.data.code === '000000') {
+          const result = response.data.data
+          context.commit('queryUserInfo', result)
+          return result
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     //  获取二级菜单列表，参数为模块 id
     querySidebarList (context, id) {
       //  TODO mock data

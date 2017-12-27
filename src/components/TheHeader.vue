@@ -81,12 +81,9 @@ export default {
   },
   created () {
     //  获取用户信息
-    this.$ajax.get('/user/getUserInfoById').then((response) => {
-      if (response.data && response.data.code === '000000') {
-        window.localStorage.setItem('userCode', response.data.data.code)
-      }
-    }).catch((err) => {
-      console.log(err)
+    this.$store.dispatch('queryUserInfo').then((data) => {
+      window.localStorage.setItem('username', data.username)
+      window.localStorage.setItem('userCode', data.code)
     })
     //  刷新页面时初始化 activeName
     this.activeName = this.getCurrentActiveName()
