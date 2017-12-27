@@ -51,7 +51,10 @@ export default {
   },
   methods: {
     updateSidebar (path) {
-      this.activeName = path.substring(1)
+      var arr = path.substring(1).split('/')
+      this.activeName = arr[0] + '/' + arr[1]
+      console.log('path', path)
+      console.log('activeName', this.activeName)
       this.addOpenList(path.split('/')[1], this.openNames)
       this.$nextTick(() => {
         this.$refs.sidebar.updateActiveName()

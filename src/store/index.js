@@ -44,7 +44,9 @@ export default new Vuex.Store({
               {name: '发起日报', id: 'daily'},
               {name: '发起周报', id: 'weekly'},
               {name: '我发起的', id: 'my_report'},
-              {name: '待评分', id: 'waiting'}
+              {name: '待评分', id: 'no_rate'},
+              {name: '历史记录', id: 'history'},
+              {name: '模板管理', id: 'template'}
             ]
           },
           {

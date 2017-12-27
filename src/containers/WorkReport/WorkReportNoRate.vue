@@ -1,17 +1,17 @@
 <template>
-  <div class="work-report-weekly">
-    <Card>
-      <p slot="title">发起周报</p>
-    </Card>
-  </div>
+    <router-view/>
 </template>
 
 <script>
 export default {
-  name: 'WorkReportWeekly',
+  name: 'WorkReportNoRate',
   data () {
     return {
+
     }
+  },
+  methods: {
+
   },
   created () {
     console.log('##### WorkReportWeekly created')
@@ -21,7 +21,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.work-report-weekly {
-  padding: 16px;
-}
+
 </style>
+
+
+
