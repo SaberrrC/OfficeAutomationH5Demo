@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <template v-if="isLogin">
+    <template v-if="checkToken">
       <the-header/>
       <sidebar
         v-if="sidebarList.length"
@@ -27,13 +27,14 @@ export default {
   },
   data () {
     return {
-      isLogin: false
     }
   },
   created () {
-    this.isLogin = this.$store.state.token !== ''
   },
   computed: {
+    checkToken () {
+      return this.$store.state.token || window.localStorage.getItem('token')
+    },
     //  放在这一层是为了根据数组 length 判断是否隐藏 sidebar
     sidebarList () {
       return this.$store.state.sidebar

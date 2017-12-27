@@ -25,6 +25,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Login',
   data () {
@@ -52,14 +53,13 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.query.redirect)
     this.handleUpdateImg()
   },
   methods: {
     handleUpdateImg () {
+      //  获取图片验证码
       this.$ajax.get('/user/webCode').then((response) => {
-        if (response.data) {
-          console.log(response.data)
+        if (response.data && response.data.code === '000000') {
           const data = response.data.data
           this.codeImg = data.img
           this.formLogin.keyCode = data.keyCode
@@ -71,17 +71,20 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          console.log(this.formLogin)
-          this.$ajax.post('/user/webCode', this.formLogin).then((response) => {
-            if (response.data) {
-              console.log(response.data.data)
+          this.formLogin.email = this.formLogin.email.trim()
+          //  执行登录 010123381
+          this.$ajax.post('/user/webLogin', this.formLogin).then((response) => {
+            if (response.data && response.data.code === '000000') {
+              const data = response.data.data
+              localStorage.setItem('token', data.token)
+              localStorage.setItem('uid', data.uid)
+              const redirect = this.$route.query.redirect
+              window.location.replace(redirect)
             }
           }).catch((err) => {
             console.log(err)
           })
-          //  this.$Message.success('Success!')
         } else {
-          //  this.$Message.error('Fail!')
         }
       })
     }

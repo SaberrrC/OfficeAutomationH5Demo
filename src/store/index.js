@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import qs from 'qs'
 import axios from 'axios'
+
 axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
 axios.defaults.baseURL = 'http://118.31.18.67:8084' //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
+axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''
+axios.defaults.transformRequest = [(data) => {
+  return qs.stringify(data || {})
+}]
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
-    token: '',
     sidebar: [],
     organization: []
   },
@@ -59,16 +65,28 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', list)
       }
+      if (id === 'attend_admin') {
+        const list = [
+          {
+            iconType: 'ios-timer-outline',
+            name: '考勤管理',
+            id: 'attend_admin',
+            children: [
+              {name: '我的考勤', id: 'work_attend'},
+              {name: '假期查询', id: 'leave_query'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', list)
+      }
     },
     queryOrganization (context, departmentId = '1') {
       return axios.get('/organization/queryOrgAndUser', {
         params: {
-          token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-          uid: '84', //  TODO 临时测试
           orgId: departmentId
         }
       }).then((response) => {
-        if (response.data) {
+        if (response.data && response.data.code === '000000') {
           const result = response.data.data
           context.commit('updateOrganization', result)
           return result
@@ -79,3 +97,5 @@ export default new Vuex.Store({
     }
   }
 })
+
+export default store

@@ -149,14 +149,10 @@ export default {
   created () {
     this.$store.dispatch('querySidebarList', 'home')
     //  请求公司新闻
-    this.$ajax.get('/news/imgRoll', {
-      params: {
-        token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-        uid: '84' //  TODO 临时测试
-      }
-    }).then((response) => {
-      if (response.data) {
+    this.$ajax.get('/news/imgRoll').then((response) => {
+      if (response.data && response.data.code === '000000') {
         //  TODO 临时数据，需要切换
+        console.log('公司新闻')
         console.log(response.data.data)
         //  this.news = response.data.data
       }
@@ -164,30 +160,24 @@ export default {
       console.log(err)
     })
     //  请求公司公告
-    this.$ajax.get('/notice/noticeHome', {
-      params: {
-        token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-        uid: '84' //  TODO 临时测试
-      }
-    }).then((response) => {
-      if (response.data) {
+    this.$ajax.get('/notice/noticeHome').then((response) => {
+      if (response.data && response.data.code === '000000') {
+        console.log('公司公告')
         //  TODO 临时数据，需要切换
         console.log(response.data.data)
       }
     }).catch((err) => {
       console.log(err)
     })
-    const now = new Date()
     //  请求我的考勤
     this.$ajax.get('/WorkAttendance/getWorkAttendance', {
       params: {
-        token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-        uid: '84', //  TODO 临时测试
-        userCode: '010018972',
-        date: `${now.getFullYear()}-${now.getMonth() + 1}`
+        userCode: window.localStorage.getItem('userCode'),
+        date: '2017-1'
       }
     }).then((response) => {
-      if (response.data) {
+      if (response.data && response.data.code === '000000') {
+        console.log('我的考勤')
         //  TODO 临时数据，需要切换
         console.log(response.data.data)
       }

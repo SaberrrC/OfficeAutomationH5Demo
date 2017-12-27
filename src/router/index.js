@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '../store'
 import Homepage from '@/containers/Homepage'
 import WorkReport from '@/containers/WorkReport'
 import WorkReportDaily from '@/containers/WorkReportDaily'
@@ -8,11 +7,16 @@ import WorkReportWeekly from '@/containers/WorkReportWeekly'
 import Setting from '@/containers/Setting'
 import Login from '@/containers/Login'
 import Help from '@/containers/Help'
+import AttendAdmin from '@/containers/AttendAdmin'
+import WorkAttend from '@/containers/WorkAttend'
+import LeaveQuery from '@/containers/LeaveQuery'
+//  TODO  del
 import Demo from '@/containers/MemberSelectorDemo'
 
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -39,12 +43,46 @@ const router = new Router({
         {
           path: 'daily',
           name: 'WorkReportDaily',
-          component: WorkReportDaily
+          component: WorkReportDaily,
+          meta: {
+            requireAuth: true
+          }
         },
         {
           path: 'weekly',
           name: 'WorkReportWeekly',
-          component: WorkReportWeekly
+          component: WorkReportWeekly,
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
+    },
+    //  attend_admin
+    {
+      path: '/attend_admin',
+      name: 'AttendAdmin',
+      component: AttendAdmin,
+      redirect: '/attend_admin/work_attend',
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {
+          path: 'work_attend',
+          name: 'WorkAttend',
+          component: WorkAttend,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: 'leave_query',
+          name: 'LeaveQuery',
+          component: LeaveQuery,
+          meta: {
+            requireAuth: true
+          }
         }
       ]
     },
@@ -63,6 +101,7 @@ const router = new Router({
       name: 'Help',
       component: Help
     },
+    //  TODO  del
     {
       path: '/demo',
       name: 'demo',
@@ -73,7 +112,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
-    if (store.state.token) {
+    if (window.localStorage.getItem('token')) {
       next()
     } else {
       next({

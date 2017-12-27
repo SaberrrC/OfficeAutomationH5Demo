@@ -80,6 +80,14 @@ export default {
     }
   },
   created () {
+    //  获取用户信息
+    this.$ajax.get('/user/getUserInfoById').then((response) => {
+      if (response.data && response.data.code === '000000') {
+        window.localStorage.setItem('userCode', response.data.data.code)
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
     //  刷新页面时初始化 activeName
     this.activeName = this.getCurrentActiveName()
     //  TODO
@@ -92,25 +100,17 @@ export default {
       {iconType: 'ios-timer-outline', name: '考勤管理', id: 'attend_admin', isShow: 0},
       {iconType: 'ios-paper-outline', name: '日志管理', id: 'log_admin', isShow: 0}
     ])
-    this.$ajax.get('/navit/queryNaviList', {
-      params: {
-        token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-        uid: '84' //  TODO 临时测试
-      }
-    }).then((response) => {
-      if (response.data) {
+    this.$ajax.get('/navit/queryNaviList').then((response) => {
+      if (response.data && response.data.code === '000000') {
+        console.log('导航菜单')
         console.log(response.data.data)
       }
     }).catch((err) => {
       console.log(err)
     })
-    this.$ajax.get('news/getQuickLaunch', {
-      params: {
-        token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-        uid: '84' //  TODO 临时测试
-      }
-    }).then((response) => {
-      if (response.data) {
+    this.$ajax.get('news/getQuickLaunch').then((response) => {
+      if (response.data && response.data.code === '000000') {
+        console.log('快捷菜单')
         console.log(response.data.data)
       }
     }).catch((err) => {
@@ -182,10 +182,16 @@ export default {
       }
     },
     handleClick (id) {
-      this.handleSelect(id, () => {
-        //  更新 navigation 的 currentActiveName
-        this.$refs.navigation.currentActiveName = this.getCurrentActiveName()
-      })
+      if (id === 'logout') {
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('uid')
+        window.location.reload()
+      } else {
+        this.handleSelect(id, () => {
+          //  更新 navigation 的 currentActiveName
+          this.$refs.navigation.currentActiveName = this.getCurrentActiveName()
+        })
+      }
     }
   }
 }
