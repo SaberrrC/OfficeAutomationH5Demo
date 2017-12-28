@@ -1,5 +1,6 @@
 /* eslint-disable */
 import Vue from 'vue'
+import localforage from 'localforage'
 import store from '../vuex/store'
 // import {Base64} from 'js-base64'
 // import {debug} from 'util'
@@ -90,7 +91,7 @@ const chat = {
       // console.log(['预处理发信人信息'])
       chat.queryUserInfo(code).then(function () {
         console.log(['发信人信息1', store.state.userInfoDb[code]])
-        storage.setItem('cacheUser', JSON.stringify(store.state.userInfoDb))
+        localforage.setItem('cacheUser', store.state.userInfoDb)
         fn && fn()
       }),
       function (reason, data) {
@@ -110,7 +111,7 @@ const chat = {
       }
     } else {
       // console.log(['预处理发信人信息', store.state.userInfoDb])
-      storage.setItem('cacheUser', JSON.stringify(store.state.userInfoDb))
+      localforage.setItem('cacheUser', store.state.userInfoDb)
       fn && fn()
     }
   },
@@ -162,12 +163,11 @@ const chat = {
     }
     return new Promise(function (resolve, reject) {
       try {
-        let storage = window.localStorage
         if (!store.state.userInfoDb || !store.state.userInfoDb[code] || !store.state.userInfoDb[code].img) {
           // console.log(['预处理发信人信息'])
           chat.queryUserInfo(code).then(function () {
             console.log(['发信人信息1', store.state.userInfoDb[code]])
-            storage.setItem('cacheUser', JSON.stringify(store.state.userInfoDb))
+            localforage.setItem('cacheUser', store.state.userInfoDb)
             setTimeout(function () {
               resolve(store.state.userInfoDb[code])
             }, 0)
@@ -190,7 +190,7 @@ const chat = {
           }
         } else {
           // console.log(['预处理发信人信息', store.state.userInfoDb])
-          storage.setItem("cacheUser", JSON.stringify(store.state.userInfoDb))
+          localforage.setItem('cacheUser', store.state.userInfoDb)
           setTimeout(function () {
             resolve(store.state.userInfoDb[code])
           }, 0)

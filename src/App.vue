@@ -20,7 +20,7 @@
 import TheHeader from '@/components/TheHeader'
 import Sidebar from '@/components/Sidebar'
 import Chatting from '@/chatting/index.vue'
-import chat from '@/module/chatting'
+// import chat from '@/module/chatting'
 import { mapState } from 'vuex'
 export default {
   name: 'app',
@@ -34,6 +34,8 @@ export default {
     }
   },
   beforeCreate () {
+  },
+  created () {
     let code = this.$store.state.userinfo.code || window.localStorage.getItem('userCode')
     let uid = this.$store.state.userinfo.uid || window.localStorage.getItem('uid')
     let token = this.$store.state.userinfo.token || window.localStorage.getItem('token')
@@ -42,9 +44,7 @@ export default {
       uid: uid,
       token: token
     })
-    chat.queryUserInfo(code)
-  },
-  created () {
+    // chat.queryUserInfo(code)
     // this.$store.dispatch('queryUserInfo').then((data) => {
     //   console.log(data)
     //   window.localStorage.setItem('username', data.username)

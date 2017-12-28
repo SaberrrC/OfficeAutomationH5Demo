@@ -17,6 +17,7 @@
     "axios": "^0.17.1",
     "element-ui": "1.4.9",
     "iview": "^2.7.4",
+    "localforage": "^1.5.5",
     "lockr": "^0.8.4",
     "strophe": "^1.2.4",
     "vue": "^2.5.2",

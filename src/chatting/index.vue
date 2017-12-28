@@ -112,12 +112,15 @@ import messageInput from '@/chatting/messageInput.vue'
 import { mapState } from 'vuex'
 import config from '../config/index'
 import qs from 'qs'
+import localforage from 'localforage'
 import chat from '../module/chatting'
 
+Vue.use(ElementUI)
 let conn = new WebIM.connection(window.WebIM.config)
 Vue.prototype.$WebIM = window.WebIM
 Vue.prototype.$conn = conn
-Vue.use(ElementUI)
+Vue.prototype.$localforage = localforage
+window.localforage = localforage
 
 export default {
   name: 'chatting',
@@ -362,9 +365,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        localStorage.removeItem('cacheChatList') // 清除聊天人列表.
-        localStorage.removeItem('cacheMessageHistory') // 清除聊天记录缓存
-        localStorage.removeItem('cacheGroup') // 清除群组列表
+        localforage.removeItem('cacheChatList') // 清除聊天人列表.
+        localforage.removeItem('cacheMessageHistory') // 清除聊天记录缓存
+        localforage.removeItem('cacheGroup') // 清除群组列表
         this.$store.state.userInfoDb = {} // 聊天用户
         this.$store.state.singChatbox = {} // 聊天信息
         this.$store.state.list = [] // 聊天列表
@@ -1135,7 +1138,7 @@ export default {
         that.$nextTick(function () {
           that.$forceUpdate()
         })
-      }),function() {
+      }), function () {
         window.axios.get(
           config.OA_URL + 'user/getinfo',
           {
@@ -1271,51 +1274,48 @@ export default {
     },
     getCacleMessageList () {
       // 取缓存
-      let storage = window.localStorage
       let state = window.store.state
-      let currentUserCode = storage.getItem('currentUserCode')
-      if (state.userinfo.code !== currentUserCode || currentUserCode === undefined || currentUserCode === '' || !currentUserCode) {
-        storage.setItem('currentUserCode', state.userinfo.code)
-        storage.setItem('cacheUser', '{}')
-        storage.setItem('cacheGroup', '[]')
-        storage.setItem('cacheMessageHistory', '{}')
-        storage.setItem('cacheChatList', '[]')
-        storage.setItem('cachegrossNumber', 0)
-        return
-      }
-      let cacheUser = storage.getItem('cacheUser')
-      if (cacheUser) {
-        let tmp = JSON.parse(cacheUser)
-        state.userInfoDb = tmp
-      }
-
-      let cacheGroup = storage.getItem('cacheGroup')
-      if (cacheGroup) {
-        let tmp = JSON.parse(cacheGroup)
-        state.TXGroup = []
-        state.TXGroup = tmp
-      }
-
-      let cacheMessageHistory = storage.getItem('cacheMessageHistory')
-      if(cacheMessageHistory) {
-        let tmp = JSON.parse(cacheMessageHistory)
-        state.singChatbox = tmp
-      }
-
-      let cacheChatList = storage.getItem('cacheChatList')
-      if (cacheChatList && cacheChatList.length > 0) {
-        let tmp = JSON.parse(cacheChatList)
-        state.list = []
-        state.list = tmp
-      }
-
-      let cachegrossNumber = storage.getItem('cachegrossNumber')
-      if (cachegrossNumber && cachegrossNumber > 0) {
-        let tmp = JSON.parse(cachegrossNumber)
-        state.grossNumber = []
-        state.grossNumber = tmp
-      }
-
+      localforage.getItem('currentUserCode', function (err, value) {
+        // 不是当前用户
+        if (state.userinfo.code !== value || value === undefined || value === '' || value === null || !value) {
+          localforage.setItem('currentUserCode', state.userinfo.code)
+          localforage.setItem('cacheUser', {})
+          localforage.setItem('cacheGroup', [])
+          localforage.setItem('cacheMessageHistory', {})
+          localforage.setItem('cacheChatList', [])
+          localforage.setItem('cachegrossNumber', 0)
+          return
+        } else {
+          localforage.setItem('currentUserCode', state.userinfo.code)
+        }
+      })
+      localforage.getItem('cacheUser', function (err, value) {
+        if (value) {
+          state.userInfoDb = value
+        }
+      })
+      localforage.getItem('cacheGroup', function (err, value) {
+        if (value) {
+          state.TXGroup = []
+          state.TXGroup = value
+        }
+      })
+      localforage.getItem('cacheMessageHistory', function (err, value) {
+        if (value) {
+          state.singChatbox = value
+        }
+      })
+      localforage.getItem('cacheChatList', function (err, value) {
+        if (value) {
+          state.list = []
+          state.list = value
+        }
+      })
+      localforage.getItem('cachegrossNumber', function (err, value) {
+        if (value) {
+          state.grossNumber = value
+        }
+      })
       this.$forceUpdate()
     }
   },
@@ -1341,18 +1341,15 @@ export default {
     },
     singChatbox () {
       // 缓存聊天记录
-      let storage = window.localStorage
-      storage.setItem('cacheMessageHistory', JSON.stringify(this.singChatbox))
+      localforage.setItem('cacheMessageHistory', this.singChatbox)
     },
     TXGroup () {
       // 缓存群组
-      let storage = window.localStorage
-      storage.setItem('cacheGroup', JSON.stringify(this.TXGroup))
+      localforage.setItem('cacheGroup', this.TXGroup)
     },
     list () {
       // 缓存聊天列表
-      let storage = window.localStorage
-      storage.setItem('cacheChatList', JSON.stringify(this.list))
+      localforage.setItem('cacheChatList', this.list)
       let countTotal = 0
       let oData = this.$store.state.list
       for(var i = 0; i < oData.length; i++) {
@@ -1393,8 +1390,7 @@ export default {
     },
     grossNumber () {
       // 缓存未读信息个数
-      let storage = window.localStorage
-      storage.setItem('cachegrossNumber', JSON.stringify(this.grossNumber))
+      localforage.setItem('cachegrossNumber', this.grossNumber)
       let that = this
       if(this.grossNumber > 0) {
         // window.timeone = setInterval(function() {
