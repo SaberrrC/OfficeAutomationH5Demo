@@ -55,28 +55,6 @@
 					},
 					{
 						value: '1',
-						label: '今天'
-					},
-					{
-						value: '2',
-						label: '近三天'
-					},
-					{
-						value: '3',
-						label: '近一周'
-					},
-					{
-						value: '4',
-						label: '近一个月'
-					}
-				],
-				defaultReport: '0',
-				submitTime: [{
-						value: '0',
-						label: '全部'
-					},
-					{
-						value: '1',
 						label: '本月'
 					},
 					{
@@ -96,8 +74,7 @@
 						label: '近六个月'
 					}
 				],
-				defaultSubmit: '0',
-				value: '',
+				defaultReport: '0',
 				dailycolumns: [{
 						title: '类型',
 						align: 'center',
@@ -278,13 +255,25 @@
 			handPageChange(val) {
 				console.log(val)
 				this.pageNum = val;
-				this.getNoticeData();
+				if(this.defaultType == "1") {
+					this.getDailyNoRateList();
+					this.visible = true;
+				} else {
+					this.getWeeklyHistoryList();
+					this.visible = false;
+				}
 			},
 
 			//每页显示条数切换
 			handPageSizeChange(val) {
 				this.pageSize = val;
-				this.getNoticeData();
+				if(this.defaultType == "1") {
+					this.getDailyNoRateList();
+					this.visible = true;
+				} else {
+					this.getWeeklyHistoryList();
+					this.visible = false;
+				}
 			},
 			getDailyHistoryList() {
 				this.$ajax({
@@ -305,7 +294,7 @@
 					console.log('历史记录', res.data)
 					var result = res.data.data;
 					if(res.data.code === '000000') {
-						this.listData = result.data;
+						this.DailyData = result.data;
 						this.total = result.total;
 					} else {
 						this.$Message.error(res.data.message);
@@ -333,7 +322,7 @@
 					console.log('历史记录', res.data)
 					var result = res.data.data;
 					if(res.data.code === '000000') {
-						this.listData = result.data;
+						this.WeeklyData = result.data;
 						this.total = result.total;
 					} else {
 						this.$Message.error(res.data.message);

@@ -16,7 +16,7 @@
 					</p>
 				</Modal>
 			</div>
-			<Table :columns="columns" :data="listData" @on-row-click="toTempDetail"></Table>
+			<Table height="450" :columns="columns" :data="listData" @on-row-click="toTempDetail"></Table>
 		</Card>
 	</div>
 </template>

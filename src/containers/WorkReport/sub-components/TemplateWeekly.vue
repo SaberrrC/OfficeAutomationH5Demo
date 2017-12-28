@@ -15,60 +15,25 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr v-for="(item, index) in weeklySummary">
 							<td>
-								<Input type="textarea" placeholder=""></Input>
+								<Input type="textarea" placeholder="" v-model="item.workPlan"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder=""></Input>
+								<Input type="textarea" placeholder="" v-model="item.work"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder=""></Input>
+								<Input type="textarea" placeholder="" v-model="item.difference"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
+								<Row>
+									<Col span="14">
+									<Input type="textarea" placeholder="" v-model="item.remark"></Input>
+									</Col>
+									<Col span="10" align="center">
+									<Button type="error" style="margin-top: 10px;" v-show="item.del" @click="delLine(index)">删除</Button>
+									</Col>
+								</Row>
 							</td>
 						</tr>
 					</tbody>
@@ -77,7 +42,7 @@
 			</Row>
 			<Row>
 				<Col span="24">
-				<Button type="primary" style="float:right;margin-top: 20px;">添加一行</Button>
+				<Button type="primary" style="float:right;margin-top: 20px;" @click="addLine">添加一行</Button>
 				</Col>
 			</Row>
 
@@ -89,61 +54,37 @@
 						<tr>
 							<th>工作计划（计划工作目标、计划节点）</th>
 							<th>责任人</th>
-							<th>备注（选填</th>
+							<th>备注（选填）</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+
+						<tr v-for="(item, index) in nextWeekPlane">
 							<td>
-								<Input type="textarea" placeholder=""></Input>
+								<Input type="textarea" placeholder="" v-model="item.nextWorkPlan"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder=""></Input>
+								<Input type="textarea" placeholder="" v-model="item.personLiable"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
+								<Row>
+									<Col span="14">
+									<Input type="textarea" placeholder="" v-model="item.remark"></Input>
+									</Col>
+									<Col span="10" align="center">
+									<Button type="error" style="margin-top: 10px;" v-show="item.del" @click="delLineNext(index)">删除</Button>
+									</Col>
+								</Row>
 							</td>
 						</tr>
-						<tr>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-							<td>
-								<Input type="textarea" placeholder=""></Input>
-							</td>
-						</tr>
+
 					</tbody>
 				</table>
 				</Col>
 			</Row>
 			<Row>
 				<Col span="24">
-				<Button type="primary" style="float:right;margin-top: 20px;">添加一行</Button>
+				<Button type="primary" style="float:right;margin-top: 20px;" @click="addLineNext">添加一行</Button>
 				</Col>
 			</Row>
 
@@ -165,9 +106,102 @@
 	export default {
 		name: 'WorkReportWeekly',
 		data() {
-			return {}
+			return {
+				weeklySummary: [{
+						workPlan: '',
+						work: '',
+						difference: '',
+						remark: '',
+						del: false
+					},
+					{
+						workPlan: '',
+						work: '',
+						difference: '',
+						remark: '',
+						del: false
+					},
+					{
+						workPlan: '',
+						work: '',
+						difference: '',
+						remark: '',
+						del: false
+					},
+					{
+						workPlan: '',
+						work: '',
+						difference: '',
+						remark: '',
+						del: false
+					}
+				],
+				nextWeekPlane: [{
+						nextWorkPlan: '',
+						personLiable: '',
+						remark: '',
+						del: false
+					},
+					{
+						nextWorkPlan: '',
+						personLiable: '',
+						remark: '',
+						del: false
+					},
+					{
+						nextWorkPlan: '',
+						personLiable: '',
+						remark: '',
+						del: false
+					},
+					{
+						nextWorkPlan: '',
+						personLiable: '',
+						remark: '',
+						del: false
+					},
+				],
+				columns: [{
+						title: '姓名',
+						key: 'username'
+					},
+					{
+						title: '部门',
+						key: 'organization'
+					},
+					{
+						title: '岗位',
+						key: 'post'
+					}
+				],
+			}
 		},
-		methods:{
+		methods: {
+			//  添加一行方法
+			addLine() {
+				this.weeklySummary.push({
+					workPlan: '',
+					work: '',
+					difference: '',
+					remark: '',
+					del: true
+				})
+			},
+			addLineNext() {
+				this.nextWeekPlane.push({
+					nextWorkPlan: '',
+					personLiable: '',
+					remark: '',
+					del: true
+				})
+			},
+			//  删除一行
+			delLine(index) {
+				this.weeklySummary.splice(index, 1)
+			},
+			delLineNext(index) {
+				this.nextWeekPlane.splice(index, 1)
+			},
 			getTempData() {
 				this.$ajax({
 					method: 'get',
@@ -183,12 +217,19 @@
 					console.log('模版数据', res.data)
 					var result = res.data.data
 					if(res.data.code === '000000') {
-						this.commonExtend(this.textAreaData, JSON.parse(result.reportContent));
-						this.commonExtend(this.textAreaData, JSON.parse(result.workResult));
-						this.textAreaData.tomorrowPlan = result.tomorrowPlan;
-						this.commonExtend2(this.workSelf, JSON.parse(result.selfRating));
-						this.commonExtend2(this.professionSelf, JSON.parse(result.selfRating));
-						this.commonExtend2(this.teamSelf, JSON.parse(result.selfRating));
+						if(result.weeklySummary) {
+							var workArr = JSON.parse(result.weeklySummary);
+							this.formatDate(workArr);
+							this.weeklySummary = workArr;
+						}
+						if(result.weekPlan) {
+							var planArr = JSON.parse(result.weekPlan);
+
+							this.formatDate(planArr);
+
+							this.nextWeekPlane = planArr;
+						}
+
 					} else {
 
 					}
@@ -199,9 +240,10 @@
 			saveTemp() {
 				var data = {
 					id: this.$route.params.childId,
-					parentId: this.$route.params.id
+					parentId: this.$route.params.id,
+					weeklySummary: this.weeklySummary,
+					nextWeekPlane: this.nextWeekPlane
 				};
-				data = Object.assign(data, this.textAreaData, this.workSelf, this.professionSelf, this.teamSelf)
 				this.$ajax({
 					method: 'post',
 					url: '/templateManage/insertWeekTemplate',
@@ -214,7 +256,10 @@
 					console.log('保存模版数据', res.data)
 					var result = res.data.data
 					if(res.data.code === '000000') {
-
+						this.$Message.success("保存成功");
+						this.$router.push({
+							path: "/work_report/template/templateList"
+						})
 					} else {
 						this.$Message.error(res.data.message);
 					}
@@ -231,10 +276,20 @@
 							childId: this.$route.params.childId
 						}
 					});
-				}else{
+				} else {
 					this.$Message.error("请先保存模版");
 				}
-			}
+			},
+			//  渲染方法
+			formatDate(arr) {
+				for(var i = 0; i < arr.length; i++) {
+					if(i < 4) {
+						arr[i].del = false
+					} else {
+						arr[i].del = true
+					}
+				}
+			},
 		},
 		mounted() {
 			if(this.$route.params.childId) {

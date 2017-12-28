@@ -21,7 +21,7 @@ axios.defaults.baseURL = 'http://10.255.232.234/oa-api'
 
 //  TODO 临时全局变量
 window.token = 'b5174bbd0e3140729084914bb2212bc8'
-window.uid = '54368'
+window.uid = '10233'
 
 /* eslint-disable no-new */
 new Vue({

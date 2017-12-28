@@ -365,7 +365,8 @@
 					console.log('保存模版数据', res.data)
 					var result = res.data.data
 					if(res.data.code === '000000') {
-
+						this.$Message.success("保存成功");
+						this.$router.push({path:"/work_report/template/templateList"})
 					} else {
 						this.$Message.error(res.data.message);
 					}

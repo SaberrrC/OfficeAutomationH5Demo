@@ -19,18 +19,19 @@
 						</FormItem>
 						</Col>
 						<Col span="12" align="right">
-						<Button type="primary" @click="handleSelect">批量提交</Button>
+						<Button type="primary" @click="handleSelect" v-if="visible">批量提交</Button>
 						</Col>
 					</Row>
 				</Form>
 			</div>
-			<Table ref="selection" :columns="dailycolumns" :data="DailyData" v-if="visible"></Table>
-			<Table :columns="weeklycolumns" :data="WeeklyData" v-if="!visible"></Table>
+			<Table height="450" ref="selection" :columns="dailycolumns" :data="DailyData" v-if="visible"></Table>
+			<Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible"></Table>
 			<br />
 			<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
 		</Card>
-
-
+		<Modal v-model="modal" title="批量审批" @on-ok="selectSubmit" @on-cancel="selectCancel">
+			<p>是否批量提交已勾选的日报评价？</p>
+		</Modal>
 	</div>
 </template>
 
@@ -40,6 +41,10 @@
 		data() {
 			return {
 				visible: true,
+				defaultType: '1',
+				defaultReport: '0',
+				modal:false,
+				selectData: [],
 				selectType: [{
 						value: '1',
 						label: '日报'
@@ -49,7 +54,6 @@
 						label: '周报'
 					}
 				],
-				defaultType: '1',
 				reportTime: [{
 						value: '0',
 						label: '全部'
@@ -75,8 +79,6 @@
 						label: '近六个月'
 					}
 				],
-				defaultReport: '0',
-				value: '',
 				dailycolumns: [{
 						type: 'selection',
 						width: 60,
@@ -85,7 +87,12 @@
 					{
 						title: '类型',
 						key: 'type',
-						align: 'center'
+						align: 'center',
+						render: (h, params) => {
+							return h('div', [
+								this.typeFormat(params.row.type)
+							]);
+						}
 					},
 					{
 						title: '发起人',
@@ -120,7 +127,7 @@
 									},
 									on: {
 										click: () => {
-											console.log(params)
+											this.returnDaily(params.row.dailyid)
 										}
 									}
 								}, '退回'),
@@ -134,7 +141,7 @@
 									},
 									on: {
 										click: () => {
-											console.log(params)
+											this.toDailyDetails(params.row.dailyid)
 										}
 									}
 								}, '详细')
@@ -147,6 +154,9 @@
 						align: 'center',
 						render: (h, params) => {
 							return h('Select', {
+								props: {
+										value: params.row.totalRating ? params.row.totalRating : ""
+									},
 								on: {
 									"on-change": (v) => {
 										console.log(v);
@@ -251,38 +261,44 @@
 						sortable: true
 					},
 					{
-						title: '状态',
+						title: '操作',
+						key: 'operation',
 						align: 'center',
-						key: 'speedOfProgress',
 						render: (h, params) => {
 							return h('div', [
-								this.statusFomat(params.row.speedOfProgress)
-							]);
+								h('Button', {
+									props: {
+										type: 'error',
+										size: 'small'
+									},
+									style: {
+										marginRight: '5px'
+									},
+									on: {
+										click: () => {
+											this.returnWeekly(params.row.dailyid)
+										}
+									}
+								}, '退回'),
+								h('Button', {
+									props: {
+										type: 'primary',
+										size: 'small'
+									},
+									style: {
+										marginRight: '5px'
+									},
+									on: {
+										click: () => {
+											this.toWeeklyDetails(params.row.dailyid)
+										}
+									}
+								}, '详细')
+							])
 						}
-					}
+					},
 				],
-				DailyData: [{
-						type: '日报',
-						person: '丁通',
-						reportTime: '2016-10-03',
-						totalScore: 6
-					},
-					{
-						type: '日报',
-						person: '丁通',
-						reportTime: '2016-10-04'
-					},
-					{
-						type: '日报',
-						person: '丁通',
-						reportTime: '2016-10-05'
-					},
-					{
-						type: '日报',
-						person: '丁通',
-						reportTime: '2016-10-06'
-					}
-				],
+				DailyData: [{}],
 				WeeklyData: [{}],
 				total: 0,
 				pageNum: 1,
@@ -324,23 +340,70 @@
 			handPageChange(val) {
 				console.log(val)
 				this.pageNum = val;
-				this.getNoticeData();
+				if(this.defaultType == "1") {
+					this.getDailyNoRateList();
+					this.visible = true;
+				} else {
+					this.getWeeklyHistoryList();
+					this.visible = false;
+				}
 			},
 
 			//每页显示条数切换
 			handPageSizeChange(val) {
 				this.pageSize = val;
-				this.getNoticeData();
+				if(this.defaultType == "1") {
+					this.getDailyNoRateList();
+					this.visible = true;
+				} else {
+					this.getWeeklyHistoryList();
+					this.visible = false;
+				}
 			},
-			serachPerson() {
-
-			},
-			handSelectChange(select) {
-				console.log(select);
-			},
-			handleSelect(){
+			handleSelect() {
 				console.log(this.$refs.selection.getSelection(true));
-//				this.$refs.selection.getSelection(true);
+				var selectList = this.$refs.selection.getSelection(true);
+				if(selectList.length == 0) {
+					this.$Message.error("请勾选需要评价的日报");
+				}else{
+					this.modal = true;
+					this.selectData = [];
+					for(var i=0;i<selectList.length;i++){
+						this.selectData.push({
+							id:selectList[i].dailyid,
+							ratings:selectList[i].totalRating,
+							totalScore:selectList[i].totalScore
+						})
+					}
+				}
+			},
+			selectSubmit(){
+				this.$ajax({
+					method: 'post',
+					url: '/batch/batchScore',
+					headers: {
+						token: window.token,
+						uid: window.uid
+					},
+					data: {
+						reportData: this.selectData,
+						reportType: 1
+					}
+				}).then((res) => {
+					console.log('批量审核数据', res.data)
+					var result = res.data.data
+					if(res.data.code === '000000') {
+						this.$Message.success("批量审核成功");
+						this.getDailyNoRateList();
+					} else {
+						this.$Message.error(res.data.message);
+					}
+				}, (res) => {
+
+				})
+			},
+			selectCancel(){
+				return;
 			},
 			getDailyNoRateList() {
 				this.$ajax({
@@ -361,7 +424,7 @@
 					console.log('待评分', res.data)
 					var result = res.data.data;
 					if(res.data.code === '000000') {
-						this.listData = result.data;
+						this.DailyData = result.data;
 						this.total = result.total;
 					} else {
 						this.$Message.error(res.data.message);
@@ -389,7 +452,7 @@
 					console.log('待评分', res.data)
 					var result = res.data.data;
 					if(res.data.code === '000000') {
-						this.listData = result.data;
+						this.WeeklyData = result.data;
 						this.total = result.total;
 					} else {
 						this.$Message.error(res.data.message);
@@ -397,6 +460,64 @@
 				}, (res) => {
 
 				})
+			},
+			returnDaily(dailyid) {
+				this.$ajax({
+					method: 'get',
+					url: '/dailyreport/reject/' + dailyid,
+					headers: {
+						token: window.token,
+						uid: window.uid
+					}
+				}).then((res) => {
+					console.log('退回数据', res.data)
+					var result = res.data.data
+					if(res.data.code === '000000') {
+						this.$Message.success("日报退回成功");
+						this.getDailyNoRateList();
+					} else {
+
+					}
+				}, (res) => {
+
+				})
+			},
+			returnWeekly(dailyid) {
+				this.$ajax({
+					method: 'get',
+					url: '/weekreport/reject/' + dailyid,
+					headers: {
+						token: window.token,
+						uid: window.uid
+					}
+				}).then((res) => {
+					console.log('退回数据', res.data)
+					var result = res.data.data
+					if(res.data.code === '000000') {
+						this.$Message.success("周报退回成功");
+						this.getWeeklyNoRateList();
+					} else {
+
+					}
+				}, (res) => {
+
+				})
+			},
+			toDailyDetails(dailyid) {
+				this.$router.push({
+					name: 'NoRateDaily',
+					params: {
+						dailyid: dailyid
+					}
+				});
+			},
+			toWeeklyDetails(dailyid) {
+				this.$router.push({
+					name: 'NoRateWeekly',
+					params: {
+						dailyid: dailyid
+					}
+				});
 			}
 		},
 		watch: {
