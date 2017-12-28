@@ -519,7 +519,7 @@
     mounted () {
       this.getcurrentLeader() // 当前领导人
       this.getLeaderList() //  领导人列表
-      this.getDraft()
+      this.getDraft()  //  查询草稿
       console.log(this.reportTime)
     }
   }

@@ -15,7 +15,8 @@
           <Icon type="chevron-right"></Icon>
         </Button>
       </p>
-      <Table :columns="columns" :data="listData"></Table>
+      <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
+      <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
     </Card>
 
 
@@ -41,72 +42,72 @@
               <tr>
                 <td rowspan="8"> 工 <br/> 作 <br/> 日 <br/> 志 </td>
                 <td class="record_time">9:00-10:00</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanOne"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workOne"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultOne"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
               </tr>
               <tr>
                 <td>10:00-11:00</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanTwo"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workTwo"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultTwo"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
               </tr>
               <tr>
                 <td>11:00-12:00</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanThree"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workThree"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultThree"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
               </tr>
               <tr>
                 <td>13:00-14:00</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanFour"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workFour"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultFour"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
               </tr>
               <tr>
                 <td>14:00-15:00</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanFive"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workFive"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultFive"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
               </tr>
               <tr>
                 <td>15:00-16:00</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanSix"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workSix"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultSix"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
               </tr>
               <tr>
                 <td>16:00-17:00</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanSeven"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workSeven"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultSeven"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
               </tr>
               <tr>
                 <td>17:00-17:30</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanEigth"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workEigth"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultEigth"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
                 <td><Input type="textarea" placeholder="" readonly></Input></td>
@@ -218,6 +219,7 @@ export default {
   name: 'WholeDaily',
   data () {
     return {
+      storeData: this.$route.params,
       value2: null,
       columns: [
         {
@@ -227,7 +229,7 @@ export default {
         },
         {
           title: '岗位',
-          key: 'station',
+          key: 'position',
           align: 'center'
         },
         {
@@ -237,12 +239,12 @@ export default {
         },
         {
           title: '汇报时间',
-          key: 'reportTime',
+          key: 'dailyTime',
           align: 'center'
         },
         {
           title: '状态',
-          key: 'status',
+          key: 'state',
           align: 'center'
         },
         {
@@ -254,76 +256,142 @@ export default {
           title: '评分',
           key: 'score',
           align: 'center'
-        },
-        {
-          title: '操作',
-          key: 'operation',
-          align: 'center',
-          render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'primary',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    console.log(params)
-                    this.showDetail = true
-                  }
-                }
-              }, '查看')
-            ])
-          }
         }
       ],
       listData: [
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
-          reportTime: '2017-10-03',
-          status: '已评分',
+          dailyTime: '2017-10-03',
+          state: '已评分',
           remark: '',
           score: 90
         },
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
-          reportTime: '2017-10-03',
-          status: '已评分',
+          dailyTime: '2017-10-03',
+          state: '已评分',
           remark: '',
           score: 90
         },
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
-          reportTime: '2017-10-03',
-          status: '已评分',
+          dailyTime: '2017-10-03',
+          state: '已评分',
           remark: '',
           score: 90
         },
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
-          reportTime: '2017-10-03',
-          status: '已评分',
+          dailyTime: '2017-10-03',
+          state: '已评分',
           remark: '',
           score: 90
-        }
+        },
       ],
-      showDetail: false
+      showDetail: false,
+      current: 1,
+      total: 0,
+      reportData: {
+        'workPlanOne': '',
+        'workPlanTwo': '',
+        'workPlanThree': '',
+        'workPlanFour': '',
+        'workPlanFive': '',
+        'workPlanSix': '',
+        'workPlanSeven': '',
+        'workPlanEigth': '',
+
+        'workOne': '',
+        'workTwo': '',
+        'workThree': '',
+        'workFour': '',
+        'workFive': '',
+        'workSix': '',
+        'workSeven': '',
+        'workEigth': '',
+
+        'workResultOne': '',
+        'workResultTwo': '',
+        'workResultThree': '',
+        'workResultFour': '',
+        'workResultFive': '',
+        'workResultSix': '',
+        'workResultSeven': '',
+        'workResultEigth': '',
+
+        'selfRatingOne': '',
+        'selfRatingTwo': '',
+        'selfRatingThree': '',
+        'selfRatingFour': '',
+        'selfRatingFive': '',
+        'selfRatingSix': '',
+        'selfRatingSeven': '',
+        'selfRatingEigth': '',
+      }
     }
   },
   methods: {
-    func (event) {}
+    func (event) {},
+    //  获取列表数据
+    getListDate(){
+      this.$ajax({
+        method: 'get',
+        url: '/dailyreport/detils/'+ this.storeData.userId +'?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('列表详情', res.data)
+        var result = res.data.data
+        if (res.data.code === '000000') {
+          this.listData = result.data
+          this.total = result.total
+        }else {
+          this.listData = []
+        }
+      }, (res) => {
 
+      })
+    },
+    //  分页查询
+    changePage (e) {
+      this.current = e
+      this.getListDate
+    },
+    //  点击行，查看详情
+    openDetail (row,index) {
+      console.log(row,index)
+      this.$ajax({
+        method: 'get',
+        url: '/dailyreport/' + row.dailyid,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('日报展示', res.data)
+        var result = res.data.data
+        if (res.data.code === '000000') {
+          this.showDetail = true
+        }else {
+
+        }
+      }, (res) => {
+
+      })
+    }
+  },
+  mounted () {
+    this.getListDate()
   }
 }
 </script>

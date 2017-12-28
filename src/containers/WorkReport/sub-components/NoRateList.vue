@@ -27,7 +27,7 @@
           </Row>
         </Form>
       </div>
-      <Table ref="selection" :columns="columns" :data="listData"></Table>
+      <Table ref="selection" :columns="columns" :data="listData" @on-select="showdata"></Table>
     </Card>
 
   </div>
@@ -187,8 +187,10 @@
                     marginRight: '5px'
                   },
                   on: {
-                    change: () => {
-
+                    'on-change' : () => {
+                      console.log(params)
+                      params.row.haha = 1
+                      console.log(params)
                     }
                   }
                 })
@@ -222,6 +224,9 @@
     },
     methods: {
       serachPerson () {
+      },
+      showdata (selection,row) {
+        console.log(selection,row)
       }
     },
     created () {

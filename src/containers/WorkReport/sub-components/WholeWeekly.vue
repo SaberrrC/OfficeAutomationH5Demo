@@ -35,28 +35,28 @@
           </thead>
           <tbody>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           </tbody>
         </table>
@@ -78,24 +78,24 @@
           </thead>
           <tbody>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           <tr>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
-            <td><Input type="textarea" placeholder=""></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
+            <td><Input type="textarea" placeholder="" readonly></Input></td>
           </tr>
           </tbody>
         </table>
@@ -214,6 +214,12 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+
+  },
+  mounted () {
+    console.log(this.$router.params)
   }
 }
 </script>
