@@ -17,7 +17,7 @@
     </p>
 
   <div class="work-report-daily">
-    <Card>
+    <Card :dis-hover="true">
       <!--发起列表-->
       <div v-show="showLaunchList">
         <Table border :columns="launchTableHead" :data="launchTableData" :loading="launchLoading"></Table>

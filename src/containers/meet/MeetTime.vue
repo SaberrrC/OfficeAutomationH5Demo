@@ -36,8 +36,6 @@
 
 <script>
   import qs from "qs"
-  //  TODO 临时测试环境变量
-  const TEST_CONFIG = 'http://118.31.18.67:8084'
   export default {
     name: 'WorkReportDaily',
     data () {
@@ -397,7 +395,7 @@
                   end_time: end_time,
                   send_type: this.send_type
                 }
-                this.$ajax.post(`${TEST_CONFIG}/newMeetings/updateMeeting`, qs.stringify(data), {
+                this.$ajax.post(`/newMeetings/updateMeeting`, qs.stringify(data), {
                   headers: {
                     token: 'c955d939c180414fa2ffa24be4ebf921', //  TODO 临时测试
                     uid: '84' //  TODO 临时测试
@@ -486,7 +484,7 @@
         }
         this.getDate(this.nowTime)
 //      调获取会议接口     TODO    待完善
-        this.$ajax.get(`${TEST_CONFIG}/newMeetings/get`, {
+        this.$ajax.get(`/newMeetings/get`, {
           params: {
             roomId: this.$route.query.roomId,
             weekdate: this.nowTime

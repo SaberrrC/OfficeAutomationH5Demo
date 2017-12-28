@@ -5,7 +5,7 @@
     <span>
       <Row>
         <i-Col span="3">
-          <h3 @click="pageClose()"><Icon type="close-round"></Icon></h3>
+          <h3 @click="pageClose()" style="padding: 0 5px"><Button type="text" icon="close-round"></Button></h3>
         </i-Col>
         <i-Col span="3" offset="18">
           <Button type="primary" @click="submitEvectionApply()">提交</Button>
@@ -52,7 +52,7 @@
             </Row>
             <Row>
               <i-Col span="12">
-                <div class="card">
+                <div class="card" style="padding-bottom: 10px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="申请日期">

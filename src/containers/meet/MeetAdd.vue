@@ -11,24 +11,30 @@
     </p>
 
   <div class="work-report-daily">
-    <Card>
+    <Card :dis-hover="true">
       <Row>
-        <Col :xs="{ span: 11, offset: 1 }" :sm="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }" :lg="{ span: 7, offset: 1 }" v-for="room in roomList" class="meetroom">
-          <Card @click="step(room.room_id)">
-            <img :src="room.roomimg" alt="会议室图片" @click="step(room.room_id,room.roomname,room.nop,room.device)">
-            <div>
-              <span>{{room.roomname}}</span>
-              <div @click="step(room.room_id,room.roomname,room.nop,room.device)">
-                <p style="display:inline-block;margin-right: 25px">
-                  <span>{{room.nop}}人</span>&nbsp;
-                  <span><Icon type="ios-location-outline"></Icon>{{room.address}}</span>&nbsp;
-                  <span><Icon type="ios-gear-outline"></Icon>{{room.device}}</span>
-                </p>
-                <Button type="primary">立即预约</Button>
-              </div>
+        <i-Col :xs="{ span: 11, offset: 1 }" :sm="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }" :lg="{ span: 7, offset: 1 }" v-for="room in roomList" class="meetroom">
+          <div class="roomBody" @click="step(room.room_id,room.roomname,room.nop,room.device)">
+            <img :src="room.roomimg" alt="会议室图片" >
+            <div style="padding: 8px;">
+              <Row>
+                <i-Col span="18">
+                  <p>{{room.roomname}}</p>
+                  <Row>
+                    <i-Col span="8"><span>{{room.nop}}人</span></i-Col>
+                    <i-Col span="8"><span><Icon type="ios-location-outline"></Icon>{{room.address}}</span></i-Col>
+                    <i-Col span="8" v-if="room.device !== ''"><span><Icon type="ios-recording-outline"></Icon>{{room.device}}</span></i-Col>
+                    <i-Col span="8" v-else></i-Col>
+                  </Row>
+                </i-Col>
+                <i-Col span="6" style="text-align: right">
+                  <!--<Button type="warning" style="background: #FFE5AD1A">立即预约</Button>-->
+                  <Button  style="background: #E5AD1A;border-color: #E5AD1A;color: #ffffff;margin-top: 6px">立即预约</Button>
+                </i-Col>
+              </Row>
             </div>
-          </Card>
-        </Col>
+            </div>
+        </i-Col>
       </Row>
 
     </Card>
@@ -93,8 +99,10 @@
     padding: 16px;
   }
   .meetroom{
-
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+  }
+  .roomBody {
+    border: 1px solid #eeeeee;
   }
   img {
     width: 100%;
@@ -108,3 +116,4 @@
     background: #ffffff;
   }
 </style>
+

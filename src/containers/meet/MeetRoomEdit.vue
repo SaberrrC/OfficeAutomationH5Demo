@@ -18,6 +18,8 @@
       @on-ok="ok"
       @on-cancel="cancel"
       :ok-text="okText"
+      :closable="false"
+      class-name="vertical-center-modal"
     >
       <Form :model="formItem" :label-width="80">
       <Row>
@@ -69,7 +71,7 @@
       </Form>
     </Modal>
   <div class="work-report-daily">
-    <Card>
+    <Card :dis-hover="true">
       <Table  :columns="tableHead" :data="roomList" :loading="loading"></Table>
     </Card>
   </div>
@@ -78,8 +80,6 @@
 
 <script>
   import qs from "qs"
-  //  TODO 临时测试环境变量
-  const TEST_CONFIG = 'http://118.31.18.67:8084'
   export default {
     name: 'MeetRoomEdit',
     data () {
@@ -87,7 +87,7 @@
         modalTitle: '',
         loading: true,
         okText: '',
-        action: `${TEST_CONFIG}` + `/newMeetingRooms/upload`,
+        action: `http://10.255.232.234/oa-api/newMeetingRooms/upload`,
         headers: {
           token: 'f19dc8a190f445a2a4cee5b5c3c872c0',
           uid: '84'
@@ -202,7 +202,7 @@
     methods: {
       //      获取会议室列表
       getMeetRoom () {
-        this.$ajax.get(`${TEST_CONFIG}/newMeetingRooms`, {
+        this.$ajax.get(`/newMeetingRooms`, {
           headers: {
             token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
             uid: '84' //  TODO 临时测试
@@ -244,7 +244,7 @@
         if (this.okText === '确定') {
           console.log(this.formItem)
 //        调新建会议室接口
-          this.$ajax.post(`${TEST_CONFIG}/newMeetingRooms`, qs.stringify(this.formItem), {
+          this.$ajax.post(`/newMeetingRooms`, qs.stringify(this.formItem), {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
               token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
@@ -261,7 +261,7 @@
           })
         } else if (this.okText === '修改') {
 //        调修改会议室接口
-          this.$ajax.post(`${TEST_CONFIG}/newMeetingRooms/update`, qs.stringify(this.formItem), {
+          this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.formItem), {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
               token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
@@ -298,7 +298,7 @@
         }
         this.roomList[index].nop = parseInt(this.roomList[index].nop)
 //      调修改会议室状态接口
-        this.$ajax.post(`${TEST_CONFIG}/newMeetingRooms/update`, qs.stringify(this.roomList[index]), {
+        this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.roomList[index]), {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
@@ -335,7 +335,7 @@
           content: content,
           onOk: (() => {
             //      调删除会议室接口
-            this.$ajax.delete(`${TEST_CONFIG}/newMeetingRooms`, {
+            this.$ajax.delete(`/newMeetingRooms`, {
               params: {
                 room_id: this.roomList[index].room_id //  TODO 临时测试
               },
@@ -374,5 +374,14 @@
   }
   .header .ivu-btn {
     margin-right: 20px;
+  }
+  .vertical-center-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ivu-modal{
+      top: 0;
+    }
   }
 </style>

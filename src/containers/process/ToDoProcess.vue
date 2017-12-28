@@ -31,21 +31,34 @@
                       </i-Col>
                       <i-Col span="11" offset="2">
                         <FormItem label="搜索发起人">
-                          <Input placeholder="搜索发起人" v-model="formItem.launchUser" icon="ios-search"></Input>
+                          <Input
+                            placeholder="搜索发起人"
+                            v-model="formItem.launchUser"
+                            icon="ios-search"
+                            @on-click="searchLaunchUser"
+                            @on-enter="searchLaunchUser"
+                          ></Input>
                         </FormItem>
                       </i-Col>
                     </Form>
                     </row>
               </i-Col>
               <i-Col :lg="{span:6,offset:8}" :md="{span:8,offset:4}" :sm="{span:10}" :xs="{span:6,offset:8}">
-                <Button type="primary">批量同意</Button>
-                <Button type="error">批量驳回</Button>
+                <Button type="primary" style="margin-right: 20px" :disabled="disabled" @click="handleBatchAgree">批量同意</Button>
+                <Button type="error" :disabled="disabled" @click="handleBatchReject">批量驳回</Button>
               </i-Col>
             </Row>
           </span>
         </p>
           <div class="work-report-daily">
-            <Table ref="selection" :columns="toDoListHeader" :data="toDoList"></Table>
+            <Table
+              ref="selection"
+              :columns="toDoListHeader"
+              :data="toDoList"
+              @on-selection-change="handleChecked"
+              @on-row-click="showInfo"
+            >
+            </Table>
             <div style="margin: 10px;overflow: hidden">
               <Page
                 :total="launchTotal"
@@ -111,19 +124,19 @@
           },
           {
             title: '申请类型',
-            key: 'type',
+            key: 'billTypeName',
             align: 'center',
             sortable: true
           },
           {
             title: '提交时间',
-            key: 'date',
+            key: 'sendDate',
             align: 'center',
             sortable: true
           },
           {
             title: '发起人',
-            key: 'user',
+            key: 'userName',
             align: 'center',
             sortable: true
           },
@@ -142,9 +155,10 @@
                     marginRight: '5px'
                   },
                   on: {
-                    click: () => {
-//                      this.show(params.index)
-                      console.log(params.row)
+                    click: (event) => {
+                      this.HandleAgree(params.row)
+//                      console.log(params.row)
+                      event.stopPropagation()
                     }
                   }
                 }, '同意'),
@@ -154,8 +168,10 @@
                     size: 'small'
                   },
                   on: {
-                    click: () => {
-                      this.remove(params.index)
+                    click: (event) => {
+//                      this.remove(params.index)
+                      this.handleReject(params.row)
+                      event.stopPropagation()
                     }
                   }
                 }, '驳回')
@@ -163,7 +179,9 @@
             }
           }
         ],
-        toDoList: []
+        toDoList: [],         // 列表
+        disabled: true,      // 开关是否可点
+        checkList: []        // 选中列表
       }
     },
     methods: {
@@ -184,7 +202,7 @@
       getToDoList () {
         this.$ajax.get(`/MyAplication/selectMyAplication`, {
           params: {
-            checkmanId: '010123381',
+            checkmanId: '010014136',
             userName: this.formItem.launchUser,
             isCheck: 'N',
             pkBillType: this.billType,
@@ -200,17 +218,9 @@
           console.log(response)
           if (response.data.code === '000000') {
             this.launchTotal = response.data.data.total
-            var data = response.data.data.dataList
-            var len = data.length
-            for (var i = 0; i < len; i++) {
-              data[i].type = data[i].billTypeName
-              data[i].date = data[i].creationTime
-              data[i].user = data[i].approveStateName
-            }
-            this.toDoList = data
+            this.toDoList = response.data.data.data
           } else if (response.data.code === '020000') {
             this.toDoList = []
-            this.$Message.info(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)
@@ -218,6 +228,122 @@
       },
 //    选择发起时间
       checkTime () {
+        this.getToDoList()
+      },
+//    点击某一行
+      showInfo (row, index) {
+        console.log(row)
+        console.log(index)
+        var data = {
+          billType: row.pkBillType,          // 单据类型
+          billCode: row.billNo,          // 单据编码
+//          approveState: row.approveState,          // 单据状态
+          type: this.$route.name,                 // 前一页面类型（我的申请）
+          total: this.launchTotal,                 // 发起列表总条数
+          pageNum: this.launchCurrentPage,            // 发起列表当前页数
+          pageSize: this.launchPageSize,              // 发起列表每页显示条数
+          time: this.formItem.time,
+          selectApproveState: this.formItem.status,   // 查询单据状态
+          selectBillType: this.billType,               // 查询方式（加班/签卡/休假/调休/全部）
+          index: index
+        }
+        console.log(data)
+        switch (row.pkBillType) {
+          case '6402':
+            console.log('签卡申请')
+            this.$router.push({path: 'signCardLaunchInfo', query: data})
+            break
+          case '6403':
+            console.log('出差申请')
+            this.$router.push({path: 'billLaunchInfo', query: data})
+            break
+          case '6404':
+            console.log('休假申请')
+            this.$router.push({path: 'furloughLaunchInfo', query: data})
+            break
+          case '6405':
+            console.log('加班申请')
+            this.$router.push({path: 'workApplyLaunchInfo', query: data})
+            break
+        }
+      },
+//    选中状态改变
+      handleChecked (selection) {
+        if (selection.length === 0) {
+          this.disabled = true
+        } else {
+          this.disabled = false
+        }
+        this.checkList = selection
+        console.log(this.checkList)
+      },
+//    点击批量同意
+      handleBatchAgree () {
+        this.handleEdit('true')
+      },
+//    点击批量驳回
+      handleBatchReject () {
+        this.handleEdit('false')
+      },
+      HandleAgree (row) {
+        var len = this.checkList.length
+        console.log(len)
+        if (len !== 0) {
+          this.checkList = []
+          this.checkList.push(row)
+          this.handleEdit('true')
+        } else {
+          this.checkList.push(row)
+          this.handleEdit('true')
+        }
+//        console.log(row)
+      },
+//    点击驳回
+      handleReject (row) {
+        var len = this.checkList.length
+        if (len !== 0) {
+          this.checkList = []
+          this.checkList.push(row)
+          this.handleEdit('false')
+        } else {
+          this.checkList.push(row)
+          this.handleEdit('false')
+        }
+      },
+//    调同意/驳回接口
+      handleEdit (text) {
+        var len = this.checkList.length
+        var approveRequest = []
+        for (var j = 0; j < len; j++) {
+          var data = {
+            monocode: this.checkList[j].billNo,
+            status: text,
+            type: this.checkList[j].pkBillType,
+            message: ''
+          }
+          approveRequest.push(data)
+        }
+        console.log(approveRequest)
+        this.$ajax.post(`/Approve/allApprove`, approveRequest, {
+          headers: {
+            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
+            uid: '84' //  TODO 临时测试
+          }
+        }).then((response) => {
+          console.log(response)
+          if (response.data.code === '000000') {
+            this.$Message.success('审批成功')
+            this.getToDoList()
+            this.checkList = []
+          } else {
+            this.$Message.error(response.data.message)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+//    搜索发起人
+      searchLaunchUser () {
         this.getToDoList()
       },
 //    分页

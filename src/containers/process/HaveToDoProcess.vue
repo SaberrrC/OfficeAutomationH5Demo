@@ -32,7 +32,11 @@
                       </i-Col>
                       <i-Col span="11" offset="2">
                         <FormItem label="搜索发起人">
-                          <Input placeholder="搜索发起人" icon="ios-search"></Input>
+                          <Input placeholder="搜索发起人"
+                                 v-model="formItem.launchUser"
+                                 icon="ios-search"
+                                 @on-click="searchLaunchUser"
+                                 @on-enter="searchLaunchUser"></Input>
                         </FormItem>
                       </i-Col>
                     </Form>
@@ -42,7 +46,14 @@
           </span>
           </p>
           <div class="work-report-daily">
-            <Table ref="selection" :columns="columns4" :data="data1"></Table>
+            <div style="max-height:450px;width: 100%;overflow:auto;">
+            <Table
+              ref="selection"
+              :columns="haveTodoListHeader"
+              :data="haveTodoList"
+              @on-row-click="showInfo">
+            </Table>
+            </div>
             <div style="margin: 10px;overflow: hidden">
               <Page
                 :total="launchTotal"
@@ -102,51 +113,32 @@
           {label: '加班申请', id: '6405', isActive: false},
           {label: '签卡申请', id: '6402', isActive: false}
         ],
-        columns4: [
+        haveTodoListHeader: [
           {
             title: '申请类型',
-            key: 'type',
+            key: 'billTypeName',
             align: 'center',
             sortable: true
           },
           {
             title: '提交时间',
-            key: 'date',
+            key: 'sendDate',
             align: 'center',
             sortable: true
           },
           {
             title: '发起人',
-            key: 'user',
+            key: 'userName',
             align: 'center',
             sortable: true
           },
           {
             title: '审批时间',
-            key: 'processTime',
+            key: 'dealDate',
             align: 'center'
           }
         ],
-        data1: [
-          {
-            type: '加班申请',
-            date: '10-03 10:30',
-            user: '朱展宏',
-            processTime: '10-03 10:30'
-          },
-          {
-            type: '签卡申请',
-            date: '10-03 10:30',
-            user: '朱展宏',
-            processTime: '10-03 10:30'
-          },
-          {
-            type: '调休申请',
-            date: '10-03 10:30',
-            user: '朱展宏',
-            processTime: '10-03 10:30'
-          }
-        ]
+        haveTodoList: []
       }
     },
     methods: {
@@ -171,9 +163,9 @@
       getHaveToDoList () {
         this.$ajax.get(`/MyAplication/selectMyAplication`, {
           params: {
-            checkmanId: '010123381',
+            checkmanId: '010014136',
             userName: this.formItem.launchUser,
-            isCheck: 'N',
+            isCheck: 'Y',
             pkBillType: this.billType,
             time: this.formItem.time,
             pageNum: this.launchCurrentPage,
@@ -187,21 +179,54 @@
           console.log(response)
           if (response.data.code === '000000') {
             this.launchTotal = response.data.data.total
-            var data = response.data.data.dataList
-            var len = data.length
-            for (var i = 0; i < len; i++) {
-              data[i].type = data[i].billTypeName
-              data[i].date = data[i].creationTime
-              data[i].processTime = data[i].approveStateName
-            }
-            this.toDoList = data
+            this.haveTodoList = response.data.data.data
           } else if (response.data.code === '020000') {
-            this.toDoList = []
-            this.$Message.info(response.data.message)
+            this.haveTodoList = []
           }
         }).catch(function (err) {
           console.log(err)
         })
+      },
+//    点击某一行
+      showInfo (row, index) {
+        console.log(row)
+        console.log(index)
+        var data = {
+          billType: row.pkBillType,          // 单据类型
+          billCode: row.billNo,          // 单据编码
+//          approveState: row.approveState,          // 单据状态
+          type: this.$route.name,                 // 前一页面类型（我的申请）
+          total: this.launchTotal,                 // 发起列表总条数
+          pageNum: this.launchCurrentPage,            // 发起列表当前页数
+          pageSize: this.launchPageSize,              // 发起列表每页显示条数
+          time: this.formItem.time,
+          selectApproveState: this.formItem.status,   // 查询单据状态
+          selectBillType: this.billType,               // 查询方式（加班/签卡/休假/调休/全部）
+          index: index
+        }
+        console.log(data)
+        switch (row.pkBillType) {
+          case '6402':
+            console.log('签卡申请')
+            this.$router.push({path: 'signCardLaunchInfo', query: data})
+            break
+          case '6403':
+            console.log('出差申请')
+            this.$router.push({path: 'billLaunchInfo', query: data})
+            break
+          case '6404':
+            console.log('休假申请')
+            this.$router.push({path: 'furloughLaunchInfo', query: data})
+            break
+          case '6405':
+            console.log('加班申请')
+            this.$router.push({path: 'workApplyLaunchInfo', query: data})
+            break
+        }
+      },
+//    搜索发起人
+      searchLaunchUser () {
+        this.getHaveToDoList()
       },
 //    分页
       changePage (page) {

@@ -44,7 +44,14 @@
           </p>
 
         <div class="work-report-daily">
-          <Table ref="selection" :columns="myLaunchHeader" :data="myLaunchList" @on-row-click="showInfo"></Table>
+          <div style="max-height:80%;width: 100%;overflow: auto">
+          <Table
+            ref="selection"
+            :columns="myLaunchHeader"
+            :data="myLaunchList"
+            @on-row-click="showInfo">
+          </Table>
+          </div>
           <div style="margin: 10px;overflow: hidden">
             <div>
               <Page
@@ -134,19 +141,19 @@
         myLaunchHeader: [
           {
             title: '申请类型',
-            key: 'type',
+            key: 'billTypeName',
             align: 'center',
             sortable: true
           },
           {
             title: '提交时间',
-            key: 'date',
+            key: 'creationTime',
             align: 'center',
             sortable: true
           },
           {
             title: '状态',
-            key: 'status',
+            key: 'approveStateName',
             align: 'center',
             sortable: true
           },
@@ -176,23 +183,7 @@
             }
           }
         ],
-        myLaunchList: [
-          {
-            type: '加班申请',
-            date: '10-03 10:30',
-            status: '未审批'
-          },
-          {
-            type: '签卡申请',
-            date: '10-03 10:31',
-            status: '未审批'
-          },
-          {
-            type: '调休申请',
-            date: '10-03 10:32',
-            status: '未审批'
-          }
-        ]
+        myLaunchList: []
       }
     },
     methods: {
@@ -214,14 +205,7 @@
           console.log(response)
           if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
             this.launchTotal = response.data.data.total
-            var data = response.data.data.dataList
-            var len = data.length
-            for (var i = 0; i < len; i++) {
-              data[i].type = data[i].billTypeName
-              data[i].date = data[i].creationTime
-              data[i].status = data[i].approveStateName
-            }
-            this.myLaunchList = data
+            this.myLaunchList = response.data.data.dataList
           } else if (response.data.code === '000000' && response.data.data.dataList.length === 0) {
             this.myLaunchList = []
           }
@@ -233,6 +217,38 @@
       showInfo (row, index) {
         console.log(row)
         console.log(index)
+        var data = {
+          billType: row.billType,          // 单据类型
+          billCode: row.billCode,          // 单据编码
+          approveState: row.approveState,          // 单据状态
+          type: this.$route.name,                 // 前一页面类型（我的申请）
+          total: this.launchTotal,                 // 发起列表总条数
+          pageNum: this.launchCurrentPage,            // 发起列表当前页数
+          pageSize: this.launchPageSize,              // 发起列表每页显示条数
+          time: this.formItem.time,
+          selectApproveState: this.formItem.status,   // 查询单据状态
+          selectBillType: this.billType,               // 查询方式（加班/签卡/休假/调休/全部）
+          index: index
+        }
+        console.log(data)
+        switch (row.billType) {
+          case '6402':
+            console.log('签卡申请')
+            this.$router.push({path: 'signCardLaunchInfo', query: data})
+            break
+          case '6403':
+            console.log('出差申请')
+            this.$router.push({path: 'billLaunchInfo', query: data})
+            break
+          case '6404':
+            console.log('休假申请')
+            this.$router.push({path: 'furloughLaunchInfo', query: data})
+            break
+          case '6405':
+            console.log('加班申请')
+            this.$router.push({path: 'workApplyLaunchInfo', query: data})
+            break
+        }
       },
 //    选择发起时间
       checkTime () {
