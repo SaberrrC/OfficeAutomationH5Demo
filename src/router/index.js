@@ -5,6 +5,9 @@ import WorkReport from '@/containers/WorkReport'
 import WorkReportDaily from '@/containers/WorkReport/WorkReportDaily'
 import WorkReportWeekly from '@/containers/WorkReport/WorkReportWeekly'
 import WorkReportMyReport from '@/containers/WorkReport/WorkReportMyReport'
+import MyReportList from '@/containers/WorkReport/sub-components/MyReportList'
+import MyReportDaily from '@/containers/WorkReport/sub-components/MyReportDaily'
+import MyReportWeekly from '@/containers/WorkReport/sub-components/MyReportWeekly'
 import WorkReportNoRate from '@/containers/WorkReport/WorkReportNoRate'
 import NoRateList from '@/containers/WorkReport/sub-components/NoRateList'
 import NoRateDaily from '@/containers/WorkReport/sub-components/NoRateDaily'
@@ -61,7 +64,25 @@ export default new Router({
         {
           path: 'my_report',
           name: 'WorkReportMyReport',
-          component: WorkReportMyReport
+          component: WorkReportMyReport,
+          redirect: '/work_report/my_report/myReportList',
+          children: [
+            {
+              path: 'myReportList',
+              name: 'MyReportList',
+              component: MyReportList
+            },
+            {
+              path: 'myReportDaily',
+              name: 'MyReportDaily',
+              component: MyReportDaily
+            },
+            {
+              path: 'myReportWeekly',
+              name: 'MyReportWeekly',
+              component: MyReportWeekly
+            }
+          ]
         },
         {
           path: 'no_rate',
