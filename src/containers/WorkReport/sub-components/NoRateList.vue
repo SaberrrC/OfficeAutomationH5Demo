@@ -27,7 +27,7 @@
           </Row>
         </Form>
       </div>
-      <Table ref="selection" :columns="columns" :data="listData"></Table>
+      <Table ref="selection" :columns="columns" :data="listData" @on-select="func"></Table>
     </Card>
 
   </div>
@@ -222,6 +222,10 @@
     },
     methods: {
       serachPerson () {
+      	
+      },
+      func (select,row) {
+      	console.log(select,row);
       }
     },
     created () {
