@@ -62,7 +62,7 @@
           <Icon type="ios-timer-outline"/>
           我的考勤
         </h3>
-        <full-calendar :firstDay="1" :weekNames="weekNames" :events="workAttendance.events"/>
+        <full-calendar :firstDay="1" lang="zh" :events="workAttendance.events"/>
         <div class="work-attendance-info">
           <span class="abnormal">异常<em v-if="workAttendance.abnormalCount">：{{workAttendance.abnormalCount}}</em><br/><i></i></span><span class="business">出差<em v-if="workAttendance.businessCount">：{{workAttendance.businessCount}}</em><br/><i></i></span><span class="overtime">加班<em v-if="workAttendance.overtimeCount">：{{workAttendance.overtimeCount}}</em><br/><i></i></span><span class="leave">休假<em v-if="workAttendance.leaveCount">：{{workAttendance.leaveCount}}</em><br/><i></i></span>
         </div>
@@ -74,7 +74,7 @@
 
 <script>
 import MemberTree from '@/components/MemberTree'
-import fullCalendar from 'vue-fullcalendar'
+import fullCalendar from '@/components/Calendar'
 import imgPlaceholder from '../assets/images/news_pic.png'
 
 export default {
@@ -130,7 +130,6 @@ export default {
         {nid: '5', title: '关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'},
         {nid: '6', title: '关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'}
       ],
-      weekNames: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       //  TODO
       workAttendance: {
         leaveCount: 1,
