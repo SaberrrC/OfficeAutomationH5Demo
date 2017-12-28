@@ -10,7 +10,7 @@ import 'iview/dist/styles/iview.css'
 
 import axios from 'axios'
 axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
-axios.defaults.baseURL = 'http://118.31.18.67:8084' //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.baseURL = 'http://10.255.232.234/oa-api' //  TODO 测试时跨域设置，后期可以删除
 Vue.prototype.$ajax = axios
 
 Vue.use(iView)

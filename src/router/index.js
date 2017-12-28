@@ -23,7 +23,10 @@ import LaunchBillProcess from '../containers/process/LaunchBillProcess.vue'
 import LaunchWorkApplyProcess from '../containers/process/LaunchWorkApplyProcess.vue'
 import LaunchSignCardProcess from '../containers/process/LaunchSignCardProcess.vue'
 import LaunchFurloughProcess from '../containers/process/LaunchFurloughProcess.vue'
-import LaunchProcessInfo from '../containers/process/LaunchProcessInfo.vue'
+import signCardProcessInfo from '../containers/process/signCardProcessInfo.vue'
+import BillProcessInfo from '../containers/process/BillProcessInfo.vue'
+import WorkApplyProcessInfo from '../containers/process/WorkApplyProcessInfo.vue'
+import FurloughProcessInfo from '../containers/process/FurloughProcessInfo.vue'
 import MyLaunchProcess from '../containers/process/MyLaunchProcess.vue'
 import ToDoProcess from '../containers/process/ToDoProcess.vue'
 import HaveToDoProcess from '../containers/process/HaveToDoProcess.vue'
@@ -107,10 +110,13 @@ export default new Router({
         { path: 'launchWorkApply', component: LaunchWorkApplyProcess, name: 'LaunchWorkApplyProcess' },
         { path: 'launchSignCard', component: LaunchSignCardProcess, name: 'LaunchSignCardProcess' },
         { path: 'launchFurlough', component: LaunchFurloughProcess, name: 'LaunchFurloughProcess' },
-        { path: 'launchInfo', component: LaunchProcessInfo, name: 'LaunchProcessInfo' },
-        { path: 'myLaunch', component: MyLaunchProcess, name: 'MyLaunchProcess' },
-        { path: 'toDo', component: ToDoProcess, name: 'ToDoProcess' },
-        { path: 'haveToDo', component: HaveToDoProcess, name: 'HaveToDoProcess' }
+        { path: 'signCardLaunchInfo', component: signCardProcessInfo, name: 'signCardProcessInfo' },
+        { path: 'billLaunchInfo', component: BillProcessInfo, name: 'billLaunchInfo' },
+        { path: 'workApplyLaunchInfo', component: WorkApplyProcessInfo, name: 'workApplyLaunchInfo' },
+        { path: 'furloughLaunchInfo', component: FurloughProcessInfo, name: 'furloughLaunchInfo' },
+        { path: 'myLaunch', component: MyLaunchProcess, name: 'myLaunch' },
+        { path: 'todo', component: ToDoProcess, name: 'todo' },
+        { path: 'haveToDo', component: HaveToDoProcess, name: 'haveToDo' }
       ]
     },
     {
