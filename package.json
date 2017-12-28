@@ -15,7 +15,10 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "element-ui": "1.4.9",
     "iview": "^2.7.4",
+    "lockr": "^0.8.4",
+    "strophe": "^1.2.4",
     "vue": "^2.5.2",
     "vue-cookies": "^1.5.4",
     "vue-router": "^3.0.1",

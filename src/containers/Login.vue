@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import config from '../config/index'
 
 export default {
   name: 'Login',
@@ -54,11 +55,13 @@ export default {
   },
   created () {
     this.handleUpdateImg()
+    this.reflashSsid()
   },
   methods: {
     handleUpdateImg () {
       //  获取图片验证码
       this.$ajax.get('/user/webCode').then((response) => {
+        console.log(response)
         if (response.data && response.data.code === '000000') {
           const data = response.data.data
           this.codeImg = data.img
@@ -86,6 +89,24 @@ export default {
           })
         } else {
         }
+      })
+    },
+    reflashSsid () {
+      window.axios.get(config.OA_URL + 'users/code_web').then((response) => {
+        console.log(response)
+        if (typeof response.data.data.ssid !== 'undefined' && response.data.data.ssid !== '') {
+          // Lockr.set('oa_ssid', response.data.data.ssid)
+          this.$store.dispatch('setSsid', response.data.data.ssid)
+        }
+        if (typeof response.data.data.img !== 'undefined' && response.data.data.img !== '') {
+          // this.codeSrc = 'data:image/gif;base64,' + response.data.data.img // 取验证码
+        } else {
+          console.log('ssid不存在')
+          // this.$Message.error('ssid获取错误')
+        }
+      }).catch((error) => {
+        console.log('ssid获取异常', error)
+        // this.$Message.error('ssid获取异常')
       })
     }
   }

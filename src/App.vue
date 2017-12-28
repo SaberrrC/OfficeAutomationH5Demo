@@ -8,6 +8,7 @@
       <section :class="['content', sidebarList.length ? '' : 'full-screen']">
         <router-view/>
       </section>
+      <chatting v-if="itShowChat"></chatting>
     </template>
     <template v-else>
       <router-view/>
@@ -18,26 +19,68 @@
 <script>
 import TheHeader from '@/components/TheHeader'
 import Sidebar from '@/components/Sidebar'
-
+import Chatting from '@/chatting/index.vue'
+import chat from '@/module/chatting'
+import { mapState } from 'vuex'
 export default {
   name: 'app',
   components: {
     TheHeader,
-    Sidebar
+    Sidebar,
+    Chatting
   },
   data () {
     return {
     }
   },
+  beforeCreate () {
+    let code = this.$store.state.userinfo.code || window.localStorage.getItem('userCode')
+    let uid = this.$store.state.userinfo.uid || window.localStorage.getItem('uid')
+    let token = this.$store.state.userinfo.token || window.localStorage.getItem('token')
+    this.$store.dispatch('setUsers', {
+      code: code,
+      uid: uid,
+      token: token
+    })
+    chat.queryUserInfo(code)
+  },
   created () {
+    // this.$store.dispatch('queryUserInfo').then((data) => {
+    //   console.log(data)
+    //   window.localStorage.setItem('username', data.username)
+    //   window.localStorage.setItem('userCode', data.code)
+    // })
   },
   computed: {
+    ...mapState({
+      token: state => state.token,
+      userInfo: state => state.user.userInfo,
+      sidebar: state => state.user.sidebar,
+      organization: state => state.user.organization,
+      userName: state => state.user.userName, // 用户名
+      password: state => state.user.password, // 密码
+      otherInfo: state => state.otherInfo, // 对方账号|群组|聊天室
+      singChatbox: state => state.singChatbox,
+      grossNumber: state => state.grossNumber, // 全部未读消息
+      writeStructIsShow: state => state.writeStructIsShow, // 右侧栏写入框是否显示 默认为false 每次用户选择当前群组或聊天对象时才显示
+      userinfo: state => state.userinfo,
+      TXGroup: state => state.TXGroup,
+      TXRoom: state => state.TXRoom,
+      list: state => state.list,
+      userInfoDb: state => state.userInfoDb,
+      currentChatlist: state => state.currentChatObj,
+      groupIdShow: state => state.groupIdShow,
+      showSid: state => state.showSid
+    }),
     checkToken () {
       return this.$store.state.token || window.localStorage.getItem('token')
     },
     //  放在这一层是为了根据数组 length 判断是否隐藏 sidebar
     sidebarList () {
       return this.$store.state.sidebar
+    },
+    itShowChat () {
+      return true
     }
   }
 }

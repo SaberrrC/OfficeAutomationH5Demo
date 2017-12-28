@@ -1,0 +1,301 @@
+.chatting .comtain {
+  position: relative;
+}
+.chatting .el-dialog--small{
+  width: auto;
+}
+
+.chatting .groupHead {
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.chatting .modifyGroupDialog {
+  position: absolute;
+  top: 30%;
+  left: 100%;
+}
+
+.chatting .addGroupDialog,
+.chatting .modifyGroupDialog {
+  width: 280px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 5px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+  position: fixed;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  margin-left: -140px;
+  margin-top: -50px;
+}
+
+.chatting .addGroupDialog .el-input,
+.chatting .modifyGroupDialog .input {
+  width: 65%;
+}
+
+.chatting .addGroupDialog button,
+.chatting .modifyGroupDialog button {
+  margin-top: 10px;
+  width: 30%;
+}
+
+.chatting .search {
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #d8dce5;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #5a5e66;
+  display: inline-block;
+  font-size: inherit;
+  height: 40px;
+  line-height: 1;
+  outline: 0;
+  padding: 0 15px;
+  -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 100%;
+  /* background: url("../assets/img-chat/icon.png") no-repeat 28%; */
+  /* background-size: 20px, 20px; */
+}
+
+
+.chatting .search,
+.chatting .search1 {
+  width: 290px;
+  margin: 5px;
+}
+
+.chatting .personnal .search input {
+  /* border: 0; */
+}
+
+.chatting input::-webkit-input-placeholder {
+  font-size: 14px;
+}
+
+.chatting .groupHead .search.search-group {
+  width: 250px;
+}
+
+.chatting .groupHead .search .el-input__inner {
+  text-align: center;
+  height: 50px;
+  background-color: #000;
+}
+
+.chatting .group_list,
+.chatting .group_list.listSearch {
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  height: 449px;
+  background-color: #fff;
+}
+
+.chatting .group_list .group-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 25px;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding-left: 10px;
+}
+.chatting .group_list .group-item:hover {
+  background-color: #e4e8f1;
+}
+.chatting .group_list .group-name {
+  width: 190px;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 60px;
+}
+
+.chatting .group_list .el-tree {
+  border: 0;
+}
+.chatting .group_list .groupInput .el-input__inner {
+  background-color: red;
+  font-size: 22px;
+}
+.chatting .group_list .groupImg {
+  display: inline-block;
+  height: 30px;
+  text-align: right;
+  margin-right: 2%;
+  vertical-align: middle;
+}
+
+.chatting .group_list .groupImg img {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  /* border:1px solid #000; */
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+.chatting .group_list .groupName {
+  padding-left: 5px;
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  height: 30px;
+  text-align: left;
+}
+
+.chatting .group_list .groupInput .el-input__inner {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #eee;
+  background-image: none;
+  border-radius: 4px;
+  border: 0px solid #bfcbd9;
+  box-sizing: border-box;
+  color: #1f2d3d;
+  font-size: inherit;
+  height: 36px;
+  line-height: 1;
+  outline: 0;
+  padding: 3px 10px;
+  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+}
+
+.chatting .el-dropdown-menu .el-popper {
+  position: absolute;
+  top: 443px !important;
+  left: 250px !important;
+  transform-origin: center top 0px;
+  z-index: 2007;
+}
+
+.el-tree .headImg {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  /*border:1px solid #000;*/
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+/*个人信息弹出框*/
+
+.Personalmes {
+  width: 380px;
+  /*height: 300px;*/
+  border: 1px solid #bcbcbc;
+  position: absolute;
+  left: 30%;
+  top: 30%;
+  background-color: #fff;
+  z-index: 999;
+  /*padding: 10px;*/
+}
+
+.Personalmes .title {
+  /*height: 30px;*/
+  background-color: #f2f2f2;
+  padding: 5px;
+}
+
+.Personalmes .personnalbaseImg {
+  position: relative;
+}
+
+.personnalbaseImg .close {
+  position: absolute;
+  top: -25px;
+  right: 10px;
+}
+
+.personnalbaseImg .close:hover {
+  cursor: pointer;
+}
+
+.personnalbaseImg .avatar {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+  padding-top: 4px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.personnalbaseImg .baseMes {
+  display: inline-block;
+}
+
+.baseMes {
+  margin-left: 10px;
+}
+
+.baseMes p {
+  font-weight: 800;
+  margin: 5px;
+}
+
+.baseMes span {
+  font-size: 14px;
+}
+
+.personnalfoot {
+  margin-top: 10px;
+  border-top: 1px solid #bcbcbc;
+  width: 100%;
+  padding: 10px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.personnalfoot .email,
+.personnalfoot .phone {
+  display: inline-block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.personnalfoot .email {
+  width: 60%;
+}
+
+.personnalfoot .phone {
+  display: inline-block;
+  width: 38%;
+}
+
+.personnalfoot .department {
+  font-size: 14px;
+}
+
+
+/* 搜索栏 */
+
+
+.chatting .loading {
+  font-size: 14px;
+  text-align: center;
+}
+
+
+.chatting .group-item.selectBackground {
+  background-color: #e4e8f1;
+}

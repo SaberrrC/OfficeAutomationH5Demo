@@ -1,0 +1,142 @@
+.chatting .contian {
+  position: relative;
+}
+
+.chatting .personnal {
+  border-bottom: 1px solid #ddd;
+  height: 50px;
+  box-sizing: border-box;
+}
+
+.chatting .p_list {
+  box-sizing: border-box;
+  width: 100%;
+  height: 450px;
+  overflow-y: auto;
+  float: left;
+}
+
+.chatting .p_list .circle {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 5px;
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+}
+
+.chatting .p_list .num {
+  font-size: 14px;
+  color: #fff;
+  display: inline-block;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  line-height: 18px;
+  text-align: center;
+  width: 20px;
+  position: absolute;
+  top: 0px;
+  left: 40px;
+}
+
+.chatting .p_listSearch {
+  box-sizing: border-box;
+  height: 450px;
+  overflow-y: auto;
+  position: absolute;
+  background-color: #eee;
+  width: 300px;
+  border-right: 1px solid #ddd;
+}
+
+.chatting .p_listSearch .list_name {
+  height: 70px;
+  box-sizing: border-box;
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+
+.chatting .p_listSearch .text {
+  width: 100%;
+  height: 40px;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.chatting .p_listSearch .child_name {
+  font-size: 14px;
+}
+
+.chatting .p_list * {
+  cursor: default;
+}
+
+.chatting .p_list .list_name,
+.chatting .p_listSearch .list_name {
+  width: 100%;
+  height: 70px;
+  box-sizing: border-box;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.chatting .p_list .list_name:hover,
+.chatting .p_listSearch .list_name:hover {
+  background-color: #e4e8f1;
+}
+
+.chatting .p_list .list_name.selectBackground {
+  background-color: #5a5e66;
+}
+
+.chatting .list_name img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+}
+
+.chatting .list_name .text,
+.chatting .p_listSearch .text {
+  width: 80px;
+  height: 40px;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.chatting .list_name .text {
+  width: 145px;
+  height: 30px;
+}
+
+.chatting .list_name .lasttime {
+  width: 55px;
+  display: inline-block;
+  font-size: 14px;
+  float: right;
+  margin-top: 20px;
+  padding: 0;
+}
+
+.chatting .child_name {
+  font-size: 18px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chatting .p_listSearch .child_name {
+  font-size: 14px;
+}
+
+.chatting .child_text {
+  font-size: 14px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
