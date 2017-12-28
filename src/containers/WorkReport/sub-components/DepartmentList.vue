@@ -3,40 +3,52 @@
     <Card>
       <div slot="title">
         <Form :label-width="80">
+
           <Row>
-            <Col span="5">
-            <FormItem label="类型">
-              <Select v-model="defaultType">
-                <Option v-for="item in selectType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
+            <Col span="8">
+            <FormItem label="姓名">
+              <Input v-model="searchName" placeholder=""></Input>
             </FormItem>
             </Col>
-            <Col span="5">
-            <FormItem label="汇报日期">
-              <Select v-model="defaultReport">
-                <Option v-for="item in reportTime" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
+            <Col span="8">
+            <FormItem label="开始时间">
+              <DatePicker type="date" placeholder="Select date" v-model="startTime" format="yyyy-MM-dd"></DatePicker>
             </FormItem>
             </Col>
-            <Col span="5">
-            <FormItem label="状态">
-              <Select v-model="defaultStatus">
-                <Option v-for="item in statusData" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
+            <Col span="8">
+            <FormItem label="结束时间">
+              <DatePicker type="date" placeholder="Select date" v-model="endTime" format="yyyy-MM-dd"></DatePicker>
             </FormItem>
-            </Col>
-            <Col span="5">
-            <Input v-model="value" placeholder="搜索发起人" style="width: 80%;margin-left: 20px;margin-top:1px;" icon="ios-search-strong" @on-click="searchPerson"></Input>
-            </Col>
-            <Col span="4" align="right">
-            <Button type="primary">导出</Button>
             </Col>
           </Row>
+
+          <Row>
+            <Col span="8">
+            <FormItem label="状态">
+              <Select v-model="state">
+                <Option v-for="item in stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="类型">
+              <Select v-model="type">
+                <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </FormItem>
+            </Col>
+            <Col span="8" align="right">
+            <Button type="primary" @click="search">搜索</Button>
+            <Button type="primary" >导出</Button>
+            </Col>
+          </Row>
+
         </Form>
       </div>
 
 
-      <Table :columns="columns" :data="listData"></Table>
+      <Table :columns="columns" :data="listData" height="400" @on-row-click="goDetail"></Table>
+      <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
     </Card>
   </div>
 </template>
@@ -46,60 +58,41 @@ export default {
   name: 'Setting',
   data () {
     return {
-      selectType: [
+      searchName: '',
+      startTime: new Date(),
+      endTime: new Date(),
+      stateList:[    //  状态
         {
-          value: '0',
+          value: 0,
+          label: '全部'
+        },
+        {
+          value: 3,
+          label: '已完成'
+        },
+        {
+          value: 9,
+          label: '未填写'
+        },
+        {
+          value: 1,
+          label: '待评分'
+        }
+      ],
+      state: 0,
+      typeList: [
+        {
+          value: 0,
           label: '日报'
         },
         {
-          value: '1',
+          value: 1,
           label: '周报'
-        },
-        {
-          value: '2',
-          label: '全部'
         }
       ],
-      defaultType: '0',
-      reportTime: [
-        {
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '今天'
-        },
-        {
-          value: '2',
-          label: '近三天'
-        },
-        {
-          value: '3',
-          label: '近一周'
-        },
-        {
-          value: '4',
-          label: '近一个月'
-        }
-      ],
-      defaultReport: '0',
-      statusData: [
-        {
-          value: '0',
-          label: '全部'
-        },
-        {
-          value: '1',
-          label: '待评分'
-        },
-        {
-          value: '2',
-          label: '已评分'
-        }
-      ],
-      defaultStatus: '0',
-      value: '',
+      type: 0,
+      department: '',
+
       columns: [
         {
           title: '类型',
@@ -118,22 +111,27 @@ export default {
         },
         {
           title: '岗位',
-          key: 'station',
+          key: 'position',
           align: 'center'
         },
         {
           title: '次数',
-          key: 'times',
+          key: 'count',
           align: 'center'
         },
         {
           title: '平均分',
-          key: 'score',
+          key: 'avgScore',
           align: 'center'
         },
         {
           title: '状态',
-          key: 'status',
+          key: 'state',
+          align: 'center'
+        },
+        {
+          title: '备注',
+          key: 'remarks',
           align: 'center'
         }
       ],
@@ -142,48 +140,167 @@ export default {
           type: '日报',
           name: '丁通',
           department: '开发',
-          station: '前端',
-          times: 0,
-          score: 100,
-          status: '已评分'
+          position: '前端',
+          count: 0,
+          avgScore: 100,
+          state: '已评分',
+          remarks: '',
+          dailyid: ''
         },
         {
           type: '日报',
           name: '丁通',
           department: '开发',
-          station: '前端',
-          times: 0,
-          score: 100,
-          status: '已评分'
+          position: '前端',
+          count: 0,
+          avgScore: 100,
+          state: '已评分',
+          remarks: '',
+          dailyid: ''
         },
         {
           type: '日报',
           name: '丁通',
           department: '开发',
-          station: '前端',
-          times: 0,
-          score: 100,
-          status: '已评分'
+          position: '前端',
+          count: 0,
+          avgScore: 100,
+          state: '已评分',
+          remarks: '',
+          dailyid: ''
         },
         {
           type: '日报',
           name: '丁通',
           department: '开发',
-          station: '前端',
-          times: 0,
-          score: 100,
-          status: '已评分'
+          position: '前端',
+          count: 0,
+          avgScore: 100,
+          state: '已评分',
+          remarks: '',
+          dailyid: ''
         }
-      ]
+      ],
+      total: 0,
+      current: 1
     }
   },
   methods: {
-    searchPerson () {
+    //  时间格式化
+    timeFormat (date) {
+      var year = date.getFullYear()
+      var mounth = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
+      var day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
+      return year + '-' + mounth + '-' + day
+    },
+    //  获取列表
+    search () {
+      this.total = 0
+      this.current = 1
+      if(this.type == 0){
+        this.searchDaiy()
+      }else{
+        this.searchWeekly()
+      }
 
     },
-    searchDepartment () {
+    //  获取日报列表数据
+    searchDaiy () {
+      var starttime = this.timeFormat(this.startTime)
+      var endtime = this.timeFormat(this.endTime)
+      this.$ajax({
+        method: 'get',
+        url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('日报列表', res.data)
+        var result = res.data.data
+        if (res.data.code === '000000') {
+          this.listData = result.data
+          this.total = result.total
+        }else {
 
+        }
+      }, (res) => {
+
+      })
+    },
+    //  获取周报列表数据
+    searchWeekly () {
+      var starttime = this.timeFormat(this.startTime)
+      var endtime = this.timeFormat(this.endTime)
+      this.$ajax({
+        method: 'get',
+        url: '/weekreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('周报列表', res.data)
+        var result = res.data.data
+        if (res.data.code === '000000') {
+          this.listData = result.data
+          this.total = result.total
+        }else {
+
+        }
+      }, (res) => {
+
+      })
+    },
+    //  分页查询
+    changePage (e) {
+      this.current = e
+      if(this.type == 0){
+        this.searchDaiy()
+      }else{
+        this.searchWeekly()
+      }
+    },
+    //  跳转详情页
+    goDetail (row,index) {
+      console.log(row,index)
+      this.$router.push({
+        'name': this.type==0 ? 'DepartmentDaily':'DepartmentWeekly' ,
+        'params': {
+          current : this.current,
+          index: index,
+          userId: row.userId,
+          startTime: this.timeFormat(this.startTime),
+          endTime: this.timeFormat(this.endTime),
+          type: this.type
+        }
+      })
+    },
+    //  获取本人的部门
+    getDepartment () {
+      this.$ajax({
+        method: 'get',
+        url: '/user/getUserInfoById',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('日报列表', res.data)
+        var result = res.data.data
+        if (res.data.code === '000000') {
+          this.department = result.oid
+          this.searchDaiy()  //默认获取周报列表
+        }else {
+
+        }
+      }, (res) => {
+
+      })
     }
+  },
+  mounted () {
+    this.getDepartment()
   }
 }
 </script>

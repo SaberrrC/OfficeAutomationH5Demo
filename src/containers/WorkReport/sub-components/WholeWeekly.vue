@@ -15,13 +15,14 @@
           <Icon type="chevron-right"></Icon>
         </Button>
       </p>
-      <Table :columns="columns" :data="listData"></Table>
+      <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
+      <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
     </Card>
 
 
 
 
-    <Card>
+    <Card  v-show="showDetail">
       <Row  style="margin-top: 40px;">
         <Col span="24">
         <table cellpadding="0" cellspacing="0">
@@ -34,30 +35,12 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
+            <tr v-for="item in weeklySummary">
+              <td><Input type="textarea" placeholder="" readonly v-model="item.workPlan"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.work"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.difference"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.remark"></Input></td>
+            </tr>
           </tbody>
         </table>
         </Col>
@@ -77,26 +60,11 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
-          <tr>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-            <td><Input type="textarea" placeholder="" readonly></Input></td>
-          </tr>
+            <tr v-for="item in weekPlane">
+              <td><Input type="textarea" placeholder="" readonly v-model="item.nextWorkPlan"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.personLiable"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.remark"></Input></td>
+            </tr>
           </tbody>
         </table>
         </Col>
@@ -123,6 +91,7 @@ export default {
   name: 'WholeWeekly',
   data () {
     return {
+      storeData: this.$route.params,
       columns: [
         {
           title: '部门',
@@ -131,12 +100,12 @@ export default {
         },
         {
           title: '岗位',
-          key: 'station',
+          key: 'position',
           align: 'center'
         },
         {
           title: '姓名',
-          key: 'name',
+          key: 'userName',
           align: 'center'
         },
         {
@@ -146,80 +115,125 @@ export default {
         },
         {
           title: '状态',
-          key: 'status',
+          key: 'ratingStatus',
           align: 'center'
         },
         {
           title: '备注',
-          key: 'remark',
+          key: 'remarks',
           align: 'center'
-        },
-        {
-          title: '操作',
-          key: 'operation',
-          align: 'center',
-          render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'primary',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    console.log(params)
-                    this.showDetail = true
-                  }
-                }
-              }, '查看')
-            ])
-          }
         }
       ],
       listData: [
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
           reportTime: '2017-10-03',
-          status: '已评分',
-          remark: ''
+          ratingStatus: '已评分',
+          remarks: ''
         },
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
           reportTime: '2017-10-03',
-          status: '已评分',
-          remark: ''
+          ratingStatus: '已评分',
+          remarks: ''
         },
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
           reportTime: '2017-10-03',
-          status: '已评分',
-          remark: ''
+          ratingStatus: '已评分',
+          remarks: ''
         },
         {
           department: '创新服务技术',
-          station: '前端开发',
+          position: '前端开发',
           name: '丁通',
           reportTime: '2017-10-03',
-          status: '已评分',
+          ratingStatus: '已评分',
+          remarks: ''
+        },
+      ],
+      showDetail: false,
+      current: 1,
+      total: 0,
+      weeklySummary:[
+        {
+          difference: '',
+          remark: '',
+          work: '',
+          workPlan: ''
+        }
+      ],
+      weekPlane: [
+        {
+          nextWorkPlan: '',
+          personLiable: '',
           remark: ''
         }
       ]
     }
   },
   methods: {
+    //  获取列表数据
+    getListDate(){
+      this.$ajax({
+        method: 'get',
+        url: '/weekreport/detils/'+ this.storeData.userId +'?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('列表详情', res.data)
+        var result = res.data.data
+        if (res.data.code === '000000') {
+          this.listData = result.data
+          this.total = result.total
+        }else {
+          this.listData = []
+        }
+      }, (res) => {
 
+      })
+    },
+    //  分页查询
+    changePage (e) {
+      this.current = e
+      this.getListDate()
+    },
+    //  点击行，查看详情
+    openDetail (row,index) {
+      console.log(row,index)
+      this.$ajax({
+        method: 'get',
+        url: '/weekreport/' + row.id,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('周报详情', res.data)
+        var result = res.data.data
+        if (res.data.code === '000000') {
+          this.showDetail = true
+          this.weeklySummary = result.weeklySummary
+          this.weekPlane = result.weekPlane
+        }else {
+
+        }
+      }, (res) => {
+
+      })
+    }
   },
   mounted () {
-    console.log(this.$router.params)
+    console.log('params',this.$route.params)
+    this.getListDate()
   }
 }
 </script>

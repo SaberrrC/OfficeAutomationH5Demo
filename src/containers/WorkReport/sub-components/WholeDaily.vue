@@ -45,151 +45,151 @@
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanOne"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workOne"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultOne"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingOne"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingOne"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingOne"></Input></td>
               </tr>
               <tr>
                 <td>10:00-11:00</td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanTwo"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workTwo"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultTwo"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingTwo"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingTwo"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingTwo"></Input></td>
               </tr>
               <tr>
                 <td>11:00-12:00</td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanThree"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workThree"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultThree"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingThree"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingThree"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingThree"></Input></td>
               </tr>
               <tr>
                 <td>13:00-14:00</td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanFour"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workFour"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultFour"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingFour"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingFour"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingFour"></Input></td>
               </tr>
               <tr>
                 <td>14:00-15:00</td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanFive"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workFive"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultFive"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingFive"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingFive"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingFive"></Input></td>
               </tr>
               <tr>
                 <td>15:00-16:00</td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanSix"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workSix"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultSix"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingSix"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingSix"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingSix"></Input></td>
               </tr>
               <tr>
                 <td>16:00-17:00</td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanSeven"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workSeven"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultSeven"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingSeven"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingSeven"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingSeven"></Input></td>
               </tr>
               <tr>
                 <td>17:00-17:30</td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workPlanEigth"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workEigth"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.workResultEigth"></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfRatingEigth"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorRatingEigth"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkRatingEigth"></Input></td>
               </tr>
               <tr>
                 <td rowspan="6"> 职 <br/> 业 <br/> 素 <br/> 养 </td>
                 <td>1.个人言行</td>
                 <td colspan="3" style="text-align: left;"> 言行一致，不弄虚作假，不搬弄是非，清正廉洁，遵守各项法律规章制度，有原则性，不徇私舞弊，以权谋私</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfBehavior"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorBehavior"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkBehavior"></Input></td>
               </tr>
               <tr>
                 <td>2.环境卫生</td>
                 <td colspan="3" style="text-align: left;"> 保持个人工作环境干净整洁,无灰尘无死角,桌面地面无纸屑杂物,办公用品摆放整齐</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfEnvironmental"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorEnvironMental"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkEnvironMental"></Input></td>
               </tr>
               <tr>
                 <td>3.节约</td>
                 <td colspan="3" style="text-align: left;"> 成本意识强烈，能积极节省，避免浪费</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfSave"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorSave"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkSave"></Input></td>
               </tr>
               <tr>
                 <td>4.沟通协调能力</td>
                 <td colspan="3" style="text-align: left;"> 善于根据不同对象营造恰当的氛围表达顾虑</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfCommunication"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorCommunication"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkCommunication"></Input></td>
               </tr>
               <tr>
                 <td>5.仪容仪表</td>
                 <td colspan="3" style="text-align: left;"> 仪容干净整洁，按规定着装，配戴胸卡，仪表端庄大方，言谈有度，举止得体</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfAppearance"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorAppearance"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkAppearance"></Input></td>
               </tr>
               <tr>
                 <td>6.工作纪律</td>
                 <td colspan="3" style="text-align: left;"> 工作时间不看与工作无关的图书，不玩手机，不闲聊，不听音乐，不打游戏，不浏览与工作无关的网页，不以办公事为由出门办理个人私事
                 </td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfDiscipline"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorDiscipline"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkDiscipline"></Input></td>
               </tr>
               <tr>
                 <td rowspan="4"> 团 <br/> 队 <br/> 合 <br/> 作 </td>
                 <td>1.工作主动性</td>
                 <td colspan="3" style="text-align: left;"> 能经常主动了解他人的服务需求，并提供需要的服务</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfJobInitiative"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorJobInitiative"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkJobInitiative"></Input></td>
               </tr>
               <tr>
                 <td>2.合作性</td>
                 <td colspan="3" style="text-align: left;"> 团结同事，乐于助人，以大局为重</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfCooperation"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorCooperation"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkCooperation"></Input></td>
               </tr>
               <tr>
                 <td>3.敬业精神</td>
                 <td colspan="3" style="text-align: left;"> 有较强的事业心和责任心，积极主动，勤奋敬业</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfDedicated"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorDedicated"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkDedicated"></Input></td>
               </tr>
               <tr>
                 <td>4.服从组织安排</td>
                 <td colspan="3" style="text-align: left;"> 服从组织安排，组织所交代的工作必须有速度有效率的完成</td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
-                <td><Input type="textarea" placeholder="" readonly></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfOrganization"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorOrganization"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkOrganization"></Input></td>
               </tr>
               <tr>
                 <td> 明 <br/> 日 <br/> 计 <br/> 划 </td>
                 <td>工作任务或工作目标</td>
                 <td colspan="6">
-                  <Input type="textarea" placeholder="" height="300px" readonly></Input>
+                  <Input type="textarea" placeholder="" height="300px" readonly v-model="reportData.tomorrowPlan"></Input>
                 </td>
               </tr>
             </tbody>
@@ -202,12 +202,13 @@
           </Col>
         </Row>
         <Row style="margin: 20px;">
-          <Col span="8" align="center">工作日志&nbsp;&nbsp;<InputNumber :max="60" :min="0" :step="0.5" v-model="value2" readonly></InputNumber></Col>
-          <Col span="8" align="center">职业素养&nbsp;&nbsp;<InputNumber :max="20" :min="0" :step="0.5" v-model="value2" readonly></InputNumber></Col>
-          <Col span="8" align="center">团队合作&nbsp;&nbsp;<InputNumber :max="20" :min="0" :step="0.5" v-model="value2" readonly></InputNumber></Col>
+          <Col span="8" align="center">工作日志&nbsp;&nbsp;
+          <Input v-model="reportData.worklogScore" readonly></Input></Col>
+          <Col span="8" align="center">职业素养&nbsp;&nbsp;<Input v-model="reportData.professionalismScore" readonly></Input></Col>
+          <Col span="8" align="center">团队合作&nbsp;&nbsp;<Input v-model="reportData.teamScore" readonly></Input></Col>
         </Row>
         <Row style="margin: 20px;">
-          <Col span="24" align="right">总评分：{{}}</Col>
+          <Col span="24" align="right">总评分：{{reportData.totalScore}}</Col>
         </Row>
       </div>
     </Card>
@@ -220,7 +221,6 @@ export default {
   data () {
     return {
       storeData: this.$route.params,
-      value2: null,
       columns: [
         {
           title: '部门',
@@ -249,7 +249,7 @@ export default {
         },
         {
           title: '备注',
-          key: 'remark',
+          key: 'remarks',
           align: 'center'
         },
         {
@@ -265,7 +265,7 @@ export default {
           name: '丁通',
           dailyTime: '2017-10-03',
           state: '已评分',
-          remark: '',
+          remarks: '',
           score: 90
         },
         {
@@ -274,7 +274,7 @@ export default {
           name: '丁通',
           dailyTime: '2017-10-03',
           state: '已评分',
-          remark: '',
+          remarks: '',
           score: 90
         },
         {
@@ -283,7 +283,7 @@ export default {
           name: '丁通',
           dailyTime: '2017-10-03',
           state: '已评分',
-          remark: '',
+          remarks: '',
           score: 90
         },
         {
@@ -292,7 +292,7 @@ export default {
           name: '丁通',
           dailyTime: '2017-10-03',
           state: '已评分',
-          remark: '',
+          remarks: '',
           score: 90
         },
       ],
@@ -335,6 +335,66 @@ export default {
         'selfRatingSix': '',
         'selfRatingSeven': '',
         'selfRatingEigth': '',
+
+        'supervisorRatingOne': '',
+        'supervisorRatingTwo': '',
+        'supervisorRatingThree': '',
+        'supervisorRatingFour': '',
+        'supervisorRatingFive': '',
+        'supervisorRatingSix': '',
+        'supervisorRatingSeven': '',
+        'supervisorRatingEigth': '',
+
+        'checkRatingOne': '',
+        'checkRatingTwo': '',
+        'checkRatingThree': '',
+        'checkRatingFour': '',
+        'checkRatingFive': '',
+        'checkRatingSix': '',
+        'checkRatingSeven': '',
+        'checkRatingEigth': '',
+
+        'selfBehavior': '',
+        'selfEnvironmental': '',
+        'selfSave': '',
+        'selfCommunication': '',
+        'selfAppearance': '',
+        'selfDiscipline': '',
+
+        'supervisorBehavior': '',
+        'supervisorEnvironmental': '',
+        'supervisorSave': '',
+        'supervisorCommunication': '',
+        'supervisorAppearance': '',
+        'supervisorDiscipline': '',
+
+        'checkBehavior': '',
+        'checkEnvironmental': '',
+        'checkSave': '',
+        'checkCommunication': '',
+        'checkAppearance': '',
+        'checkDiscipline': '',
+
+        'selfJobInitiative': '',
+        'selfCooperation': '',
+        'selfDedicated': '',
+        'selfOrganization': '',
+
+        'supervisorJobInitiative': '',
+        'supervisorCooperation': '',
+        'supervisorDedicated': '',
+        'supervisorOrganization': '',
+
+        'checkJobInitiative': '',
+        'checkCooperation': '',
+        'checkDedicated': '',
+        'checkOrganization': '',
+
+        'tomorrowPlan': '',
+        'worklogScore': '',
+        'professionalismScore': '',
+        'teamScore': '',
+        'totalScore': ''
       }
     }
   },
@@ -365,7 +425,7 @@ export default {
     //  分页查询
     changePage (e) {
       this.current = e
-      this.getListDate
+      this.getListDate()
     },
     //  点击行，查看详情
     openDetail (row,index) {
@@ -382,6 +442,7 @@ export default {
         var result = res.data.data
         if (res.data.code === '000000') {
           this.showDetail = true
+          this.reportData = result
         }else {
 
         }

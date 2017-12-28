@@ -214,7 +214,7 @@ export default {
         }
       ],
       total: 0,
-      current: 1,
+      current: 1
     }
   },
   methods: {
@@ -338,7 +338,8 @@ export default {
           index: index,
           userId: row.userId,
           startTime: this.timeFormat(this.startTime),
-          endTime: this.timeFormat(this.endTime)
+          endTime: this.timeFormat(this.endTime),
+          type: this.type
         }
       })
     }
