@@ -42,8 +42,6 @@ export default {
       if (this.searchValue) {
         this.$ajax.get('/organization/queryUserByName', {
           params: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84', //  TODO 临时测试
             name: this.searchValue
           }
         }).then((response) => {
@@ -115,8 +113,6 @@ export default {
     },
     //  点击成员回调函数
     handleMemberItemClick (data) {
-      console.log('#From MemberTree =>')
-      console.log(data)
       this.$emit('onMemberItemClick', data)
     }
   }

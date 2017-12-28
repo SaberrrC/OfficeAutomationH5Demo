@@ -1,21 +1,21 @@
 <template>
-  <div class="sign-in">
-    {{msg}}
+  <div class="work-attend">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SignIn',
+  name: 'WorkAttend',
   data () {
-    return {
-      msg: '用户登录'
-    }
+    return {}
+  },
+  created () {
+  },
+  methods: {
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
 </style>

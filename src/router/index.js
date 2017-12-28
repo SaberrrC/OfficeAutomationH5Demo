@@ -5,7 +5,13 @@ import WorkReport from '@/containers/WorkReport'
 import WorkReportDaily from '@/containers/WorkReportDaily'
 import WorkReportWeekly from '@/containers/WorkReportWeekly'
 import Setting from '@/containers/Setting'
-import SignIn from '@/containers/SignIn'
+import Login from '@/containers/Login'
+import Help from '@/containers/Help'
+import AttendAdmin from '@/containers/AttendAdmin'
+import WorkAttend from '@/containers/WorkAttend'
+import LeaveQuery from '@/containers/LeaveQuery'
+//  TODO  del
+import Demo from '@/containers/MemberSelectorDemo'
 import forgetPwd from '../containers/forgetPwd/forgetPwd.vue'
 import forgetPwdCode from '../containers/forgetPwd/code.vue'
 import forgetPwdEmail from '../containers/forgetPwd/email.vue'
@@ -35,7 +41,8 @@ import WebLogList from '../containers/log/WebLogList.vue'
 import ApiLogList from '../containers/log/ApiLogList.vue'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -45,23 +52,63 @@ export default new Router({
     {
       path: '/home',
       name: 'Homepage',
-      component: Homepage
+      component: Homepage,
+      meta: {
+        requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
+      }
     },
     {
       path: '/work_report',
       name: 'WorkReport',
       component: WorkReport,
       redirect: '/work_report/daily',
+      meta: {
+        requireAuth: true
+      },
       children: [
         {
           path: 'daily',
           name: 'WorkReportDaily',
-          component: WorkReportDaily
+          component: WorkReportDaily,
+          meta: {
+            requireAuth: true
+          }
         },
         {
           path: 'weekly',
           name: 'WorkReportWeekly',
-          component: WorkReportWeekly
+          component: WorkReportWeekly,
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
+    },
+    //  attend_admin
+    {
+      path: '/attend_admin',
+      name: 'AttendAdmin',
+      component: AttendAdmin,
+      redirect: '/attend_admin/work_attend',
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {
+          path: 'work_attend',
+          name: 'WorkAttend',
+          component: WorkAttend,
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
+          path: 'leave_query',
+          name: 'LeaveQuery',
+          component: LeaveQuery,
+          meta: {
+            requireAuth: true
+          }
         }
       ]
     },
@@ -71,9 +118,20 @@ export default new Router({
       component: Setting
     },
     {
-      path: '/sign_in',
-      name: 'SignIn',
-      component: SignIn
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/help',
+      name: 'Help',
+      component: Help
+    },
+    //  TODO  del
+    {
+      path: '/demo',
+      name: 'demo',
+      component: Demo
     },
     {
       path: '/forgetPwd',
@@ -131,3 +189,20 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (window.localStorage.getItem('token')) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
