@@ -75,82 +75,111 @@ body {
     padding-right: 16px;
     text-align: right;
   }
-  .duty-record {
-    .comp-full-calendar {
-      padding: 0;
-      .full-calendar-header {
-        display: none;
+  .full-calendar-header {
+    display: none;
+  }
+  .full-calendar-body {
+    .weeks {
+      border: 0;
+      .week {
+        border: 0;
       }
     }
-    .full-calendar-body {
-      .weeks {
-        border: 0;
-        .week {
-          border: 0;
-        }
-      }
-      .week-row {
-        border: 0;
-        .day-cell {
-          min-height: 32px;
-          padding: 15px 0;
-          border: 0;
-          line-height: 30px;
-          p {
-            height: 32px;
-            width: 32px;
-            margin: 0 auto;
-            font-size: 12px;
-            text-align: center;
-          }
-        }
-        .today {
-          background-color: #fff;
-          p {
-            border: 1px solid #2d8cf0;
-            border-radius: 50%;
-          }
-        }
-      }
-      .events-day {
-        position: relative;
-        min-height: 32px;
-        height: 32px;
+    .week-row {
+      border: 0;
+      .day-cell {
+        min-height: 40px;
         padding: 15px 0;
-        box-sizing: content-box;
-        .day-number {
-          padding: 0;
+        border: 0;
+        line-height: 40px;
+        p {
+          height: 40px;
+          width: 40px;
+          margin: 0 auto;
+          font-size: 14px;
+          text-align: center;
         }
-        .event-box {
+      }
+      .today {
+        background-color: #fff;
+        p {
+          border: 1px solid #2d8cf0;
+          border-radius: 50%;
+        }
+      }
+    }
+    .events-day {
+      position: relative;
+      min-height: 40px;
+      height: 40px;
+      padding: 15px 0;
+      box-sizing: content-box;
+      .day-number {
+        padding: 0;
+      }
+      .event-box {
+        .event-item {
           position: absolute;
           top: 50%;
           left: 50%;
-          margin: -16px 0 0 -16px;
-          .event-item {
-            height: 32px;
-            width: 32px;
-            margin: 0;
-            padding: 0;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-          }
-          .leave {
-            color: #fff;
-            background-color: #19be6b;
-          }
-          .abnormal {
-            color: #fff;
-            background-color: #ed3f14;
-          }
-          .overtime {
-            color: #fff;
-            background-color: #f90;
-          }
-          .business {
-            color: #fff;
-            background-color: #2d8cf0;
-          }
+          margin: -20px 0 0 -20px;
+          display: none;
+          height: 40px;
+          width: 40px;
+          padding: 0;
+          line-height: 40px;
+          text-align: center;
+          border-radius: 50%;
+        }
+        .leave {
+          display: block;
+          color: #fff;
+          background-color: #19be6b;
+        }
+        .abnormal {
+          display: block;
+          color: #fff;
+          background-color: #ed3f14;
+        }
+        .overtime {
+          display: block;
+          color: #fff;
+          background-color: #f90;
+        }
+        .business {
+          display: block;
+          color: #fff;
+          background-color: #2d8cf0;
+        }
+      }
+    }
+  }
+  .duty-record {
+    .comp-full-calendar {
+      padding: 0;
+    }
+    .week-row {
+      .day-cell {
+        min-height: 32px;
+        padding: 15px 0;
+        line-height: 30px;
+        p {
+          height: 32px;
+          width: 32px;
+          font-size: 12px;
+        }
+      }
+    }
+    .events-day {
+      min-height: 32px;
+      height: 32px;
+      padding: 15px 0;
+      .event-box {
+        margin: -16px 0 0 -16px;
+        .event-item {
+          height: 32px;
+          width: 32px;
+          line-height: 30px;
         }
       }
     }
@@ -165,5 +194,35 @@ body {
 }
 .full-screen {
   left: 0;
+}
+.work-attendance-info {
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    width: 25%;
+    text-align: center;
+    em {
+      font-style: normal;
+    }
+    i {
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+      line-height: 12px;
+      border-radius: 50%;
+    }
+  }
+  .leave i {
+    background-color: #19be6b;
+  }
+  .abnormal i {
+    background-color: #ed3f14;
+  }
+  .overtime i {
+    background-color: #f90;
+  }
+  .business i {
+    background-color: #2d8cf0;
+  }
 }
 </style>

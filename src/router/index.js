@@ -42,7 +42,6 @@ import ApiLogList from '../containers/log/ApiLogList.vue'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',

@@ -63,7 +63,6 @@
         year: '',
         years: [],
         unit: '天',
-        //  TODO
         leaveInfo: {
           changelength: '0',
           code: '',
@@ -117,36 +116,34 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .leave-query {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    bottom: 16px;
-    left: 16px;
-    .ivu-card {
-      height: 100%;
+.leave-query {
+  height: 100%;
+  padding: 16px;
+  .ivu-card {
+    height: 100%;
+    overflow-y: auto;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+    border-top: 1px solid #e9eaec;
+    border-left: 1px solid #e9eaec;
+    th {
+      height: 60px;
+      padding: 0 16px;
+      border-right: 1px solid #e9eaec;
+      border-bottom: 1px solid #e9eaec;
+      font-size: 20px;
+      text-align: left;
+      background: #f8f8f9;
     }
-    table {
-      border-collapse: collapse;
-      width: 90%;
-      margin: auto;
-      border-top: 1px solid #e9eaec;
-      border-left: 1px solid #e9eaec;
-      th {
-        height: 60px;
-        padding: 0 16px;
-        border-right: 1px solid #e9eaec;
-        border-bottom: 1px solid #e9eaec;
-        font-size: 20px;
-        text-align: left;
-        background: #f8f8f9;
-      }
-      td {
-        height: 50px;
-        padding: 0 16px;
-        border-right: 1px solid #e9eaec;
-        border-bottom: 1px solid #e9eaec;
-      }
+    td {
+      height: 50px;
+      padding: 0 16px;
+      border-right: 1px solid #e9eaec;
+      border-bottom: 1px solid #e9eaec;
     }
   }
+}
 </style>
