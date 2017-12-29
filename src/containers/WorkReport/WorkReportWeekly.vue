@@ -464,11 +464,33 @@
 						}
 						if(result.weekPlan) {
 							var planArr = JSON.parse(result.weekPlan);
-
 							this.formatDate(planArr);
-
 							this.nextWeekPlane = planArr;
 						}
+					} else {
+
+					}
+				}, (res) => {
+
+				})
+			},
+			getEditData() {
+				this.$ajax({
+					method: 'get',
+					url: '/weekreport/' + this.$route.params.id,
+					headers: {
+						token: window.token,
+						uid: window.uid
+					}
+				}).then((res) => {
+					console.log('草稿数据', res.data)
+					var result = res.data.data
+					if(res.data.code === '000000') {
+						this.startTime = new Date(result.startTime);
+						this.endTime = result.endTime;
+						this.checkmantext = result.checkman + "———" + result.postName;
+						this.weeklySummary = result.weeklySummary;
+						this.nextWeekPlane = result.weekPlane;
 					} else {
 
 					}
@@ -481,13 +503,17 @@
 			console.log('##### WorkReportWeekly created')
 		},
 		mounted() {
-			this.getEndTime() //  结束时间
 			this.getcurrentLeader() // 当前领导人
 			this.getLeaderList() //  领导人列表
-			if(this.$route.params.childId) {
-				this.getTemp();
+			if(this.$route.params.id) {
+				this.getEditData();
+			} else {
+				this.getEndTime() //  结束时间
+				if(this.$route.params.childId) {
+					this.getTemp();
+				}
+				this.getDraft() //  查询草稿
 			}
-			this.getDraft() //  查询草稿
 		},
 		watch: {
 			startTime() {
