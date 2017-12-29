@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import qs from 'qs'
 import axios from 'axios'
 
-// axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
 axios.defaults.baseURL = 'http://10.255.232.234/oa-api' //  TODO 测试时跨域设置，后期可以删除
 axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
 axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''

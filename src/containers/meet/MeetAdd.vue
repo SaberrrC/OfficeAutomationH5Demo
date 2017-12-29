@@ -55,7 +55,7 @@
       getMeetRoom () {
         this.$ajax.get(`/newMeetingRooms`, {
           params: {
-          },
+          }
         }).then((response) => {
           if (response.data.code === '000000') {
             var len = response.data.data.length

@@ -170,13 +170,9 @@
                         placeholder="请选择交接人"
                         icon="person"
                         v-model="billDetail.handOverPepole"
-                        @on-focus="doSelectMember(data1)"></Input>
+                        @on-focus="checkHandOverPepole()"></Input>
                     </FormItem>
-                    <member-selector
-                      v-if="isShow"
-                      :init-tree-data="initTreeData"
-                      @getSelectedMembers="getSelectedMembers"
-                      @removeMemberSelector="handleRemove('isShow')"/>
+
                   </i-Col>
                 </Row>
               </div>
@@ -297,11 +293,33 @@
         </i-Col>
       </Row>
     </div>
+    <Modal
+      v-model="checkUser"
+      title="选择工作交接人"
+      @on-ok="ok"
+    >
+      <div style="border: 1px solid #cccccc;padding: 10px;width: 50%;margin-left: 25%;max-height: 400px;overflow: auto">
+        <ul>
+          <Form>
+            <RadioGroup v-model="handOverPepoleIndex">
+              <li v-for="(title,key) in handOverPepole">
+                <row>
+                  <i-Col span="18" offset="6">
+                    <FormItem>
+                      <Radio :label="key"><span>{{title.name}}</span></Radio>
+                    </FormItem>
+                  </i-Col>
+                </row>
+              </li>
+            </RadioGroup>
+          </Form>
+        </ul>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
-  import qs from "qs"
   import MemberSelector from '@/components/MemberSelector'
   export default {
     components: {
@@ -347,8 +365,9 @@
         }
       }
       return {
-        isShow: false,
-        initTreeData: [],
+        checkUser: false,
+        handOverPepole: [],
+        handOverPepoleIndex: 0,
         showAddBill: false,
         showAddbillButton: true,
         showDeletebillButton: false,
@@ -364,7 +383,8 @@
           endTime: '',           // 结束日期
           evectionAddress: '',   // 出差地点
           evectionRemark: '',    // 出差原因
-          handOverPepole: '',    // 工作交接人
+          handOverPepole: '',     // 工作交接人
+          handOverPepolepk_psnjob: '',     // 工作交接人
           timeDifference: ''     // 时长
         },
         addBill: {
@@ -697,26 +717,29 @@
 //    获取工作交接人
       getHandoverUser () {
         this.$ajax.get(`/HandoverUser/getHandoverUser`, {
+          headers: {
+            token: 'ecb94cb29a9b4bf396e5b04aad668770',
+            uid: '10483'
+          }
         }).then((response) => {
           if (response.data.code === '000000') {
-            this.initTreeData = response.data.data
-            console.log(this.initTreeData)
+            this.handOverPepole = response.data.data
+            console.log(this.handOverPepole)
           }
         }).catch(function (err) {
           console.log(err)
         })
       },
 //    选择工作交接人
-      getSelectedMembers (data) {
-        //  在这里处理选中的数组
-        console.log(data)
+      checkHandOverPepole () {
+        this.checkUser = true
       },
-      handleRemove (name) {
-        this[name] = false
-      },
-      doSelectMember (data) {
-        this.initTreeData = data
-        this.isShow = true
+      ok () {
+        this.billDetail.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].name
+        this.billDetail.handOverPepolepk_psnjob = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
+        console.log(this.billDetail)
+        this.$refs.billDetail.validateField('handOverPepole')
+//        console.log(this.$refs.billDetail)
       },
 //    页面关闭
       pageClose () {
@@ -728,18 +751,6 @@
       this.getBillType()
       this.getTime()
       this.getHandoverUser()
-      this.data1 = [{
-        id: '1',
-        title: '善林金融',
-        loading: false,
-        children: []
-      }]
-      this.data2 = [{
-        id: '1',
-        title: '善林金融2',
-        loading: false,
-        children: []
-      }]
     }
   }
 </script>

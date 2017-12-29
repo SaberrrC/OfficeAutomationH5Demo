@@ -59,7 +59,6 @@
 </template>
 
 <script>
-  import qs from "qs"
   //  TODO 临时测试环境变量
   const TEST_CONFIG = 'http://118.31.18.67:8084'
   export default {
@@ -205,7 +204,7 @@
       },
 //      获取发起列表
       getLaunchMeet () {
-        this.$ajax.post(`/newMeetings/reserve`, qs.stringify({currentPage: this.launchCurrentPage, pageSize: this.launchPageSize}), {
+        this.$ajax.post(`/newMeetings/reserve`, {currentPage: this.launchCurrentPage, pageSize: this.launchPageSize}, {
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000' && response.data.data.data.length !== 0) {
@@ -296,7 +295,7 @@
             this.$Message.error('当前会议时间已过，不可以删除')
           } else {
             //      调删除会议室接口
-            this.$ajax.post(`/newMeetings/deleteMeeting`, qs.stringify(data), {
+            this.$ajax.post(`/newMeetings/deleteMeeting`, data, {
               params: {
                 room_id: row.room_id //  TODO 临时测试
               }

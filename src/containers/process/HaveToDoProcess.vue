@@ -163,7 +163,7 @@
       getHaveToDoList () {
         this.$ajax.get(`/MyAplication/selectMyAplication`, {
           params: {
-            checkmanId: '010014136',
+            checkmanId: this.$store.state.userInfo.code,
             userName: this.formItem.launchUser,
             isCheck: 'Y',
             pkBillType: this.billType,

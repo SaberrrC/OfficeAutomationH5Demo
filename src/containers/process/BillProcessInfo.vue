@@ -258,7 +258,6 @@
 </template>
 
 <script>
-  import qs from "qs"
   export default {
     name: 'WorkReportDaily',
     data () {
@@ -297,7 +296,7 @@
           params: {
             billType: this.$route.query.billType,
             billCode: this.$route.query.billCode
-          },
+          }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {

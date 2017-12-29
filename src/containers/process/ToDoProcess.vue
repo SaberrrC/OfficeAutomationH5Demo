@@ -202,14 +202,14 @@
       getToDoList () {
         this.$ajax.get(`/MyAplication/selectMyAplication`, {
           params: {
-            checkmanId: '010014136',
+            checkmanId: this.$store.state.userInfo.code,
             userName: this.formItem.launchUser,
             isCheck: 'N',
             pkBillType: this.billType,
             time: this.formItem.time,
             pageNum: this.launchCurrentPage,
             pageSize: this.launchPageSize
-          },
+          }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {

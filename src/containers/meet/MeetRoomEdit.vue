@@ -83,7 +83,7 @@
 </template>
 
 <script>
-  import qs from "qs"
+
   export default {
     name: 'MeetRoomEdit',
     data () {
@@ -91,6 +91,7 @@
         modalTitle: '',
         okText: '',
         action: `http://10.255.232.234/oa-api/file`,
+        headers: {token: this.$store.state.userInfo.token, uid: this.$store.state.userInfo.uid},
         roomimg: '',
         modal1: false,
         formItem: {
@@ -255,9 +256,9 @@
             if (this.okText === '确定') {
               console.log(this.formItem)
 //        调新建会议室接口
-              this.$ajax.post(`/newMeetingRooms`, qs.stringify(this.formItem), {
+              this.$ajax.post(`/newMeetingRooms`, this.formItem, {
                 headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Content-Type': 'application/x-www-form-urlencoded'
                 }
               }).then((response) => {
                 console.log(response)
@@ -273,9 +274,9 @@
               console.log(this.formItem)
               this.$refs.formItem.validate((valid) => {
                 if (valid) {
-                  this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.formItem), {
+                  this.$ajax.post(`/newMeetingRooms/update`, this.formItem, {
                     headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
+                      'Content-Type': 'application/x-www-form-urlencoded'
                     }
                   }).then((response) => {
                     console.log(response)
@@ -317,9 +318,9 @@
         }
         this.roomList[index].nop = parseInt(this.roomList[index].nop)
 //      调修改会议室状态接口
-        this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.roomList[index]), {
+        this.$ajax.post(`/newMeetingRooms/update`, this.roomList[index], {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
         }).then((response) => {
           console.log(response)
@@ -367,8 +368,7 @@
             this.$ajax.delete(`/newMeetingRooms`, {
               params: {
                 room_id: this.roomList[index].room_id
-              },
-
+              }
             }).then((response) => {
               if (response.data.code === '000000') {
                 this.roomList.splice(index, 1)
@@ -383,6 +383,7 @@
     },
     created () {
       this.getMeetRoom()
+      console.log(this.$store.state)
     }
   }
 </script>

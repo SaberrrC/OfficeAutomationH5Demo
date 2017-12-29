@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import qs from "qs"
+
   export default {
     name: 'WorkReportDaily',
     data () {
@@ -395,7 +395,7 @@
                   end_time: end_time,
                   send_type: this.send_type
                 }
-                this.$ajax.post(`/newMeetings/updateMeeting`, qs.stringify(data), {
+                this.$ajax.post(`/newMeetings/updateMeeting`, data, {
                 }).then((response) => {
                   console.log(response)
                   if (response.data.code === '000000') {
@@ -479,7 +479,7 @@
           this.tableData[i].week7 = ''
         }
         this.getDate(this.nowTime)
-//      调获取会议接口     TODO    待完善
+//      调获取会议接口
         this.$ajax.get(`/newMeetings/get`, {
           params: {
             roomId: this.$route.query.roomId,
