@@ -4,19 +4,13 @@
        <input class="search" style='text-align:center' v-model="filterText" placeholder="联系人搜索" />
      </div>
      <div class="group_list" id='group_list'>
-      <!-- <el-tree
-        v-show="showTree"
-        :props="props"
-        :load="loadNode"
-        lazy
+      <el-tree lazy v-show="showTree" :props="listProps" :load="listLoad"
         @check-change="handleCheckChange"
-        @node-click="nodeClick"
-        >
-      </el-tree> -->
+        @node-click="listNodeClick">
+      </el-tree>
       <div class="loading" v-show="loadingValue">
         <p>正在加载中，请稍等.....</p>
       </div>
-
      </div>
      <div class="p_listSearch" v-show="p_listSearchShow">
         <div class="list_name" v-for="(item, index) in listSearch" v-on:click="openChatBox(item)" >
@@ -45,16 +39,12 @@ export default {
       p_listSearchShow: false,
       listSearch: [],
       PersonalmesValue: false,
-      props: {
-        label: "username",
-        children: "children",
-        isLeaf: "leaf"
+      listProps: {
+        label: 'name',
+        children: 'children',
+        isLeaf: 'leaf'
       },
-      data2: [],
-      defaultProps: {
-        children: "children",
-        label: "label"
-      }
+      data2: []
     };
   },
   computed: {
@@ -69,105 +59,53 @@ export default {
   methods: {
     openChatBox (item) {
       console.log(item)
-      this.$store.state.showSid = 'SL_' + item.CODE
+      this.$store.state.showSid = 'SL_' + item.code
       this.filterText = ''
       this.$parent.sectionType = 1 // 切换到聊天列表
       this.$store.dispatch('openChatBox', {item: item})
     },
-    nodeClick(item) {
-      if (item.CODE) {
+    listNodeClick (item) {
+      if (item.code) {
         this.openChatBox(item)
       }
     },
-    handleCheckChange(data, checked, indeterminate) {
+    handleCheckChange (data, checked, indeterminate) {
       console.log('handleCheckChange', data, checked, indeterminate);
     },
-    loadNode(node, resolve) {
-      let pid = 1;
+    listLoad (node, resolve) {
+      let pid = 1
       if (node && node.level > 0) {
-        pid = node.data.oid;
-        if (typeof node.data.oid != undefined && node.data.oid == "") {
-          return resolve([]);
+        pid = node.data.id
+        if (typeof node.data.id !== undefined && node.data.id === '') {
+          return resolve([])
         }
       }
-      var hasChild;
-      let uid = this.$store.state.userinfo.uid
-      let token = this.$store.state.userinfo.token
-      node.level > 0 && (hasChild = true);
-      let option = {
-        headers: {
-          uid: uid,
-          token: token
+      let list = []
+      this.$store.dispatch('queryOrganization', pid).then((data) => {
+        console.log('queryOrganization', data, data.children, data.users)
+        if (data.children && data.children.length > 0) {
+          for (var i = 0; i < data.children.length; i++) {
+            if (! data.children[i].memberCount || data.children[i].memberCount < 1) {
+              continue
+            }
+            let obj = data.children[i]
+            obj['leaf'] = false
+            obj['name'] = data.children[i].name + ' (' + data.children[i].memberCount + ')'
+            list.push(obj)
+          }
         }
-      };
-      let data = {
-        department_id: pid,
-        ssid: chat.getSsid()
-      };
-      let that = this
-      axios.post(config.OA_URL+"index/framework",
-        qs.stringify(data),
-        {
-          headers: {
-            token: token,
-            uid: uid
+        if (data.users && data.users.length > 0) {
+          for (var i = 0; i < data.users.length; i++) {
+            let obj = data.users[i]
+            obj['name'] = data.users[i].username
+            obj['leaf'] = true
+            list.push(obj)
           }
-        }).then(response => {
-          this.isShow = 1;
-          if (typeof response.data.code != undefined && response.data.code == "200") {
-            var list = [];
-            if (response.data.data.department != undefined) {
-              for (var k in response.data.data.department) {
-                let tmpObj = {};
-                let tmpData = response.data.data.department[k]
-                if (
-                  tmpData.department_name == undefined
-                )
-                continue;
-                tmpObj.username = tmpData.department_name + " (" + tmpData.department_persons + ")";
-                tmpObj.oid = tmpData.department_id;
-                // tmpObj.CODE = tmpData.CODE;
-                tmpObj.type = "depart";
-                //tmpObj.num = tmpData.department_persons
-                tmpObj.leaf = false;
-                list.push(tmpObj);
-
-              }
-            }
-            if (response.data.data.employee != undefined) {
-              for (var k in response.data.data.employee) {
-                if (response.data.data.employee[k].username == undefined)
-                  continue;
-                let tmpObj = {};
-
-                tmpObj = response.data.data.employee[k]
-                // tmpObj.name = response.data.data.employee[k].username;
-                // tmpObj.portraits = response.data.data.employee[k].portraits;
-                // tmpObj.email = response.data.data.employee[k].email;
-                // tmpObj.post_title = response.data.data.employee[k].post_title;
-                // tmpObj.phone = response.data.data.employee[k].phone;
-                // tmpObj.CODE = response.data.data.employee[k].CODE;
-                // tmpObj.oid = "";
-                // tmpObj.type = "person";
-                tmpObj.leaf = true;
-                list.push(tmpObj);
-
-              }
-            }
-            // console.log('list is ', JSON.stringify(list))
-            return resolve(list);
-            // console.log('orgList is ',this.orgList)
-          } else {
-            if (_g.checkApiCode(response.data.code)) {
-              let msg = "获取组织架构错误";
-              typeof response.data.info != undefined && response.data.info != "" && (msg = response.data.info);
-              _g.toastMsg("error", "组织架构 " + msg);
-            }
-          }
-        })
-        .catch(response => {
-          //_g.toastMsg('error','获取组织架构异常')
-        });
+        }
+        return resolve(list)
+      }, () => {
+        return resolve(list)
+      })
     },
     filterNode(value, data) {
       // 模糊查询
@@ -207,7 +145,7 @@ export default {
     init() {
       this.data2 = this.$store.state.TXListState;
     },
-    showPersonalmes(data) {
+    showPersonalmes (data) {
       let pid = 1;
       let data1 = {
         department_id: pid,

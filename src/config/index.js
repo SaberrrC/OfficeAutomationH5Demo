@@ -1,6 +1,6 @@
 export default {
   // OA webApi 接口
-  OA_URL: 'http://testoa.shanlinjinrong.com/webApi/',
+  OA_API: 'http://10.255.232.234/oa-api',
   // OA 老后台url
   OA_HOST: 'http://testoasys.shanlinjinrong.com/',
   // OA 图片服务器

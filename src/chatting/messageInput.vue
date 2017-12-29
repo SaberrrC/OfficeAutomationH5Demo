@@ -80,8 +80,7 @@ export default {
   },
   computed: {
     ...mapState({
-      userName: state => state.user.userName, // 用户名
-      password: state => state.user.password, // 密码
+      imUser: state => state.imUser,
       other: state => state.other, // 对方账号或群ID
       singChatlist: state => state.singChatlist,
       singChatbox: state => state.singChatbox,
@@ -190,7 +189,7 @@ export default {
       })
     },
     sendPrivateText() {
-      this.keyStr = this.userName
+      this.keyStr = this.imUser.userName
       // 点击发送消息
       if (this.chatType === 'chatRoom') {
         this.sendRoomText()
@@ -222,7 +221,7 @@ export default {
             nameType: 1,
             formType: 1,
             value: this.msg,
-            from: that.userName,
+            from: that.imUser.userName,
             to: this.to,
             time: timestamp
           }; // nameType 1 = 发送消息 2 = 接收消息

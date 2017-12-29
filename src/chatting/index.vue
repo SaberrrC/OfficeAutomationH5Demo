@@ -18,7 +18,7 @@
           <div class="personnalfoot">
             <div class="email"><span>邮箱: {{userinfo.email}}</span></div>
             <div class="phone"><span>电话: {{userinfo.phone}}</span></div>
-            <div class="department"><span>部门: {{userinfo.depot}}</span></div>
+            <div class="department"><span>部门: {{userinfo.departmentName}}</span></div>
           </div>
         </div>
       </div>
@@ -103,6 +103,7 @@ require('../config/webim.config.js')
 require('strophe')
 require('../assets/js/websdk-1.4.12.js')
 require('../assets/js/adapter.js')
+require('../assets/js/webrtc-1.4.13.js')
 
 import { mapState } from 'vuex'
 import config from '../config/index'
@@ -215,25 +216,25 @@ export default {
   methods: {
     initChatting () {
       let that = this
-      conn.listen({
-        onOpened (message) {
+      this.$conn.listen({
+        onOpened: function(message) {
           // 连接成功回调，连接成功后才可以发送消息
           // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
           // 手动上线指的是调用conn.setPresence(); 在本例中，conn初始化时已将isAutoLogin设置为true
           // 所以无需调用conn.setPresence();
           console.log('%c [opened] 即时通讯连接已成功建立', 'color: green')
-          // this.TXList()
-          this.getSet()
-          this.getRooms()
-          this.getGroups()
-          this.getCacleMessageList()
-          if (this.tmpFn && this.tmpFn.close) { // 移除掉线的提示
-            this.tmpFn.close()
-            this.tmpFn = null
+          // that.TXList()
+          that.getSet()
+          that.getRooms()
+          chat.getGroups()
+          that.getCacleMessageList()
+          if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
+            that.tmpFn.close()
+            that.tmpFn = null
           }
-          this.$message({message: '即时通讯登录成功', type: 'success'});
+          that.$message({message: '即时通讯登录成功', type: 'success'});
         },
-        onTextMessage (message) {
+        onTextMessage: function(message) {
           console.log(['接收到文本消息', message])
           if(message.from === 'sl_admin' || message.from === 'sl_notice'){
             return 
@@ -242,7 +243,7 @@ export default {
             return
           }
           //message.data = chat.decrpty(message.data,message.from)
-          this.fatchTextMessage(message)
+          that.fatchTextMessage(message)
         }, //  收到文本消息
         onEmojiMessage: function(message) {
           // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
@@ -254,64 +255,64 @@ export default {
             // console.log(data[i])
           }
         }, // 收到表情消息
-        onPictureMessage (message) {
+        onPictureMessage: function(message) {
           console.log('Picture Message', message)
-          this.fatchPictureMessage(message)
+          that.fatchPictureMessage(message)
         },
-        onCmdMessage (message) {
+        onCmdMessage: function(message) {
           console.log('CMD')
-          this.fatchCmdMessage(message)
+          that.fatchCmdMessage(message)
         }, // 收到命令消息
-        onAudioMessage (message) {
+        onAudioMessage: function(message) {
           console.log('Audio')
         }, // 收到音频消息
-        onLocationMessage (message) {
+        onLocationMessage: function(message) {
           console.log('Location')
         }, // 收到位置消息
-        onFileMessage (message) {
+        onFileMessage: function(message) {
           console.log('File Message', message)
-          this.fatchFileMessage(message)
+          that.fatchFileMessage(message)
         }, // 收到文件消息
-        onVideoMessage (message) {
+        onVideoMessage: function(message) {
           var node = document.getElementById('privateVideo')
           var option = {
             url: message.url,
             headers: {
               Accept: 'audio/mp4'
             },
-            onFileDownloadComplete (response) {
+            onFileDownloadComplete: function(response) {
               var objectURL = this.$WebIM.utils.parseDownloadResponse.call(
                 this.$conn,
                 response
               )
               node.src = objectURL
             },
-            onFileDownloadError () {
+            onFileDownloadError: function() {
               console.log('File down load error.')
             }
           }
           this.$WebIM.utils.download.call(this.$conn, option)
         }, // 收到视频消息
-        onPresence (message) {
+        onPresence: function(message) {
           console.log('接收到群组通知', message)
-          this.handlePresence(message)
-          this.groupValue = {}
-          this.groupValue = {
+          that.handlePresence(message)
+          that.groupValue = {}
+          that.groupValue = {
             roomId: message.from,
             groupName: this.groupOption.subject
           }
         }, // 收到联系人订阅请求（加好友）、处理群组、聊天室被踢解散等消息
-        onRoster (message) {
+        onRoster: function(message) {
           console.log('Roster')
         }, // 处理好友申请
-        onInviteMessage (message) {
+        onInviteMessage: function(message) {
           console.log('Invite', message)
-          this.handleInvite(message)
+          that.handleInvite(message)
         }, // 处理群组邀请
-        onOnline () {
+        onOnline: function() {
           console.log('onLine')
-          this.tmpFn && this.tmpFn.close() // 关闭掉线的提示
-          this.$message({
+          that.tmpFn && that.tmpFn.close() // 关闭掉线的提示
+          that.$message({
             message: '即时通讯连接成功',
             type: 'success',
             onClose: function () {
@@ -322,23 +323,24 @@ export default {
             }
           })
         }, // 本机网络连接成功
-        onOffline () {
+        onOffline: function() {
           console.log('offline')
-          if (this.tmpFn && this.tmpFn.close) {
-            this.tmpFn.close()
-            this.tmpFn = null
+          if (that.tmpFn && that.tmpFn.close) {
+            that.tmpFn.close()
+            that.tmpFn = null
           }
-          this.tmpFn = this.$message({
+          that.tmpFn = that.$message({
+            showClose: true,
             message: '即时通讯已掉线，请刷新页面或检查网络！',
             type: 'warning',
             duration: 0
           })
         }, // 本机网络掉线
-        onError (message) {
+        onError: function(message) {
           console.log('Error', message)
-          this.fatchErrorMessage(message)
+          that.fatchErrorMessage(message)
         }, // 失败回调
-        onBlacklistUpdate (list) {
+        onBlacklistUpdate: function(list) {
           // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
           console.log(list)
         } // 黑名单变动
@@ -350,7 +352,7 @@ export default {
         pwd: this.imUser.password
       }
       console.log(options)
-      conn.open(options)
+      this.$conn.open(options)
     },
     loadClickEvent (e) {
       if (!this.$el.contains(e.target)) {
@@ -388,7 +390,7 @@ export default {
         })
       })
     },
-     // 修改群信息
+    // 修改群信息
     changeGroupInfo (id, name) {
       var that = this
       var option = {
@@ -738,6 +740,7 @@ export default {
         case 1:
           console.log('WEBIM_CONNCTION_OPEN_ERROR')
           this.tmpFn = this.$message({
+            showClose: true,
             message: '请刷新页面或重新登陆即时通讯!',
             type: 'warning',
             duration: 0
@@ -746,6 +749,7 @@ export default {
         case 6:
           console.log('WEBIM_CONNCTION_REOPEN_ERROR')
           this.tmpFn = this.$message({
+            showClose: true,
             message: '即时通讯重新登录出错！请刷新页面',
             type: 'warning',
             duration: 0
@@ -754,6 +758,7 @@ export default {
         case 7:
           console.log('WEBIM_CONNCTION_SERVER_CLOSE_ERROR')
           this.tmpFn = this.$message({
+            showClose: true,
             message: '即时通讯网络中断',
             type: 'warning',
             duration: 0
@@ -762,6 +767,7 @@ export default {
         case 8:
           console.log('WEBIM_CONNCTION_SERVER_ERROR')
           this.tmpFn = this.$message({
+            showClose: true,
             message: '即时通讯在其它端登录，被踢下线',
             type: 'warning',
             duration: 0
@@ -770,6 +776,7 @@ export default {
         case 16:
           console.log('WEBIM_CONNCTION_DISCONNECTED')
           this.tmpFn = this.$message({
+            showClose: true,
             message: '即时通讯服务端关闭了连接，请刷新页面、重新登录或稍候再试！',
             type: 'warning',
             duration: 0
@@ -778,6 +785,7 @@ export default {
         default:
           console.log('WEBIM_CONNCTION_DISCONNECTED')
           this.tmpFn = this.$message({
+            showClose: true,
             message: '请刷新页面或重新登陆即时通讯',
             type: 'warning',
             duration: 0

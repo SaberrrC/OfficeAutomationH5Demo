@@ -232,15 +232,13 @@
           }
         }
       },
-      decrpty(data){
-        
+      decrpty (data) {
         let valueNew = chat.decrpty(data.value,data.from)
         //console.log('22',decrptyContent)
         // if( decrptyContent&& decrptyContent.indexOf("[") >=0 &&  data.value.indexOf("]") > 0 ){
         //    decrptyContent = chat.ReCont(decrptyContent)
         // }
         // return data.value
-
         if(valueNew&&valueNew.indexOf("[") >=0 && valueNew.indexOf("]") > 0 ){
           console.log(1)
           valueNew = chat.ReCont(valueNew)
@@ -249,14 +247,13 @@
         return valueNew
       },
       async openChatBox (item, index) { // 点击时 更新对方的账号或群ID
-      console.log(this.$parent.$children)
-      
-      this.$store.state.showSid = item.sId
-      console.log(this.showSid)
-      for(var i = 0; i < this.$parent.$children.length; i++){
-          if(this.$parent.$children[i].addmembershow)  this.$parent.$children[i].addmembershow = false
-          if(this.$parent.$children[i].singChatboxShow)  this.$parent.$children[i].singChatboxShow = false
-      }
+        console.log(this.$parent.$children)
+        this.$store.state.showSid = item.sId
+        console.log(this.showSid)
+        for(var i = 0; i < this.$parent.$children.length; i++){
+            if(this.$parent.$children[i].addmembershow)  this.$parent.$children[i].addmembershow = false
+            if(this.$parent.$children[i].singChatboxShow)  this.$parent.$children[i].singChatboxShow = false
+        }
         if (item.groupid) { // 检查群是否存在(龚海平要求)
           try {
             await chat.queryGroupInfo(item.groupid)
@@ -319,38 +316,39 @@
       }
     },
     watch:{
-      filterText() {
-        if(this.filterText.trim() == ''){
+      filterText () {
+        if (this.filterText.trim() == '') {
           this.p_listSearchShow = false
           return
         }
         if(this.filterText) {
-          console.log(this.$store.state.userinfo.oid)
-          console.log(this.$store.state.userinfo.isleader)
-          console.log(this.filterText)
-          let data = {
-            oid: this.$store.state.userinfo.oid,
-            isleader: this.$store.state.userinfo.isleader,
-            name: this.filterText,
-            ssid: chat.getSsid()
-          }
-          let headers = {
-            token: this.$store.state.userinfo.token,
-            uid: this.$store.state.userinfo.uid
-          }
-          axios.post(config.OA_URL+'index/searchphonebook', qs.stringify(data), {headers: headers}).then((response) => {
-              console.log(response)
-              this.p_listSearchShow = true
-              for(var i=0;i<response.data.data.length;i++) {
-                let tmp1 = response.data.data[i]
-                response.data.data[i]['type'] = 'chat'
-                response.data.data[i]['sId'] = 'SL_' + response.data.data[i].CODE
-                response.data.data[i]['username2'] = response.data.data[i].username + '--'+ response.data.data[i].department_name
-                response.data.data[i]['name'] = response.data.data[i].username
-              }
-              this.listSearch = response.data.data
-              console.log(this.listSearch)
-          })
+          chat.userSearch(this.filterText)
+          // console.log(this.$store.state.userinfo.oid)
+          // console.log(this.$store.state.userinfo.isleader)
+          // console.log(this.filterText)
+          // let data = {
+          //   oid: this.$store.state.userinfo.oid,
+          //   isleader: this.$store.state.userinfo.isleader,
+          //   name: this.filterText,
+          //   ssid: chat.getSsid()
+          // }
+          // let headers = {
+          //   token: this.$store.state.userinfo.token,
+          //   uid: this.$store.state.userinfo.uid
+          // }
+          // axios.post(config.OA_URL+'index/searchphonebook', qs.stringify(data), {headers: headers}).then((response) => {
+          //     console.log(response)
+          //     this.p_listSearchShow = true
+          //     for(var i=0;i<response.data.data.length;i++) {
+          //       let tmp1 = response.data.data[i]
+          //       response.data.data[i]['type'] = 'chat'
+          //       response.data.data[i]['sId'] = 'SL_' + response.data.data[i].CODE
+          //       response.data.data[i]['username2'] = response.data.data[i].username + '--'+ response.data.data[i].department_name
+          //       response.data.data[i]['name'] = response.data.data[i].username
+          //     }
+          //     this.listSearch = response.data.data
+          //     console.log(this.listSearch)
+          // })
         }
       },
       otherInfo: {

@@ -118,11 +118,12 @@ const chat = {
   initCurrentUserInfo (uid) { // 初始化当前登录用户
     return new Promise(function (resolve, reject) {
       try {
-        axios.get('/user/getUserInfoById').then((response) => {
+        axios.get(config.OA_API + '/user/getUserInfoById').then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data
             let tmp = Object.assign({}, result, {
               departmentName: result.organ,
+              name: result.username,
               img: result.portrait ? result.portrait : store.state.image
             })
             console.log(tmp)
@@ -137,6 +138,25 @@ const chat = {
               resolve(tmp)
             }, 0)
           }
+        })
+      } catch (error) {
+        console.log(error)
+        reject(error)
+      }
+    })
+  },
+  userSearch (name) { // 初始化当前登录用户
+    return new Promise(function (resolve, reject) {
+      try {
+        axios.post(config.OA_API + '/phoneBook/searchPhoneBook', {name: name}).then((response) => {
+          if (response.data && response.data.code === '000000') {
+            const result = response.data.data
+            console.log(result)
+            // setTimeout(function () {
+            //   resolve(tmp)
+            // }, 0)
+          }
+          console.log(response)
         })
       } catch (error) {
         console.log(error)
