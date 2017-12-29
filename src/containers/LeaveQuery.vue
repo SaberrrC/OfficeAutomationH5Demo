@@ -118,13 +118,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .leave-query {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  bottom: 16px;
-  left: 16px;
+  height: 100%;
+  padding: 16px;
   .ivu-card {
     height: 100%;
+    overflow-y: auto;
   }
   table {
     border-collapse: collapse;

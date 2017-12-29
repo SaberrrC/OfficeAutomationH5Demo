@@ -118,32 +118,36 @@ body {
         padding: 0;
       }
       .event-box {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin: -20px 0 0 -20px;
         .event-item {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin: -20px 0 0 -20px;
+          display: none;
           height: 40px;
           width: 40px;
-          margin: 0;
           padding: 0;
           line-height: 40px;
           text-align: center;
           border-radius: 50%;
         }
         .leave {
+          display: block;
           color: #fff;
           background-color: #19be6b;
         }
         .abnormal {
+          display: block;
           color: #fff;
           background-color: #ed3f14;
         }
         .overtime {
+          display: block;
           color: #fff;
           background-color: #f90;
         }
         .business {
+          display: block;
           color: #fff;
           background-color: #2d8cf0;
         }
@@ -190,5 +194,35 @@ body {
 }
 .full-screen {
   left: 0;
+}
+.work-attendance-info {
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    width: 25%;
+    text-align: center;
+    em {
+      font-style: normal;
+    }
+    i {
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+      line-height: 12px;
+      border-radius: 50%;
+    }
+  }
+  .leave i {
+    background-color: #19be6b;
+  }
+  .abnormal i {
+    background-color: #ed3f14;
+  }
+  .overtime i {
+    background-color: #f90;
+  }
+  .business i {
+    background-color: #2d8cf0;
+  }
 }
 </style>

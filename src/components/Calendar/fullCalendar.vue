@@ -42,11 +42,11 @@ export default {
   props: {
     events: { // events will be displayed on calendar
       type: Array,
-      default: []
+      'default': []
     },
     lang: {
       type: String,
-      default: 'en'
+      'default': 'en'
     },
     firstDay: {
       type: Number | String,
@@ -54,30 +54,30 @@ export default {
         let res = parseInt(val)
         return res >= 0 && res <= 6
       },
-      default: 0
+      'default': 0
     },
     titleFormat: {
       type: String,
-      default () {
+      'default' () {
         return langSets[this.lang].titleFormat
       }
     },
     monthNames: {
       type: Array,
-      default () {
+      'default' () {
         return langSets[this.lang].monthNames
       }
     },
     weekNames: {
       type: Array,
-      default () {
+      'default' () {
         let arr = langSets[this.lang].weekNames
         return arr.slice(this.firstDay).concat(arr.slice(0, this.firstDay))
       }
     },
     initMonth: {
       type: Date,
-      default () {
+      'default' () {
         return new Date()
       }
     }
@@ -94,9 +94,7 @@ export default {
   },
   methods: {
     emitChangeMonth (start, end, currentStart, current) {
-      console.log('currentDate 2', this.currentDate)
       this.currentDate = current
-      console.log('currentDate 3', this.currentDate)
       this.$emit('changeMonth', start, end, currentStart)
     },
     emitEventClick (event, jsEvent, pos) {

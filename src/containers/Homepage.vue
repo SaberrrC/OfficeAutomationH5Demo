@@ -282,35 +282,4 @@ export default {
     background: #eee;
   }
 }
-.work-attendance-info {
-  span {
-    display: inline-block;
-    vertical-align: middle;
-    width: 25%;
-    text-align: center;
-    em {
-      font-style: normal;
-    }
-    i {
-      display: inline-block;
-      height: 12px;
-      width: 12px;
-      line-height: 12px;
-      border-radius: 50%;
-    }
-  }
-  .leave i {
-    background-color: #19be6b;
-  }
-  .abnormal i {
-    background-color: #ed3f14;
-  }
-  .overtime i {
-    background-color: #f90;
-  }
-  .business i {
-    background-color: #2d8cf0;
-  }
-}
-
 </style>

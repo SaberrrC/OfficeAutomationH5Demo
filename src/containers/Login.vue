@@ -78,8 +78,10 @@ export default {
               const data = response.data.data
               localStorage.setItem('token', data.token)
               localStorage.setItem('uid', data.uid)
-              const redirect = this.$route.query.redirect
-              window.location.replace(redirect)
+              this.$router.replace(this.$route.query.redirect)
+              setTimeout(() => {
+                window.location.reload()
+              }, 0)
             }
           }).catch((err) => {
             console.log(err)
