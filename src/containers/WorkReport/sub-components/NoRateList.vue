@@ -318,24 +318,6 @@
 						return "";
 				}
 			},
-			statusFomat(status) {
-				switch(status) {
-					case 0:
-						return "未提交";
-						break;
-					case 1:
-						return "已提交";
-						break;
-					case 2:
-						return "已退回";
-						break;
-					case 3:
-						return "已评分";
-						break;
-					default:
-						return "";
-				}
-			},
 			//点击页码切换
 			handPageChange(val) {
 				console.log(val)
