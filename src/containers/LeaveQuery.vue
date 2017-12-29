@@ -139,27 +139,11 @@
       text-align: left;
       background: #f8f8f9;
     }
-    table {
-      border-collapse: collapse;
-      width: 90%;
-      margin: auto;
-      border-top: 1px solid #e9eaec;
-      border-left: 1px solid #e9eaec;
-      th {
-        height: 60px;
-        padding: 0 16px;
-        border-right: 1px solid #e9eaec;
-        border-bottom: 1px solid #e9eaec;
-        font-size: 20px;
-        text-align: left;
-        background: #f8f8f9;
-      }
-      td {
-        height: 50px;
-        padding: 0 16px;
-        border-right: 1px solid #e9eaec;
-        border-bottom: 1px solid #e9eaec;
-      }
+    td {
+      height: 50px;
+      padding: 0 16px;
+      border-right: 1px solid #e9eaec;
+      border-bottom: 1px solid #e9eaec;
     }
   }
 }
