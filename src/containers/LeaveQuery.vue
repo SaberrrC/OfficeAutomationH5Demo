@@ -50,103 +50,103 @@
 </template>
 
 <script>
-export default {
-  name: 'LeaveQuery',
-  data () {
-    return {
-      tab: '0',
-      tabs: [
-        {name: '年假', id: '0'},
-        {name: '带薪病假', id: '1'},
-        {name: '转调休', id: '2'}
-      ],
-      year: '',
-      years: [],
-      unit: '天',
-      //  TODO
-      leaveInfo: {
-        changelength: '0',
-        code: '',
-        curdayorhour: '0',
-        deptname: '',
-        freezedayorhour: '0',
-        jobname: '',
-        lastdayorhour: '0',
-        psname: '',
-        realdayorhour: '0',
-        restdayorhour: '0',
-        usefulrestdayorhour: '0',
-        yidayorhour: '0'
+  export default {
+    name: 'LeaveQuery',
+    data () {
+      return {
+        tab: '0',
+        tabs: [
+          {name: '年假', id: '0'},
+          {name: '带薪病假', id: '1'},
+          {name: '转调休', id: '2'}
+        ],
+        year: '',
+        years: [],
+        unit: '天',
+        //  TODO
+        leaveInfo: {
+          changelength: '0',
+          code: '',
+          curdayorhour: '0',
+          deptname: '',
+          freezedayorhour: '0',
+          jobname: '',
+          lastdayorhour: '0',
+          psname: '',
+          realdayorhour: '0',
+          restdayorhour: '0',
+          usefulrestdayorhour: '0',
+          yidayorhour: '0'
+        }
+      }
+    },
+    created () {
+      const currentYear = new Date().getFullYear()
+      const lastYear = currentYear - 1
+      this.years.push({label: lastYear, value: lastYear})
+      this.years.push({label: currentYear, value: currentYear})
+      this.year = currentYear
+      this.handleQueryLeave(this.tab, this.year)
+    },
+    methods: {
+      handleChangeTab (id) {
+        this.tab = id
+        this.unit = id === '2' ? '小时' : '天'
+        this.handleQueryLeave(id, this.year)
+      },
+      handleChangeYear (year) {
+        this.handleQueryLeave(this.tab, year)
+      },
+      handleQueryLeave (type, year) {
+        this.$ajax.get('/nchrHoliday/getHoliday', {
+          params: {
+            type,
+            year
+          }
+        }).then((response) => {
+          if (response.data && response.data.code === '000000') {
+            this.leaveInfo = response.data.data[0]
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
       }
     }
-  },
-  created () {
-    const currentYear = new Date().getFullYear()
-    const lastYear = currentYear - 1
-    this.years.push({label: lastYear, value: lastYear})
-    this.years.push({label: currentYear, value: currentYear})
-    this.year = currentYear
-    this.handleQueryLeave(this.tab, this.year)
-  },
-  methods: {
-    handleChangeTab (id) {
-      this.tab = id
-      this.unit = id === '2' ? '小时' : '天'
-      this.handleQueryLeave(id, this.year)
-    },
-    handleChangeYear (year) {
-      this.handleQueryLeave(this.tab, year)
-    },
-    handleQueryLeave (type, year) {
-      this.$ajax.get('/nchrHoliday/getHoliday', {
-        params: {
-          type,
-          year
-        }
-      }).then((response) => {
-        if (response.data && response.data.code === '000000') {
-          this.leaveInfo = response.data.data[0]
-        }
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.leave-query {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  bottom: 16px;
-  left: 16px;
-  .ivu-card {
-    height: 100%;
-  }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: auto;
-    border-top: 1px solid #e9eaec;
-    border-left: 1px solid #e9eaec;
-    th {
-      height: 60px;
-      padding: 0 16px;
-      border-right: 1px solid #e9eaec;
-      border-bottom: 1px solid #e9eaec;
-      font-size: 20px;
-      text-align: left;
-      background: #f8f8f9;
+  .leave-query {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    .ivu-card {
+      height: 100%;
     }
-    td {
-      height: 50px;
-      padding: 0 16px;
-      border-right: 1px solid #e9eaec;
-      border-bottom: 1px solid #e9eaec;
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      margin: auto;
+      border-top: 1px solid #e9eaec;
+      border-left: 1px solid #e9eaec;
+      th {
+        height: 60px;
+        padding: 0 16px;
+        border-right: 1px solid #e9eaec;
+        border-bottom: 1px solid #e9eaec;
+        font-size: 20px;
+        text-align: left;
+        background: #f8f8f9;
+      }
+      td {
+        height: 50px;
+        padding: 0 16px;
+        border-right: 1px solid #e9eaec;
+        border-bottom: 1px solid #e9eaec;
+      }
     }
   }
-}
 </style>
