@@ -43,8 +43,6 @@
 </template>
 
 <script>
-  //  TODO 临时测试环境变量
-  const TEST_CONFIG = 'http://118.31.18.67:8084'
   export default {
     name: 'WorkReportDaily',
     data () {
@@ -55,13 +53,9 @@
     methods: {
 //      获取会议室列表
       getMeetRoom () {
-        this.$ajax.get(`${TEST_CONFIG}/newMeetingRooms`, {
+        this.$ajax.get(`/newMeetingRooms`, {
           params: {
           },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           if (response.data.code === '000000') {
             var len = response.data.data.length

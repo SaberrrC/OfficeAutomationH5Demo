@@ -61,6 +61,7 @@
     name: 'WorkReportDaily',
     data () {
       return {
+        date: this.$route.query.date ? this.$route.query.date : ''
       }
     },
     methods: {
@@ -78,7 +79,7 @@
       },
 //    点击签卡申请
       launchSignCard () {
-        this.$router.push({ path: 'launchSignCard' })
+        this.$router.push({ path: 'launchSignCard', query: {date: this.date} })
       },
 //    点击办公用品申请
       launchOfficeSupplies () {

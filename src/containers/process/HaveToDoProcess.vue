@@ -78,7 +78,7 @@
     data () {
       return {
         formItem: {
-          time: '0',
+          time: '4',
           status: ''
         },
         billType: '',                    // 发起类型
@@ -170,10 +170,6 @@
             time: this.formItem.time,
             pageNum: this.launchCurrentPage,
             pageSize: this.launchPageSize
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           console.log(response)

@@ -370,10 +370,6 @@
         this.$ajax.get(`/nchrcommon/getBillCode`, {
           params: {
             billType: '6404'
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -388,10 +384,6 @@
         this.$ajax.get(`/nchrEvection/queryBilltype`, {
           params: {
             itemtype: '0'
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -502,11 +494,6 @@
           nchrfurloughApplyDetail: this.nCHREvectionApplyDeatil
         }  // TODO 组装数据
         this.$ajax.post(`/nchrFurlough/submitFurlough`, JSON.stringify(data), {
-          headers: {
-            'Content-Type': 'application/json',
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
@@ -623,10 +610,6 @@
                   type: '6404',
                   billCode: this.furloughTitle.furloughCode,
                   applyType: this.furloughTitle.type
-                },
-                headers: {
-                  token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-                  uid: '84' //  TODO 临时测试
                 }
               }).then((response) => {
                 if (response.data.code === '000000') {

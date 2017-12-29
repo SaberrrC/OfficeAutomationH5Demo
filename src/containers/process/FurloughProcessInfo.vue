@@ -297,10 +297,6 @@
           params: {
             billType: this.$route.query.billType,
             billCode: this.$route.query.billCode
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           console.log(response)
@@ -355,10 +351,6 @@
           message: this.reply
         }]
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {
@@ -380,10 +372,6 @@
           message: this.reply
         }]
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {
@@ -403,15 +391,9 @@
         * */
         var approveRequest = {
           monocode: this.billTitle.billCode,
-          status: this.applyWorkFlows[0].isCheck,
-          type: this.$route.query.billType,
-          message: this.reply
+          type: this.$route.query.billType
         }
         this.$ajax.post(`/myApply/approveCallBack`, approveRequest, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {
@@ -452,10 +434,6 @@
             billType: this.selectBillType,
             pageNum: num,
             pageSize: 1
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
@@ -532,10 +510,6 @@
             billType: this.selectBillType,
             pageNum: num,
             pageSize: 1
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {

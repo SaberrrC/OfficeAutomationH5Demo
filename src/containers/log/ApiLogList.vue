@@ -54,10 +54,6 @@
           params: {
             page: this.CurrentPage,
             limit: this.PageSize
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -71,7 +67,7 @@
       },
 //    调下载日志接口
       download (item) {     // TODO  参数动态化
-        window.location.href = 'http://10.255.232.234/oa-api/log/apidownlogs?logname=' + item + '&token=f19dc8a190f445a2a4cee5b5c3c872c0&uid=84'
+        window.location.href = 'http://10.255.232.234/oa-api/log/apidownlogs?logname=' + item
       },
       changePage (page) {
         this.CurrentPage = page              // 发起列表当前页数

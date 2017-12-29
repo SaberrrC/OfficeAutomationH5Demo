@@ -81,7 +81,7 @@
     data () {
       return {
         formItem: {
-          time: '0',
+          time: '4',
           launchUser: ''
         },
         billType: '',                    // 发起类型
@@ -210,10 +210,6 @@
             pageNum: this.launchCurrentPage,
             pageSize: this.launchPageSize
           },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {
@@ -279,12 +275,29 @@
       },
 //    点击批量同意
       handleBatchAgree () {
-        this.handleEdit('true')
+        const title = '确认'
+        const content = '<p>是否批量同意已勾选的申请？</p>'
+        this.$Modal.confirm({
+          title: title,
+          content: content,
+          onOk: (() => {
+            this.handleEdit('true')
+          })
+        })
       },
 //    点击批量驳回
       handleBatchReject () {
-        this.handleEdit('false')
+        const title = '确认'
+        const content = '<p>是否批量驳回已勾选的申请？</p>'
+        this.$Modal.confirm({
+          title: title,
+          content: content,
+          onOk: (() => {
+            this.handleEdit('false')
+          })
+        })
       },
+//    点击同意
       HandleAgree (row) {
         var len = this.checkList.length
         console.log(len)
@@ -325,10 +338,6 @@
         }
         console.log(approveRequest)
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {

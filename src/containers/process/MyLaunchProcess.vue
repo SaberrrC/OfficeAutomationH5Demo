@@ -77,7 +77,7 @@
     data () {
       return {
         formItem: {
-          time: '',
+          time: '4',
           status: ''
         },
         billType: '',                    // 发起类型
@@ -159,22 +159,22 @@
           },
           {
             title: '操作',
-            key: 'edit',
+            key: 'approveState',
             align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
                   props: {
                     type: 'primary',
-                    size: 'small'
+                    size: 'small',
+                    disabled: params.row.approveState === '3' ? false : true
                   },
                   style: {
                     marginRight: '5px'
                   },
                   on: {
                     click: (event) => {
-//                      this.show(params.index)
-                      console.log(params.row)
+                      this.approveCallBack(params.row)
                       event.stopPropagation()
                     }
                   }
@@ -196,10 +196,6 @@
             billType: this.billType,
             pageNum: this.launchCurrentPage,
             pageSize: this.launchPageSize
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           console.log(response)
@@ -274,10 +270,34 @@
         this.billType = this.items[index].id
         this.getMyLaunchList()
       },
+//    点击收回
+      approveCallBack (row) {
+        /*
+        * 调收回接口
+        * */
+        var approveRequest = {
+          monocode: row.billCode,
+          type: row.billType
+        }
+        this.$ajax.post(`/myApply/approveCallBack`, approveRequest, {
+        }).then((response) => {
+          console.log(response)
+          if (response.data.code === '000000') {
+            this.$Message.success('收回成功')
+            this.$router.push({path: this.type})
+          } else {
+            this.$Message.success(response.data.message)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+//    翻页
       changePage (page) {
         this.launchCurrentPage = page              // 发起列表当前页数
         this.getMyLaunchList()
       },
+//    切换每页显示条数
       pageSizeChange (pageSize) {
         this.launchPageSize = pageSize              // 发起列表每页显示条数
         this.getMyLaunchList()

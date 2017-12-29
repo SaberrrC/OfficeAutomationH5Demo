@@ -396,10 +396,6 @@
                   send_type: this.send_type
                 }
                 this.$ajax.post(`/newMeetings/updateMeeting`, qs.stringify(data), {
-                  headers: {
-                    token: 'c955d939c180414fa2ffa24be4ebf921', //  TODO 临时测试
-                    uid: '84' //  TODO 临时测试
-                  }
                 }).then((response) => {
                   console.log(response)
                   if (response.data.code === '000000') {
@@ -488,10 +484,6 @@
           params: {
             roomId: this.$route.query.roomId,
             weekdate: this.nowTime
-          },
-          headers: {
-            token: 'c955d939c180414fa2ffa24be4ebf921',    //  TODO 临时测试
-            uid: '84'     //  TODO 临时测试
           }
         }).then((response) => {
 //        判断成功返回数据

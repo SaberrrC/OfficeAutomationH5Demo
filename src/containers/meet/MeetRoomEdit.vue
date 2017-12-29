@@ -20,37 +20,41 @@
       :ok-text="okText"
       :closable="false"
       class-name="vertical-center-modal"
+      class="modal"
     >
-      <Form :model="formItem" :label-width="80">
+      <Form ref="formItem" :model="formItem" :rules="ruleFormItem" :label-width="82">
       <Row>
         <i-Col span="12">
-            <FormItem label="会议室名称">
-              <Input v-model="formItem.roomname" placeholder="请输入会议室名称"></Input>
+            <FormItem label="会议室名称" prop="roomname">
+              <Input v-model="formItem.roomname" placeholder="请输入会议室名称" :autofocus="true"></Input>
             </FormItem>
         </i-Col>
         <i-Col span="12">
-            <FormItem label="会议室地点">
+            <FormItem label="会议室地点"  prop="address">
               <Input v-model="formItem.address" placeholder="请输入会议室地点"></Input>
             </FormItem>
         </i-Col>
       </Row>
         <Row>
           <i-Col span="12">
-            <FormItem label="会议室设备">
+            <FormItem label="会议室设备"  prop="device">
               <Input v-model="formItem.device" placeholder="请输入会议室设备"></Input>
             </FormItem>
           </i-Col>
           <i-Col span="12">
-            <FormItem label="会议室容量">
-              <Input v-model="formItem.nop" placeholder="请输入会议室容量(纯数字)"></Input>
+            <FormItem label="会议室容量" prop="nop">
+              <!--<Input v-model="formItem.nop" placeholder="请输入会议室容量(纯数字)"></Input>-->
+              <Select v-model="formItem.nop" placeholder="请选择会议室容量">
+                <Option v-for="i in [10,20,30,40]" :value="i">{{ i }}  人</Option>
+              </Select>
             </FormItem>
           </i-Col>
         </Row>
         <Row>
           <i-Col span="12">
-            <FormItem label="会议室图片">
+            <FormItem label="会议室图片" prop="roomimg">
               <div>
-                <img v-if="roomimg !== ''" :src="roomimg" alt="会议室图片" style="width: 100px;height: 100px">
+                <img v-if="formItem.roomimg !== ''" :src="roomimg" alt="会议室图片" style="width: 100px;height: 100px">
                 <img v-else style="width: 100px;height: 100px">
               </div>
               <div style="width:100px;text-align: center">
@@ -72,7 +76,7 @@
     </Modal>
   <div class="work-report-daily">
     <Card :dis-hover="true">
-      <Table  :columns="tableHead" :data="roomList" :loading="loading"></Table>
+      <Table  :columns="tableHead" :data="roomList"></Table>
     </Card>
   </div>
   </div>
@@ -85,13 +89,8 @@
     data () {
       return {
         modalTitle: '',
-        loading: true,
         okText: '',
-        action: `http://10.255.232.234/oa-api/newMeetingRooms/upload`,
-        headers: {
-          token: 'f19dc8a190f445a2a4cee5b5c3c872c0',
-          uid: '84'
-        },
+        action: `http://10.255.232.234/oa-api/file`,
         roomimg: '',
         modal1: false,
         formItem: {
@@ -146,9 +145,6 @@
                     'true-value': 1,       //  选中时的值
                     'false-value': 0       //  没有选中时的值
                   },
-//                  style: {
-//                    marginRight: '5px'
-//                  },
                   on: {
                     'on-change': () => {      //  事件
                       this.handleSwitch(params.index)
@@ -176,8 +172,7 @@
                   },
                   on: {
                     click: () => {
-                      this.handleUpdate(params.index)
-//                      console.log(params.row)
+                      this.handleUpdate(params.row)
                     }
                   }
                 }, '修改'),
@@ -196,20 +191,32 @@
             }
           }
         ],
-        roomList: []
+        roomList: [],
+        ruleFormItem: {
+          roomname: [
+            { required: true, message: '请输入会议室名称', trigger: 'blur' }
+          ],
+          address: [
+            { required: true, message: '请输入会议室地点', trigger: 'blur' }
+          ],
+//          device: [
+//            { required: true, message: '请输入会议室设备', trigger: 'blur' }
+//          ],
+          nop: [
+            { required: true, type: 'number', message: '请选择会议室容量', trigger: 'change' }
+          ],
+          roomimg: [
+            { required: true, message: '请上传会议室图片', trigger: 'blur' }
+          ]
+        }
       }
     },
     methods: {
       //      获取会议室列表
       getMeetRoom () {
         this.$ajax.get(`/newMeetingRooms`, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           if (response.data.code === '000000') {
-            this.loading = false
             console.log(response.data)
             var len = response.data.data.length
             var room = []
@@ -237,46 +244,58 @@
         this.formItem.device = ''
         this.formItem.nop = ''
         this.formItem.isuse = 1
+        this.formItem.roomimg = ''
         this.roomimg = ''
+        this.$refs.formItem.resetFields()
       },
 //    点击弹层确定/修改
       ok () {
-        if (this.okText === '确定') {
-          console.log(this.formItem)
+        this.$refs.formItem.validate((valid) => {
+          if (valid) {
+            if (this.okText === '确定') {
+              console.log(this.formItem)
 //        调新建会议室接口
-          this.$ajax.post(`/newMeetingRooms`, qs.stringify(this.formItem), {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-              uid: '84' //  TODO 临时测试
-            }
-          }).then((response) => {
-            console.log(response)
-            if (response.data.code === '000000') {
-              this.getMeetRoom()
-              this.$Message.success('会议室创建成功')
-            }
-          }).catch(function (err) {
-            console.log(err)
-          })
-        } else if (this.okText === '修改') {
+              this.$ajax.post(`/newMeetingRooms`, qs.stringify(this.formItem), {
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                }
+              }).then((response) => {
+                console.log(response)
+                if (response.data.code === '000000') {
+                  this.getMeetRoom()
+                  this.$Message.success('会议室创建成功')
+                }
+              }).catch(function (err) {
+                console.log(err)
+              })
+            } else if (this.okText === '修改') {
 //        调修改会议室接口
-          this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.formItem), {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-              uid: '84' //  TODO 临时测试
+              console.log(this.formItem)
+              this.$refs.formItem.validate((valid) => {
+                if (valid) {
+                  this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.formItem), {
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                  }).then((response) => {
+                    console.log(response)
+                    if (response.data.code === '000000') {
+                      this.getMeetRoom()
+                      this.$Message.success('会议室修改成功')
+                    } else {
+                      this.$Message.error(response.data.message)
+                      this.getMeetRoom()
+                    }
+                  }).catch(function (err) {
+                    console.log(err)
+                  })
+                } else {
+                }
+              })
             }
-          }).then((response) => {
-            console.log(response)
-            if (response.data.code === '000000') {
-              this.getMeetRoom()
-              this.$Message.success('会议室修改成功')
-            }
-          }).catch(function (err) {
-            console.log(err)
-          })
-        }
+          } else {
+          }
+        })
       },
 //    点击弹层取消
       cancel () {
@@ -301,30 +320,40 @@
         this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.roomList[index]), {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {
             this.getMeetRoom()
             this.$Message.success('会议室状态修改成功')
+          } else {
+            this.getMeetRoom()
+            this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)
         })
       },
 //    点击修改
-      handleUpdate (index) {
+      handleUpdate (row) {
+        console.log(row)
         this.modal1 = true
         this.modalTitle = '修改会议室'
         this.okText = '修改'
-        this.formItem.room_id = this.roomList[index].room_id
-        this.formItem.roomname = this.roomList[index].roomname
-        this.formItem.address = this.roomList[index].address
-        this.formItem.device = this.roomList[index].device
-        this.formItem.nop = parseInt(this.roomList[index].nop)
-        this.roomimg = 'http://118.31.18.67:96' + this.roomList[index].roomimg
+        this.formItem.room_id = row.room_id
+        this.formItem.roomname = row.roomname
+        this.formItem.address = row.address
+        this.formItem.device = row.device
+        this.formItem.nop = row.nop
+        this.formItem.nop = parseInt(row.nop)
+        this.formItem.roomimg = row.roomimg
+        this.roomimg = 'http://118.31.18.67:96' + this.formItem.roomimg
+        console.log(this.formItem)
+        this.$refs.formItem.validate('roomname')
+        this.$refs.formItem.validate('address')
+        this.$refs.formItem.validate('device')
+        this.$refs.formItem.validate('roomimg')
+        this.$refs.formItem.validate('nop')
       },
 //     删除会议室
       remove (index) {
@@ -337,12 +366,9 @@
             //      调删除会议室接口
             this.$ajax.delete(`/newMeetingRooms`, {
               params: {
-                room_id: this.roomList[index].room_id //  TODO 临时测试
+                room_id: this.roomList[index].room_id
               },
-              headers: {
-                token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-                uid: '84' //  TODO 临时测试
-              }
+
             }).then((response) => {
               if (response.data.code === '000000') {
                 this.roomList.splice(index, 1)
@@ -375,13 +401,13 @@
   .header .ivu-btn {
     margin-right: 20px;
   }
-  .vertical-center-modal{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .ivu-modal{
-      top: 0;
-    }
+  .ivu-modal-content {
+    position: relative;
+    background-color: #fff;
+    border: 0;
+    border-radius: 6px;
+    background-clip: padding-box;
+    top: 60%;
+    left: 50%;
   }
 </style>

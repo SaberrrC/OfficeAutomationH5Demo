@@ -197,7 +197,7 @@
         type: [],              // 签卡原因
         nCHREvectionApplyDeatil: [],               // 签卡明细
         billDetail: {
-          signTime: '',          // 签卡时间
+          signTime: this.$route.query.date ? this.$route.query.date : '',          // 签卡时间
           signRemark: '',        // 签卡说明
           signCause: '',         // 签卡原因
           signCauseId: ''          // 签卡原因ID
@@ -247,10 +247,6 @@
         this.$ajax.get(`/nchrcommon/getBillCode`, {
           params: {
             billType: '6402'
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -263,10 +259,6 @@
 //    获取签卡原因
       getBillType () {
         this.$ajax.get(`/nchrSign/findSignReason`, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           if (response.data.code === '000000') {
             var data = response.data.data
@@ -390,11 +382,6 @@
           nchrSignDetails: this.nCHREvectionApplyDeatil
         }  // TODO 组装数据
         this.$ajax.post(`/nchrSign/saveSign`, JSON.stringify(data), {
-          headers: {
-            'Content-Type': 'application/json',
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')

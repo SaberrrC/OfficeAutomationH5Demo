@@ -166,8 +166,17 @@
                 <Row>
                   <i-Col :lg="{span:6}" :md="{span:8}" :sm="{span:10}" :xs="{span:12}">
                     <FormItem label="工作交接人" prop="handOverPepole">
-                      <Input placeholder="请选择交接人" icon="person" v-model="billDetail.handOverPepole"></Input>
+                      <Input
+                        placeholder="请选择交接人"
+                        icon="person"
+                        v-model="billDetail.handOverPepole"
+                        @on-focus="doSelectMember(data1)"></Input>
                     </FormItem>
+                    <member-selector
+                      v-if="isShow"
+                      :init-tree-data="initTreeData"
+                      @getSelectedMembers="getSelectedMembers"
+                      @removeMemberSelector="handleRemove('isShow')"/>
                   </i-Col>
                 </Row>
               </div>
@@ -293,8 +302,12 @@
 
 <script>
   import qs from "qs"
+  import MemberSelector from '@/components/MemberSelector'
   export default {
-    name: 'WorkReportDaily',
+    components: {
+      MemberSelector
+    },
+    name: 'LaunchBill',
     data () {
       const validateStartTime = (rule, value, callback) => {
         if (value === '') {
@@ -334,6 +347,8 @@
         }
       }
       return {
+        isShow: false,
+        initTreeData: [],
         showAddBill: false,
         showAddbillButton: true,
         showDeletebillButton: false,
@@ -344,13 +359,12 @@
         },
         type: [],              // 出差类别
         nchrevectionApplyDetail: [],               // 出差明细
-        HandoverUser: [],
         billDetail: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
           evectionAddress: '',   // 出差地点
           evectionRemark: '',    // 出差原因
-          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
+          handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
         addBill: {
@@ -358,7 +372,7 @@
           endTime: '',           // 结束日期
           evectionAddress: '',   // 出差地点
           evectionRemark: '',    // 出差原因
-          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
+          handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
         duration: '',          // 时长(单位)
@@ -410,10 +424,6 @@
         this.$ajax.get(`/nchrcommon/getBillCode`, {
           params: {
             billType: '6403'
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -428,16 +438,11 @@
         this.$ajax.get(`/nchrEvection/queryBilltype`, {
           params: {
             itemtype: '2'
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.type = response.data.data
           }
-          console.log(this.type)
         }).catch(function (err) {
           console.log(err)
         })
@@ -535,8 +540,8 @@
           endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
           end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
           this.nchrevectionApplyDetail[i].endTime = end
-          console.log('.nchrevectionApplyDetail',this.nchrevectionApplyDetail)
-          console.log('.nchrevectionApplyDetail[i].endTime',this.nchrevectionApplyDetail[i].endTime)
+          console.log('.nchrevectionApplyDetail', this.nchrevectionApplyDetail)
+          console.log('.nchrevectionApplyDetail[i].endTime', this.nchrevectionApplyDetail[i].endTime)
         }
 
         var data = {
@@ -545,12 +550,10 @@
           type: this.billTitle.type,
           nchrevectionApplyDetail: this.nchrevectionApplyDetail
         }  // TODO 组装数据
-        console.log('data',data)
+        console.log('data', data)
         this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json',
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -607,12 +610,12 @@
         this.showAddbillButton = true
         this.showDeletebillButton = false
         this.nchrevectionApplyDetail.splice(1, 1)
-        this.addBill.startTime = '',
-        this.addBill.endTime = '',
-        this.addBill.evectionAddress = '',
-        this.addBill.evectionRemark = '',
-        this.addBill.handOverPepole = '',
-        this.addBill.timeDifference = '',
+        this.addBill.startTime = ''
+        this.addBill.endTime = ''
+        this.addBill.evectionAddress = ''
+        this.addBill.evectionRemark = ''
+        this.addBill.handOverPepole = ''
+        this.addBill.timeDifference = ''
         console.log(this.nchrevectionApplyDetail)
       },
 //    开始时间改变(出差明细)
@@ -676,17 +679,11 @@
                 type: '6403',
                 billCode: this.billTitle.billCode,
                 applyType: this.billTitle.type
-              },
-              headers: {
-                token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-                uid: '84' //  TODO 临时测试
               }
             }).then((response) => {
               if (response.data.code === '000000') {
                 if (type === 'billDetail') {
                   this.billDetail.timeDifference = response.data.data
-                  console.log(this.billDetail.startTime)
-                  console.log(this.billDetail.endTime)
                 } else if (type === 'add') {
                   this.addBill.timeDifference = response.data.data
                 }
@@ -700,19 +697,26 @@
 //    获取工作交接人
       getHandoverUser () {
         this.$ajax.get(`/HandoverUser/getHandoverUser`, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
-            this.HandoverUser = response.data.data
-            console.log(this.HandoverUser)
+            this.initTreeData = response.data.data
+            console.log(this.initTreeData)
           }
         }).catch(function (err) {
           console.log(err)
         })
+      },
+//    选择工作交接人
+      getSelectedMembers (data) {
+        //  在这里处理选中的数组
+        console.log(data)
+      },
+      handleRemove (name) {
+        this[name] = false
+      },
+      doSelectMember (data) {
+        this.initTreeData = data
+        this.isShow = true
       },
 //    页面关闭
       pageClose () {
@@ -724,6 +728,18 @@
       this.getBillType()
       this.getTime()
       this.getHandoverUser()
+      this.data1 = [{
+        id: '1',
+        title: '善林金融',
+        loading: false,
+        children: []
+      }]
+      this.data2 = [{
+        id: '1',
+        title: '善林金融2',
+        loading: false,
+        children: []
+      }]
     }
   }
 </script>

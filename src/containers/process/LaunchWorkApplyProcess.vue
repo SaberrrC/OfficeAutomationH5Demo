@@ -327,10 +327,6 @@
         this.$ajax.get(`/nchrcommon/getBillCode`, {
           params: {
             billType: '6405'
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -345,10 +341,6 @@
         this.$ajax.get(`/nchrEvection/queryBilltype`, {
           params: {
             itemtype: '1'
-          },
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -461,8 +453,6 @@
         this.$ajax.post(`/WorkApply/addWorkApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json',
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -568,10 +558,6 @@
                 type: '6405',
                 billCode: this.workApplyTitle.workApplyCode,
                 applyType: this.workApplyTitle.type
-              },
-              headers: {
-                token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-                uid: '84' //  TODO 临时测试
               }
             }).then((response) => {
               if (response.data.code === '000000') {

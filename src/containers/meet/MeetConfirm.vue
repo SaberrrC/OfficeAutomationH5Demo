@@ -53,8 +53,13 @@
             <row>
               <i-Col span="12">
                 <FormItem prop="user" label="与会人员">
-                  <Input v-model="meetInline.user" placeholder="请选择与会人员" icon="person" :disabled="disabled" @on-focus="$store.dispatch('changeMemberSelector', true)"></Input>
+                  <Input v-model="meetInline.user" placeholder="请选择与会人员" icon="person" :disabled="disabled" @on-focus="doSelectMember(data1)"></Input>
                 </FormItem>
+                <member-selector
+                  v-if="isShow"
+                  :init-tree-data="initTreeData"
+                  @getSelectedMembers="getSelectedMembers"
+                  @removeMemberSelector="handleRemove('isShow')"/>
               </i-Col>
             </row>
             <!--会议内容-->
@@ -63,12 +68,6 @@
                 <FormItem prop="content" label="会议内容">
                   <Input type="textarea" v-model="meetInline.content" placeholder="请输入会议内容,不大于200字" icon="ios-search" :disabled="disabled"></Input>
                 </FormItem>
-                <keep-alive>
-                  <member-selector
-                    v-if="memberSelectorIsShow"
-                    :init-tree-data="initTreeData"
-                    @getSelectedMembers="getSelectedMembers"/>
-                </keep-alive>
               </i-Col>
             </row>
           </Form>
@@ -85,24 +84,16 @@
 
 <script>
   import qs from "qs"
-  import MemberTree from '@/components/MemberTree'
   import MemberSelector from '@/components/MemberSelector'
   export default {
     components: {
-      MemberTree,
       MemberSelector
     },
     data () {
       return {
+        isShow: false,
         //  TODO 这里是选择人员的初始化数组，不要和下面的混淆，一般根据业务场景异步取得
-        initTreeData: [
-          {
-            id: '1',
-            title: '善林金融',
-            loading: false,
-            children: []
-          }
-        ],
+        initTreeData: [],
         checked: false,
         disabled: true,
         room_id: this.$route.query.roomId,
@@ -186,14 +177,14 @@
         this.$ajax.post(`/newMeetings/save`, qs.stringify(data), {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
           }
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('会议创建成功')
             this.$router.push({path: 'myMeeting'})
+          } else {
+            this.$Message.success(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)
@@ -201,6 +192,8 @@
       },
       getSelectedMembers (data) {
         //  TODO 在这里处理选中的数组
+        this.meetInline.user = ''
+        this.part_uid = ''
         console.log(data)
         var len = data.length
         var ids = []
@@ -210,22 +203,33 @@
           users.push(data[i].username)
         }
         ids = ids.join(",")
-        users = users.join(",")
+        users = users.join("、")
         this.meetInline.user = users
         this.part_uid = ids
         this.$refs.meetInline.validateField('user')
-        console.log(ids)
-        console.log(users)
-      }
-    },
-    computed: {
-      //  TODO 从 state 获取是否显示状态并利用计算属性触发更新
-      memberSelectorIsShow () {
-        return this.$store.state.showMemberSelector
+      },
+      doSelectMember (data) {
+        this.initTreeData = data
+        this.isShow = true
+      },
+      handleRemove (name) {
+        this[name] = false
       }
     },
     created () {
       this.getUsers()
+      this.data1 = [{
+        id: '1',
+        title: '善林金融',
+        loading: false,
+        children: []
+      }]
+      this.data2 = [{
+        id: '1',
+        title: '善林金融2',
+        loading: false,
+        children: []
+      }]
 //      this.$store.dispatch('querySidebarList', 'home')
     }
   }

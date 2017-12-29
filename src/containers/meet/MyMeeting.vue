@@ -20,7 +20,7 @@
     <Card :dis-hover="true">
       <!--发起列表-->
       <div v-show="showLaunchList">
-        <Table border :columns="launchTableHead" :data="launchTableData" :loading="launchLoading"></Table>
+        <Table border :columns="launchTableHead" :data="launchTableData"></Table>
         <div style="margin: 10px;overflow: hidden">
           <div>
             <Page
@@ -71,7 +71,6 @@
         launchTotal: 0,                 // 发起列表总条数
         launchPageSize: 10,              // 发起列表每页显示条数
         launchCurrentPage: 1,              // 发起列表当前页数
-        launchLoading: true,                 // 发起列表loading状态
         BeInvitedTotal: 0,                 // 发起列表总条数
         BeInvitedPageSize: 10,              // 发起列表每页显示条数
         BeInvitedCurrentPage: 1,              // 发起列表当前页数
@@ -133,7 +132,7 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      this.remove(params.row, params.index)
                     }
                   }
                 }, '取消')
@@ -206,16 +205,10 @@
       },
 //      获取发起列表
       getLaunchMeet () {
-        this.launchLoading = true
-        this.$ajax.post(`${TEST_CONFIG}/newMeetings/reserve`, qs.stringify({currentPage: this.launchCurrentPage, pageSize: this.launchPageSize}), {
-          headers: {
-            token: 'c955d939c180414fa2ffa24be4ebf921', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
+        this.$ajax.post(`/newMeetings/reserve`, qs.stringify({currentPage: this.launchCurrentPage, pageSize: this.launchPageSize}), {
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000' && response.data.data.data.length !== 0) {
-            this.launchLoading = false
             this.launchTotal = parseInt(response.data.data.total)
             var data = response.data.data.data
             var len = data.length
@@ -285,10 +278,13 @@
           this.$router.push({path: 'time', query: {meet_id: row.id, roomId: row.room_id, meet_time: row.start_time, send_type: row.send_type}})
         }
       },
-      remove (index) {
+      remove (row, index) {
+        var myDate = new Date()
+        var time = Math.round(myDate.getTime() / 1000)      // 当前时间戳
+        console.log(row)
         var data = {
-          id: this.launchTableData[index].id,
-          send_type: '1,2'   //  TODO  后期需修改
+          id: row.id,
+          send_type: row.send_type   //  TODO  后期需修改
         }
         const title = '确认'
         const content = '<p>确认是否取消该会议？</p>'
@@ -296,14 +292,13 @@
           title: title,
           content: content,
           onOk: (() => {
+          if (row.start_time <= time) {
+            this.$Message.error('当前会议时间已过，不可以删除')
+          } else {
             //      调删除会议室接口
-            this.$ajax.post(`${TEST_CONFIG}/newMeetings/deleteMeeting`, qs.stringify(data), {
+            this.$ajax.post(`/newMeetings/deleteMeeting`, qs.stringify(data), {
               params: {
-                room_id: this.launchTableData[index].room_id //  TODO 临时测试
-              },
-              headers: {
-                token: 'c955d939c180414fa2ffa24be4ebf921', //  TODO 临时测试
-                uid: '84' //  TODO 临时测试
+                room_id: row.room_id //  TODO 临时测试
               }
             }).then((response) => {
               if (response.data.code === '000000') {
@@ -313,6 +308,7 @@
             }).catch(function (err) {
               console.log(err)
             })
+          }
           })
         })
       },

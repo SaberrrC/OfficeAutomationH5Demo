@@ -2,12 +2,12 @@
   <div>
     <p class="header">
       <Button>取消</Button>
-      <Button type="primary" @click = query()>发布</Button>
+      <Button type="primary" @click="query()">发布</Button>
     </p>
     <div class="work-report-daily">
       <h3 slot="title">会议纪要</h3>
       <Card class="contents" shadow>
-          <Form :model="formItem" :label-width="80" label-position="left">
+          <Form  ref="formItem" :model="formItem"  :rules="ruleFormItem" :label-width="82" label-position="left">
             <!--会议主题-->
               <Row>
                 <i-Col span="8">
@@ -62,7 +62,7 @@
 
             <Row>
               <i-Col span="12">
-                <FormItem label="主要议题">
+                <FormItem label="主要议题" prop="content">
                   <Input v-model="formItem.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请填写会议主要内容"></Input>
                 </FormItem>
               </i-Col>
@@ -85,9 +85,11 @@
                     :action="action"
                     :headers="headers"
                      multiple
+                    ref="upload"
                     :max-size="1024"
                     :before-upload="handleBeforeUpload"
                     :on-success="handleSuccess"
+                    :on-remove="handleUploadRemove"
                   >
                     <Button type="primary">上传附件</Button>
                   </Upload>
@@ -98,19 +100,18 @@
 
             <Row>
               <i-Col span="8">
-                <FormItem label="发布范围">
-                  <Input v-model="formItem.range" placeholder="请选择发布范围" icon="person" @on-focus="checkRange()"></Input>
+                <FormItem label="发布范围" prop="range">
+                  <Input v-model="formItem.range" placeholder="请选择发布范围" icon="person" @on-focus="doSelectMember(data1)"></Input>
                 </FormItem>
-                <keep-alive>
-                  <member-selector
-                    v-if="memberSelectorIsShow"
-                    :init-tree-data="initTreeData"
-                    @getSelectedMembers="getSelectedMembers"/>
-                </keep-alive>
+                <member-selector
+                  v-if="isShow"
+                  :init-tree-data="initTreeData"
+                  @getSelectedMembers="getSelectedMembers"
+                  @removeMemberSelector="handleRemove('isShow')"/>
               </i-Col>
               <i-Col span="8">&nbsp;</i-Col>
               <i-Col span="8">
-                <FormItem label="发布方式">
+                <FormItem label="发布方式" prop="type">
                   <CheckboxGroup v-model="formItem.type">
                     <Checkbox label="1">邮件</Checkbox>
                     <Checkbox label="2">消息</Checkbox>
@@ -127,14 +128,15 @@
           title="选择会议"
           class="title"
           @on-ok="ok"
-          @on-cancel="cancel">
+          @on-cancel="cancel"
+        >
           <ul>
             <Form :label-width="80" label-position="left">
             <li>
               <row>
                 <i-Col span="18" offset="3">
                   <FormItem label="选择会议">
-                    <Input v-model="title" icon="ios-search">
+                    <Input v-model="title" icon="ios-search" @on-change="getTitle">
                     </Input>
                   </FormItem>
                 </i-Col>
@@ -160,20 +162,16 @@
 </template>
 
 <script>
-  import MemberTree from '@/components/MemberTree'
   import MemberSelector from '@/components/MemberSelector'
   export default {
     components: {
-      MemberTree,
       MemberSelector
     },
     data () {
       return {
+        isShow: false,
+        initTreeData: [],
         action: `http://10.255.232.234/oa-api/file`,
-        headers: {
-          token: 'f19dc8a190f445a2a4cee5b5c3c872c0',
-          uid: '84'
-        },
         uploadList: [],
         formItem: {
           title: '',
@@ -187,20 +185,13 @@
           range: '',
           type: []
         },
+        accessoryUrl: '',
         title: '',
         showTitle: false,
         meetTitle: 0,
         meetList: [],
         invitee: [],          //  与会人员
         ranges: [],           //  发布范围
-        initTreeData: [
-          {
-            id: '1',
-            title: '善林金融',
-            loading: false,
-            children: []
-          }
-        ],
         treeData: [
           {
             id: '1',
@@ -208,16 +199,26 @@
             loading: false,
             children: []
           }
-        ]
+        ],
+        ruleFormItem: {
+          range: [
+            { required: true, message: '请选择发布范围', trigger: 'blur' }
+          ],
+          content: [
+            { required: true, message: '主要议题不能为空', trigger: 'blur' }
+          ],
+          type: [
+            { required: true, type: 'array', min: 1, message: '请至少选择一种发布方式', trigger: 'change' }
+          ]
+        }
       }
     },
     methods: {
 //    获取会议主题
       getTitle () {
         this.$ajax.get(`/queryMeeting`, {
-          headers: {
-            token: 'c955d939c180414fa2ffa24be4ebf921', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
+          params: {
+            title: this.title
           }
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -230,8 +231,14 @@
       },
 //    点击弹框确定按钮
       ok () {
-        console.log(this.meetList[this.meetTitle].users)
-        this.formItem = this.meetList[this.meetTitle]
+        this.formItem.title = this.meetList[this.meetTitle].title
+        this.formItem.id = this.meetList[this.meetTitle].id
+        this.formItem.time = this.meetList[this.meetTitle].time
+        this.formItem.meetingPlace = this.meetList[this.meetTitle].meetingPlace
+        this.formItem.moderator = this.meetList[this.meetTitle].moderator
+        this.formItem.recorder = this.meetList[this.meetTitle].recorder
+        this.formItem.content = this.meetList[this.meetTitle].content
+        this.formItem.conclusion = this.meetList[this.meetTitle].conclusion
         if (this.meetList[this.meetTitle].users !== []) {
           var len = this.meetList[this.meetTitle].users.length
           var users = []
@@ -240,23 +247,25 @@
             users.push(this.meetList[this.meetTitle].users[i].name)
             ids.push(this.meetList[this.meetTitle].users[i].uid)
           }
-          users = users.join(",")
+          users = users.join("、")
           ids = ids.join(",")
           this.formItem.users = users
           this.invitee.ids = ids
           this.formItem.range = this.ranges.users = users
           this.ranges.ids = ids
+          this.$refs.formItem.validateField('content')
+          this.$refs.formItem.validateField('range')
+          console.log(ids)
         }
       },
 //    上传成功的方法
-      handleSuccess (res, file, fileList) {
-        if (res.code === '000000') {
-          console.log(res)
-          console.log(file)
-          console.log(fileList)
-          this.uploadList = fileList
-          this.$Message.info('success')
-        }
+      handleSuccess (res, file) {
+//        this.$Message.info('上传成功')
+      },
+      handleUploadRemove () {
+        const fileList = this.$refs.upload.fileList
+        this.uploadList = fileList
+        console.log(this.uploadList)
       },
       handleBeforeUpload () {
         const check = this.uploadList.length < 3
@@ -270,36 +279,51 @@
       },
 //    点击发布按钮
       query () {
-        console.log(this.formItem)
-        /********组装数据**********/
-        var approveRequest = {
-          meetingId: '',               // 会议id
-          time: '',                    // 会议时间
-          meetingPlace: '',            // 会议地点
-          title: '',                   // 会议主题
-          recorder: '',                // 记录人
-          content: '',                 // 主要议题
-          conclusion: '',              // 会议结论
-          accessoryUrl: '',            // 相关附件
-          sendRange: '',               // 发布范围
-          sendType: ''                 // 发布方式
-        }
-        /********调发布接口**********/
-        this.$ajax.post(`/sendMeetingSummary`, approveRequest, {
-          headers: {
-            token: 'f19dc8a190f445a2a4cee5b5c3c872c0', //  TODO 临时测试
-            uid: '84' //  TODO 临时测试
-          }
-        }).then((response) => {
-          console.log(response)
-          if (response.data.code === '000000') {
-            this.$Message.success('收回成功')
-            this.$router.push({path: this.type})
+        console.log(this.$refs)
+//        return false
+        this.$refs.formItem.validate((valid) => {
+          if (valid) {
+            var len = this.uploadList.length
+            var accessoryUrl = []
+            if (len !== 0) {
+              for (var i = 0; i < len; i++) {
+                accessoryUrl.push(this.uploadList[i].response.data)
+              }
+              this.accessoryUrl = accessoryUrl.join(',')
+            } else {
+              this.accessoryUrl = ''
+            }
+            var type = this.formItem.type.join(',')
+            /********组装数据**********/
+            var approveRequest = {
+              meetingId: this.formItem.id,               // 会议id
+              time: this.formItem.time,                    // 会议时间
+              meetingPlace: this.formItem.meetingPlace,            // 会议地点
+              title: this.formItem.title,                   // 会议主题
+              recorder: this.formItem.recorder,                // 记录人
+              content: this.formItem.content,                 // 主要议题
+              conclusion: this.formItem.conclusion,              // 会议结论
+              accessoryUrl: this.accessoryUrl,            // 相关附件
+              sendRange: this.ranges.ids,               // 发布范围
+              sendType: type                 // 发布方式
+            }
+            console.log(approveRequest)
+            /********调发布接口**********/
+            this.$ajax.post(`/sendMeetingSummary`, approveRequest, {
+            }).then((response) => {
+              console.log(response)
+              if (response.data.code === '000000') {
+                this.$Message.success('收回成功')
+                this.$router.push({path: this.type})
+              } else {
+                this.$Message.success(response.data.message)
+              }
+            }).catch(function (err) {
+              console.log(err)
+            })
+            this.$Message.success('Success!')
           } else {
-            this.$Message.success(response.data.message)
           }
-        }).catch(function (err) {
-          console.log(err)
         })
       },
 //    选择与会人
@@ -319,17 +343,21 @@
         }
       },
 //    选择发布范围
-      checkRange () {
+      doSelectMember (data) {
         if (this.formItem.title === '') {
           this.$Message.info('请先选择会议主题')
         } else {
-          this.$store.dispatch('changeMemberSelector', true)
+          this.initTreeData = data
+          this.isShow = true
           console.log('请选择发布范围')
         }
       },
+//    处理选中的人员
       getSelectedMembers (data) {
         //  TODO 在这里处理选中的数组
         console.log(data)
+        this.formItem.range = this.formItem.users
+        this.ranges.ids = this.invitee.ids
         var len = data.length
         var ids = []
         var users = []
@@ -338,22 +366,34 @@
           users.push(data[i].username)
         }
         ids = ids.join(",")
-        users = users.join(",")
-//        this.meetInline.user = users
-//        this.part_uid = ids
-//        this.$refs.meetInline.validateField('user')
+        users = users.join("、")
+        this.formItem.range += '、' + users
+        this.ranges.ids += ',' + ids
         console.log(ids)
-        console.log(users)
+        console.log(this.formItem)
+        console.log(this.ranges.ids)
+      },
+      handleRemove (name) {
+        this[name] = false
       }
     },
-    computed: {
-      //  TODO 从 state 获取是否显示状态并利用计算属性触发更新
-      memberSelectorIsShow () {
-        return this.$store.state.showMemberSelector
-      }
+    mounted () {
+      this.uploadList = this.$refs.upload.fileList
     },
     created () {
       this.getTitle()
+      this.data1 = [{
+        id: '1',
+        title: '善林金融',
+        loading: false,
+        children: []
+      }]
+      this.data2 = [{
+        id: '1',
+        title: '善林金融2',
+        loading: false,
+        children: []
+      }]
 //      this.$store.dispatch('querySidebarList', 'home')
     }
   }
