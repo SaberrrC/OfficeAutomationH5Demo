@@ -46,7 +46,7 @@ const chat = {
           let tmp = response.data.data[0]
           let imgUri = tmp.img
           let defaultImgUri = 'data:image/jpeg;base64,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'
-          if (tmp.img == "" || tmp.img == "http://" || !tmp.img) {
+          if (tmp.img === '' || tmp.img === 'http://' || !tmp.img) {
             imgUri = defaultImgUri
           } else {
             imgUri = 'http://' + tmp.img
@@ -77,7 +77,7 @@ const chat = {
           }, 0)
         })
       } catch (error) {
-        console.log('error', ererrorr)
+        console.log('error', error)
         reject(error)
       }
     })
@@ -145,6 +145,27 @@ const chat = {
       }
     })
   },
+  queryOrganization (id) { // 组织架构
+    return new Promise(function (resolve, reject) {
+      try {
+        let departmentId = id || 1
+        window.axios.get(config.OA_API + '/organization/queryOrgAndUser', {
+          params: {
+            orgId: departmentId
+          }
+        }).then((response) => {
+          if (response.data && response.data.code === '000000') {
+            const result = response.data.data
+            console.log('queryOrganization', result, result.children, result.users)
+            resolve(result)
+          }
+        })
+      } catch (error) {
+        console.log(error)
+        reject(error)
+      }
+    })
+  },
   userSearch (name) { // 初始化当前登录用户
     return new Promise(function (resolve, reject) {
       try {
@@ -180,7 +201,7 @@ const chat = {
             }, 0)
           }), function (reason, data) {
             console.log(['获取用户信息出错，重新获取', reason, data])
-            window.axios.get(config.OA_URL + 'user/getinfo', {
+            window.axios.get(config.OA_API + 'user/getinfo', {
               params: {
                 code: code
               },
@@ -234,7 +255,7 @@ const chat = {
             let groupid = respData.data.groupid
             showMsg({
               message: '群组' + name + '创建成功',
-              type: "success"
+              type: 'success'
             })
             chat.updateGroup(respData.data.groupid, 'add')
             console.log('11111')
@@ -282,7 +303,7 @@ const chat = {
             console.log('Add succeed!', x)
             resolve(x)
           },
-          error: function(error) {
+          error: function (error) {
             console.log(error)
             reject(error)
           }
@@ -326,7 +347,7 @@ const chat = {
           console.log('获取单个群的信息', id)
           conn.getGroupInfo({
             groupId: id,
-            success: function(x) {
+            success: function (x) {
               console.log('获取单个群的信息1', x)
               let tmp = Object.assign({}, x.data[0], {
                 groupId: id,
@@ -339,7 +360,7 @@ const chat = {
               chat.getGroupInfo(store.state.TXGroup[groupLength - 1], true) // 同时补全用户信息
               resolve(store.state.TXGroup[groupLength - 1])
             },
-            error: function(e) {
+            error: function (e) {
               reject('Error, getGroupInfo', e)
             }
           })
@@ -381,7 +402,7 @@ const chat = {
             console.log('Invite succeed!', x)
             resolve(x)
           },
-          error: function(error) {
+          error: function (error) {
             console.log(error)
             reject(error)
           }
@@ -448,41 +469,41 @@ const chat = {
    },
   ReCont (strCont) {
     let emotion = [
-      { name: "ee_1.png", text: "[):]" },
-      { name: "ee_2.png", text: "[:D]" },
-      { name: "ee_3.png", text: "[;)]" },
-      { name: "ee_4.png", text: "[:-o]" },
-      { name: "ee_5.png", text: "[:p]" },
-      { name: "ee_6.png", text: "[(H)]" },
-      { name: "ee_7.png", text: "[:@]" },
-      { name: "ee_8.png", text: "[:s]" },
-      { name: "ee_9.png", text: "[<o)]" },
-      { name: "ee_10.png", text: "[:(]" },
-      { name: "ee_11.png", text: "[:'(]" },
-      { name: "ee_12.png", text: "[:$]" },
-      { name: "ee_13.png", text: "[(a)]" },
-      { name: "ee_14.png", text: "[8o|]" },
-      { name: "ee_15.png", text: "[8-|]" },
-      { name: "ee_16.png", text: "[+o(]" },
-      { name: "ee_17.png", text: "[|-)]" },
-      { name: "ee_18.png", text: "[:|]" },
-      { name: "ee_19.png", text: "[*-)]" },
-      { name: "ee_20.png", text: "[:-#]" },
-      { name: "ee_21.png", text: "[:-*]" },
-      { name: "ee_22.png", text: "[^o)]" },
-      { name: "ee_23.png", text: "[8-)]" },
-      { name: "ee_24.png", text: "[(|)]" },
-      { name: "ee_25.png", text: "[(u)]" },
-      { name: "ee_26.png", text: "[(S)]" },
-      { name: "ee_27.png", text: "[(*)]" },
-      { name: "ee_28.png", text: "[(#)]" },
-      { name: "ee_29.png", text: "[(R)]" },
-      { name: "ee_30.png", text: "[({)]" },
-      { name: "ee_31.png", text: "[(})]" },
-      { name: "ee_32.png", text: "[(k)]" },
-      { name: "ee_33.png", text: "[(F)]" },
-      { name: "ee_34.png", text: "[(W)]" },
-      { name: "ee_35.png", text: "[(D)]" }
+      { name: 'ee_1.png', text: '[):]' },
+      { name: 'ee_2.png', text: '[:D]' },
+      { name: 'ee_3.png', text: '[;)]' },
+      { name: 'ee_4.png', text: '[:-o]' },
+      { name: 'ee_5.png', text: '[:p]' },
+      { name: 'ee_6.png', text: '[(H)]' },
+      { name: 'ee_7.png', text: '[:@]' },
+      { name: 'ee_8.png', text: '[:s]' },
+      { name: 'ee_9.png', text: '[<o)]' },
+      { name: 'ee_10.png', text: '[:(]' },
+      { name: 'ee_11.png', text: "[:'(]" },
+      { name: 'ee_12.png', text: '[:$]' },
+      { name: 'ee_13.png', text: '[(a)]' },
+      { name: 'ee_14.png', text: '[8o|]' },
+      { name: 'ee_15.png', text: '[8-|]' },
+      { name: 'ee_16.png', text: '[+o(]' },
+      { name: 'ee_17.png', text: '[|-)]' },
+      { name: 'ee_18.png', text: '[:|]' },
+      { name: 'ee_19.png', text: '[*-)]' },
+      { name: 'ee_20.png', text: '[:-#]' },
+      { name: 'ee_21.png', text: '[:-*]' },
+      { name: 'ee_22.png', text: '[^o)]' },
+      { name: 'ee_23.png', text: '[8-)]' },
+      { name: 'ee_24.png', text: '[(|)]' },
+      { name: 'ee_25.png', text: '[(u)]' },
+      { name: 'ee_26.png', text: '[(S)]' },
+      { name: 'ee_27.png', text: '[(*)]' },
+      { name: 'ee_28.png', text: '[(#)]' },
+      { name: 'ee_29.png', text: '[(R)]' },
+      { name: 'ee_30.png', text: '[({)]' },
+      { name: 'ee_31.png', text: '[(})]' },
+      { name: 'ee_32.png', text: '[(k)]' },
+      { name: 'ee_33.png', text: '[(F)]' },
+      { name: 'ee_34.png', text: '[(W)]' },
+      { name: 'ee_35.png', text: '[(D)]' }
     ]
     for (var i in emotion) {
       var item = emotion[i]
@@ -569,7 +590,7 @@ const chat = {
           store.state.otherInfo = tmp
         }
       }
-      console.log('store.state.otherInfo',store.state.otherInfo)
+      console.log('store.state.otherInfo', store.state.otherInfo)
       console.log('删除成员')
     }
     if (type === 'add') {
@@ -577,7 +598,7 @@ const chat = {
       chat.fatchGroupInfo(id)
     }
     if (type === 'adduser') {
-       console.log('新增群成员信息', id, obj)
+      console.log('新增群成员信息', id, obj)
       // nextTick(function () {
       //   let o = store.state.TXGroup.filter((item) => {return item.id === id})[0]
       //   console.log('新增群成员信息111', store.state.TXGroup)
@@ -748,18 +769,18 @@ const chat = {
     let conn = Vue.prototype.$conn
     // let showMsg = Vue.prototype.$message
     conn.getGroup({
-      success: function(x) {
+      success: function (x) {
         let rData = x.data
-        // console.log("getGroups:", rData)
-        // store.state.TXGroup = [] // store.dispatch("destroyRoom")
+        // console.log('getGroups:', rData)
+        // store.state.TXGroup = [] // store.dispatch('destroyRoom')
         store.state.TXGroup = rData
         for (var i = 0; i < rData.length; i++) {
           chat.getGroupInfo(store.state.TXGroup[i], true)
         }
         // chat.getGroupInfo(store.state.TXGroup)
       },
-      error: function() {
-        console.log("List chat group error")
+      error: function () {
+        console.log('List chat group error')
       }
     })
   },
@@ -775,14 +796,14 @@ const chat = {
     }
     let conn = Vue.prototype.$conn
     let nextTick = Vue.prototype.$nextTick
-    // console.log("获取单个群的信息0", item)
+    // console.log('获取单个群的信息0', item)
     conn.getGroupInfo({
       groupId: groupId,
-      success: function(x) {
+      success: function (x) {
         Object.assign(item, x.data[0], {
           groupId: groupId
         })
-        // console.log("获取单个群的信息0", item)
+        // console.log('获取单个群的信息0', item)
         if (getMember === true) {
           let count = x.data[0].affiliations_count
           nextTick(function () {
@@ -790,22 +811,22 @@ const chat = {
           })
         }
       },
-      error: function(e) {
-        console.log("Error,getGroupInfo", e)
+      error: function (e) {
+        console.log('Error,getGroupInfo', e)
       }
     })
   },
   getGroupMember (item, page, size, fn) {
     if (
-      item.groupid == undefined ||
-      item.groupid == null ||
-      item.groupid == ""
+      item.groupid === undefined ||
+      item.groupid === null ||
+      item.groupid === ''
     ) {
       return
     }
     let conn = Vue.prototype.$conn
     let groupId = item.groupid
-    // console.log("获取群用户,id:" + groupId)
+    // console.log('获取群用户,id:' + groupId)
     let pageNum = page ? page : 1
     let pageSize = size ? size : 1000
     let members = []
@@ -815,9 +836,9 @@ const chat = {
       groupId: groupId,
       success: function (x) {
         let rData = x.data
-        // console.log("群用户: " + groupId, x)
+        // console.log('群用户: ' + groupId, x)
         for (var i = 0; i < rData.length; i++) {
-          // console.log("群用户111: ", rData[i])
+          // console.log('群用户111: ', rData[i])
           if (rData[i].member) {
             let id = rData[i].member.substring(3)
             members.push({
@@ -837,8 +858,8 @@ const chat = {
         item.members = members
         fn && fn()
       },
-      error: function(e){
-        console.log("Error: ", e)
+      error: function (e){
+        console.log('Error: ', e)
       }
     }
     conn.listGroupMember(options)
@@ -905,7 +926,7 @@ const chat = {
     // }
   },
   sendGroupMessage (from, to, message) {
-    if (!from || !to || message.trim() == '') {return}
+    if (!from || !to || message.trim() === '') {return}
     console.log('Group messageText', from, to, message)
     let sId =  'G_' + to
     let conn = Vue.prototype.$conn
@@ -930,7 +951,7 @@ const chat = {
           type: 'chatRoom',
           time: timestamp
         }
-        store.dispatch("sendText", obj)
+        store.dispatch('sendText', obj)
       },
       fail: function () {
         console.log(['群组：发送文本失败', msg])
@@ -1275,100 +1296,100 @@ const chat = {
         return '[;)]'
         break
       case 'ee_4.png':
-        return "[:-o]"
+        return '[:-o]'
         break
       case 'ee_5.png':
-        return "[:p]"
+        return '[:p]'
         break
       case 'ee_6.png':
-        return "[(H)]"
+        return '[(H)]'
         break
       case 'ee_7.png':
-        return "[:@]"
+        return '[:@]'
         break
       case 'ee_8.png':
-        return "[:s]"
+        return '[:s]'
         break
       case 'ee_9.png':
-        return "[:$]"
+        return '[:$]'
         break
       case 'ee_10.png':
-        return "[:(]"
+        return '[:(]'
         break
       case 'ee_11.png':
         return "[:'(]"
         break
       case 'ee_12.png':
-        return "[:|]"
+        return '[:|]'
         break
       case 'ee_13.png':
-        return "[(a)]"
+        return '[(a)]'
         break
       case 'ee_14.png':
-        return "[8o|]"
+        return '[8o|]'
         break
       case 'ee_15.png':
-        return "[8-|]"
+        return '[8-|]'
         break
       case 'ee_16.png':
-        return "[+o(]"
+        return '[+o(]'
         break
       case 'ee_17.png':
-        return "[<o)]"
+        return '[<o)]'
         break
       case 'ee_18.png':
-        return "[|-)]"
+        return '[|-)]'
         break
       case 'ee_19.png':
-        return "[*-)]"
+        return '[*-)]'
         break
       case 'ee_20.png':
-        return "[:-#]"
+        return '[:-#]'
         break
       case 'ee_21.png':
-        return "[:-*]"
+        return '[:-*]'
         break
       case 'ee_22.png':
-        return "[^o)]"
+        return '[^o)]'
         break
       case 'ee_23.png':
-        return "[8-)]"
+        return '[8-)]'
         break
       case 'ee_24.png':
-        return "[(|)]"
+        return '[(|)]'
         break
       case 'ee_25.png':
-        return "[(u)]"
+        return '[(u)]'
         break
       case 'ee_26.png':
-        return "[(S)]"
+        return '[(S)]'
         break
       case 'ee_27.png':
-        return "[(*)]"
+        return '[(*)]'
         break
       case 'ee_28.png':
-        return "[(#)]"
+        return '[(#)]'
         break
       case 'ee_29.png':
-        return "[(R)]"
+        return '[(R)]'
         break
       case 'ee_30.png':
-        return "[({)]"
+        return '[({)]'
         break
       case 'ee_31.png':
-        return "[(})]"
+        return '[(})]'
         break
       case 'ee_32.png':
-        return "[(k)]"
+        return '[(k)]'
         break
       case 'ee_33.png':
-        return "[(F)]"
+        return '[(F)]'
         break
       case 'ee_34.png':
-        return "[(W)]"
+        return '[(W)]'
         break
       case 'ee_35.png':
-        return "[(D)]"
+        return '[(D)]'
         break
     }
   },
@@ -1376,108 +1397,108 @@ const chat = {
     switch (str) {
       case '[):]':
         return 'ee_1.png'
-        break
+      break
       case '[:D]':
         return 'ee_2.png'
-        break
+      break
       case '[;)]':
         return 'ee_3.png'
-        break
+      break
       case '[:-o]':
-        return "ee_4.png"
+        return 'ee_4.png'
         break
       case '[:p]':
-        return "ee_5.png"
+        return 'ee_5.png'
         break
       case '[(H)]':
-        return "ee_6.png"
+        return 'ee_6.png'
         break
       case '[:@]':
-        return "ee_7.png"
+        return 'ee_7.png'
         break
       case '[:s]':
-        return "ee_8.png"
+        return 'ee_8.png'
         break
       case '[:$]':
-        return "ee_9.png"
+        return 'ee_9.png'
         break
       case '[:(]':
-        return "ee_10.png"
+        return 'ee_10.png'
         break
       case "[:'(]":
-        return "ee_11.png"
+        return 'ee_11.png'
         break
       case '[:|]':
-        return "ee_12.png"
+        return 'ee_12.png'
         break
       case '[(a)]':
-        return "ee_13.png"
+        return 'ee_13.png'
         break
       case '[8o|]':
-        return "ee_14.png"
+        return 'ee_14.png'
         break
       case '[8-|]':
-        return "ee_15.png"
+        return 'ee_15.png'
         break
       case '[+o(]':
-        return "ee_16.png"
+        return 'ee_16.png'
         break
       case '[<o)]':
-        return "ee_17.png"
+        return 'ee_17.png'
         break
       case '[|-)]':
-        return "ee_18.png"
+        return 'ee_18.png'
         break
       case '[*-)]':
-        return "ee_19.png"
+        return 'ee_19.png'
         break
       case '[:-#]':
-        return "ee_20.png"
+        return 'ee_20.png'
         break
       case '[:-*]':
-        return "ee_21.png"
+        return 'ee_21.png'
         break
       case '[^o)]':
-        return "ee_22.png"
+        return 'ee_22.png'
         break
       case '[8-)]':
-        return "ee_23.png"
+        return 'ee_23.png'
         break
       case '[(|)]':
-        return "ee_24.png"
+        return 'ee_24.png'
         break
       case '[(u)]':
-        return "ee_25.png"
+        return 'ee_25.png'
         break
       case '[(S)]':
-        return "ee_26.png"
+        return 'ee_26.png'
         break
       case '[(*)]':
-        return "ee_27.png"
+        return 'ee_27.png'
         break
       case '[(#)]':
-        return "ee_28.png"
+        return 'ee_28.png'
         break
       case 'e[(R)]':
-        return "e_29.png"
+        return 'e_29.png'
         break
       case '[({)]':
-        return "ee_30.png"
+        return 'ee_30.png'
         break
       case '[(})]':
-        return "ee_31.png"
+        return 'ee_31.png'
         break
       case '[(k)]':
-        return "ee_32.png"
+        return 'ee_32.png'
         break
       case '[(F)]':
-        return "ee_33.png"
+        return 'ee_33.png'
         break
       case '[(W)]':
-        return "ee_34.png"
+        return 'ee_34.png'
         break
       case '[(D)]':
-        return "ee_35.png"
+        return 'ee_35.png'
         break
     }
   },
@@ -1485,7 +1506,7 @@ const chat = {
     if (bytes === 0 || bytes === '') {
       return '0 B'
     }
-    if (typeof bytes == undefined || typeof bytes == null) {
+    if (typeof bytes === undefined || typeof bytes === null) {
       return 0
     }
     let k = 1024 //  Mac系统，1000
@@ -1494,7 +1515,7 @@ const chat = {
     return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i]
   },
   getSsid () {
-	  if(Lockr.get('oa_ssid') !== undefined) {
+    if (Lockr.get('oa_ssid') !== undefined) {
       return Lockr.get('oa_ssid')
     } else {
       return ''

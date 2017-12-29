@@ -73,19 +73,18 @@ export default {
       console.log('handleCheckChange', data, checked, indeterminate);
     },
     listLoad (node, resolve) {
-      let pid = 1
+      let id = 1
       if (node && node.level > 0) {
-        pid = node.data.id
+        id = node.data.id
         if (typeof node.data.id !== undefined && node.data.id === '') {
           return resolve([])
         }
       }
       let list = []
-      this.$store.dispatch('queryOrganization', pid).then((data) => {
-        console.log('queryOrganization', data, data.children, data.users)
+      chat.queryOrganization(id).then((data) => {
         if (data.children && data.children.length > 0) {
           for (var i = 0; i < data.children.length; i++) {
-            if (! data.children[i].memberCount || data.children[i].memberCount < 1) {
+            if (!data.children[i].memberCount || data.children[i].memberCount < 1) {
               continue
             }
             let obj = data.children[i]
