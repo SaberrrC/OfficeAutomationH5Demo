@@ -11,7 +11,8 @@ import 'iview/dist/styles/iview.css'
 import qs from 'qs'
 import axios from 'axios'
 axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
-axios.defaults.baseURL = 'http://10.255.232.234/oa-api' //  TODO 测试时跨域设置，后期可以删除axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
+axios.defaults.baseURL = 'http://10.255.232.234/oa-api' //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
 axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''
 axios.defaults.transformRequest = [(data) => {
   return qs.stringify(data || {})
