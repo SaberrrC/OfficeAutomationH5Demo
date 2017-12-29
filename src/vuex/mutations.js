@@ -28,7 +28,7 @@ const mutations = {
     state.grossNumber = 0,
     state.singChatbox = {},
     state.singChatlist = [],
-    state.user.userName = '',
+    state.imUser.userName = '',
     state.other = '',
     state.otherInfo = {},
     state.has = 0,
@@ -341,7 +341,7 @@ const mutations = {
     state.rules = rules
   },
   setUsers (state, users) {
-    state.user.userName = 'SL_' + users.code
+    state.imUser.userName = 'SL_' + users.code
     state.userinfo = users
   },
   setImg (state, src) {

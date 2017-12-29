@@ -115,46 +115,33 @@ const chat = {
       fn && fn()
     }
   },
-  initUserInfo (uid, token) { // 初始化当前登录用户
-    console.log(uid, token)
-    // store.state.
-    // this.queryUserInfo(uid)
-	  let ssid = chat.getSsid()
+  initCurrentUserInfo (uid) { // 初始化当前登录用户
     return new Promise(function (resolve, reject) {
-      let option = {
-        headers: {
-          uid: uid,
-          token: token,
-          apiFron: 'pc'
-        }
+      try {
+        axios.get('/user/getUserInfoById').then((response) => {
+          if (response.data && response.data.code === '000000') {
+            const result = response.data.data
+            let tmp = Object.assign({}, result, {
+              departmentName: result.organ,
+              img: result.portrait ? result.portrait : store.state.image
+            })
+            console.log(tmp)
+            store.dispatch('setUsers', tmp)
+            let id = result.code
+            if (store.state.userInfoDb && store.state.userInfoDb[id]) {
+              store.state.userInfoDb[id] = Object.assign({}, store.state.userInfoDb[id], tmp)
+            } else {
+              store.state.userInfoDb[id] = tmp
+            }
+            setTimeout(function () {
+              resolve(tmp)
+            }, 0)
+          }
+        })
+      } catch (error) {
+        console.log(error)
+        reject(error)
       }
-      axios.get(config.OA_URL + 'users/getuserinfo?ssid=' + ssid, option).then((response) => {
-        if (typeof response.data.code != undefined && response.data.code == '200') {
-          let data
-          if(typeof response.data.data != "undefined")
-          data = response.data.data
-          let uinfo = {} 
-          typeof data[0]['token'] != "undefined" && (uinfo.token = data[0]['token'])
-          typeof data[0]['code'] != "undefined" && (uinfo.code = data[0]['code'])
-          typeof data[0]['isleader'] != "undefined" && (uinfo.isleader = data[0]['isleader'])
-          typeof data[0]['oid'] != "undefined" && (uinfo.oid = data[0]['oid'])
-          typeof data[0]['uid'] != "undefined" && (uinfo.uid = data[0]['uid'])
-          typeof data[0]['username'] != "undefined" && (uinfo.name = data[0]['username'])
-          typeof data[0]['organ'] != "undefined" && (uinfo.depot = data[0]['organ'])
-          typeof data[0]['postname'] != "undefined" && (uinfo.postname = data[0]['postname'])
-          typeof data[0]['img'] != "undefined" && (uinfo.img = 'http://'+data[0]['img'])
-          Lockr.set('userinfo',uinfo) 
-          store.dispatch('setUsers', uinfo)
-          resolve(response.data)
-        } else {
-          let msg = '获取用户信息错误'
-          typeof response.data.info != undefined && response.data.info != '' && (msg = response.data.info)
-          reject(msg)
-        }
-      }).catch((response) => {
-        reject('刷新信息异常')
-        console.log('catch', response)
-      })
     })
   },
   getUserInfo (code) { // 取用户信息并缓存，返回用户对象

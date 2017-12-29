@@ -6,7 +6,7 @@ const state = {
   thisNotDelete: '',     // 这个不要删
   writeStructIsShow: false, // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
   userinfo: {}, // 当前用户的所有资料
-  user: { // 个人账号密码
+  imUser: { // 个人账号密码
     userName: '', // SL_011000066
     password: '123456'
   },

@@ -104,11 +104,6 @@ require('strophe')
 require('../assets/js/websdk-1.4.12.js')
 require('../assets/js/adapter.js')
 
-import addressBook from '@/chatting/addressBook.vue'
-import chatList from '@/chatting/personnelList.vue'
-import groupBook from '@/chatting/groupBook.vue'
-import singleChatBox from '@/chatting/singleChatbox.vue'
-import messageInput from '@/chatting/messageInput.vue'
 import { mapState } from 'vuex'
 import config from '../config/index'
 import qs from 'qs'
@@ -169,14 +164,20 @@ export default {
       newAddMembers:[]
     }
   },
+  components: {
+    'address-book': () => import('@/chatting/addressBook.vue'),
+    'chat-list': () => import('@/chatting/chatList.vue'),
+    'group-book': () => import('@/chatting/groupBook.vue'),
+    'single-chat-box': () => import('@/chatting/singleChatbox.vue'),
+    'message-input': () => import('@/chatting/messageInput.vue')
+  },
   computed: {
     ...mapState({
-      userName: state => state.user.userName, // 用户名
-      password: state => state.user.password, // 密码
+      imUser: state => state.imUser,
       otherInfo: state => state.otherInfo, // 对方账号|群组|聊天室
       singChatbox: state => state.singChatbox,
-      grossNumber: state => state.grossNumber, //全部未读消息
-      writeStructIsShow: state => state.writeStructIsShow, // 右侧栏写入框是否显示 默认为false    每次用户选择当前群组或聊天对象时才显示
+      grossNumber: state => state.grossNumber, // 全部未读消息
+      writeStructIsShow: state => state.writeStructIsShow, // 右侧栏写入框是否显示 默认为false 每次用户选择当前群组或聊天对象时才显示
       userinfo: state => state.userinfo,
       TXGroup: state => state.TXGroup,
       TXRoom: state => state.TXRoom,
@@ -186,12 +187,10 @@ export default {
       groupIdShow: state => state.groupIdShow,
       showSid: state => state.showSid
     }),
-    isGroupChat: function() {
+    isGroupChat () {
       if (this.otherInfo.groupId && this.otherInfo.groupId != '') {
-        console.log(0)
         return true
       } else {
-        console.log(1)
         return false
       }
     }
@@ -206,151 +205,153 @@ export default {
     }
   },
   beforeCreate () {
-    let uid = window.localStorage.getItem('uid')
-    let token = window.localStorage.getItem('token')
-    chat.initUserInfo(uid, token)
+    // let uid = window.localStorage.getItem('uid')
+    // let token = window.localStorage.getItem('token')
+    // chat.initUserInfo(uid, token)
   },
-  created() {
-    let that = this
-    this.$conn.listen({
-      onOpened: function(message) {
-        // 连接成功回调，连接成功后才可以发送消息
-        // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
-        // 手动上线指的是调用conn.setPresence(); 在本例中，conn初始化时已将isAutoLogin设置为true
-        // 所以无需调用conn.setPresence();
-        console.log('%c [opened] 即时通讯连接已成功建立', 'color: green')
-        // that.TXList()
-        that.getSet()
-        that.getRooms()
-        chat.getGroups()
-        that.getCacleMessageList()
-        if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
-          that.tmpFn.close()
-          that.tmpFn = null
-        }
-        that.$message({message: '即时通讯登录成功', type: 'success'});
-      },
-      onTextMessage: function(message) {
-        console.log(['接收到文本消息', message])
-        if(message.from === 'sl_admin' || message.from === 'sl_notice'){
-          return 
-        }
-        if(message.errorCode === '404'){
-          return
-        }
-        //message.data = chat.decrpty(message.data,message.from)
-        that.fatchTextMessage(message)
-      }, //  收到文本消息
-      onEmojiMessage: function(message) {
-        // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
-        // 这些字符串和其它文字按顺序组合成一个数组，每一个数组元素的结构为{type: 'emoji(或者txt)', data:''}
-        // 当type='emoji'时，data表示表情图像的路径，当type='txt'时，data表示文本消息
-        console.log('Emoji')
-        var data = message.data
-        for (var i = 0, l = data.length; i < l; i++) {
-          // console.log(data[i])
-        }
-      }, // 收到表情消息
-      onPictureMessage: function(message) {
-        console.log('Picture Message', message)
-        that.fatchPictureMessage(message)
-      },
-      onCmdMessage: function(message) {
-        console.log('CMD')
-        that.fatchCmdMessage(message)
-      }, // 收到命令消息
-      onAudioMessage: function(message) {
-        console.log('Audio')
-      }, // 收到音频消息
-      onLocationMessage: function(message) {
-        console.log('Location')
-      }, // 收到位置消息
-      onFileMessage: function(message) {
-        console.log('File Message', message)
-        that.fatchFileMessage(message)
-      }, // 收到文件消息
-      onVideoMessage: function(message) {
-        var node = document.getElementById('privateVideo')
-        var option = {
-          url: message.url,
-          headers: {
-            Accept: 'audio/mp4'
-          },
-          onFileDownloadComplete: function(response) {
-            var objectURL = this.$WebIM.utils.parseDownloadResponse.call(
-              this.$conn,
-              response
-            )
-            node.src = objectURL
-          },
-          onFileDownloadError: function() {
-            console.log('File down load error.')
-          }
-        }
-        this.$WebIM.utils.download.call(this.$conn, option)
-      }, // 收到视频消息
-      onPresence: function(message) {
-        console.log('接收到群组通知', message)
-        that.handlePresence(message)
-        that.groupValue = {}
-        that.groupValue = {
-          roomId: message.from,
-          groupName: this.groupOption.subject
-        }
-      }, // 收到联系人订阅请求（加好友）、处理群组、聊天室被踢解散等消息
-      onRoster: function(message) {
-        console.log('Roster')
-      }, // 处理好友申请
-      onInviteMessage: function(message) {
-        console.log('Invite', message)
-        that.handleInvite(message)
-      }, // 处理群组邀请
-      onOnline: function() {
-        console.log('onLine')
-        that.tmpFn && that.tmpFn.close() // 关闭掉线的提示
-        that.$message({
-          message: '即时通讯连接成功',
-          type: 'success',
-          onClose: function () {
-            if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
-              that.tmpFn.close()
-              that.tmpFn = null
-            }
-          }
-        })
-      }, // 本机网络连接成功
-      onOffline: function() {
-        console.log('offline')
-        if (that.tmpFn && that.tmpFn.close) {
-          that.tmpFn.close()
-          that.tmpFn = null
-        }
-        that.tmpFn = that.$message({
-          message: '即时通讯已掉线，请刷新页面或检查网络！',
-          type: 'warning',
-          duration: 0
-        })
-      }, // 本机网络掉线
-      onError: function(message) {
-        console.log('Error', message)
-        that.fatchErrorMessage(message)
-      }, // 失败回调
-      onBlacklistUpdate: function(list) {
-        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
-        console.log(list)
-      } // 黑名单变动
-    })
-
-    let options = {
-      apiUrl: window.WebIM.config.apiUrl,
-      appKey: window.WebIM.config.appkey,
-      user: this.userName,
-      pwd: this.password
-    }
-    this.$conn.open(options)
-    this.fatchUserInfo()
+  created () {
+    chat.initCurrentUserInfo().then(this.initChatting)
   },
   methods: {
+    initChatting () {
+      let that = this
+      conn.listen({
+        onOpened (message) {
+          // 连接成功回调，连接成功后才可以发送消息
+          // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
+          // 手动上线指的是调用conn.setPresence(); 在本例中，conn初始化时已将isAutoLogin设置为true
+          // 所以无需调用conn.setPresence();
+          console.log('%c [opened] 即时通讯连接已成功建立', 'color: green')
+          // this.TXList()
+          this.getSet()
+          this.getRooms()
+          this.getGroups()
+          this.getCacleMessageList()
+          if (this.tmpFn && this.tmpFn.close) { // 移除掉线的提示
+            this.tmpFn.close()
+            this.tmpFn = null
+          }
+          this.$message({message: '即时通讯登录成功', type: 'success'});
+        },
+        onTextMessage (message) {
+          console.log(['接收到文本消息', message])
+          if(message.from === 'sl_admin' || message.from === 'sl_notice'){
+            return 
+          }
+          if(message.errorCode === '404'){
+            return
+          }
+          //message.data = chat.decrpty(message.data,message.from)
+          this.fatchTextMessage(message)
+        }, //  收到文本消息
+        onEmojiMessage: function(message) {
+          // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
+          // 这些字符串和其它文字按顺序组合成一个数组，每一个数组元素的结构为{type: 'emoji(或者txt)', data:''}
+          // 当type='emoji'时，data表示表情图像的路径，当type='txt'时，data表示文本消息
+          console.log('Emoji')
+          var data = message.data
+          for (var i = 0, l = data.length; i < l; i++) {
+            // console.log(data[i])
+          }
+        }, // 收到表情消息
+        onPictureMessage (message) {
+          console.log('Picture Message', message)
+          this.fatchPictureMessage(message)
+        },
+        onCmdMessage (message) {
+          console.log('CMD')
+          this.fatchCmdMessage(message)
+        }, // 收到命令消息
+        onAudioMessage (message) {
+          console.log('Audio')
+        }, // 收到音频消息
+        onLocationMessage (message) {
+          console.log('Location')
+        }, // 收到位置消息
+        onFileMessage (message) {
+          console.log('File Message', message)
+          this.fatchFileMessage(message)
+        }, // 收到文件消息
+        onVideoMessage (message) {
+          var node = document.getElementById('privateVideo')
+          var option = {
+            url: message.url,
+            headers: {
+              Accept: 'audio/mp4'
+            },
+            onFileDownloadComplete (response) {
+              var objectURL = this.$WebIM.utils.parseDownloadResponse.call(
+                this.$conn,
+                response
+              )
+              node.src = objectURL
+            },
+            onFileDownloadError () {
+              console.log('File down load error.')
+            }
+          }
+          this.$WebIM.utils.download.call(this.$conn, option)
+        }, // 收到视频消息
+        onPresence (message) {
+          console.log('接收到群组通知', message)
+          this.handlePresence(message)
+          this.groupValue = {}
+          this.groupValue = {
+            roomId: message.from,
+            groupName: this.groupOption.subject
+          }
+        }, // 收到联系人订阅请求（加好友）、处理群组、聊天室被踢解散等消息
+        onRoster (message) {
+          console.log('Roster')
+        }, // 处理好友申请
+        onInviteMessage (message) {
+          console.log('Invite', message)
+          this.handleInvite(message)
+        }, // 处理群组邀请
+        onOnline () {
+          console.log('onLine')
+          this.tmpFn && this.tmpFn.close() // 关闭掉线的提示
+          this.$message({
+            message: '即时通讯连接成功',
+            type: 'success',
+            onClose: function () {
+              if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
+                that.tmpFn.close()
+                that.tmpFn = null
+              }
+            }
+          })
+        }, // 本机网络连接成功
+        onOffline () {
+          console.log('offline')
+          if (this.tmpFn && this.tmpFn.close) {
+            this.tmpFn.close()
+            this.tmpFn = null
+          }
+          this.tmpFn = this.$message({
+            message: '即时通讯已掉线，请刷新页面或检查网络！',
+            type: 'warning',
+            duration: 0
+          })
+        }, // 本机网络掉线
+        onError (message) {
+          console.log('Error', message)
+          this.fatchErrorMessage(message)
+        }, // 失败回调
+        onBlacklistUpdate (list) {
+          // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+          console.log(list)
+        } // 黑名单变动
+      })
+      let options = {
+        apiUrl: window.WebIM.config.apiUrl,
+        appKey: window.WebIM.config.appkey,
+        user: this.imUser.userName,
+        pwd: this.imUser.password
+      }
+      console.log(options)
+      conn.open(options)
+    },
     loadClickEvent (e) {
       if (!this.$el.contains(e.target)) {
         this.showMesV = false
@@ -1462,13 +1463,6 @@ export default {
         console.log(response)
       })
     }
-  },
-  components: {
-    addressBook,
-    chatList,
-    groupBook,
-    singleChatBox,
-    messageInput
   }
 }
 </script>
