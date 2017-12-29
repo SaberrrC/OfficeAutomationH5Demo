@@ -26,7 +26,7 @@
                     <Button type="ghost" shape="circle" size="small" disabled>已签卡</Button>
                   </template>
                   <template v-else>
-                    <Button type="info" shape="circle" size="small" @click="handleBtnClick">未签卡</Button>
+                    <Button type="info" shape="circle" size="small" @click="handleBtnClick(item.calendar)">未签卡</Button>
                   </template>
                 </p>
               </div>
@@ -46,7 +46,7 @@
                     <Button type="ghost" shape="circle" size="small" disabled>已签卡</Button>
                   </template>
                   <template v-else>
-                    <Button type="info" shape="circle" size="small" @click="handleBtnClick">未签卡</Button>
+                    <Button type="info" shape="circle" size="small" @click="handleBtnClick(item.calendar)">未签卡</Button>
                   </template>
                 </p>
               </div>
@@ -66,7 +66,7 @@
                     <Button type="ghost" shape="circle" size="small" disabled>已签卡</Button>
                   </template>
                   <template v-else>
-                    <Button type="info" shape="circle" size="small" @click="handleBtnClick">未签卡</Button>
+                    <Button type="info" shape="circle" size="small" @click="handleBtnClick(item.calendar)">未签卡</Button>
                   </template>
                 </p>
               </div>
@@ -297,8 +297,9 @@ export default {
         console.log(err)
       })
     },
-    //  TODO 跳转签卡
-    handleBtnClick () {
+    //  跳转签卡
+    handleBtnClick (date) {
+      this.$router.push(`/process/launchIndex?date=${date}`)
     }
   }
 }
