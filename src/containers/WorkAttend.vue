@@ -128,6 +128,7 @@
 
 <script>
 import fullCalendar from '@/components/Calendar'
+import formatDate from '@/utils/formatDate'
 
 export default {
   name: 'WorkAttend',
@@ -172,7 +173,7 @@ export default {
     }
   },
   created () {
-    this.queryWorkAttendance(this.abnormalUserCode, this.formatDate(this.abnormalInitDate, true))
+    this.queryWorkAttendance(this.abnormalUserCode, formatDate(this.abnormalInitDate, true))
     //  获取当前用户下属列表
     this.$ajax.get('/BranchStaff/getNCHRBranchStaff').then((response) => {
       if (response.data && response.data.code === '000000') {
@@ -189,7 +190,7 @@ export default {
     //  切换 tab 回调，参数为 tab id
     handleChangeTab (id) {
       const code = this[`${id}UserCode`]
-      const date = this.formatDate(this[`${id}InitDate`], true)
+      const date = formatDate(this[`${id}InitDate`], true)
       this.queryWorkAttendance(code, date)
     },
     //  切换日期回调，参数为日期字符串
@@ -199,12 +200,12 @@ export default {
     },
     //  切换用户回调，参数为用户代码
     handleChangeUser (value) {
-      const date = this.formatDate(this[`${this.tabIndex}InitDate`], true)
+      const date = formatDate(this[`${this.tabIndex}InitDate`], true)
       this.queryWorkAttendance(value, date)
     },
     //  点击日期回调，参数为 date 对象
     handleDayClick (date) {
-      this.updateWorkAttendanceInfo(this.formatDate(date))
+      this.updateWorkAttendanceInfo(formatDate(date))
     },
     handleEventClick (event) {
       this.updateWorkAttendanceInfo(event.start)
@@ -298,17 +299,6 @@ export default {
     },
     //  TODO 跳转签卡
     handleBtnClick () {
-    },
-    //  格式化月份
-    formatDate (date, isMonth) {
-      const now = new Date(date)
-      const m = now.getMonth() + 1
-      const d = now.getDate()
-      const value = []
-      value.push(now.getFullYear())
-      value.push(m > 9 ? `${m}` : `0${m}`)
-      if (!isMonth) value.push(d > 9 ? `${d}` : `0${d}`)
-      return value.join('-')
     }
   }
 }

@@ -47,10 +47,10 @@
           <ul>
             <li
               v-for="item in notices"
-              @click="handleToNoticeDetail(item.nid)"
+              @click="handleToNoticeDetail(item.id)"
               :title="item.title">
-              <span class="notice-title">{{item.title}}</span><span class="notice-name">{{item.username}}</span><span
-              class="notice-type">{{item.type}}</span><span class="notice-time">{{item.sendTime}}</span>
+              <span class="notice-title">{{item.title}}</span><span class="notice-name">{{item.postUserId}}</span><span
+              class="notice-type">{{item.noticeClass}}</span><span class="notice-time">{{item.createTime}}</span>
             </li>
           </ul>
         </Card>
@@ -62,7 +62,7 @@
           <Icon type="ios-timer-outline"/>
           我的考勤
         </h3>
-        <full-calendar :firstDay="1" lang="zh" :events="workAttendance.events"/>
+        <full-calendar :firstDay="1" lang="zh" :events="calendarEvents"/>
         <div class="work-attendance-info">
           <span class="abnormal">异常<em v-if="workAttendance.abnormalCount">：{{workAttendance.abnormalCount}}</em><br/><i></i></span><span class="business">出差<em v-if="workAttendance.businessCount">：{{workAttendance.businessCount}}</em><br/><i></i></span><span class="overtime">加班<em v-if="workAttendance.overtimeCount">：{{workAttendance.overtimeCount}}</em><br/><i></i></span><span class="leave">休假<em v-if="workAttendance.leaveCount">：{{workAttendance.leaveCount}}</em><br/><i></i></span>
         </div>
@@ -75,7 +75,8 @@
 <script>
 import MemberTree from '@/components/MemberTree'
 import fullCalendar from '@/components/Calendar'
-import imgPlaceholder from '../assets/images/news_pic.png'
+import formatDate from '@/utils/formatDate'
+//  import imgPlaceholder from '../assets/images/news_pic.png'
 
 export default {
   name: 'Homepage',
@@ -94,55 +95,15 @@ export default {
         }
       ],
       newsIndex: 0,
-      //  TODO
-      news: [
-        {
-          id: '1',
-          newsTitle: '北京冬日神泉峡冰瀑醉游人',
-          newsLink: '#',
-          newsPhoto: imgPlaceholder
-        },
-        {
-          id: '2',
-          newsTitle: '国产大型水陆两栖飞机AG600成功首飞',
-          newsLink: '#',
-          newsPhoto: imgPlaceholder
-        },
-        {
-          id: '3',
-          newsTitle: '海归女辞去国企工作 当“网络哄睡师”',
-          newsLink: '#',
-          newsPhoto: imgPlaceholder
-        },
-        {
-          id: '4',
-          newsTitle: '重庆现“最浪”停车库',
-          newsLink: '#',
-          newsPhoto: imgPlaceholder
-        }
-      ],
-      //  TODO
-      notices: [
-        {nid: '1', title: '关于全员加强企业文化的通知关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'},
-        {nid: '2', title: '关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'},
-        {nid: '3', title: '关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'},
-        {nid: '4', title: '关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'},
-        {nid: '5', title: '关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'},
-        {nid: '6', title: '关于全员加强企业文化的通知', username: '行政部', type: '通知', sendTime: '2017-12-25'}
-      ],
-      //  TODO
+      news: [],
+      notices: [],
       workAttendance: {
-        leaveCount: 1,
-        abnormalCount: 1,
-        overtimeCount: 1,
-        businessCount: 1,
-        events: [
-          {title: '1', start: '2017-12-01', cssClass: 'leave'},
-          {title: '5', start: '2017-12-05', cssClass: 'abnormal'},
-          {title: '11', start: '2017-12-11', cssClass: 'overtime'},
-          {title: '21', start: '2017-12-21', cssClass: 'business'}
-        ]
-      }
+        leaveCount: '0',
+        abnormalCount: '0',
+        overtimeCount: '0',
+        businessCount: '0'
+      },
+      calendarEvents: []
     }
   },
   created () {
@@ -150,10 +111,7 @@ export default {
     //  请求公司新闻
     this.$ajax.get('/news/imgRoll').then((response) => {
       if (response.data && response.data.code === '000000') {
-        //  TODO 临时数据，需要切换
-        console.log('公司新闻')
-        console.log(response.data.data)
-        //  this.news = response.data.data
+        this.news = response.data.data
       }
     }).catch((err) => {
       console.log(err)
@@ -161,9 +119,7 @@ export default {
     //  请求公司公告
     this.$ajax.get('/notice/noticeHome').then((response) => {
       if (response.data && response.data.code === '000000') {
-        console.log('公司公告')
-        //  TODO 临时数据，需要切换
-        console.log(response.data.data)
+        this.notices = response.data.data
       }
     }).catch((err) => {
       console.log(err)
@@ -172,13 +128,53 @@ export default {
     this.$ajax.get('/WorkAttendance/getWorkAttendance', {
       params: {
         userCode: window.localStorage.getItem('userCode'),
-        date: '2017-1'
+        date: formatDate(new Date(), true)
       }
     }).then((response) => {
       if (response.data && response.data.code === '000000') {
-        console.log('我的考勤')
-        //  TODO 临时数据，需要切换
-        console.log(response.data.data)
+        const data = response.data.data
+        let abnormalCount = 0
+        abnormalCount += parseInt(data.cdCount, 10)
+        abnormalCount += parseInt(data.ztCount, 10)
+        abnormalCount += parseInt(data.kgCount, 10)
+        this.workAttendance.leaveCount = data.xjCount
+        this.workAttendance.abnormalCount = `${abnormalCount}`
+        this.workAttendance.overtimeCount = data.jbCount
+        this.workAttendance.businessCount = data.ccCount
+        const events = []
+        data.ccWorkAttendanceList.forEach((item) => {
+          if (!item.calendar) return
+          events.push({
+            title: new Date(item.calendar).getDate(),
+            start: item.calendar,
+            cssClass: 'business'
+          })
+        })
+        data.ycWorkAttendanceList.forEach((item) => {
+          if (!item.calendar) return
+          events.push({
+            title: new Date(item.calendar).getDate(),
+            start: item.calendar,
+            cssClass: 'abnormal'
+          })
+        })
+        data.jbWorkAttendanceList.forEach((item) => {
+          if (!item.calendar) return
+          events.push({
+            title: new Date(item.calendar).getDate(),
+            start: item.calendar,
+            cssClass: 'overtime'
+          })
+        })
+        data.xjWorkAttendanceList.forEach((item) => {
+          if (!item.calendar) return
+          events.push({
+            title: new Date(item.calendar).getDate(),
+            start: item.calendar,
+            cssClass: 'leave'
+          })
+        })
+        this.calendarEvents = events
       }
     }).catch((err) => {
       console.log(err)
