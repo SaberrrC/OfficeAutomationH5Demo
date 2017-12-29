@@ -41,7 +41,7 @@
             <Icon type="ios-chatboxes-outline"/>
             公司公告
           </h3>
-          <a href="#" slot="extra">更多
+          <a href="javascript:void(0);" slot="extra" @click="$router.push('/notice_list')">更多
             <Icon type="arrow-right-b"/>
           </a>
           <ul>
@@ -90,7 +90,7 @@ export default {
         {
           id: '1',
           title: '善林金融',
-          loading: false,
+          expand: true,
           children: []
         }
       ],
@@ -107,7 +107,24 @@ export default {
     }
   },
   created () {
+    //  加载二级菜单
     this.$store.dispatch('querySidebarList', 'home')
+    //  请求通讯录组织架构
+    this.$store.dispatch('queryOrganization').then((response) => {
+      let jsonStr = JSON.stringify(response.children)
+      jsonStr = jsonStr.replace(/"name"/g, '"title"')
+      const json = JSON.parse(jsonStr)
+      const newData = []
+      json.forEach((item) => {
+        if (item.memberCount > 0) {
+          item.title = `${item.title}（${item.memberCount}）`
+          item.loading = false
+          item.children = []
+          newData.push(item)
+        }
+      })
+      this.treeData[0].children = newData
+    })
     //  请求公司新闻
     this.$ajax.get('/news/imgRoll').then((response) => {
       if (response.data && response.data.code === '000000') {
@@ -182,7 +199,9 @@ export default {
   },
   methods: {
     handleToNoticeDetail (id) {
-      window.open(`//baidu.com?${id}`)
+      //  TODO 公告详情
+      console.log(id)
+      //  window.open(`/notice_detail/?${id}`)
     }
   }
 }

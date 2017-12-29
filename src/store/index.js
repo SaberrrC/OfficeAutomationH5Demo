@@ -56,45 +56,19 @@ const store = new Vuex.Store({
           }
         ])
       }
-      if (id === 'work_report') {
-        const list = [
-          {
-            iconType: 'android-clipboard',
-            name: '工作汇报',
-            id: 'work_report',
-            children: [
-              {name: '发起日报', id: 'daily'},
-              {name: '发起周报', id: 'weekly'},
-              {name: '我发起的', id: 'my_report'},
-              {name: '待评分', id: 'waiting'}
-            ]
-          },
-          {
-            iconType: 'android-clipboard',
-            name: '汇报管理',
-            id: 'report_admin',
-            children: [
-              {name: '查看全员汇报', id: 'whole'},
-              {name: '查看部门汇报', id: 'department'}
-            ]
-          }
-        ]
-        context.commit('updateSidebarList', list)
-      }
-      if (id === 'attend_admin') {
-        const list = [
-          {
-            iconType: 'ios-timer-outline',
-            name: '考勤管理',
-            id: 'attend_admin',
-            children: [
-              {name: '我的考勤', id: 'work_attend'},
-              {name: '假期查询', id: 'leave_query'}
-            ]
-          }
-        ]
-        context.commit('updateSidebarList', list)
-      }
+      return axios.get('/auth/queryRightByPid', {
+        params: {
+          rightId: id
+        }
+      }).then((response) => {
+        if (response.data && response.data.code === '000000') {
+          const result = response.data.data
+          context.commit('updateSidebarList', result)
+          return result
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
     },
     queryOrganization (context, departmentId = '1') {
       return axios.get('/organization/queryOrgAndUser', {
