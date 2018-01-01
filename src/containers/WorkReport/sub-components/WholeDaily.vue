@@ -202,8 +202,7 @@
           </Col>
         </Row>
         <Row style="margin: 20px;">
-          <Col span="8" align="center">工作日志&nbsp;&nbsp;
-          <Input v-model="reportData.worklogScore" readonly></Input></Col>
+          <Col span="8" align="center">工作日志&nbsp;&nbsp;<Input v-model="reportData.worklogScore" readonly></Input></Col>
           <Col span="8" align="center">职业素养&nbsp;&nbsp;<Input v-model="reportData.professionalismScore" readonly></Input></Col>
           <Col span="8" align="center">团队合作&nbsp;&nbsp;<Input v-model="reportData.teamScore" readonly></Input></Col>
         </Row>

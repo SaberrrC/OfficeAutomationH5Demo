@@ -159,7 +159,7 @@ export default new Router({
       path: '/report_admin',
       name: 'WorkReport',
       component: WorkReport,
-      redirect: '/report_admin/daily',
+      redirect: '/report_admin/whole',
       children: [
         {
           path: 'whole',

@@ -403,7 +403,7 @@
 				})
 			},
 			selectCancel(){
-				return;
+
 			},
 			getDailyNoRateList() {
 				this.$ajax({
