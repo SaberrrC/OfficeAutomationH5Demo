@@ -190,7 +190,7 @@ const router = new Router({
         { path: 'furloughLaunchInfo', component: FurloughProcessInfo, name: 'furloughLaunchInfo' },
         { path: 'myLaunch', component: MyLaunchProcess, name: 'myLaunch' },
         { path: 'todo', component: ToDoProcess, name: 'todo' },
-        { path: 'haveTodo', component: HaveToDoProcess, name: 'haveToDo' }
+        { path: 'haveTodo', component: HaveToDoProcess, name: 'haveTodo' }
       ]
     },
     {

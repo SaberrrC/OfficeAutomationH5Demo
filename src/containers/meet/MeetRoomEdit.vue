@@ -15,6 +15,7 @@
     <Modal
       v-model="modal1"
       :title="modalTitle"
+      :loading="loading"
       @on-ok="ok"
       @on-cancel="cancel"
       :ok-text="okText"
@@ -26,7 +27,7 @@
       <Row>
         <i-Col span="12">
             <FormItem label="会议室名称" prop="roomname">
-              <Input v-model="formItem.roomname" placeholder="请输入会议室名称" :autofocus="true"></Input>
+              <Input v-model="formItem.roomname" placeholder="请输入会议室名称"></Input>
             </FormItem>
         </i-Col>
         <i-Col span="12">
@@ -45,7 +46,7 @@
             <FormItem label="会议室容量" prop="nop">
               <!--<Input v-model="formItem.nop" placeholder="请输入会议室容量(纯数字)"></Input>-->
               <Select v-model="formItem.nop" placeholder="请选择会议室容量">
-                <Option v-for="i in [10,20,30,40]" :value="i">{{ i }}  人</Option>
+                <Option v-for="i in [10,20,30,40]" :value="i" :key="i">{{ i }}  人</Option>
               </Select>
             </FormItem>
           </i-Col>
@@ -83,14 +84,16 @@
 </template>
 
 <script>
-  import qs from "qs"
   export default {
     name: 'MeetRoomEdit',
     data () {
       return {
+        loading: true,
         modalTitle: '',
         okText: '',
-        action: `http://10.255.232.234/oa-api/file`,
+//        action: `http://10.255.232.234/oa-api/file`,
+        action: `http://118.31.18.67:96/file`,
+        headers: {token: this.$store.state.userInfo.token, uid: this.$store.state.userInfo.uid},
         roomimg: '',
         modal1: false,
         formItem: {
@@ -148,7 +151,6 @@
                   on: {
                     'on-change': () => {      //  事件
                       this.handleSwitch(params.index)
-//                      console.log()
                     }
                   }
                 })
@@ -217,18 +219,15 @@
         this.$ajax.get(`/newMeetingRooms`, {
         }).then((response) => {
           if (response.data.code === '000000') {
-            console.log(response.data)
-            var len = response.data.data.length
-            var room = []
-            for (var i = 0; i < len; i++) {
+            let len = response.data.data.length
+            let room = []
+            for (let i = 0; i < len; i++) {
               response.data.data[i].index = i + 1
               response.data.data[i].roomimg = response.data.data[i].roomimg
               response.data.data[i].nop = response.data.data[i].nop + '人'
               room.push(response.data.data[i])
             }
             this.roomList = room
-            console.log(room)
-            console.log(this.roomList)
           }
         }).catch(function (err) {
           console.log(err)
@@ -253,35 +252,33 @@
         this.$refs.formItem.validate((valid) => {
           if (valid) {
             if (this.okText === '确定') {
-              console.log(this.formItem)
 //        调新建会议室接口
-              this.$ajax.post(`/newMeetingRooms`, qs.stringify(this.formItem), {
+              this.$ajax.post(`/newMeetingRooms`, this.formItem, {
                 headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Content-Type': 'application/x-www-form-urlencoded'
                 }
               }).then((response) => {
-                console.log(response)
                 if (response.data.code === '000000') {
                   this.getMeetRoom()
                   this.$Message.success('会议室创建成功')
+                  this.$Modal.remove()
                 }
               }).catch(function (err) {
                 console.log(err)
               })
             } else if (this.okText === '修改') {
 //        调修改会议室接口
-              console.log(this.formItem)
               this.$refs.formItem.validate((valid) => {
                 if (valid) {
-                  this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.formItem), {
+                  this.$ajax.post(`/newMeetingRooms/update`, this.formItem, {
                     headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
+                      'Content-Type': 'application/x-www-form-urlencoded'
                     }
                   }).then((response) => {
-                    console.log(response)
                     if (response.data.code === '000000') {
                       this.getMeetRoom()
                       this.$Message.success('会议室修改成功')
+                      this.$Modal.remove()
                     } else {
                       this.$Message.error(response.data.message)
                       this.getMeetRoom()
@@ -317,12 +314,11 @@
         }
         this.roomList[index].nop = parseInt(this.roomList[index].nop)
 //      调修改会议室状态接口
-        this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.roomList[index]), {
+        this.$ajax.post(`/newMeetingRooms/update`, this.roomList[index], {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.getMeetRoom()
             this.$Message.success('会议室状态修改成功')
@@ -336,7 +332,6 @@
       },
 //    点击修改
       handleUpdate (row) {
-        console.log(row)
         this.modal1 = true
         this.modalTitle = '修改会议室'
         this.okText = '修改'
@@ -348,7 +343,6 @@
         this.formItem.nop = parseInt(row.nop)
         this.formItem.roomimg = row.roomimg
         this.roomimg = 'http://118.31.18.67:96' + this.formItem.roomimg
-        console.log(this.formItem)
         this.$refs.formItem.validate('roomname')
         this.$refs.formItem.validate('address')
         this.$refs.formItem.validate('device')
@@ -362,22 +356,23 @@
         this.$Modal.confirm({
           title: title,
           content: content,
-          onOk: (() => {
+          loading: true,
+          onOk: () => {
             //      调删除会议室接口
             this.$ajax.delete(`/newMeetingRooms`, {
               params: {
                 room_id: this.roomList[index].room_id
-              },
-
+              }
             }).then((response) => {
               if (response.data.code === '000000') {
                 this.roomList.splice(index, 1)
                 this.$Message.success('删除会议室成功')
+                this.$Modal.remove()
               }
             }).catch(function (err) {
               console.log(err)
             })
-          })
+          }
         })
       }
     },

@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import qs from 'qs'
 import axios from 'axios'
 
-// axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
 axios.defaults.baseURL = 'http://10.255.232.234/oa-api' //  TODO 测试时跨域设置，后期可以删除
 axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
 axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''
@@ -122,8 +122,8 @@ const store = new Vuex.Store({
             children: [
               {name: '发起申请', id: 'launchIndex'},
               {name: '我的申请', id: 'myLaunch'},
-              {name: '待办事宜', id: 'toDo'},
-              {name: '已办事宜', id: 'haveToDo'}
+              {name: '待办事宜', id: 'todo'},
+              {name: '已办事宜', id: 'haveTodo'}
             ]
           }
         ]

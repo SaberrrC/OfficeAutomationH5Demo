@@ -59,9 +59,6 @@
 </template>
 
 <script>
-  import qs from "qs"
-  //  TODO 临时测试环境变量
-  const TEST_CONFIG = 'http://118.31.18.67:8084'
   export default {
     name: 'MyMeeting',
     data () {
@@ -205,24 +202,23 @@
       },
 //      获取发起列表
       getLaunchMeet () {
-        this.$ajax.post(`/newMeetings/reserve`, qs.stringify({currentPage: this.launchCurrentPage, pageSize: this.launchPageSize}), {
+        this.$ajax.post(`/newMeetings/reserve`, {currentPage: this.launchCurrentPage, pageSize: this.launchPageSize}, {
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000' && response.data.data.data.length !== 0) {
             this.launchTotal = parseInt(response.data.data.total)
-            var data = response.data.data.data
-            var len = data.length
-            for (var i = 0; i < len; i++) {
+            let data = response.data.data.data
+            let len = data.length
+            for (let i = 0; i < len; i++) {
               /*
               * 拼装时间
               * */
-              var myDate = new Date(parseInt(data[i].start_time) * 1000)
-              var year = myDate.getFullYear()
-              var mouth = myDate.getMonth()
+              let myDate = new Date(parseInt(data[i].start_time) * 1000)
+              let year = myDate.getFullYear()
+              let mouth = myDate.getMonth()
               mouth = mouth === 0 ? 1 : mouth + 1
-              var day = myDate.getDate()
-              var hour = myDate.getHours()
-              var week
+              let day = myDate.getDate()
+              let hour = myDate.getHours()
+              let week
               switch (myDate.getDay()) {
                 case 0:
                   week = '周日'
@@ -254,9 +250,9 @@
               if (data[i].part_name.length === 0) {
                 data[i].meetUser = ''
               } else {
-                var length = data[i].part_name.length
-                var users = ''
-                for (var j = 0; j < length; j++) {
+                let length = data[i].part_name.length
+                let users = ''
+                for (let j = 0; j < length; j++) {
                   users += ',' + data[i].part_name[j].name
                 }
                 users = users.substring(1)
@@ -270,8 +266,8 @@
         })
       },
       updateTime (row) {
-        var myDate = new Date()
-        var time = Math.round(myDate.getTime() / 1000)      // 当前时间戳
+        let myDate = new Date()
+        let time = Math.round(myDate.getTime() / 1000)      // 当前时间戳
         if (row.start_time <= time) {
           this.$Message.error('当前会议已过期，请选择其他会议')
         } else {
@@ -279,10 +275,9 @@
         }
       },
       remove (row, index) {
-        var myDate = new Date()
-        var time = Math.round(myDate.getTime() / 1000)      // 当前时间戳
-        console.log(row)
-        var data = {
+        let myDate = new Date()
+        let time = Math.round(myDate.getTime() / 1000)      // 当前时间戳
+        let data = {
           id: row.id,
           send_type: row.send_type   //  TODO  后期需修改
         }
@@ -291,25 +286,25 @@
         this.$Modal.confirm({
           title: title,
           content: content,
-          onOk: (() => {
-          if (row.start_time <= time) {
-            this.$Message.error('当前会议时间已过，不可以删除')
-          } else {
-            //      调删除会议室接口
-            this.$ajax.post(`/newMeetings/deleteMeeting`, qs.stringify(data), {
-              params: {
-                room_id: row.room_id //  TODO 临时测试
-              }
-            }).then((response) => {
-              if (response.data.code === '000000') {
-                this.launchTableData.splice(index, 1)
-                this.$Message.success('取消会议成功')
-              }
-            }).catch(function (err) {
-              console.log(err)
-            })
+          onOk: () => {
+            if (row.start_time <= time) {
+              this.$Message.error('当前会议时间已过，不可以删除')
+            } else {
+              //      调删除会议室接口
+              this.$ajax.post(`/newMeetings/deleteMeeting`, data, {
+                params: {
+                  room_id: row.room_id //  TODO 临时测试
+                }
+              }).then((response) => {
+                if (response.data.code === '000000') {
+                  this.launchTableData.splice(index, 1)
+                  this.$Message.success('取消会议成功')
+                }
+              }).catch(function (err) {
+                console.log(err)
+              })
+            }
           }
-          })
         })
       },
       changePage (page) {

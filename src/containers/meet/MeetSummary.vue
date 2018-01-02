@@ -170,8 +170,13 @@
     data () {
       return {
         isShow: false,
+        headers: {
+          token: this.$store.state.userInfo.username,
+          uid: this.$store.state.userInfo.uid
+        },
+//        action: `http://10.255.232.234/oa-api/file`,
+        action: `http://118.31.18.67:96/file`,
         initTreeData: [],
-        action: `http://10.255.232.234/oa-api/file`,
         uploadList: [],
         formItem: {
           title: '',
@@ -223,7 +228,6 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.meetList = response.data.data.data
-            console.log(this.meetList)
           }
         }).catch(function (err) {
           console.log(err)
@@ -240,22 +244,21 @@
         this.formItem.content = this.meetList[this.meetTitle].content
         this.formItem.conclusion = this.meetList[this.meetTitle].conclusion
         if (this.meetList[this.meetTitle].users !== []) {
-          var len = this.meetList[this.meetTitle].users.length
-          var users = []
-          var ids = []
-          for (var i = 0; i < len; i++) {
+          let len = this.meetList[this.meetTitle].users.length
+          let users = []
+          let ids = []
+          for (let i = 0; i < len; i++) {
             users.push(this.meetList[this.meetTitle].users[i].name)
             ids.push(this.meetList[this.meetTitle].users[i].uid)
           }
-          users = users.join("、")
-          ids = ids.join(",")
+          users = users.join('、')
+          ids = ids.join(',')
           this.formItem.users = users
           this.invitee.ids = ids
           this.formItem.range = this.ranges.users = users
           this.ranges.ids = ids
           this.$refs.formItem.validateField('content')
           this.$refs.formItem.validateField('range')
-          console.log(ids)
         }
       },
 //    上传成功的方法
@@ -265,7 +268,6 @@
       handleUploadRemove () {
         const fileList = this.$refs.upload.fileList
         this.uploadList = fileList
-        console.log(this.uploadList)
       },
       handleBeforeUpload () {
         const check = this.uploadList.length < 3
@@ -279,23 +281,22 @@
       },
 //    点击发布按钮
       query () {
-        console.log(this.$refs)
 //        return false
         this.$refs.formItem.validate((valid) => {
           if (valid) {
-            var len = this.uploadList.length
-            var accessoryUrl = []
+            let len = this.uploadList.length
+            let accessoryUrl = []
             if (len !== 0) {
-              for (var i = 0; i < len; i++) {
+              for (let i = 0; i < len; i++) {
                 accessoryUrl.push(this.uploadList[i].response.data)
               }
               this.accessoryUrl = accessoryUrl.join(',')
             } else {
               this.accessoryUrl = ''
             }
-            var type = this.formItem.type.join(',')
-            /********组装数据**********/
-            var approveRequest = {
+            let type = this.formItem.type.join(',')
+//            /********组装数据**********/
+            let approveRequest = {
               meetingId: this.formItem.id,               // 会议id
               time: this.formItem.time,                    // 会议时间
               meetingPlace: this.formItem.meetingPlace,            // 会议地点
@@ -307,11 +308,9 @@
               sendRange: this.ranges.ids,               // 发布范围
               sendType: type                 // 发布方式
             }
-            console.log(approveRequest)
-            /********调发布接口**********/
+//            /********调发布接口**********/
             this.$ajax.post(`/sendMeetingSummary`, approveRequest, {
             }).then((response) => {
-              console.log(response)
               if (response.data.code === '000000') {
                 this.$Message.success('收回成功')
                 this.$router.push({path: this.type})
@@ -339,7 +338,6 @@
         if (this.formItem.title === '') {
           this.$Message.info('请先选择会议主题')
         } else {
-          console.log('请选择主持人')
         }
       },
 //    选择发布范围
@@ -349,29 +347,23 @@
         } else {
           this.initTreeData = data
           this.isShow = true
-          console.log('请选择发布范围')
         }
       },
 //    处理选中的人员
       getSelectedMembers (data) {
-        //  TODO 在这里处理选中的数组
-        console.log(data)
         this.formItem.range = this.formItem.users
         this.ranges.ids = this.invitee.ids
-        var len = data.length
-        var ids = []
-        var users = []
-        for (var i = 0; i < len; i++) {
+        let len = data.length
+        let ids = []
+        let users = []
+        for (let i = 0; i < len; i++) {
           ids.push(data[i].uid)
           users.push(data[i].username)
         }
-        ids = ids.join(",")
-        users = users.join("、")
+        ids = ids.join(',')
+        users = users.join('、')
         this.formItem.range += '、' + users
         this.ranges.ids += ',' + ids
-        console.log(ids)
-        console.log(this.formItem)
-        console.log(this.ranges.ids)
       },
       handleRemove (name) {
         this[name] = false

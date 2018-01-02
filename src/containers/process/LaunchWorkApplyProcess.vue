@@ -42,7 +42,7 @@
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem prop="type" label="加班类别" >
                         <Select v-model="workApplyTitle.type" :label-in-value="true"  @on-change="v =>{ setOption(v,'type')}">
-                          <Option v-for="(item,key) in type" :value="item.id">{{item.name}}</Option>
+                          <Option v-for="(item,key) in type" :value="item.id" :key="item.id">{{item.name}}</Option>
                         </Select>
                       </FormItem>
                     </i-Col>
@@ -56,7 +56,7 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="申请人">
-                        <span>朱展宏</span>
+                        <span>{{ workApplyTitle.user }}</span>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -244,9 +244,8 @@
 </template>
 
 <script>
-  import qs from "qs"
   export default {
-    name: 'WorkReportDaily',
+    name: 'LaunchWorkApply',
     data () {
       const validateStartTime = (rule, value, callback) => {
         if (value === '') {
@@ -273,7 +272,8 @@
         workApplyTitle: {
           workApplyCode: '',          // 加班单号
           type: '',              // 加班类别
-          applyDate: ''          // 申请日期
+          applyDate: '',          // 申请日期
+          user: this.$store.state.userInfo.username
         },
         type: [],              // 加班类别
         nCHREvectionApplyDeatil: [],               // 加班明细
@@ -452,7 +452,7 @@
         }  // TODO 组装数据
         this.$ajax.post(`/WorkApply/addWorkApply`, JSON.stringify(data), {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           }
         }).then((response) => {
           if (response.data.code === '000000') {

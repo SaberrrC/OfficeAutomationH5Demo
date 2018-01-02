@@ -35,7 +35,6 @@
 </template>
 
 <script>
-  import qs from "qs"
   export default {
     name: 'WorkReportDaily',
     data () {
@@ -323,11 +322,33 @@
       fallBack () {
         this.$router.push({ path: 'add' })
       },
+//    数组去重方法
+      removeArrayRepElement (arr) {
+        let result = []
+        let isRepeated
+        for (var i = 0; i < arr.length; i++) {
+          isRepeated = false
+          for (var j = 0; j < arr.length; j++) {
+            if (arr[i] === result[j]) {  // 将后面重复的数删掉
+              isRepeated = true
+              break
+            }
+          }
+          if (!isRepeated) {
+            result.push(arr[i])
+          }
+        }
+        return result
+      },
+//    排序方法
+      sortNumber (a, b) {
+        return a - b
+      },
       //    点击确定按钮
       nextStep () {
         var len = this.click_time.length
-        var start_clock = ''
-        var end_clock = ''
+        let startClock = ''
+        var endClock = ''
         if (len === 0) {
           this.$Message.info('请选择会议时间')
         }
@@ -336,68 +357,44 @@
           for (var i = 0; i < len; i++) {
             arr.push(this.click_time[i].click_week)
           }
-          function removeArrayRepElement (arr) {
-            var result = [], isRepeated
-            for (var i = 0; i < arr.length; i++) {
-              isRepeated = false
-              for (var j = 0; j < arr.length; j++) {
-                if (arr[i] === result[j]) {  // 将后面重复的数删掉
-                  isRepeated = true
-                  break
-                }
-              }
-              if (!isRepeated) {
-                result.push(arr[i])
-              }
-            }
-            return result
-          }
-          arr = removeArrayRepElement(arr)
+          arr = this.removeArrayRepElement(arr)
           if (arr.length > 1) {     // 判断选择是否在同一天(不在)
             this.$Message.info('请选择连续的时间')
-//            this.click_time = []
-//            this.getAllMeeting()
           } else {          // 在同一天时，判断时间点是否连续
-            var len = this.click_time.length
+//            var len = this.click_time.length
             var clock = []
-            function sortNumber (a, b) {
-              return a - b
-            }
-            for (var i = 0; i < len; i++) {
+
+            for (let i = 0; i < len; i++) {
               clock.push(this.click_time[i].click_clock)
             }
-            clock = clock.sort(sortNumber)
+            clock = clock.sort(this.sortNumber)
             if (clock[0] + len - 1 !== clock[clock.length - 1]) {
               this.$Message.info('请选择连续的时间')
-//              this.click_time = []
-//              this.getAllMeetings()
             } else {
-              console.log(this.click_time)
-              start_clock = clock[0]     // 开始时间点
-              end_clock = clock[0] + len   // 结束时间点
+              startClock = clock[0]     // 开始时间点
+              startClock = clock[0] + len   // 结束时间点
               var n = this.click_time[0].click_week - 1              // 会议时长
-              var this_datetime = this.click_time[0].week1_time + 3600 * 24 * n     // 选择会议当天0点的时间戳
-              var myDate = new Date(this_datetime * 1000)
+              var thisDatetime = this.click_time[0].week1_time + 3600 * 24 * n     // 选择会议当天0点的时间戳
+              var myDate = new Date(thisDatetime * 1000)
               var year = myDate.getFullYear()
               var mouth = myDate.getMonth()
               mouth = mouth === 0 ? 1 : mouth + 1
               var day = myDate.getDate()
-              var this_date = year + '-' + mouth + '-' + day
-              var start_time = this_date + ' ' + start_clock + ":00"
-              var end_time = this_date + ' ' + end_clock + ":00"
+              var thisDate = year + '-' + mouth + '-' + day
+              var startTime = thisDate + ' ' + startClock + ':00'
+              var endTime = thisDate + ' ' + endClock + ':00'
               if (this.meet_id === '') {    // 判断会议id为空，说明是预约
-                this.$router.push({path: 'confirm', query: {roomId: this.roomId, roomName: this.roomName, nop: this.nop, device: this.device, start_time: start_time, end_time: end_time}})
+                this.$router.push({path: 'confirm', query: {roomId: this.roomId, roomName: this.roomName, nop: this.nop, device: this.device, start_time: startTime, end_time: endTime}})
               } else {   //  调期
 //              调取会议调期接口
                 var data = {
                   meeting_id: this.meet_id,
-                  start_time: start_time,
-                  end_time: end_time,
+                  start_time: startTime,
+                  end_time: endTime,
                   send_type: this.send_type
                 }
-                this.$ajax.post(`/newMeetings/updateMeeting`, qs.stringify(data), {
+                this.$ajax.post(`/newMeetings/updateMeeting`, data, {
                 }).then((response) => {
-                  console.log(response)
                   if (response.data.code === '000000') {
                     this.$Message.success('您已成功修改了本次会议的时间')
                     this.$router.push({path: 'myMeeting'})
@@ -420,21 +417,18 @@
       },
 //    点击上一周
       lastWeek () {
-        console.log('上一周')
         this.nowTime = this.nowTime - 3600 * 24 * 7
         this.getDate(this.nowTime)
         this.getAllMeetings()
       },
 //    点击本周
       thisWeek () {
-        console.log('本周')
         this.nowTime = parseInt(new Date().getTime() / 1000)
         this.getDate(this.nowTime)
         this.getAllMeetings()
       },
 //    点击下一周
       nextWeek () {
-        console.log('下一周')
         this.nowTime = this.nowTime + 3600 * 24 * 7
         this.getDate(this.nowTime)
         this.getAllMeetings()
@@ -479,7 +473,7 @@
           this.tableData[i].week7 = ''
         }
         this.getDate(this.nowTime)
-//      调获取会议接口     TODO    待完善
+//      调获取会议接口
         this.$ajax.get(`/newMeetings/get`, {
           params: {
             roomId: this.$route.query.roomId,
@@ -488,8 +482,8 @@
         }).then((response) => {
 //        判断成功返回数据
           if (response.data.code === '000000' && response.data.data.length !== 0) {
-            var meetingList = response.data.data
-            for (var i = 0; i < meetingList.length; i++) {
+            let meetingList = response.data.data
+            for (let i = 0; i < meetingList.length; i++) {
               meetingList[i].week = new Date((meetingList[i].start_time) * 1000).getDay()
               meetingList[i].start_h = new Date((meetingList[i].start_time) * 1000).getHours()
               meetingList[i].end_h = new Date((meetingList[i].end_time) * 1000).getHours()
@@ -497,12 +491,11 @@
                 meetingList[i].week = 7
               }
             }
-            console.log(meetingList)
-            for (var j = 0; j < this.tableData.length; j++) {
-              for (var i = 0; i < meetingList.length; i++) {
+            for (let j = 0; j < this.tableData.length; j++) {
+              for (let i = 0; i < meetingList.length; i++) {
                 if (meetingList[i].week === 1 && meetingList[i].start_h - 9 === j) {
-                  var hour = meetingList[i].end_h - meetingList[i].start_h
-                  for (var k = 0; k < hour; k++) {
+                  let hour = meetingList[i].end_h - meetingList[i].start_h
+                  for (let k = 0; k < hour; k++) {
                     if (this.meet_id === meetingList[i].id) {
                       this.tableData[j + k].week1 = '√'
                       this.click_time.push({week1_time: this.nowTime, click_week: meetingList[i].week, click_clock: j + k + 9})
@@ -512,8 +505,8 @@
                   }
                 }
                 if (meetingList[i].week === 2 && meetingList[i].start_h === j + 9) {
-                  var hour = meetingList[i].end_h - meetingList[i].start_h
-                  for (var k = 0; k < hour; k++) {
+                  let hour = meetingList[i].end_h - meetingList[i].start_h
+                  for (let k = 0; k < hour; k++) {
                     if (this.meet_id === meetingList[i].id) {
                       this.tableData[j + k].week2 = '√'
                       this.click_time.push({ week1_time: this.nowTime, click_week: meetingList[i].week, click_clock: j + k + 9 })
@@ -523,8 +516,8 @@
                   }
                 }
                 if (meetingList[i].week === 3 && meetingList[i].start_h === j + 9) {
-                  var hour = meetingList[i].end_h - meetingList[i].start_h
-                  for (var k = 0; k < hour; k++) {
+                  let hour = meetingList[i].end_h - meetingList[i].start_h
+                  for (let k = 0; k < hour; k++) {
                     if (this.meet_id === meetingList[i].id) {
                       this.tableData[j + k].week3 = '√'
                       this.click_time.push({week1_time: this.nowTime, click_week: meetingList[i].week, click_clock: j + k + 9})
@@ -534,8 +527,8 @@
                   }
                 }
                 if (meetingList[i].week === 4 && meetingList[i].start_h === j + 9) {
-                  var hour = meetingList[i].end_h - meetingList[i].start_h
-                  for (var k = 0; k < hour; k++) {
+                  let hour = meetingList[i].end_h - meetingList[i].start_h
+                  for (let k = 0; k < hour; k++) {
                     if (this.meet_id === meetingList[i].id) {
                       this.tableData[j + k].week4 = '√'
                       this.click_time.push({week1_time: this.nowTime, click_week: meetingList[i].week, click_clock: j + k + 9})
@@ -545,8 +538,8 @@
                   }
                 }
                 if (meetingList[i].week === 5 && meetingList[i].start_h === j + 9) {
-                  var hour = meetingList[i].end_h - meetingList[i].start_h
-                  for (var k = 0; k < hour; k++) {
+                  let hour = meetingList[i].end_h - meetingList[i].start_h
+                  for (let k = 0; k < hour; k++) {
                     if (this.meet_id === meetingList[i].id) {
                       this.tableData[j + k].week5 = '√'
                       this.click_time.push({week1_time: this.nowTime, click_week: meetingList[i].week, click_clock: j + k + 9})
@@ -556,8 +549,8 @@
                   }
                 }
                 if (meetingList[i].week === 6 && meetingList[i].start_h === j + 9) {
-                  var hour = meetingList[i].end_h - meetingList[i].start_h
-                  for (var k = 0; k < hour; k++) {
+                  let hour = meetingList[i].end_h - meetingList[i].start_h
+                  for (let k = 0; k < hour; k++) {
                     if (this.meet_id === meetingList[i].id) {
                       this.tableData[j + k].week6 = '√'
                       this.click_time.push({week1_time: this.nowTime, click_week: meetingList[i].week, click_clock: j + k + 9})
@@ -568,8 +561,8 @@
                 }
 //
                 if (meetingList[i].week === 7 && meetingList[i].start_h === j + 9) {
-                  var hour = meetingList[i].end_h - meetingList[i].start_h
-                  for (var k = 0; k < hour; k++) {
+                  let hour = meetingList[i].end_h - meetingList[i].start_h
+                  for (let k = 0; k < hour; k++) {
                     if (this.meet_id === meetingList[i].id) {
                       this.tableData[j + k].week7 = '√'
                       this.click_time.push({week1_time: this.nowTime, click_week: meetingList[i].week, click_clock: j + k + 9})
@@ -630,8 +623,8 @@
                     this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                   } else if (this.tableData[a].week2 === '√') {
                     this.tableData[a].week2 = ''
-                    var len = this.click_time.length
-                    for (var i = 0; i < len; i++) {
+                    let len = this.click_time.length
+                    for (let i = 0; i < len; i++) {
                       if (this.click_time[i].click_clock === a + 9) {
                         this.click_time.splice(i, 1)
                       }
@@ -646,8 +639,8 @@
                     this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                   } else if (this.tableData[a].week3 === '√') {
                     this.tableData[a].week3 = ''
-                    var len = this.click_time.length
-                    for (var i = 0; i < len; i++) {
+                    let len = this.click_time.length
+                    for (let i = 0; i < len; i++) {
                       if (this.click_time[i].click_clock === a + 9) {
                         this.click_time.splice(i, 1)
                       }
@@ -662,8 +655,8 @@
                     this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                   } else if (this.tableData[a].week4 === '√') {
                     this.tableData[a].week4 = ''
-                    var len = this.click_time.length
-                    for (var i = 0; i < len; i++) {
+                    let len = this.click_time.length
+                    for (let i = 0; i < len; i++) {
                       if (this.click_time[i].click_clock === a + 9) {
                         this.click_time.splice(i, 1)
                       }
@@ -678,8 +671,8 @@
                     this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                   } else if (this.tableData[a].week5 === '√') {
                     this.tableData[a].week5 = ''
-                    var len = this.click_time.length
-                    for (var i = 0; i < len; i++) {
+                    let len = this.click_time.length
+                    for (let i = 0; i < len; i++) {
                       if (this.click_time[i].click_clock === a + 9) {
                         this.click_time.splice(i, 1)
                       }
@@ -694,8 +687,8 @@
                     this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                   } else if (this.tableData[a].week6 === '√') {
                     this.tableData[a].week6 = ''
-                    var len = this.click_time.length
-                    for (var i = 0; i < len; i++) {
+                    let len = this.click_time.length
+                    for (let i = 0; i < len; i++) {
                       if (this.click_time[i].click_clock === a + 9) {
                         this.click_time.splice(i, 1)
                       }
@@ -710,8 +703,8 @@
                     this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                   } else if (this.tableData[a].week7 === '√') {
                     this.tableData[a].week7 = ''
-                    var len = this.click_time.length
-                    for (var i = 0; i < len; i++) {
+                    let len = this.click_time.length
+                    for (let i = 0; i < len; i++) {
                       if (this.click_time[i].click_clock === a + 9) {
                         this.click_time.splice(i, 1)
                       }
@@ -730,8 +723,8 @@
                   this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                 } else if (this.tableData[a].week1 === '√') {
                   this.tableData[a].week1 = ''
-                  var len = this.click_time.length
-                  for (var i = 0; i < len; i++) {
+                  let len = this.click_time.length
+                  for (let i = 0; i < len; i++) {
                     if (this.click_time[i].click_clock === a + 9) {
                       this.click_time.splice(i, 1)
                     }
@@ -746,8 +739,8 @@
                   this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                 } else if (this.tableData[a].week2 === '√') {
                   this.tableData[a].week2 = ''
-                  var len = this.click_time.length
-                  for (var i = 0; i < len; i++) {
+                  let len = this.click_time.length
+                  for (let i = 0; i < len; i++) {
                     if (this.click_time[i].click_clock === a + 9) {
                       this.click_time.splice(i, 1)
                     }
@@ -762,8 +755,8 @@
                   this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                 } else if (this.tableData[a].week3 === '√') {
                   this.tableData[a].week3 = ''
-                  var len = this.click_time.length
-                  for (var i = 0; i < len; i++) {
+                  let len = this.click_time.length
+                  for (let i = 0; i < len; i++) {
                     if (this.click_time[i].click_clock === a + 9) {
                       this.click_time.splice(i, 1)
                     }
@@ -778,8 +771,8 @@
                   this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                 } else if (this.tableData[a].week4 === '√') {
                   this.tableData[a].week4 = ''
-                  var len = this.click_time.length
-                  for (var i = 0; i < len; i++) {
+                  let len = this.click_time.length
+                  for (let i = 0; i < len; i++) {
                     if (this.click_time[i].click_clock === a + 9) {
                       this.click_time.splice(i, 1)
                     }
@@ -794,8 +787,8 @@
                   this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                 } else if (this.tableData[a].week5 === '√') {
                   this.tableData[a].week5 = ''
-                  var len = this.click_time.length
-                  for (var i = 0; i < len; i++) {
+                  let len = this.click_time.length
+                  for (let i = 0; i < len; i++) {
                     if (this.click_time[i].click_clock === a + 9) {
                       this.click_time.splice(i, 1)
                     }
@@ -810,8 +803,8 @@
                   this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                 } else if (this.tableData[a].week6 === '√') {
                   this.tableData[a].week6 = ''
-                  var len = this.click_time.length
-                  for (var i = 0; i < len; i++) {
+                  let len = this.click_time.length
+                  for (let i = 0; i < len; i++) {
                     if (this.click_time[i].click_clock === a + 9) {
                       this.click_time.splice(i, 1)
                     }
@@ -826,8 +819,8 @@
                   this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
                 } else if (this.tableData[a].week7 === '√') {
                   this.tableData[a].week7 = ''
-                  var len = this.click_time.length
-                  for (var i = 0; i < len; i++) {
+                  let len = this.click_time.length
+                  for (let i = 0; i < len; i++) {
                     if (this.click_time[i].click_clock === a + 9) {
                       this.click_time.splice(i, 1)
                     }
@@ -837,7 +830,6 @@
                 }
                 break
             }
-            console.log(this.click_time)
           }
         } else if (this.nowTime > weekOne) {       //        下一周
           switch (b) {
@@ -847,8 +839,8 @@
                 this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
               } else if (this.tableData[a].week1 === '√') {
                 this.tableData[a].week1 = ''
-                var len = this.click_time.length
-                for (var i = 0; i < len; i++) {
+                let len = this.click_time.length
+                for (let i = 0; i < len; i++) {
                   if (this.click_time[i].click_clock === a + 9) {
                     this.click_time.splice(i, 1)
                   }
@@ -863,8 +855,8 @@
                 this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
               } else if (this.tableData[a].week2 === '√') {
                 this.tableData[a].week2 = ''
-                var len = this.click_time.length
-                for (var i = 0; i < len; i++) {
+                let len = this.click_time.length
+                for (let i = 0; i < len; i++) {
                   if (this.click_time[i].click_clock === a + 9) {
                     this.click_time.splice(i, 1)
                   }
@@ -879,8 +871,8 @@
                 this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
               } else if (this.tableData[a].week3 === '√') {
                 this.tableData[a].week3 = ''
-                var len = this.click_time.length
-                for (var i = 0; i < len; i++) {
+                let len = this.click_time.length
+                for (let i = 0; i < len; i++) {
                   if (this.click_time[i].click_clock === a + 9) {
                     this.click_time.splice(i, 1)
                   }
@@ -895,8 +887,8 @@
                 this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
               } else if (this.tableData[a].week4 === '√') {
                 this.tableData[a].week4 = ''
-                var len = this.click_time.length
-                for (var i = 0; i < len; i++) {
+                let len = this.click_time.length
+                for (let i = 0; i < len; i++) {
                   if (this.click_time[i].click_clock === a + 9) {
                     this.click_time.splice(i, 1)
                   }
@@ -911,8 +903,8 @@
                 this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
               } else if (this.tableData[a].week5 === '√') {
                 this.tableData[a].week5 = ''
-                var len = this.click_time.length
-                for (var i = 0; i < len; i++) {
+                let len = this.click_time.length
+                for (let i = 0; i < len; i++) {
                   if (this.click_time[i].click_clock === a + 9) {
                     this.click_time.splice(i, 1)
                   }
@@ -927,8 +919,8 @@
                 this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
               } else if (this.tableData[a].week6 === '√') {
                 this.tableData[a].week6 = ''
-                var len = this.click_time.length
-                for (var i = 0; i < len; i++) {
+                let len = this.click_time.length
+                for (let i = 0; i < len; i++) {
                   if (this.click_time[i].click_clock === a + 9) {
                     this.click_time.splice(i, 1)
                   }
@@ -943,8 +935,8 @@
                 this.click_time.push({week1_time: this.nowTime, click_week: b, click_clock: a + 9})
               } else if (this.tableData[a].week7 === '√') {
                 this.tableData[a].week7 = ''
-                var len = this.click_time.length
-                for (var i = 0; i < len; i++) {
+                let len = this.click_time.length
+                for (let i = 0; i < len; i++) {
                   if (this.click_time[i].click_clock === a + 9) {
                     this.click_time.splice(i, 1)
                   }
@@ -954,10 +946,7 @@
               }
               break
           }
-          console.log(this.click_time)
         }
-//        console.log(a)
-//        console.log(b)
       }
     },
     created () {

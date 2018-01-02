@@ -5,13 +5,21 @@
       <div>
         <h3>行政流程类</h3>
         <ul>
-          <Button type="text"><li>办公用品申请</li></Button>
+          <li>
+            <Button type="text">
+              <span>办公用品申请</span>
+            </Button>
+          </li>
         </ul>
       </div>
       <div>
         <h3>HR流程类</h3>
         <ul>
-          <Button type="text" v-for="(item,index) in items" @click = "HrType(index)"><li><span :class="{active:item.isActive}">{{item.label}}</span></li></Button>
+          <li v-for="(item,index) in items" @click = "HrType(index)">
+            <Button type="text">
+              <span :class="{active:item.isActive}">{{item.label}}</span>
+            </Button>
+          </li>
         </ul>
       </div>
     </div>
@@ -74,7 +82,7 @@
 
 <script>
   export default {
-    name: 'WorkReportDaily',
+    name: 'HaveTodo',
     data () {
       return {
         formItem: {
@@ -163,7 +171,7 @@
       getHaveToDoList () {
         this.$ajax.get(`/MyAplication/selectMyAplication`, {
           params: {
-            checkmanId: '010014136',
+            checkmanId: this.$store.state.userInfo.code,
             userName: this.formItem.launchUser,
             isCheck: 'Y',
             pkBillType: this.billType,

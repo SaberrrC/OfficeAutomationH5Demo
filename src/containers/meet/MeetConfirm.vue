@@ -1,15 +1,15 @@
 <template>
-  <div class="work-report-daily">
-    <Card :dis-hover="true">
+  <div class='work-report-daily'>
+    <Card :dis-hover='true'>
       <!--会议室预定-->
       <Row>
-        <i-Col span="8">
-        <h4 class="title">
+        <i-Col span='8'>
+        <h4 class='title'>
         会议室预定
         </h4>
-        <Card :dis-hover="true">
+        <Card :dis-hover='true'>
           <ul>
-            <li v-for="item in meetRoomInfo" class="text">
+            <li v-for='item in meetRoomInfo' class='text'>
               {{item.name}}
             </li>
           </ul>
@@ -18,55 +18,55 @@
         </Row>
       <!--会议邀请-->
       <Row>
-        <i-Col span="18">
-        <h4 class="title">
+        <i-Col span='18'>
+        <h4 class='title'>
         会议邀请
         </h4>
-        <Card :dis-hover="true">
+        <Card :dis-hover='true'>
           <row>
-            <i-Col span="12">
+            <i-Col span='12'>
               <template>
-                <div style="margin-bottom: 24px">
-                  <Checkbox v-model="checked" @on-change="isInvite()">是否发起会议邀请</Checkbox>
+                <div style='margin-bottom: 24px'>
+                  <Checkbox v-model='checked' @on-change='isInvite()'>是否发起会议邀请</Checkbox>
                 </div>
               </template>
             </i-Col>
           </row>
-          <Form ref="meetInline" :model="meetInline"  :rules="ruleMeetInline" :label-width="80" label-position="left">
+          <Form ref='meetInline' :model='meetInline'  :rules='ruleMeetInline' :label-width='80' label-position='left'>
             <!--会议主题/邀请方式-->
             <row>
-              <i-Col span="12">
-                <FormItem prop="title" label="会议主题">
-                  <Input v-model="meetInline.title" placeholder="请输入会议主题" :disabled="disabled"></Input>
+              <i-Col span='12'>
+                <FormItem prop='title' label='会议主题'>
+                  <Input v-model='meetInline.title' placeholder='请输入会议主题' :disabled='disabled'></Input>
                 </FormItem>
               </i-Col>
-              <i-Col span="9" offset="3">
-                <FormItem prop="checkbox" label="邀请方式">
-                  <CheckboxGroup v-model="meetInline.checkbox">
-                    <Checkbox label="1" :disabled="disabled">邮件</Checkbox>
-                    <Checkbox label="2" :disabled="disabled">消息</Checkbox>
+              <i-Col span='9' offset='3'>
+                <FormItem prop='checkbox' label='邀请方式'>
+                  <CheckboxGroup v-model='meetInline.checkbox'>
+                    <Checkbox label='1' :disabled='disabled'>邮件</Checkbox>
+                    <Checkbox label='2' :disabled='disabled'>消息</Checkbox>
                   </CheckboxGroup>
                 </FormItem>
               </i-Col>
             </row>
             <!--与会人员-->
             <row>
-              <i-Col span="12">
-                <FormItem prop="user" label="与会人员">
-                  <Input v-model="meetInline.user" placeholder="请选择与会人员" icon="person" :disabled="disabled" @on-focus="doSelectMember(data1)"></Input>
+              <i-Col span='12'>
+                <FormItem prop='user' label='与会人员'>
+                  <Input v-model='meetInline.user' placeholder='请选择与会人员' icon='person' :disabled='disabled' @on-focus='doSelectMember(data1)'></Input>
                 </FormItem>
                 <member-selector
-                  v-if="isShow"
-                  :init-tree-data="initTreeData"
-                  @getSelectedMembers="getSelectedMembers"
-                  @removeMemberSelector="handleRemove('isShow')"/>
+                  v-if='isShow'
+                  :init-tree-data='initTreeData'
+                  @getSelectedMembers='getSelectedMembers'
+                  @removeMemberSelector='handleRemove("isShow")'/>
               </i-Col>
             </row>
             <!--会议内容-->
             <row>
-              <i-Col span="12">
-                <FormItem prop="content" label="会议内容">
-                  <Input type="textarea" v-model="meetInline.content" placeholder="请输入会议内容,不大于200字" icon="ios-search" :disabled="disabled"></Input>
+              <i-Col span='12'>
+                <FormItem prop='content' label='会议内容'>
+                  <Input type='textarea' v-model='meetInline.content' placeholder='请输入会议内容,不大于200字' icon='ios-search' :disabled='disabled'></Input>
                 </FormItem>
               </i-Col>
             </row>
@@ -74,16 +74,15 @@
         </Card>
         </i-Col>
       </Row>
-        <div style="margin: 20px">
-          <Button type="primary" @click="fallBack()">返回</Button>
-          <Button type="success" style="margin-left: 20px" @click="nextStep()">确定</Button>
+        <div style='margin: 20px'>
+          <Button type='primary' @click='fallBack()'>返回</Button>
+          <Button type='success' style='margin-left: 20px' @click='nextStep()'>确定</Button>
         </div>
     </Card>
   </div>
 </template>
 
 <script>
-  import qs from "qs"
   import MemberSelector from '@/components/MemberSelector'
   export default {
     components: {
@@ -92,7 +91,7 @@
     data () {
       return {
         isShow: false,
-        //  TODO 这里是选择人员的初始化数组，不要和下面的混淆，一般根据业务场景异步取得
+//   这里是选择人员的初始化数组，不要和下面的混淆，一般根据业务场景异步取得
         initTreeData: [],
         checked: false,
         disabled: true,
@@ -102,9 +101,9 @@
         meetRoomInfo: [
           { name: '资源名称：' + this.$route.query.roomName },
           { name: '资源规格：' + this.$route.query.nop + '人' },
-          { name: '使用时间：' + this.$route.query.start_time + ' -- ' + this.$route.query.end_time},
+          {name: '使用时间：' + this.$route.query.start_time + ' -- ' + this.$route.query.end_time},
           { name: '设备条件：' + this.$route.query.device },
-          { name: '预 定 人： ' + '朱展宏' }
+          { name: '预 定 人： ' + this.$store.state.userInfo.username }
         ],
         meetInline: {
           title: '',
@@ -151,20 +150,18 @@
       nextStep () {
         if (this.checked === true) {
           this.$refs.meetInline.validate((valid) => {
-            if (valid) {         //   通过验证   调添加会议接口  TODO
+            if (valid) {
               this.meetSave()
             } else {
-              console.log('error')
             }
           })
         } else {
-          console.log('不邀请')           //  不发起邀请  调添加会议接口  TODO
           this.meetSave()
         }
       },
 //    保存会议
       meetSave () {
-        var data = {
+        let data = {
           room_id: this.room_id,
           uid: '84',   // TODO
           title: this.meetInline.title,
@@ -172,14 +169,13 @@
           content: this.meetInline.content,
           start_time: this.start_time,
           end_time: this.end_time,
-          send_type: this.meetInline.checkbox.join(",")
+          send_type: this.meetInline.checkbox.join(',')
         }  // TODO 组装数据
-        this.$ajax.post(`/newMeetings/save`, qs.stringify(data), {
+        this.$ajax.post(`/newMeetings/save`, data, {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('会议创建成功')
             this.$router.push({path: 'myMeeting'})
@@ -194,16 +190,15 @@
         //  TODO 在这里处理选中的数组
         this.meetInline.user = ''
         this.part_uid = ''
-        console.log(data)
-        var len = data.length
-        var ids = []
-        var users = []
-        for (var i = 0; i < len; i++) {
+        let len = data.length
+        let ids = []
+        let users = []
+        for (let i = 0; i < len; i++) {
           ids.push(data[i].uid)
           users.push(data[i].username)
         }
-        ids = ids.join(",")
-        users = users.join("、")
+        ids = ids.join(',')
+        users = users.join('、')
         this.meetInline.user = users
         this.part_uid = ids
         this.$refs.meetInline.validateField('user')
@@ -230,13 +225,12 @@
         loading: false,
         children: []
       }]
-//      this.$store.dispatch('querySidebarList', 'home')
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<!-- Add 'scoped' attribute to limit CSS to this component only -->
+<style lang='scss' scoped>
   .work-report-daily {
     padding: 16px;
   }
