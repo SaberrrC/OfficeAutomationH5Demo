@@ -166,18 +166,22 @@ const chat = {
       }
     })
   },
-  userSearch (name) { // 初始化当前登录用户
+  userSearch (name) { // 搜索用户
     return new Promise(function (resolve, reject) {
       try {
         axios.post(config.OA_API + '/phoneBook/searchPhoneBook', {name: name}).then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data
-            console.log(result)
-            // setTimeout(function () {
-            //   resolve(tmp)
-            // }, 0)
+            setTimeout(function () {
+              resolve(result)
+            }, 0)
           }
-          console.log(response)
+          if (response.data && response.data.code === '020000') {
+            setTimeout(function () {
+              resolve([])
+            }, 0)
+          }
+          console.log('searchPhoneBook', response)
         })
       } catch (error) {
         console.log(error)

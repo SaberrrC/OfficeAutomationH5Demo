@@ -53,6 +53,10 @@
   border-right: 1px solid #ddd;
 }
 
+.chatting .p_listSearch .list-search-no-match {
+  padding-top: 10px;
+  text-align: center;
+}
 .chatting .p_listSearch .list_name {
   height: 70px;
   box-sizing: border-box;

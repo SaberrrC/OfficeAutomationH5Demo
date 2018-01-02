@@ -12,11 +12,14 @@
         <p>正在加载中，请稍等.....</p>
       </div>
      </div>
-     <div class="p_listSearch" v-show="p_listSearchShow">
+     <div class="p_listSearch" v-if="p_listSearchShow">
         <div class="list_name" v-for="(item, index) in listSearch" v-on:click="openChatBox(item)" >
           <div class="text">
             <div class="child_name">{{item.username2}}</div>
           </div>
+        </div>
+        <div class="list-search-no-match" v-if="listSearch && listSearch.length === 0">
+          查询无结果
         </div>
      </div>
   </div>
@@ -173,33 +176,18 @@ export default {
     }
   },
   watch: {
-    filterText () {
-      if (this.filterText.trim() === '') {
+    filterText (val) {
+      if (val.trim() === '') {
         this.p_listSearchShow = false
         return
       }
-      if (this.filterText) {
-        let data = {
-          oid: this.$store.state.userinfo.oid,
-          isleader: this.$store.state.userinfo.isleader,
-          name: this.filterText,
-          ssid: chat.getSsid()
-        }
-        let headers = {
-          token: this.$store.state.userinfo.token,
-          uid: this.$store.state.userinfo.uid
-        }
-        axios.post(config.OA_URL + 'index/searchphonebook', qs.stringify(data), {headers: headers}).then((response) => {
-          let groupList = document.getElementById('group_list')
-          groupList.style.float = 'left'
-          this.p_listSearchShow = true
-          for(var i = 0; i < response.data.data.length; i++) {
-            response.data.data[i].username2 = response.data.data[i].username + '--' + response.data.data[i].department_name
-          }
-          this.listSearch = response.data.data
-          console.log(this.listSearch)
-        })
-      }
+      val && chat.userSearch(val).then((x) => {
+        this.p_listSearchShow = true
+        this.listSearch = x
+      }, function () {
+        this.p_listSearchShow = true
+        this.listSearch = []
+      })
     }
   },
   mounted() {
