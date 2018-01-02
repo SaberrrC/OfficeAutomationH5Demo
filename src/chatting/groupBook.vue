@@ -18,7 +18,7 @@
         </el-dropdown>
       </div>
       <div v-if="!isRoomType" v-for='(item, index) in groups' class="group-item" :class="groupIdShow === item.id ? 'selectBackground' : '' "><!-- <div class="groupImg"><img :src='item.src' alt=""></div> -->
-        <div class="group-name "  @click="openChatBox(item)">{{strSubString(item.name)}}</div>
+        <div class="group-name" @click="openChatBox(item)">{{strSubString(item.groupname)}}</div>
         <el-dropdown class="group-item-menu" trigger="click" placement="bottom-start">
           <span class="el-dropdown-link" @click='clickValue(item)'><i class="el-icon-more"></i></span>
           <el-dropdown-menu slot="dropdown">
@@ -550,27 +550,28 @@ export default {
       },
       deep:true
     },
-    searchMessg(){
-      this.searchTXRG = [];
-       if(this.searchMessg.trim() == ''){
-         console.log(2)
-          this.g_listSearchShow = false
-          return
-        }
-      else {
-        this.g_listSearchShow = true;
-        console.log(this.searchMessg)
+    searchMessg() {
+      this.searchTXRG = []
+      if (this.searchMessg.trim() == '') {
+        console.log(2)
+        this.g_listSearchShow = false
+        return
+      } else {
+        this.g_listSearchShow = true
+        // console.log(this.searchMessg)
         if (this.isRoomType) {
-          console.log(this.TXRoom)
+          // console.log(this.TXRoom)
           for(var i =0; i<this.TXRoom.length; i++){
             if(this.TXRoom[i].name.indexOf(this.searchMessg) >= 0)
             this.searchTXRG.push(this.TXRoom[i])
           }
         } else {
           console.log(this.TXGroup)
-          for(var i =0; i<this.TXGroup.length; i++){
-            if(this.TXGroup[i].name.indexOf(this.searchMessg) >= 0)
-            this.searchTXRG.push(this.TXGroup[i])
+          for(var i = 0; i < this.TXGroup.length; i++) {
+            if (this.TXGroup[i].groupname.indexOf(this.searchMessg) >= 0) {
+              this.TXGroup[i].name = this.TXGroup[i].groupname
+              this.searchTXRG.push(this.TXGroup[i])
+            }
           }
         }
         console.log(this.searchTXRG)

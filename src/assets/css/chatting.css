@@ -149,7 +149,7 @@
   background: url("../assets/img-chat/mes.png");
   background-size: contain;
   border-radius: 50%;
-  z-index: 3
+  z-index: 200;
 }
 
 .chatting .webim-E .num,

@@ -46,44 +46,39 @@
       <single-chat-box></single-chat-box>
       <message-input></message-input>
     </div>
-     <div class="adddialog" v-show='adddialog'>
-          <div class="title">选择人员</div>
-          <div class="addressTreeleft" id='addressTreeleft'>
-            <!--<el-autocomplete size='small'  :fetch-suggestions="querySearchAsyncRebate" placeholder="搜索" @select="handleSelectRebate()" ></el-autocomplete>-->
-            <el-input size="small" class="searchTree" style='text-align:center' v-model="search" placeholder="联系人搜索" />
-            <div class="elTree" v-show="leftTreeShow">
-              <el-tree v-show="showTree"
-                :props="props"
-                :load="loadNode"
-                lazy
-                @check-change="handleCheckChange"
-                @node-click="nodeClick"
-                >
-              </el-tree>
-            </div>
-            <div class="listSearch" v-show="listSearchShow">
-            <div class="list_name" v-for="(item, index) in listSearch" v-on:click="addgroupmember(item)">
-                <div class="text">
-                  <div class="child_name">{{item.username2}}</div>
-                </div>
-              </div>
-          </div>
-
-          </div>
-          <div class="addressTreeRight">
-            <div class="choice"><span>已选择</span></div>
-            <ul>
-              <li v-for='(item,index) in candidateOptions'>
-                <span>{{item.label}}</span>
-                <i class="closeSpan el-icon-close" @click='closeSpan(item,index)'></i>
-              </li>
-            </ul>
-            <div class="btn">
-              <el-button class='first'  @click='addCancel'>取消</el-button>
-              <el-button class='second' type="primary" @click='addSure'>确定</el-button>
-            </div>
+    <div class="adddialog" v-if='adddialog'>
+      <div class="title">选择人员</div>
+      <div class="addressTreeleft" id='addressTreeleft'>
+        <!--<el-autocomplete size='small'  :fetch-suggestions="querySearchAsyncRebate" placeholder="搜索" @select="handleSelectRebate()" ></el-autocomplete>-->
+        <el-input size="small" class="searchTree" style='text-align:center' v-model="search" placeholder="联系人搜索" />
+        <div class="elTree" v-show="leftTreeShow">
+          <el-tree lazy v-show="showTree" :props="props" :load="listLoad"
+            @check-change="handleCheckChange"
+            @node-click="nodeClick">
+          </el-tree>
+        </div>
+        <div class="listSearch" v-show="listSearchShow">
+        <div class="list_name" v-for="(item, index) in listSearch" v-on:click="addgroupmember(item)">
+          <div class="text">
+            <div class="child_name">{{item.userName}} -- {{item.departmentName}}</div>
           </div>
         </div>
+      </div>
+      </div>
+      <div class="addressTreeRight">
+        <div class="choice"><span>已选择</span></div>
+        <ul>
+          <li v-for='(item,index) in candidateOptions'>
+            <span>{{item.label}}</span>
+            <i class="closeSpan el-icon-close" @click='closeSpan(item,index)'></i>
+          </li>
+        </ul>
+        <div class="btn">
+          <el-button class='first'  @click='addCancel'>取消</el-button>
+          <el-button class='second' type="primary" @click='addSure'>确定</el-button>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="chatting-icon" ref="ChatIcon" v-bind:style="{left:l + 'px', top:t + 'px'}"
     @click="showMes" @mousedown="mesonmousedown" @mouseup="mesonmouseup">
@@ -124,7 +119,7 @@ export default {
     return {
       search:'',
       props: {
-        label: 'username',
+        label: 'name',
         children: 'children',
         isLeaf: 'leaf'
       },
@@ -199,7 +194,7 @@ export default {
   mounted() {
     this.htmlHeight = document.documentElement.clientHeight + ''
     this.htmlWidth = document.documentElement.clientWidth + ''
-    if (typeof window.addEventListener !='undefined') {
+    if (typeof window.addEventListener !== 'undefined') {
       document.addEventListener('click', this.loadClickEvent,false)
     } else {
       window.attachEvent('onclick', this.loadClickEvent)
@@ -211,11 +206,12 @@ export default {
     // chat.initUserInfo(uid, token)
   },
   created () {
-    chat.initCurrentUserInfo().then(this.initChatting)
+    chat.queryUserInfoById().then(this.initChatting)
   },
   methods: {
     initChatting () {
       let that = this
+      that.getCacleMessageList()
       this.$conn.listen({
         onOpened: function(message) {
           // 连接成功回调，连接成功后才可以发送消息
@@ -223,11 +219,11 @@ export default {
           // 手动上线指的是调用conn.setPresence(); 在本例中，conn初始化时已将isAutoLogin设置为true
           // 所以无需调用conn.setPresence();
           console.log('%c [opened] 即时通讯连接已成功建立', 'color: green')
-          // that.TXList()
-          that.getSet()
-          that.getRooms()
-          chat.getGroups()
-          that.getCacleMessageList()
+          // that.TXList() // 不需要
+          // that.getSet()
+          // that.getRooms()
+          // chat.getGroups()
+          // that.getCacleMessageList()
           if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
             that.tmpFn.close()
             that.tmpFn = null
@@ -355,7 +351,10 @@ export default {
       this.$conn.open(options)
     },
     loadClickEvent (e) {
-      if (!this.$el.contains(e.target)) {
+      let h = document.querySelector('.header')
+      let s = document.querySelector('.sidebar')
+      let c = document.querySelector('.content')
+      if (h.contains(e.target) || s.contains(e.target) || c.contains(e.target)) {
         this.showMesV = false
         this.adddialog = false
         this.PersonalmesValue = false
@@ -624,16 +623,29 @@ export default {
             chat && !!sentFromMe && chat.showNewMsgNotice(msg)
           })
         }),function(reason, data) {
-          window.axios.get(config.OA_URL + 'user/getinfo',
-          {
-            params: { code: code },
-            headers: { token: that.userinfo.token, uid: that.userinfo.uid }
-          }
-          ).then(response => {
-            that.$nextTick(function () { // 收到数据推送再来执行
-              that.$store.dispatch('receiveText', msg)
-              chat&& !!sentFromMe && chat.showNewMsgNotice(msg)
-            })
+          window.axios.post(config.OA_API + '/user/queryUserByCodes', {
+          codeList: code
+          }).then((response) => {
+            if (response.data && response.data.code === '000000') {
+              const result = response.data.data[0]
+              let tmp = Object.assign({}, result, {
+                departmentName: result.organ,
+                name: result.username,
+                img: result.portrait ? result.portrait : store.state.image
+              })
+              console.log('queryUserInfo', tmp)
+              if (store.state.userInfoDb && store.state.userInfoDb[code]) {
+                store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
+              } else {
+                store.state.userInfoDb[code] = tmp
+              }
+              setTimeout(function () {
+                that.$nextTick(function () { // 收到数据推送再来执行
+                  that.$store.dispatch('receiveText', msg)
+                  chat && !!sentFromMe && chat.showNewMsgNotice(msg)
+                })
+              }, 0)
+            }
           })
         }
       } else {
@@ -857,7 +869,7 @@ export default {
       let groupName = []
       if(that.candidateOptions.length > 0) {
         that.candidateOptions.map(function (item) {
-          members.push('sl_' + item.CODE)
+          members.push('sl_' + item.code)
         })
         that.candidateOptions.map(function (item) {
           groupName.push(item.label)
@@ -866,12 +878,12 @@ export default {
       // 新建群组
       this.adddialog = false
       if(this.isGroupChat === false) {
-        chat.createGroup({name: groupName.join('、')}).then(function (x) {
+        chat.createGroup({name: groupName.join('、')}).then((x) => {
           console.log('------------群组创建成功', x)
           that.addCancel()
           that.$store.dispatch('writeStructIsShow', false)
           that.openNewGroup(x) // 立即打开新建的群
-          store.state.groupIdShow = x
+          this.$store.state.groupIdShow = x
           if (members && members.length > 1) {
             // that.newAddMembers.push({
             //   label: that.userinfo.username,
@@ -880,7 +892,7 @@ export default {
             if (that.userinfo.username) {
               that.newAddMembers.push({
                 label: that.otherInfo.username,
-                CODE: that.otherInfo.code
+                code: that.otherInfo.code
               })
             }
             // console.log('-------------开始邀请人', x, members, that.newAddMembers)
@@ -956,9 +968,9 @@ export default {
     closeSpan (item, index) {
       this.candidateOptions.splice(index, 1)
       // this.newAddMembers.splice(index,1)
-      for(var i = 0; i < this.newAddMembers.length; i++){
-        if(item.CODE === this.newAddMembers[i].CODE){
-          this.newAddMembers.splice(i,1)
+      for(var i = 0; i < this.newAddMembers.length; i++) {
+        if(item.code === this.newAddMembers[i].code) {
+          this.newAddMembers.splice(i, 1)
         }
       }
       console.log(item)
@@ -970,86 +982,59 @@ export default {
     addgroupmember (data){
       this.addmemberpackage(data)
     },
-    addmemberpackage (data){
+    addmemberpackage (data) {
       console.log(data)
       console.log(this.candidateOptions)
       console.log(this.newAddMembers)
-      if (data.CODE) {
+      if (data.code) {
         for(var i = 0; i < this.candidateOptions.length; i++){
-          if(this.candidateOptions[i].CODE === data.CODE) return
+          if(this.candidateOptions[i].code === data.code) return
         }
-        this.candidateOptions.push({label:data.username,CODE:data.CODE})
-        this.newAddMembers.push({label:data.username,CODE:data.CODE})  
+        this.candidateOptions.push({
+          label:data.username,
+          code:data.code
+        })
+        this.newAddMembers.push({
+          label:data.username,
+          code:data.code
+        })  
       }
     },
     nodeClick (data) {
       this.addmemberpackage(data)
     },
-    loadNode (node, resolve) {
-      return []
-      let pid = 1
+    listLoad (node, resolve) {
+      let id = 1
       if (node && node.level > 0) {
-        pid = node.data.oid
-        if (typeof node.data.oid != undefined && node.data.oid === '') {
+        id = node.data.id
+        if (typeof node.data.id !== undefined && node.data.id === '') {
           return resolve([])
         }
       }
-      var hasChild
-      node.level > 0 && (hasChild = true)
-      let uid = this.$store.state.userinfo.uid
-      let token = this.$store.state.userinfo.token
-      let headers = {
-        uid: this.$store.state.userinfo.uid,
-        token: this.$store.state.userinfo.token
-      }
-      let data = {
-        department_id: pid,
-        ssid: chat.getSsid()
-      }
-      let that = this
-      axios.post(config.OA_URL+'index/framework', qs.stringify(data), {headers: headers}).then(response => {
-        this.isShow = 1
-        if (typeof response.data.code !== undefined && response.data.code === '200') {
-          var list = []
-          if (response.data.data.department !== undefined) {
-            for (var k in response.data.data.department) {
-              let tmpObj = {}
-              let tmpData = response.data.data.department[k]
-              if (
-                tmpData.department_name === undefined
-              )
+      let list = []
+      chat.queryOrganization(id).then((data) => {
+        if (data.children && data.children.length > 0) {
+          for (var i = 0; i < data.children.length; i++) {
+            if (!data.children[i].memberCount || data.children[i].memberCount < 1) {
               continue
-              tmpObj.username = tmpData.department_name + ' (' + tmpData.department_persons + ')'
-              tmpObj.oid = tmpData.department_id
-              // tmpObj.CODE = tmpData.CODE
-              tmpObj.type = 'depart'
-              //tmpObj.num = tmpData.department_persons
-              tmpObj.leaf = false
-              list.push(tmpObj)
             }
-          }
-          if (response.data.data.employee !== undefined) {
-            for (var k in response.data.data.employee) {
-              if (response.data.data.employee[k].username === undefined)
-                continue
-              let tmpObj = {}
-              tmpObj = response.data.data.employee[k]
-              tmpObj.leaf = true
-              list.push(tmpObj)
-            }
-          }
-          // console.log('list is ', JSON.stringify(list))
-          return resolve(list)
-          // console.log('orgList is ',this.orgList)
-        } else {
-          if (_g.checkApiCode(response.data.code)) {
-            let msg = '获取组织架构错误'
-            typeof response.data.info != undefined && response.data.info != '' && (msg = response.data.info)
-            that.$message({message: '组织架构 ' + msg, type: 'error'})
+            let obj = data.children[i]
+            obj['leaf'] = false
+            obj['name'] = data.children[i].name + ' (' + data.children[i].memberCount + ')'
+            list.push(obj)
           }
         }
-      }).catch(response => {
-        //_g.toastMsg('error','获取组织架构异常')
+        if (data.users && data.users.length > 0) {
+          for (var i = 0; i < data.users.length; i++) {
+            let obj = data.users[i]
+            obj['name'] = data.users[i].username
+            obj['leaf'] = true
+            list.push(obj)
+          }
+        }
+        return resolve(list)
+      }, () => {
+        return resolve(list)
       })
     },
     TXList () {
@@ -1136,30 +1121,6 @@ export default {
         oimg = 'data:image/jpeg;base64,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'
       }
       return oimg
-    },
-    fatchUserInfo () {
-      // 补全当前用户信息
-      let that = this
-      let code = this.userinfo.code
-      chat && chat.queryUserInfo(code).then(function (rData) {
-        // console.log('获取到', rData)
-        Object.assign(that.$store.state.userinfo, rData)
-        that.$nextTick(function () {
-          that.$forceUpdate()
-        })
-      }), function () {
-        window.axios.get(
-          config.OA_URL + 'user/getinfo',
-          {
-            params: { code: code },
-            headers: { token: that.userinfo.token, uid: that.userinfo.uid }
-          }).then(response => {
-            Object.assign(that.$store.state.userinfo, response.data.data[0])
-            that.$nextTick(function () {
-              that.$forceUpdate()
-          })
-        })
-      }
     },
     mesonmouseup () {
       document.onmousemove = null
@@ -1283,7 +1244,7 @@ export default {
     },
     getCacleMessageList () {
       // 取缓存
-      let state = window.store.state
+      let state = this.$store.state
       localforage.getItem('currentUserCode', function (err, value) {
         // 不是当前用户
         if (state.userinfo.code !== value || value === undefined || value === '' || value === null || !value) {
@@ -1335,15 +1296,18 @@ export default {
         if (!this.otherInfo.groupId) {
         this.candidateOptions.push({
             label: this.userinfo.username,
-            CODE: this.userinfo.code
+            code: this.userinfo.code
           }, {
             label: this.otherInfo.username,
-            CODE: this.otherInfo.code
+            code: this.otherInfo.code
           })
         } else {
           var that = this
           for (var i = 0; i < that.otherInfo.members.length; i++) {
-            that.candidateOptions.push({label:that.userInfoDb[that.otherInfo.members[i].id].username,CODE:that.userInfoDb[that.otherInfo.members[i].id].code})
+            that.candidateOptions.push({
+              label: that.userInfoDb[that.otherInfo.members[i].id].username,
+              code: that.userInfoDb[that.otherInfo.members[i].id].code
+            })
           }
         }
       }
@@ -1366,36 +1330,21 @@ export default {
       }
       this.$store.state.grossNumber = countTotal
     },
-    search () {
-      if(this.search.trim() === ''){
+    search (val) {
+      if(val.trim() === '') {
         this.leftTreeShow = true
         this.listSearchShow = false
         return
       }
       this.leftTreeShow = false
       this.listSearchShow = true
-      if(this.search){
-          let data = {
-            oid:window.store.state.userinfo.oid,
-            isleader:store.state.userinfo.isleader,
-            name:this.search,
-            ssid: chat.getSsid()
-          }
-          //console.log(data)
-            axios.post(config.OA_URL+'index/searchphonebook',
-              qs.stringify(data),{
-                headers: {
-                  token: window.store.state.userinfo.token,
-                  uid: window.store.state.userinfo.uid
-                }
-              }).then((response) => {
-                for(var i=0;i<response.data.data.length;i++){
-                  response.data.data[i].username2 = response.data.data[i].username + '--'+ response.data.data[i].department_name
-                }
-                this.listSearch = response.data.data
-                //console.log(this.listSearch)
-            })
-      }
+      val && chat.userSearch(val).then((x) => {
+        this.p_listSearchShow = true
+        this.listSearch = x
+      }, function () {
+        this.p_listSearchShow = true
+        this.listSearch = []
+      })
     },
     grossNumber () {
       // 缓存未读信息个数
