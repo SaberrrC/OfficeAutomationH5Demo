@@ -12,12 +12,12 @@
             </Col>
             <Col span="8">
             <FormItem label="开始时间">
-              <DatePicker type="date" placeholder="Select date" v-model="startTime" format="yyyy-MM-dd"></DatePicker>
+              <DatePicker type="date" placeholder="Select date" v-model="startTime" format="yyyy-MM-dd" :clearable="false"></DatePicker>
             </FormItem>
             </Col>
             <Col span="8">
             <FormItem label="结束时间">
-              <DatePicker type="date" placeholder="Select date" v-model="endTime" format="yyyy-MM-dd"></DatePicker>
+              <DatePicker type="date" placeholder="Select date" v-model="endTime" format="yyyy-MM-dd" :clearable="false"></DatePicker>
             </FormItem>
             </Col>
           </Row>
@@ -39,7 +39,7 @@
             </Col>
             <Col span="8" align="right">
             <Button type="primary" @click="search">搜索</Button>
-            <Button type="primary" >导出</Button>
+            <Button type="primary" @click="exportReport">导出</Button>
             </Col>
           </Row>
 
@@ -61,126 +61,111 @@ export default {
       searchName: '',
       startTime: new Date(),
       endTime: new Date(),
-      stateList:[    //  状态
-        {
-          value: 0,
-          label: '全部'
-        },
-        {
-          value: 3,
-          label: '已完成'
-        },
-        {
-          value: 9,
-          label: '未填写'
-        },
-        {
-          value: 1,
-          label: '待评分'
-        }
-      ],
+      stateList: [{
+        value: 0,
+        label: '全部'
+      }, {
+        value: 3,
+        label: '已完成'
+      }, {
+        value: 9,
+        label: '未填写'
+      }, {
+        value: 1,
+        label: '待评分'
+      }],
       state: 0,
-      typeList: [
-        {
-          value: 0,
-          label: '日报'
-        },
-        {
-          value: 1,
-          label: '周报'
-        }
-      ],
+      typeList: [{
+        value: 0,
+        label: '日报'
+      }, {
+        value: 1,
+        label: '周报'
+      }],
       type: 0,
       department: '',
-
-      columns: [
-        {
-          title: '类型',
-          key: 'type',
-          align: 'center'
-        },
-        {
-          title: '姓名',
-          key: 'name',
-          align: 'center'
-        },
-        {
-          title: '部门',
-          key: 'department',
-          align: 'center'
-        },
-        {
-          title: '岗位',
-          key: 'position',
-          align: 'center'
-        },
-        {
-          title: '次数',
-          key: 'count',
-          align: 'center'
-        },
-        {
-          title: '平均分',
-          key: 'avgScore',
-          align: 'center'
-        },
-        {
-          title: '状态',
-          key: 'state',
-          align: 'center'
-        },
-        {
-          title: '备注',
-          key: 'remarks',
-          align: 'center'
-        }
-      ],
-      listData: [
-        {
-          type: '日报',
-          name: '丁通',
-          department: '开发',
-          position: '前端',
-          count: 0,
-          avgScore: 100,
-          state: '已评分',
-          remarks: '',
-          dailyid: ''
-        },
-        {
-          type: '日报',
-          name: '丁通',
-          department: '开发',
-          position: '前端',
-          count: 0,
-          avgScore: 100,
-          state: '已评分',
-          remarks: '',
-          dailyid: ''
-        },
-        {
-          type: '日报',
-          name: '丁通',
-          department: '开发',
-          position: '前端',
-          count: 0,
-          avgScore: 100,
-          state: '已评分',
-          remarks: '',
-          dailyid: ''
-        },
-        {
-          type: '日报',
-          name: '丁通',
-          department: '开发',
-          position: '前端',
-          count: 0,
-          avgScore: 100,
-          state: '已评分',
-          remarks: '',
-          dailyid: ''
-        }
-      ],
+      columns: [{
+        title: '类型',
+        key: 'type',
+        align: 'center'
+      }, {
+        title: '姓名',
+        key: 'name',
+        align: 'center'
+      }, {
+        title: '一级部门',
+        key: 'depOne',
+        align: 'center'
+      }, {
+        title: '二级部门',
+        key: 'depTwo',
+        align: 'center'
+      }, {
+        title: '岗位',
+        key: 'position',
+        align: 'center'
+      }, {
+        title: '次数',
+        key: 'count',
+        align: 'center'
+      }, {
+        title: '平均分',
+        key: 'avgScore',
+        align: 'center'
+      }, {
+        title: '状态',
+        key: 'state',
+        align: 'center'
+      }, {
+        title: '备注',
+        key: 'remarks',
+        align: 'center'
+      }],
+      listData: [{
+        type: '日报',
+        name: '丁通',
+        depOne: '技术',
+        depTwo: '开发',
+        position: '前端',
+        count: 0,
+        avgScore: 100,
+        state: '已评分',
+        remarks: '',
+        dailyid: ''
+      }, {
+        type: '日报',
+        name: '丁通',
+        depOne: '技术',
+        depTwo: '开发',
+        position: '前端',
+        count: 0,
+        avgScore: 100,
+        state: '已评分',
+        remarks: '',
+        dailyid: ''
+      }, {
+        type: '日报',
+        name: '丁通',
+        depOne: '技术',
+        depTwo: '开发',
+        position: '前端',
+        count: 0,
+        avgScore: 100,
+        state: '已评分',
+        remarks: '',
+        dailyid: ''
+      }, {
+        type: '日报',
+        name: '丁通',
+        depOne: '技术',
+        depTwo: '开发',
+        position: '前端',
+        count: 0,
+        avgScore: 100,
+        state: '已评分',
+        remarks: '',
+        dailyid: ''
+      }],
       total: 0,
       current: 1
     }
@@ -188,26 +173,25 @@ export default {
   methods: {
     //  时间格式化
     timeFormat (date) {
-      var year = date.getFullYear()
-      var mounth = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
-      var day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
+      let year = date.getFullYear()
+      let mounth = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
+      let day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
       return year + '-' + mounth + '-' + day
     },
     //  获取列表
     search () {
       this.total = 0
       this.current = 1
-      if(this.type == 0){
+      if (this.type === 0) {
         this.searchDaiy()
-      }else{
+      } else {
         this.searchWeekly()
       }
-
     },
     //  获取日报列表数据
     searchDaiy () {
-      var starttime = this.timeFormat(this.startTime)
-      var endtime = this.timeFormat(this.endTime)
+      let starttime = this.timeFormat(this.startTime)
+      let endtime = this.timeFormat(this.endTime)
       this.$ajax({
         method: 'get',
         url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10',
@@ -217,11 +201,11 @@ export default {
         }
       }).then((res) => {
         console.log('日报列表', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
-        }else {
+        } else {
 
         }
       }, (res) => {
@@ -230,8 +214,8 @@ export default {
     },
     //  获取周报列表数据
     searchWeekly () {
-      var starttime = this.timeFormat(this.startTime)
-      var endtime = this.timeFormat(this.endTime)
+      let starttime = this.timeFormat(this.startTime)
+      let endtime = this.timeFormat(this.endTime)
       this.$ajax({
         method: 'get',
         url: '/weekreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10',
@@ -241,11 +225,11 @@ export default {
         }
       }).then((res) => {
         console.log('周报列表', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
-        }else {
+        } else {
 
         }
       }, (res) => {
@@ -255,19 +239,19 @@ export default {
     //  分页查询
     changePage (e) {
       this.current = e
-      if(this.type == 0){
+      if (this.type === 0) {
         this.searchDaiy()
-      }else{
+      } else {
         this.searchWeekly()
       }
     },
     //  跳转详情页
-    goDetail (row,index) {
-      console.log(row,index)
+    goDetail (row, index) {
+      console.log(row, index)
       this.$router.push({
-        'name': this.type==0 ? 'DepartmentDaily':'DepartmentWeekly' ,
+        'name': this.type === 0 ? 'DepartmentDaily' : 'DepartmentWeekly',
         'params': {
-          current : this.current,
+          current: this.current,
           index: index,
           userId: row.userId,
           startTime: this.timeFormat(this.startTime),
@@ -287,16 +271,20 @@ export default {
         }
       }).then((res) => {
         console.log('日报列表', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.department = result.oid
-          this.searchDaiy()  //默认获取周报列表
-        }else {
+          this.searchDaiy()  //  默认获取周报列表
+        } else {
 
         }
       }, (res) => {
 
       })
+    },
+    //  导出
+    exportReport () {
+      location.href = '/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.uid + '&token=' + window.token
     }
   },
   mounted () {

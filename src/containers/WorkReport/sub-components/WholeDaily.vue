@@ -293,7 +293,7 @@ export default {
           state: '已评分',
           remarks: '',
           score: 90
-        },
+        }
       ],
       showDetail: false,
       current: 1,
@@ -307,7 +307,6 @@ export default {
         'workPlanSix': '',
         'workPlanSeven': '',
         'workPlanEigth': '',
-
         'workOne': '',
         'workTwo': '',
         'workThree': '',
@@ -316,7 +315,6 @@ export default {
         'workSix': '',
         'workSeven': '',
         'workEigth': '',
-
         'workResultOne': '',
         'workResultTwo': '',
         'workResultThree': '',
@@ -325,7 +323,6 @@ export default {
         'workResultSix': '',
         'workResultSeven': '',
         'workResultEigth': '',
-
         'selfRatingOne': '',
         'selfRatingTwo': '',
         'selfRatingThree': '',
@@ -334,7 +331,6 @@ export default {
         'selfRatingSix': '',
         'selfRatingSeven': '',
         'selfRatingEigth': '',
-
         'supervisorRatingOne': '',
         'supervisorRatingTwo': '',
         'supervisorRatingThree': '',
@@ -343,7 +339,6 @@ export default {
         'supervisorRatingSix': '',
         'supervisorRatingSeven': '',
         'supervisorRatingEigth': '',
-
         'checkRatingOne': '',
         'checkRatingTwo': '',
         'checkRatingThree': '',
@@ -352,43 +347,36 @@ export default {
         'checkRatingSix': '',
         'checkRatingSeven': '',
         'checkRatingEigth': '',
-
         'selfBehavior': '',
         'selfEnvironmental': '',
         'selfSave': '',
         'selfCommunication': '',
         'selfAppearance': '',
         'selfDiscipline': '',
-
         'supervisorBehavior': '',
         'supervisorEnvironmental': '',
         'supervisorSave': '',
         'supervisorCommunication': '',
         'supervisorAppearance': '',
         'supervisorDiscipline': '',
-
         'checkBehavior': '',
         'checkEnvironmental': '',
         'checkSave': '',
         'checkCommunication': '',
         'checkAppearance': '',
         'checkDiscipline': '',
-
         'selfJobInitiative': '',
         'selfCooperation': '',
         'selfDedicated': '',
         'selfOrganization': '',
-
         'supervisorJobInitiative': '',
         'supervisorCooperation': '',
         'supervisorDedicated': '',
         'supervisorOrganization': '',
-
         'checkJobInitiative': '',
         'checkCooperation': '',
         'checkDedicated': '',
         'checkOrganization': '',
-
         'tomorrowPlan': '',
         'worklogScore': '',
         'professionalismScore': '',
@@ -400,21 +388,21 @@ export default {
   methods: {
     func (event) {},
     //  获取列表数据
-    getListDate(){
+    getListDate () {
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/detils/'+ this.storeData.userId +'?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
+        url: '/dailyreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
         headers: {
           token: window.token,
           uid: window.uid
         }
       }).then((res) => {
         console.log('列表详情', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
-        }else {
+        } else {
           this.listData = []
         }
       }, (res) => {
@@ -427,8 +415,8 @@ export default {
       this.getListDate()
     },
     //  点击行，查看详情
-    openDetail (row,index) {
-      console.log(row,index)
+    openDetail (row, index) {
+      console.log(row, index)
       this.$ajax({
         method: 'get',
         url: '/dailyreport/' + row.dailyid,
@@ -438,11 +426,11 @@ export default {
         }
       }).then((res) => {
         console.log('日报展示', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.showDetail = true
           this.reportData = result
-        }else {
+        } else {
 
         }
       }, (res) => {

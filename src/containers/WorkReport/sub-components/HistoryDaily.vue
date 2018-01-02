@@ -221,7 +221,6 @@ export default {
         'workPlanSix': '',
         'workPlanSeven': '',
         'workPlanEigth': '',
-
         'workOne': '',
         'workTwo': '',
         'workThree': '',
@@ -230,7 +229,6 @@ export default {
         'workSix': '',
         'workSeven': '',
         'workEigth': '',
-
         'workResultOne': '',
         'workResultTwo': '',
         'workResultThree': '',
@@ -239,7 +237,6 @@ export default {
         'workResultSix': '',
         'workResultSeven': '',
         'workResultEigth': '',
-
         'selfRatingOne': '',
         'selfRatingTwo': '',
         'selfRatingThree': '',
@@ -248,7 +245,6 @@ export default {
         'selfRatingSix': '',
         'selfRatingSeven': '',
         'selfRatingEigth': '',
-
         'supervisorRatingOne': '',
         'supervisorRatingTwo': '',
         'supervisorRatingThree': '',
@@ -257,7 +253,6 @@ export default {
         'supervisorRatingSix': '',
         'supervisorRatingSeven': '',
         'supervisorRatingEigth': '',
-
         'checkRatingOne': '',
         'checkRatingTwo': '',
         'checkRatingThree': '',
@@ -266,49 +261,42 @@ export default {
         'checkRatingSix': '',
         'checkRatingSeven': '',
         'checkRatingEigth': '',
-
         'selfBehavior': '',
         'selfEnvironmental': '',
         'selfSave': '',
         'selfCommunication': '',
         'selfAppearance': '',
         'selfDiscipline': '',
-
         'supervisorBehavior': '',
         'supervisorEnvironmental': '',
         'supervisorSave': '',
         'supervisorCommunication': '',
         'supervisorAppearance': '',
         'supervisorDiscipline': '',
-
         'checkBehavior': '',
         'checkEnvironmental': '',
         'checkSave': '',
         'checkCommunication': '',
         'checkAppearance': '',
         'checkDiscipline': '',
-
         'selfJobInitiative': '',
         'selfCooperation': '',
         'selfDedicated': '',
         'selfOrganization': '',
-
         'supervisorJobInitiative': '',
         'supervisorCooperation': '',
         'supervisorDedicated': '',
         'supervisorOrganization': '',
-
         'checkJobInitiative': '',
         'checkCooperation': '',
         'checkDedicated': '',
         'checkOrganization': '',
-
         'tomorrowPlan': '',
         'worklogScore': '',
         'professionalismScore': '',
         'teamScore': '',
         'totalScore': '',
-        'time': '',
+        'time': ''
       }
     }
   },
@@ -324,10 +312,10 @@ export default {
         }
       }).then((res) => {
         console.log('日报展示', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.reportData = result
-        }else {
+        } else {
 
         }
       }, (res) => {

@@ -5,10 +5,10 @@
 
 			<Row>
 				<Col span="12" style="text-align: center;"> 开始时间
-				<DatePicker v-model="startTime" type="date" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd"></DatePicker>
+				<DatePicker v-model="startTime" type="date" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" readonly></DatePicker>
 				</Col>
 				<Col span="12" style="text-align: center;"> 结束时间
-				<DatePicker type="date" :value="endTime" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" disabled></DatePicker>
+				<DatePicker type="date" :value="endTime" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" readonly></DatePicker>
 				</Col>
 			</Row>
 
@@ -26,16 +26,16 @@
 					<tbody>
 						<tr v-for="(item, index) in weeklySummary">
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.workPlan"></Input>
+								<Input type="textarea" placeholder="" v-model="item.workPlan" readonly></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.work"></Input>
+								<Input type="textarea" placeholder="" v-model="item.work" readonly></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.difference"></Input>
+								<Input type="textarea" placeholder="" v-model="item.difference" readonly></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.remark"></Input>
+								<Input type="textarea" placeholder="" v-model="item.remark" readonly></Input>
 							</td>
 						</tr>
 					</tbody>
@@ -58,13 +58,13 @@
 
 						<tr v-for="(item, index) in nextWeekPlane">
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.nextWorkPlan"></Input>
+								<Input type="textarea" placeholder="" v-model="item.nextWorkPlan" readonly></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.personLiable"></Input>
+								<Input type="textarea" placeholder="" v-model="item.personLiable" readonly></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.remark"></Input>
+								<Input type="textarea" placeholder="" v-model="item.remark" readonly></Input>
 							</td>
 						</tr>
 
@@ -94,164 +94,149 @@
 </template>
 
 <script>
-	export default {
-		name: 'NoRateWeekly',
-		data() {
-			return {
-				startTime: "",
-				endTime: "",
-				checkManRating:"",
-				weeklySummary: [{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					},
-					{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					},
-					{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					},
-					{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					}
-				],
-				nextWeekPlane: [{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-					{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-					{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-					{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-				],
-				columns: [{
-						title: '姓名',
-						key: 'username'
-					},
-					{
-						title: '部门',
-						key: 'organization'
-					},
-					{
-						title: '岗位',
-						key: 'post'
-					}
-				],
-				leaderList: [{
-						username: '丁通',
-						organization: '技术部',
-						post: '前端开发'
-					},
-					{
-						username: '丁通',
-						organization: '技术部',
-						post: '前端开发'
-					},
-					{
-						username: '丁通',
-						organization: '技术部',
-						post: '前端开发'
-					},
-					{
-						username: '丁通',
-						organization: '技术部',
-						post: '前端开发'
-					}
-				],
-			}
-		},
-		methods: {
-			getRateData() {
-				this.$ajax({
-					method: 'get',
-					url: '/weekreport/' + this.$route.params.dailyid,
-					headers: {
-						token: window.token,
-						uid: window.uid
-					}
-				}).then((res) => {
-					console.log('草稿数据', res.data)
-					var result = res.data.data
-					if(res.data.code === '000000') {
-						this.startTime = new Date(result.startTime);
-						this.endTime = new Date(result.endTime);
-						if(result.weeklySummary) {
-							this.weeklySummary = result.weeklySummary;
-						}
-						if(result.weekPlane) {
-							this.nextWeekPlane = result.weekPlane;
-						}
-					} else {
+export default {
+  name: 'NoRateWeekly',
+  data () {
+    return {
+      startTime: '',
+      endTime: '',
+      checkManRating: '',
+      weeklySummary: [{
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }, {
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }, {
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }, {
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }],
+      nextWeekPlane: [{
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }, {
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }, {
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }, {
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }],
+      columns: [{
+        title: '姓名',
+        key: 'username'
+      }, {
+        title: '部门',
+        key: 'organization'
+      }, {
+        title: '岗位',
+        key: 'post'
+      }],
+      leaderList: [{
+        username: '丁通',
+        organization: '技术部',
+        post: '前端开发'
+      }, {
+        username: '丁通',
+        organization: '技术部',
+        post: '前端开发'
+      }, {
+        username: '丁通',
+        organization: '技术部',
+        post: '前端开发'
+      }, {
+        username: '丁通',
+        organization: '技术部',
+        post: '前端开发'
+      }]
+    }
+  },
+  methods: {
+    getRateData () {
+      this.$ajax({
+        method: 'get',
+        url: '/weekreport/' + this.$route.params.dailyid,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('草稿数据', res.data)
+        let result = res.data.data
+        if (res.data.code === '000000') {
+          this.startTime = new Date(result.startTime)
+          this.endTime = new Date(result.endTime)
+          if (result.weeklySummary) {
+            this.weeklySummary = result.weeklySummary
+          }
+          if (result.weekPlane) {
+            this.nextWeekPlane = result.weekPlane
+          }
+        } else {
 
-					}
-				}, (res) => {
+        }
+      }, (res) => {
 
-				})
-			},
-			rateWeeklySubmit(){
-				var data = {
-					id:this.$route.params.dailyid,
-					checkManRating:this.checkManRating
-				};
-				this.$ajax({
-					method: 'put',
-					url: '/weekreport',
-					headers: {
-						token: window.token,
-						uid: window.uid
-					},
-					data: data
-				}).then((res) => {
-					console.log('保存草稿', res.data)
-					// var result = res.data.data
-					if(res.data.code === '000000') {
-						this.$Message.success('评价成功');
-						this.$router.push({
-							path: "/work_report/no_rate/noRateList"
-						})
-					} else {
+      })
+    },
+    rateWeeklySubmit () {
+      let data = {
+        id: this.$route.params.dailyid,
+        checkManRating: this.checkManRating
+      }
+      this.$ajax({
+        method: 'put',
+        url: '/weekreport',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        },
+        data: data
+      }).then((res) => {
+        console.log('保存草稿', res.data)
+        // var result = res.data.data
+        if (res.data.code === '000000') {
+          this.$Message.success('评价成功')
+          this.$router.push({
+            path: '/work_report/no_rate/noRateList'
+          })
+        } else {
 
-					}
-				}, (res) => {
+        }
+      }, (res) => {
 
-				})
-			}
-		},
-		mounted() {
-			this.getRateData();
-		},
-	}
+      })
+    }
+  },
+  mounted () {
+    this.getRateData()
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -259,11 +244,11 @@
 	.no-rate-weekly {
 		padding: 16px;
 	}
-	
+
 	h4 {
 		text-align: center;
 	}
-	
+
 	table {
 		width: 100%;
 		border: 1px solid #e9eaec;
@@ -279,7 +264,7 @@
 			padding: 16px;
 		}
 	}
-	
+
 	.leader,
 	.btn {
 		text-align: center;

@@ -198,7 +198,7 @@
         <Row style="margin: 20px;">
           <Col span="24" align="center">
             <Button type="success" @click="oneKey">一键评价</Button>
-            <Button type="primary">取消</Button>
+            <Button type="primary" @click="cancel">取消</Button>
             <Button type="primary" @click="submitReport">提交</Button>
           </Col>
         </Row>
@@ -223,7 +223,6 @@ export default {
         'workPlanSix': '',
         'workPlanSeven': '',
         'workPlanEigth': '',
-
         'workOne': '',
         'workTwo': '',
         'workThree': '',
@@ -232,7 +231,6 @@ export default {
         'workSix': '',
         'workSeven': '',
         'workEigth': '',
-
         'workResultOne': '',
         'workResultTwo': '',
         'workResultThree': '',
@@ -241,7 +239,6 @@ export default {
         'workResultSix': '',
         'workResultSeven': '',
         'workResultEigth': '',
-
         'selfRatingOne': '',
         'selfRatingTwo': '',
         'selfRatingThree': '',
@@ -250,7 +247,6 @@ export default {
         'selfRatingSix': '',
         'selfRatingSeven': '',
         'selfRatingEigth': '',
-
         'supervisorRatingOne': '',
         'supervisorRatingTwo': '',
         'supervisorRatingThree': '',
@@ -259,7 +255,6 @@ export default {
         'supervisorRatingSix': '',
         'supervisorRatingSeven': '',
         'supervisorRatingEigth': '',
-
         'checkRatingOne': '',
         'checkRatingTwo': '',
         'checkRatingThree': '',
@@ -268,49 +263,42 @@ export default {
         'checkRatingSix': '',
         'checkRatingSeven': '',
         'checkRatingEigth': '',
-
         'selfBehavior': '',
         'selfEnvironmental': '',
         'selfSave': '',
         'selfCommunication': '',
         'selfAppearance': '',
         'selfDiscipline': '',
-
         'supervisorBehavior': '',
         'supervisorEnvironMental': '',
         'supervisorSave': '',
         'supervisorCommunication': '',
         'supervisorAppearance': '',
         'supervisorDiscipline': '',
-
         'checkBehavior': '',
         'checkEnvironMental': '',
         'checkSave': '',
         'checkCommunication': '',
         'checkAppearance': '',
         'checkDiscipline': '',
-
         'selfJobInitiative': '',
         'selfCooperation': '',
         'selfDedicated': '',
         'selfOrganization': '',
-
         'supervisorJobInitiative': '',
         'supervisorCooperation': '',
         'supervisorDedicated': '',
         'supervisorOrganization': '',
-
         'checkJobInitiative': '',
         'checkCooperation': '',
         'checkDedicated': '',
         'checkOrganization': '',
-
         'tomorrowPlan': '',
         'worklogScore': 0,
         'professionalismScore': 0,
         'teamScore': 0,
         'totalScore': 0,
-        'time': '',
+        'time': ''
       },
       oneKeyData: {
         'supervisorRatingOne': '',
@@ -321,7 +309,6 @@ export default {
         'supervisorRatingSix': '',
         'supervisorRatingSeven': '',
         'supervisorRatingEigth': '',
-
         'checkRatingOne': '',
         'checkRatingTwo': '',
         'checkRatingThree': '',
@@ -330,21 +317,18 @@ export default {
         'checkRatingSix': '',
         'checkRatingSeven': '',
         'checkRatingEigth': '',
-
         'supervisorBehavior': '',
         'supervisorEnvironMental': '',
         'supervisorSave': '',
         'supervisorCommunication': '',
         'supervisorAppearance': '',
         'supervisorDiscipline': '',
-
         'checkBehavior': '',
         'checkEnvironMental': '',
         'checkSave': '',
         'checkCommunication': '',
         'checkAppearance': '',
         'checkDiscipline': '',
-
         'supervisorJobInitiative': '',
         'supervisorCooperation': '',
         'supervisorDedicated': '',
@@ -353,12 +337,12 @@ export default {
         'checkJobInitiative': '',
         'checkCooperation': '',
         'checkDedicated': '',
-        'checkOrganization': '',
+        'checkOrganization': ''
       }
     }
   },
   computed: {
-    totalScore ( ){
+    totalScore () {
       this.reportData.totalScore = this.reportData.worklogScore + this.reportData.professionalismScore + this.reportData.teamScore
       return this.reportData.worklogScore + this.reportData.professionalismScore + this.reportData.teamScore
     }
@@ -367,7 +351,7 @@ export default {
     func (event) {},
     //  一键评价
     oneKey () {
-      for(var k in this.oneKeyData){
+      for (let k in this.oneKeyData) {
         this.reportData[k] = '无问题'
       }
     },
@@ -382,10 +366,10 @@ export default {
         }
       }).then((res) => {
         console.log('日报展示', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.reportData = result
-        }else {
+        } else {
 
         }
       }, (res) => {
@@ -395,9 +379,9 @@ export default {
     //  提交打分 professionalismScore   teamScore   worklogScore
     submitReport () {
       let params = {}
-      Object.assign(params,this.oneKeyData)
+      Object.assign(params, this.oneKeyData)
       console.log(params)
-      for (var k in params){
+      for (let k in params) {
         params[k] = this.reportData[k]
       }
       console.log(params)
@@ -417,13 +401,18 @@ export default {
       }).then((res) => {
         console.log('评分提交', res.data)
         if (res.data.code === '000000') {
-          this.$Message.success('提交成功');
-        }else {
+          this.$Message.success('提交成功')
+          location.hash = '/work_report/no_rate/noRateList'
+        } else {
 
         }
       }, (res) => {
 
       })
+    },
+    //  取消返回
+    cancel () {
+      location.hash = '/work_report/no_rate/noRateList'
     }
   },
   mounted () {

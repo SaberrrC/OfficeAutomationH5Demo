@@ -22,232 +22,217 @@
 </template>
 
 <script>
-	export default {
-		name: 'work-report-template',
-		data() {
-			return {
-				tempmModal: false,
-				loading: true,
-				selectType: [{
-						value: '1',
-						label: '日报'
-					},
-					{
-						value: '2',
-						label: '周报'
-					}
-				],
-				defaultType: '1',
-				templateName: '',
-				columns: [{
-						title: '模板类型',
-						align: 'center',
-						key: 'templateType',
-						render: (h, params) => {
-							return h('div', [
-								this.templateTypeFormat(params.row.templateType)
-							]);
-						}
-					},
-					{
-						title: '模板名称',
-						align: 'center',
-						key: 'templateName'
-					},
-					{
-						title: '更新日期',
-						align: 'center',
-						key: 'updateTime'
-					},
-					{
-						title: '操作',
-						key: 'operation',
-						align: 'center',
-						render: (h, params) => {
-							return h('div', [
-								h('Button', {
-									props: {
-										type: 'primary',
-										size: 'small'
-									},
-									style: {
-										marginRight: '5px'
-									},
-									on: {
-										click: (e) => {
-											this.toUseTemp(params.row);
-											e.stopPropagation()
-										}
-									}
-								}, '使用'),
-								h('Button', {
-									props: {
-										type: 'error',
-										size: 'small'
-									},
-									style: {
-										marginRight: '5px'
-									},
-									on: {
-										click: (e) => {
-											this.delTemp(params.row.id);
-											e.stopPropagation()
-										}
-									}
-								}, '删除')
-							])
-						}
-					}
-				],
-				listData: [{
-						type: '日报',
-						name: '日报2',
-						updateTime: '2017-10-09'
-					},
-					{
-						type: '日报',
-						name: '日报2',
-						updateTime: '2017-10-09'
-					},
-					{
-						type: '日报',
-						name: '日报2',
-						updateTime: '2017-10-09'
-					},
-					{
-						type: '日报',
-						name: '日报2',
-						updateTime: '2017-10-09'
-					}
-				]
-			}
-		},
-		methods: {
-			templateTypeFormat(ele) {
-				switch(ele) {
-					case 1:
-						return "日报";
-						break;
-					case 2:
-						return "周报";
-						break;
-					default:
-						return "";
-				}
-			},
-			//新增模版
-			addTemp() {
-				this.$ajax({
-					method: 'post',
-					url: '/templateManage/insertTemplate',
-					headers: {
-						token: window.token,
-						uid: window.uid
-					},
-					data: {
-						templateName: this.templateName,
-						templateType: this.defaultType
-					}
-				}).then((res) => {
-					console.log('新增模版数据', res.data)
-					var result = res.data.data
-					if(res.data.code === '000000') {
-						this.getTempList();
-					} else {
-						this.$Message.error(res.data.message);
-					}
-				}, (res) => {
+export default {
+  name: 'work-report-template',
+  data () {
+    return {
+      tempmModal: false,
+      loading: true,
+      selectType: [{
+        value: '1',
+        label: '日报'
+      }, {
+        value: '2',
+        label: '周报'
+      }],
+      defaultType: '1',
+      templateName: '',
+      columns: [{
+        title: '模板类型',
+        align: 'center',
+        key: 'templateType',
+        render: (h, params) => {
+          return h('div', [
+            this.templateTypeFormat(params.row.templateType)
+          ])
+        }
+      }, {
+        title: '模板名称',
+        align: 'center',
+        key: 'templateName'
+      }, {
+        title: '更新日期',
+        align: 'center',
+        key: 'updateTime'
+      }, {
+        title: '操作',
+        key: 'operation',
+        align: 'center',
+        render: (h, params) => {
+          return h('div', [
+            h('Button', {
+              props: {
+                type: 'primary',
+                size: 'small'
+              },
+              style: {
+                marginRight: '5px'
+              },
+              on: {
+                click: (e) => {
+                  this.toUseTemp(params.row)
+                  e.stopPropagation()
+                }
+              }
+            }, '使用'),
+            h('Button', {
+              props: {
+                type: 'error',
+                size: 'small'
+              },
+              style: {
+                marginRight: '5px'
+              },
+              on: {
+                click: (e) => {
+                  this.delTemp(params.row.id)
+                  e.stopPropagation()
+                }
+              }
+            }, '删除')
+          ])
+        }
+      }],
+      listData: [{
+        type: '日报',
+        name: '日报2',
+        updateTime: '2017-10-09'
+      }, {
+        type: '日报',
+        name: '日报2',
+        updateTime: '2017-10-09'
+      }, {
+        type: '日报',
+        name: '日报2',
+        updateTime: '2017-10-09'
+      }, {
+        type: '日报',
+        name: '日报2',
+        updateTime: '2017-10-09'
+      }]
+    }
+  },
+  methods: {
+    templateTypeFormat (ele) {
+      switch (ele) {
+        case 1:
+          return '日报'
+        case 2:
+          return '周报'
+        default:
+          return ''
+      }
+    },
+    //  新增模版
+    addTemp () {
+      this.$ajax({
+        method: 'post',
+        url: '/templateManage/insertTemplate',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        },
+        data: {
+          templateName: this.templateName,
+          templateType: this.defaultType
+        }
+      }).then((res) => {
+        console.log('新增模版数据', res.data)
+        if (res.data.code === '000000') {
+          this.getTempList()
+        } else {
+          this.$Message.error(res.data.message)
+        }
+      }, (res) => {
 
-				})
-			},
-			delTemp(id) {
-				this.$ajax({
-					method: 'get',
-					url: '/templateManage/delTemplateByCid',
-					headers: {
-						token: window.token,
-						uid: window.uid
-					},
-					params: {
-						id: id
-					}
-				}).then((res) => {
-					console.log('删除模版数据', res.data)
-					var result = res.data.data
-					if(res.data.code === '000000') {
-						this.$Message.success("模板添加成功");
-						this.getTempList();
-					} else {
+      })
+    },
+    delTemp (id) {
+      this.$ajax({
+        method: 'get',
+        url: '/templateManage/delTemplateByCid',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        },
+        params: {
+          id: id
+        }
+      }).then((res) => {
+        console.log('删除模版数据', res.data)
+        if (res.data.code === '000000') {
+          this.$Message.success('模板添加成功')
+          this.getTempList()
+        } else {
 
-					}
-				}, (res) => {
+        }
+      }, (res) => {
 
-				})
-			},
-			toTempDetail(row) {
-				if(row.templateType == 1) {
-					this.$router.push({
-						name: 'TemplateDaily',
-						params: {
-							id:row.id,
-							childId: row.childId
-						}
-					});
-				}
-				if(row.templateType == 2) {
-					this.$router.push({
-						name: 'TemplateWeekly',
-						params: {
-							id:row.id,
-							childId: row.childId
-						}
-					});
-				}
-			},
-			toUseTemp(row) {
-				if(row.templateType == 1) {
-					this.$router.push({
-						name: 'WorkReportDaily',
-						params: {
-							childId: row.childId
-						}
-					});
-				}
-				if(row.templateType == 2) {
-					this.$router.push({
-						name: 'WorkReportWeekly',
-						params: {
-							childId: row.childId
-						}
-					});
-				}
-			},
-			//获取模版列表
-			getTempList() {
-				this.$ajax({
-					method: 'get',
-					url: '/templateManage/selectTemplateByUserId?userId=' + window.uid,
-					headers: {
-						token: window.token,
-						uid: window.uid
-					}
-				}).then((res) => {
-					console.log('模版数据', res.data)
-					var result = res.data.data
-					if(res.data.code === '000000') {
-						this.listData = res.data.data;
-					} else {
+      })
+    },
+    toTempDetail (row) {
+      if (row.templateType === '1') {
+        this.$router.push({
+          name: 'TemplateDaily',
+          params: {
+            id: row.id,
+            childId: row.childId
+          }
+        })
+      }
+      if (row.templateType === '2') {
+        this.$router.push({
+          name: 'TemplateWeekly',
+          params: {
+            id: row.id,
+            childId: row.childId
+          }
+        })
+      }
+    },
+    toUseTemp (row) {
+      if (row.templateType === '1') {
+        this.$router.push({
+          name: 'WorkReportDaily',
+          params: {
+            childId: row.childId
+          }
+        })
+      }
+      if (row.templateType === '2') {
+        this.$router.push({
+          name: 'WorkReportWeekly',
+          params: {
+            childId: row.childId
+          }
+        })
+      }
+    },
+    //  获取模版列表
+    getTempList () {
+      this.$ajax({
+        method: 'get',
+        url: '/templateManage/selectTemplateByUserId?userId=' + window.uid,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('模版数据', res.data)
+        if (res.data.code === '000000') {
+          this.listData = res.data.data
+        } else {
 
-					}
-				}, (res) => {
+        }
+      }, (res) => {
 
-				})
-			}
-		},
-		mounted() {
-			this.getTempList() // 当前领导人
-		}
-	}
+      })
+    }
+  },
+  mounted () {
+    this.getTempList() // 当前领导人
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

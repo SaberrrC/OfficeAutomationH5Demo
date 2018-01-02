@@ -156,12 +156,12 @@ export default {
           reportTime: '2017-10-03',
           ratingStatus: '已评分',
           remarks: ''
-        },
+        }
       ],
       showDetail: false,
       current: 1,
       total: 0,
-      weeklySummary:[
+      weeklySummary: [
         {
           difference: '',
           remark: '',
@@ -180,21 +180,21 @@ export default {
   },
   methods: {
     //  获取列表数据
-    getListDate(){
+    getListDate () {
       this.$ajax({
         method: 'get',
-        url: '/weekreport/detils/'+ this.storeData.userId +'?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
+        url: '/weekreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
         headers: {
           token: window.token,
           uid: window.uid
         }
       }).then((res) => {
         console.log('列表详情', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
-        }else {
+        } else {
           this.listData = []
         }
       }, (res) => {
@@ -207,8 +207,8 @@ export default {
       this.getListDate()
     },
     //  点击行，查看详情
-    openDetail (row,index) {
-      console.log(row,index)
+    openDetail (row, index) {
+      console.log(row, index)
       this.$ajax({
         method: 'get',
         url: '/weekreport/' + row.id,
@@ -218,12 +218,12 @@ export default {
         }
       }).then((res) => {
         console.log('周报详情', res.data)
-        var result = res.data.data
+        let result = res.data.data
         if (res.data.code === '000000') {
           this.showDetail = true
           this.weeklySummary = result.weeklySummary
           this.weekPlane = result.weekPlane
-        }else {
+        } else {
 
         }
       }, (res) => {
@@ -232,7 +232,7 @@ export default {
     }
   },
   mounted () {
-    console.log('params',this.$route.params)
+    console.log('params', this.$route.params)
     this.getListDate()
   }
 }

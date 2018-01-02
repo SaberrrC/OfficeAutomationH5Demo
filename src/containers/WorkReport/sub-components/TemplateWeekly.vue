@@ -103,201 +103,185 @@
 </template>
 
 <script>
-	export default {
-		name: 'WorkReportWeekly',
-		data() {
-			return {
-				weeklySummary: [{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					},
-					{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					},
-					{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					},
-					{
-						workPlan: '',
-						work: '',
-						difference: '',
-						remark: '',
-						del: false
-					}
-				],
-				nextWeekPlane: [{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-					{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-					{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-					{
-						nextWorkPlan: '',
-						personLiable: '',
-						remark: '',
-						del: false
-					},
-				],
-				columns: [{
-						title: '姓名',
-						key: 'username'
-					},
-					{
-						title: '部门',
-						key: 'organization'
-					},
-					{
-						title: '岗位',
-						key: 'post'
-					}
-				],
-			}
-		},
-		methods: {
-			//  添加一行方法
-			addLine() {
-				this.weeklySummary.push({
-					workPlan: '',
-					work: '',
-					difference: '',
-					remark: '',
-					del: true
-				})
-			},
-			addLineNext() {
-				this.nextWeekPlane.push({
-					nextWorkPlan: '',
-					personLiable: '',
-					remark: '',
-					del: true
-				})
-			},
-			//  删除一行
-			delLine(index) {
-				this.weeklySummary.splice(index, 1)
-			},
-			delLineNext(index) {
-				this.nextWeekPlane.splice(index, 1)
-			},
-			getTempData() {
-				this.$ajax({
-					method: 'get',
-					url: '/templateManage/selectWeekChildTemplate',
-					headers: {
-						token: window.token,
-						uid: window.uid
-					},
-					params: {
-						childId: this.$route.params.childId
-					}
-				}).then((res) => {
-					console.log('模版数据', res.data)
-					var result = res.data.data
-					if(res.data.code === '000000') {
-						if(result.weeklySummary) {
-							var workArr = JSON.parse(result.weeklySummary);
-							this.formatDate(workArr);
-							this.weeklySummary = workArr;
-						}
-						if(result.weekPlan) {
-							var planArr = JSON.parse(result.weekPlan);
+export default {
+  name: 'WorkReportWeekly',
+  data () {
+    return {
+      weeklySummary: [{
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }, {
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }, {
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }, {
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: false
+      }],
+      nextWeekPlane: [{
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }, {
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }, {
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }, {
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: false
+      }],
+      columns: [{
+        title: '姓名',
+        key: 'username'
+      }, {
+        title: '部门',
+        key: 'organization'
+      }, {
+        title: '岗位',
+        key: 'post'
+      }]
+    }
+  },
+  methods: {
+    //  添加一行方法
+    addLine () {
+      this.weeklySummary.push({
+        workPlan: '',
+        work: '',
+        difference: '',
+        remark: '',
+        del: true
+      })
+    },
+    addLineNext () {
+      this.nextWeekPlane.push({
+        nextWorkPlan: '',
+        personLiable: '',
+        remark: '',
+        del: true
+      })
+    },
+    //  删除一行
+    delLine (index) {
+      this.weeklySummary.splice(index, 1)
+    },
+    delLineNext (index) {
+      this.nextWeekPlane.splice(index, 1)
+    },
+    getTempData () {
+      this.$ajax({
+        method: 'get',
+        url: '/templateManage/selectWeekChildTemplate',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        },
+        params: {
+          childId: this.$route.params.childId
+        }
+      }).then((res) => {
+        console.log('模版数据', res.data)
+        let result = res.data.data
+        if (res.data.code === '000000') {
+          if (result.weeklySummary) {
+            let workArr = JSON.parse(result.weeklySummary)
+            this.formatDate(workArr)
+            this.weeklySummary = workArr
+          }
+          if (result.weekPlan) {
+            let planArr = JSON.parse(result.weekPlan)
+            this.formatDate(planArr)
+            this.nextWeekPlane = planArr
+          }
+        } else {
 
-							this.formatDate(planArr);
+        }
+      }, (res) => {
 
-							this.nextWeekPlane = planArr;
-						}
+      })
+    },
+    saveTemp () {
+      let data = {
+        id: this.$route.params.childId,
+        parentId: this.$route.params.id,
+        weeklySummary: this.weeklySummary,
+        nextWeekPlane: this.nextWeekPlane
+      }
+      this.$ajax({
+        method: 'post',
+        url: '/templateManage/insertWeekTemplate',
+        headers: {
+          token: window.token,
+          uid: window.uid
+        },
+        data: data
+      }).then((res) => {
+        console.log('保存模版数据', res.data)
+        if (res.data.code === '000000') {
+          this.$Message.success('保存成功')
+          this.$router.push({
+            path: '/work_report/template/templateList'
+          })
+        } else {
+          this.$Message.error(res.data.message)
+        }
+      }, (res) => {
 
-					} else {
-
-					}
-				}, (res) => {
-
-				})
-			},
-			saveTemp() {
-				var data = {
-					id: this.$route.params.childId,
-					parentId: this.$route.params.id,
-					weeklySummary: this.weeklySummary,
-					nextWeekPlane: this.nextWeekPlane
-				};
-				this.$ajax({
-					method: 'post',
-					url: '/templateManage/insertWeekTemplate',
-					headers: {
-						token: window.token,
-						uid: window.uid
-					},
-					data: data
-				}).then((res) => {
-					console.log('保存模版数据', res.data)
-					var result = res.data.data
-					if(res.data.code === '000000') {
-						this.$Message.success("保存成功");
-						this.$router.push({
-							path: "/work_report/template/templateList"
-						})
-					} else {
-						this.$Message.error(res.data.message);
-					}
-				}, (res) => {
-
-				})
-			},
-			//使用模版
-			useTemp() {
-				if(this.$route.params.childId) {
-					this.$router.push({
-						name: 'WorkReportWeekly',
-						params: {
-							childId: this.$route.params.childId
-						}
-					});
-				} else {
-					this.$Message.error("请先保存模版");
-				}
-			},
-			//  渲染方法
-			formatDate(arr) {
-				for(var i = 0; i < arr.length; i++) {
-					if(i < 4) {
-						arr[i].del = false
-					} else {
-						arr[i].del = true
-					}
-				}
-			},
-		},
-		mounted() {
-			if(this.$route.params.childId) {
-				this.getTempData() // 获取模版详情
-			}
-
-		}
-	}
+      })
+    },
+    //  使用模版
+    useTemp () {
+      if (this.$route.params.childId) {
+        this.$router.push({
+          name: 'WorkReportWeekly',
+          params: {
+            childId: this.$route.params.childId
+          }
+        })
+      } else {
+        this.$Message.error('请先保存模版')
+      }
+    },
+    //  渲染方法
+    formatDate (arr) {
+      for (let i = 0; i < arr.length; i++) {
+        if (i < 4) {
+          arr[i].del = false
+        } else {
+          arr[i].del = true
+        }
+      }
+    }
+  },
+  mounted () {
+    if (this.$route.params.childId) {
+      this.getTempData() // 获取模版详情
+    }
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -305,11 +289,11 @@
 	.work-report-weekly {
 		padding: 16px;
 	}
-	
+
 	h4 {
 		text-align: center;
 	}
-	
+
 	table {
 		width: 100%;
 		border: 1px solid #e9eaec;
@@ -325,7 +309,7 @@
 			padding: 16px;
 		}
 	}
-	
+
 	.leader,
 	.btn {
 		text-align: center;

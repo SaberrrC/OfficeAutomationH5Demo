@@ -216,245 +216,233 @@
 </template>
 
 <script>
-  export default {
-    name: 'WholeDaily',
-    data () {
-      return {
-        storeData: this.$route.params,
-        columns: [
-          {
-            title: '部门',
-            key: 'department',
-            align: 'center'
-          },
-          {
-            title: '岗位',
-            key: 'position',
-            align: 'center'
-          },
-          {
-            title: '姓名',
-            key: 'name',
-            align: 'center'
-          },
-          {
-            title: '汇报时间',
-            key: 'dailyTime',
-            align: 'center'
-          },
-          {
-            title: '状态',
-            key: 'state',
-            align: 'center'
-          },
-          {
-            title: '备注',
-            key: 'remarks',
-            align: 'center'
-          },
-          {
-            title: '评分',
-            key: 'score',
-            align: 'center'
-          }
-        ],
-        listData: [
-          {
-            department: '创新服务技术',
-            position: '前端开发',
-            name: '丁通',
-            dailyTime: '2017-10-03',
-            state: '已评分',
-            remarks: '',
-            score: 90
-          },
-          {
-            department: '创新服务技术',
-            position: '前端开发',
-            name: '丁通',
-            dailyTime: '2017-10-03',
-            state: '已评分',
-            remarks: '',
-            score: 90
-          },
-          {
-            department: '创新服务技术',
-            position: '前端开发',
-            name: '丁通',
-            dailyTime: '2017-10-03',
-            state: '已评分',
-            remarks: '',
-            score: 90
-          },
-          {
-            department: '创新服务技术',
-            position: '前端开发',
-            name: '丁通',
-            dailyTime: '2017-10-03',
-            state: '已评分',
-            remarks: '',
-            score: 90
-          },
-        ],
-        showDetail: false,
-        current: 1,
-        total: 0,
-        reportData: {
-          'workPlanOne': '',
-          'workPlanTwo': '',
-          'workPlanThree': '',
-          'workPlanFour': '',
-          'workPlanFive': '',
-          'workPlanSix': '',
-          'workPlanSeven': '',
-          'workPlanEigth': '',
-
-          'workOne': '',
-          'workTwo': '',
-          'workThree': '',
-          'workFour': '',
-          'workFive': '',
-          'workSix': '',
-          'workSeven': '',
-          'workEigth': '',
-
-          'workResultOne': '',
-          'workResultTwo': '',
-          'workResultThree': '',
-          'workResultFour': '',
-          'workResultFive': '',
-          'workResultSix': '',
-          'workResultSeven': '',
-          'workResultEigth': '',
-
-          'selfRatingOne': '',
-          'selfRatingTwo': '',
-          'selfRatingThree': '',
-          'selfRatingFour': '',
-          'selfRatingFive': '',
-          'selfRatingSix': '',
-          'selfRatingSeven': '',
-          'selfRatingEigth': '',
-
-          'supervisorRatingOne': '',
-          'supervisorRatingTwo': '',
-          'supervisorRatingThree': '',
-          'supervisorRatingFour': '',
-          'supervisorRatingFive': '',
-          'supervisorRatingSix': '',
-          'supervisorRatingSeven': '',
-          'supervisorRatingEigth': '',
-
-          'checkRatingOne': '',
-          'checkRatingTwo': '',
-          'checkRatingThree': '',
-          'checkRatingFour': '',
-          'checkRatingFive': '',
-          'checkRatingSix': '',
-          'checkRatingSeven': '',
-          'checkRatingEigth': '',
-
-          'selfBehavior': '',
-          'selfEnvironmental': '',
-          'selfSave': '',
-          'selfCommunication': '',
-          'selfAppearance': '',
-          'selfDiscipline': '',
-
-          'supervisorBehavior': '',
-          'supervisorEnvironmental': '',
-          'supervisorSave': '',
-          'supervisorCommunication': '',
-          'supervisorAppearance': '',
-          'supervisorDiscipline': '',
-
-          'checkBehavior': '',
-          'checkEnvironmental': '',
-          'checkSave': '',
-          'checkCommunication': '',
-          'checkAppearance': '',
-          'checkDiscipline': '',
-
-          'selfJobInitiative': '',
-          'selfCooperation': '',
-          'selfDedicated': '',
-          'selfOrganization': '',
-
-          'supervisorJobInitiative': '',
-          'supervisorCooperation': '',
-          'supervisorDedicated': '',
-          'supervisorOrganization': '',
-
-          'checkJobInitiative': '',
-          'checkCooperation': '',
-          'checkDedicated': '',
-          'checkOrganization': '',
-
-          'tomorrowPlan': '',
-          'worklogScore': '',
-          'professionalismScore': '',
-          'teamScore': '',
-          'totalScore': ''
+export default {
+  name: 'WholeDaily',
+  data () {
+    return {
+      storeData: this.$route.params,
+      columns: [
+        {
+          title: '部门',
+          key: 'department',
+          align: 'center'
+        },
+        {
+          title: '岗位',
+          key: 'position',
+          align: 'center'
+        },
+        {
+          title: '姓名',
+          key: 'name',
+          align: 'center'
+        },
+        {
+          title: '汇报时间',
+          key: 'dailyTime',
+          align: 'center'
+        },
+        {
+          title: '状态',
+          key: 'state',
+          align: 'center'
+        },
+        {
+          title: '备注',
+          key: 'remarks',
+          align: 'center'
+        },
+        {
+          title: '评分',
+          key: 'score',
+          align: 'center'
         }
+      ],
+      listData: [
+        {
+          department: '创新服务技术',
+          position: '前端开发',
+          name: '丁通',
+          dailyTime: '2017-10-03',
+          state: '已评分',
+          remarks: '',
+          score: 90
+        },
+        {
+          department: '创新服务技术',
+          position: '前端开发',
+          name: '丁通',
+          dailyTime: '2017-10-03',
+          state: '已评分',
+          remarks: '',
+          score: 90
+        },
+        {
+          department: '创新服务技术',
+          position: '前端开发',
+          name: '丁通',
+          dailyTime: '2017-10-03',
+          state: '已评分',
+          remarks: '',
+          score: 90
+        },
+        {
+          department: '创新服务技术',
+          position: '前端开发',
+          name: '丁通',
+          dailyTime: '2017-10-03',
+          state: '已评分',
+          remarks: '',
+          score: 90
+        }
+      ],
+      showDetail: false,
+      current: 1,
+      total: 0,
+      reportData: {
+        'workPlanOne': '',
+        'workPlanTwo': '',
+        'workPlanThree': '',
+        'workPlanFour': '',
+        'workPlanFive': '',
+        'workPlanSix': '',
+        'workPlanSeven': '',
+        'workPlanEigth': '',
+        'workOne': '',
+        'workTwo': '',
+        'workThree': '',
+        'workFour': '',
+        'workFive': '',
+        'workSix': '',
+        'workSeven': '',
+        'workEigth': '',
+        'workResultOne': '',
+        'workResultTwo': '',
+        'workResultThree': '',
+        'workResultFour': '',
+        'workResultFive': '',
+        'workResultSix': '',
+        'workResultSeven': '',
+        'workResultEigth': '',
+        'selfRatingOne': '',
+        'selfRatingTwo': '',
+        'selfRatingThree': '',
+        'selfRatingFour': '',
+        'selfRatingFive': '',
+        'selfRatingSix': '',
+        'selfRatingSeven': '',
+        'selfRatingEigth': '',
+        'supervisorRatingOne': '',
+        'supervisorRatingTwo': '',
+        'supervisorRatingThree': '',
+        'supervisorRatingFour': '',
+        'supervisorRatingFive': '',
+        'supervisorRatingSix': '',
+        'supervisorRatingSeven': '',
+        'supervisorRatingEigth': '',
+        'checkRatingOne': '',
+        'checkRatingTwo': '',
+        'checkRatingThree': '',
+        'checkRatingFour': '',
+        'checkRatingFive': '',
+        'checkRatingSix': '',
+        'checkRatingSeven': '',
+        'checkRatingEigth': '',
+        'selfBehavior': '',
+        'selfEnvironmental': '',
+        'selfSave': '',
+        'selfCommunication': '',
+        'selfAppearance': '',
+        'selfDiscipline': '',
+        'supervisorBehavior': '',
+        'supervisorEnvironmental': '',
+        'supervisorSave': '',
+        'supervisorCommunication': '',
+        'supervisorAppearance': '',
+        'supervisorDiscipline': '',
+        'checkBehavior': '',
+        'checkEnvironmental': '',
+        'checkSave': '',
+        'checkCommunication': '',
+        'checkAppearance': '',
+        'checkDiscipline': '',
+        'selfJobInitiative': '',
+        'selfCooperation': '',
+        'selfDedicated': '',
+        'selfOrganization': '',
+        'supervisorJobInitiative': '',
+        'supervisorCooperation': '',
+        'supervisorDedicated': '',
+        'supervisorOrganization': '',
+        'checkJobInitiative': '',
+        'checkCooperation': '',
+        'checkDedicated': '',
+        'checkOrganization': '',
+        'tomorrowPlan': '',
+        'worklogScore': '',
+        'professionalismScore': '',
+        'teamScore': '',
+        'totalScore': ''
       }
-    },
-    methods: {
-      func (event) {},
-      //  获取列表数据
-      getListDate(){
-        this.$ajax({
-          method: 'get',
-          url: '/dailyreport/detils/'+ this.storeData.userId +'?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
-          headers: {
-            token: window.token,
-            uid: window.uid
-          }
-        }).then((res) => {
-          console.log('列表详情', res.data)
-          var result = res.data.data
-          if (res.data.code === '000000') {
-            this.listData = result.data
-            this.total = result.total
-          }else {
-            this.listData = []
-          }
-        }, (res) => {
-
-        })
-      },
-      //  分页查询
-      changePage (e) {
-        this.current = e
-        this.getListDate()
-      },
-      //  点击行，查看详情
-      openDetail (row,index) {
-        console.log(row,index)
-        this.$ajax({
-          method: 'get',
-          url: '/dailyreport/' + row.dailyid,
-          headers: {
-            token: window.token,
-            uid: window.uid
-          }
-        }).then((res) => {
-          console.log('日报展示', res.data)
-          var result = res.data.data
-          if (res.data.code === '000000') {
-            this.showDetail = true
-            this.reportData = result
-          }else {
-
-          }
-        }, (res) => {
-
-        })
-      }
-    },
-    mounted () {
-      this.getListDate()
     }
+  },
+  methods: {
+    func (event) {},
+    //  获取列表数据
+    getListDate () {
+      this.$ajax({
+        method: 'get',
+        url: '/dailyreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('列表详情', res.data)
+        let result = res.data.data
+        if (res.data.code === '000000') {
+          this.listData = result.data
+          this.total = result.total
+        } else {
+          this.listData = []
+        }
+      }, (res) => {
+
+      })
+    },
+    //  分页查询
+    changePage (e) {
+      this.current = e
+      this.getListDate()
+    },
+    //  点击行，查看详情
+    openDetail (row, index) {
+      console.log(row, index)
+      this.$ajax({
+        method: 'get',
+        url: '/dailyreport/' + row.dailyid,
+        headers: {
+          token: window.token,
+          uid: window.uid
+        }
+      }).then((res) => {
+        console.log('日报展示', res.data)
+        let result = res.data.data
+        if (res.data.code === '000000') {
+          this.showDetail = true
+          this.reportData = result
+        } else {
+
+        }
+      }, (res) => {
+
+      })
+    }
+  },
+  mounted () {
+    this.getListDate()
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
