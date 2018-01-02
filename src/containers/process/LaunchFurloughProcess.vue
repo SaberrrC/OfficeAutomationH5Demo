@@ -155,7 +155,10 @@
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                     <FormItem label="工作交接人" prop="handOverPepole">
-                      <Input placeholder="请选择交接人" icon="person" v-model="furloughDetail.handOverPepole"></Input>
+                      <Input placeholder="请选择交接人"
+                             icon="person"
+                             v-model="billDetailHandOverPepole.name"
+                             @on-focus="checkHandOverPepole()"></Input>
                     </FormItem>
                   </i-Col>
                 </Row>
@@ -238,7 +241,10 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="工作交接人" prop="handOverPepole">
-                        <Input placeholder="请选择交接人" icon="person" v-model="addfurlough.handOverPepole"></Input>
+                        <Input placeholder="请选择交接人"
+                               icon="person"
+                               v-model="billAddHandOverPepole.name"
+                               @on-focus="checkAddHandOverPepole()"></Input>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -263,6 +269,53 @@
           </div>
         </i-Col>
       </Row>
+      <Modal
+        v-model="checkUser"
+        title="选择工作交接人"
+        @on-ok="ok"
+      >
+        <div style="border: 1px solid #cccccc;padding: 10px;width: 50%;margin-left: 25%;max-height: 400px;overflow: auto">
+          <ul>
+            <Form>
+              <RadioGroup v-model="handOverPepoleIndex">
+                <li v-for="(title,key) in handOverPepole">
+                  <row>
+                    <i-Col span="18" offset="6">
+                      <FormItem>
+                        <Radio :label="key"><span>{{title.name}}</span></Radio>
+                      </FormItem>
+                    </i-Col>
+                  </row>
+                </li>
+              </RadioGroup>
+            </Form>
+          </ul>
+        </div>
+      </Modal>
+
+      <Modal
+        v-model="checkAddUser"
+        title="选择工作交接人"
+        @on-ok="handleAddOk"
+      >
+        <div style="border: 1px solid #cccccc;padding: 10px;width: 50%;margin-left: 25%;max-height: 400px;overflow: auto">
+          <ul>
+            <Form>
+              <RadioGroup v-model="handOverPepoleIndex">
+                <li v-for="(title,key) in handOverPepole">
+                  <row>
+                    <i-Col span="18" offset="6">
+                      <FormItem>
+                        <Radio :label="key"><span>{{title.name}}</span></Radio>
+                      </FormItem>
+                    </i-Col>
+                  </row>
+                </li>
+              </RadioGroup>
+            </Form>
+          </ul>
+        </div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -290,6 +343,12 @@
         }
       }
       return {
+        checkUser: false,
+        checkAddUser: false,
+        handOverPepole: [],
+        billDetailHandOverPepole: {},
+        billAddHandOverPepole: {},
+        handOverPepoleIndex: 0,
         showAddfurlough: false,
         showAddfurloughButton: true,
         showDeletefurloughButton: false,
@@ -315,14 +374,14 @@
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
           FurloughRemark: '',    // 休假事由
-          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
+          handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
         addfurlough: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
           FurloughRemark: '',    // 休假事由
-          handOverPepole: '0001A1100000000RPMRM',    // 工作交接人
+          handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
         duration: '',          // 时长(单位)
@@ -628,6 +687,45 @@
             }
           })
       },
+//    获取工作交接人
+      getHandoverUser () {
+        this.$ajax.get(`/HandoverUser/getHandoverUser`, {
+          headers: {
+            token: 'ecb94cb29a9b4bf396e5b04aad668770',
+            uid: '10483'
+          }
+        }).then((response) => {
+          if (response.data.code === '000000') {
+            this.handOverPepole = response.data.data
+            console.log(this.handOverPepole)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+      //    选择工作交接人
+      checkHandOverPepole () {
+        this.checkUser = true
+      },
+//    选择工作交接人(add)
+      checkAddHandOverPepole () {
+        this.checkAddUser = true
+      },
+//    点击ok
+      ok () {
+        this.billDetailHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
+        this.furloughDetail.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
+        console.log(this.billDetailHandOverPepole)
+        this.$refs.furloughDetail.validateField('handOverPepole')
+      },
+//    点击ok(add)
+      handleAddOk () {
+        this.billAddHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
+        this.addfurlough.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
+        console.log(this.billDetailHandOverPepole)
+        this.$refs.addfurlough.validateField('handOverPepole')
+      },
+//    页面关闭
       pageClose () {
         this.$router.push({path: 'launchIndex'})
       }
@@ -636,6 +734,7 @@
       this.getfurloughCode()
       this.getfurloughType()
       this.getTime()
+      this.getHandoverUser()
 //      this.getTimeDifference()
     }
   }

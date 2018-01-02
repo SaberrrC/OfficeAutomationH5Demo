@@ -765,10 +765,11 @@
       checkHandOverPepole () {
         this.checkUser = true
       },
-      //    选择工作交接人
+//    选择工作交接人(add)
       checkAddHandOverPepole () {
         this.checkAddUser = true
       },
+//    点击ok
       ok () {
         this.billDetailHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
         this.billDetail.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
@@ -776,6 +777,7 @@
         this.$refs.billDetail.validateField('handOverPepole')
 //        console.log(this.$refs.billDetail)
       },
+//    点击ok(add)
       handleAddOk () {
         this.billAddHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
         this.addBill.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob

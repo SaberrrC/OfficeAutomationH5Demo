@@ -53,10 +53,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  //  TODO 临时测试环境变量
-  const TEST_CONFIG = 'http://118.31.18.67:8084'
-
   export default {
     name: 'WorkReportDaily',
     data () {
