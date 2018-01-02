@@ -54,7 +54,7 @@
 
 <script>
   export default {
-    name: 'WorkReportDaily',
+    name: 'Index',
     data () {
       return {
         date: this.$route.query.date ? this.$route.query.date : ''

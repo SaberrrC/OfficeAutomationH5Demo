@@ -42,7 +42,7 @@
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem prop="type" label="休假类别" >
                         <Select v-model="furloughTitle.type" :label-in-value="true"  @on-change="v =>{ setOption(v,'type')}">
-                          <Option v-for="(item,key) in type" :value="item.id">{{item.name}}</Option>
+                          <Option v-for="(item,key) in type" :value="item.id" :key="item.id">{{item.name}}</Option>
                         </Select>
                       </FormItem>
                     </i-Col>
@@ -68,7 +68,7 @@
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="假期年度">
                         <Select v-model="furloughTitle.date">
-                          <Option v-for="item in date" :value="item.id">{{item.name}}</Option>
+                          <Option v-for="item in date" :value="item.id" :key="item.id">{{item.name}}</Option>
                         </Select>
                       </FormItem>
                     </i-Col>
@@ -322,7 +322,7 @@
 
 <script>
   export default {
-    name: 'WorkReportDaily',
+    name: 'LaunchFurlough',
     data () {
       const validateStartTime = (rule, value, callback) => {
         if (value === '') {
@@ -462,9 +462,9 @@
       },
 //    点击确定按钮（提交）
       submitEvectionApply () {
-        var step = true
+        let step = true
         if (this.showAddfurlough === false) {
-          //      验证休假类型
+//      验证休假类型
           this.$refs.furloughTitle.validate((valid) => {
             if (valid) {
             } else {
@@ -655,37 +655,37 @@
       },
 //    获取时长
       getTimeDifference (startTime, endTime, type) {
-          this.$refs.furloughTitle.validate((valid) => {
-            if (valid) {
-              var start = new Date(startTime)
-              start = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate() + ' ' + start.getHours() + ':' + start.getMinutes() + ':' + start.getSeconds()
-              var end = new Date(endTime)
-              end = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' ' + end.getHours() + ':' + end.getMinutes() + ':' + end.getSeconds()
-              this.$ajax.get(`/nchrcommon/queryDuration`, {
-                params: {
-                  startTime: start,
-                  endTime: end,
-                  type: '6404',
-                  billCode: this.furloughTitle.furloughCode,
-                  applyType: this.furloughTitle.type
+        this.$refs.furloughTitle.validate((valid) => {
+          if (valid) {
+            var start = new Date(startTime)
+            start = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate() + ' ' + start.getHours() + ':' + start.getMinutes() + ':' + start.getSeconds()
+            var end = new Date(endTime)
+            end = end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate() + ' ' + end.getHours() + ':' + end.getMinutes() + ':' + end.getSeconds()
+            this.$ajax.get(`/nchrcommon/queryDuration`, {
+              params: {
+                startTime: start,
+                endTime: end,
+                type: '6404',
+                billCode: this.furloughTitle.furloughCode,
+                applyType: this.furloughTitle.type
+              }
+            }).then((response) => {
+              if (response.data.code === '000000') {
+                if (type === 'furloughDetail') {
+                  this.furloughDetail.timeDifference = response.data.data
+                  this.furloughDetail.startTime = start
+                  this.furloughDetail.endTime = end
+                } else if (type === 'add') {
+                  this.addfurlough.timeDifference = response.data.data
+                  this.addfurlough.startTime = start
+                  this.addfurlough.endTime = end
                 }
-              }).then((response) => {
-                if (response.data.code === '000000') {
-                  if (type === 'furloughDetail') {
-                    this.furloughDetail.timeDifference = response.data.data
-                    this.furloughDetail.startTime = start
-                    this.furloughDetail.endTime = end
-                  } else if (type === 'add') {
-                    this.addfurlough.timeDifference = response.data.data
-                    this.addfurlough.startTime = start
-                    this.addfurlough.endTime = end
-                  }
-                }
-              }).catch(function (err) {
-                console.log(err)
-              })
-            }
-          })
+              }
+            }).catch(function (err) {
+              console.log(err)
+            })
+          }
+        })
       },
 //    获取工作交接人
       getHandoverUser () {

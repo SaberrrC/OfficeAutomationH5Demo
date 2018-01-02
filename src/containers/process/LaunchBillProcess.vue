@@ -42,7 +42,7 @@
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem prop="type" label="出差类别" >
                         <Select v-model="billTitle.type" :label-in-value="true"  @on-change="v =>{ setOption(v,'type')}">
-                          <Option v-for="(item,key) in type" :value="item.id">{{item.name}}</Option>
+                          <Option v-for="(item,key) in type" :value="item.id" :key="item.id">{{item.name}}</Option>
                         </Select>
                       </FormItem>
                     </i-Col>
@@ -604,7 +604,7 @@
         console.log('data', data)
         this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           }
         }).then((response) => {
           if (response.data.code === '000000') {

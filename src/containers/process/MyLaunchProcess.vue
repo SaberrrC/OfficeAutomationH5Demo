@@ -1,18 +1,26 @@
 <template>
   <div>
         <div class="nav">
-        <div>
-          <h3>行政流程类</h3>
-          <ul>
-            <Button type="text"><li>办公用品申请</li></Button>
-          </ul>
-        </div>
-        <div>
-          <h3>HR流程类</h3>
-          <ul>
-            <Button type="text" v-for="(item,index) in items" @click = "HrType(index)"><li><span :class="{active:item.isActive}">{{item.label}}</span></li></Button>
-          </ul>
-        </div>
+          <div>
+            <h3>行政流程类</h3>
+            <ul>
+              <li>
+                <Button type="text">
+                  <span>办公用品申请</span>
+                </Button>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3>HR流程类</h3>
+            <ul>
+                <li v-for="(item,index) in items" @click = "HrType(index)">
+                  <Button type="text">
+                  <span :class="{active:item.isActive}">{{item.label}}</span>
+                  </Button>
+                </li>
+            </ul>
+          </div>
         </div>
 
         <div class="contents">
@@ -72,7 +80,7 @@
 
 <script>
   export default {
-    name: 'WorkReportDaily',
+    name: 'MyLaunch',
     data () {
       return {
         formItem: {
@@ -166,7 +174,7 @@
                   props: {
                     type: 'primary',
                     size: 'small',
-                    disabled: params.row.approveState === '3' ? false : true
+                    disabled: params.row.approveState !== '3'
                   },
                   style: {
                     marginRight: '5px'

@@ -122,8 +122,8 @@ const store = new Vuex.Store({
             children: [
               {name: '发起申请', id: 'launchIndex'},
               {name: '我的申请', id: 'myLaunch'},
-              {name: '待办事宜', id: 'toDo'},
-              {name: '已办事宜', id: 'haveToDo'}
+              {name: '待办事宜', id: 'todo'},
+              {name: '已办事宜', id: 'haveTodo'}
             ]
           }
         ]

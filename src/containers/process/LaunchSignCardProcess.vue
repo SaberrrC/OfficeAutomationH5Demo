@@ -83,7 +83,7 @@
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                     <FormItem label="签卡原因" prop="signCause">
                       <Select v-model="billDetail.signCauseId" :label-in-value="true"  @on-change="v =>{ setOption(v,'billDetail')}">
-                        <Option v-for="(item,key) in type" :value="item.id">{{item.name}}</Option>
+                        <Option v-for="(item,key) in type" :value="item.id" :key="item.id">{{item.name}}</Option>
                       </Select>
                     </FormItem>
                   </i-Col>
@@ -138,7 +138,7 @@
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="签卡原因" prop="signCause">
                         <Select v-model="addBill.signCauseId" :label-in-value="true"  @on-change="v =>{ setOption(v,'add')}">
-                          <Option v-for="(item,key) in type" :value="item.id">{{item.name}}</Option>
+                          <Option v-for="(item,key) in type" :value="item.id" :key="item.id">{{item.name}}</Option>
                         </Select>
                       </FormItem>
                     </i-Col>
@@ -183,7 +183,7 @@
 
 <script>
   export default {
-    name: 'WorkReportDaily',
+    name: 'LaunchSignCard',
     data () {
       return {
         showAddBill: false,

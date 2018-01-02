@@ -233,17 +233,16 @@
 </template>
 
 <script>
-  import qs from "qs"
   export default {
-    name: 'WorkReportDaily',
+    name: 'WorkApplyInfo',
     data () {
       return {
         isOpen: true,                        // 明细是否显示
         isOpenText: '收起加班明细',
         type: this.$route.query.type,                             // 当前页面类型（我发起的/待办/已办）
         approveState: this.$route.query.approveState,             // 当前页面状态
-        opinion: this.$route.query.type === 'todo' ? true : false,
-        review: this.$route.query.type === 'todo' ? false : true,
+        opinion: this.$route.query.type === 'todo',
+        review: this.$route.query.type !== 'todo',
         reply: '',                        // 回复
         billTitle: {
           billCode: '',          // 加班单号
@@ -382,7 +381,7 @@
       },
 //    上一页
       pagePrev () {
-        /***计算当前条数***/
+//        /***计算当前条数***/
         var serialNumber = 0
         if (this.pageNum === 1) {
           serialNumber = this.index + 1
@@ -396,7 +395,7 @@
         }
         var num = serialNumber - 1
         var nextData = {}
-        /******调分页接口,获取上一条数据的信息*********/
+//        /******调分页接口,获取上一条数据的信息*********/
         this.$ajax.get(`/myApply/queryApproveByAll`, {
           params: {
             time: this.time,
@@ -458,7 +457,7 @@
       },
 //    下一页
       pageNext () {
-        /***计算当前条数***/
+//        /***计算当前条数***/
         var serialNumber = 0
         console.log(this.index)
         if (this.pageNum === 1) {
@@ -472,7 +471,7 @@
           return false
         }
         var nextData = {}
-        /******调分页接口,获取上一条/下一条数据的信息*********/
+//        /******调分页接口,获取上一条/下一条数据的信息*********/
         this.$ajax.get(`/myApply/queryApproveByAll`, {
           params: {
             time: this.time,

@@ -13,7 +13,7 @@
   <div class="work-report-daily">
     <Card :dis-hover="true">
       <Row>
-        <i-Col :xs="{ span: 11, offset: 1 }" :sm="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }" :lg="{ span: 7, offset: 1 }" v-for="room in roomList" class="meetroom">
+        <i-Col :xs="{ span: 11, offset: 1 }" :sm="{ span: 11, offset: 1 }" :md="{ span: 11, offset: 1 }" :lg="{ span: 7, offset: 1 }" v-for="(room,key) in roomList" :key="key" class="meetroom">
           <div class="roomBody" @click="step(room.room_id,room.roomname,room.nop,room.device)">
             <img :src="room.roomimg" alt="会议室图片" >
             <div style="padding: 8px;">
@@ -58,17 +58,15 @@
           }
         }).then((response) => {
           if (response.data.code === '000000') {
-            var len = response.data.data.length
-            var room = []
-            for (var i = 0; i < len; i++) {
+            let len = response.data.data.length
+            let room = []
+            for (let i = 0; i < len; i++) {
               if (response.data.data[i].isuse === 1) {
                 response.data.data[i].roomimg = 'http://118.31.18.67:96' + response.data.data[i].roomimg
                 room.push(response.data.data[i])
               }
             }
             this.roomList = room
-            console.log(room)
-            console.log(this.roomList)
           }
         }).catch(function (err) {
           console.log(err)

@@ -91,7 +91,7 @@
     data () {
       return {
         isShow: false,
-        //  TODO 这里是选择人员的初始化数组，不要和下面的混淆，一般根据业务场景异步取得
+//   这里是选择人员的初始化数组，不要和下面的混淆，一般根据业务场景异步取得
         initTreeData: [],
         checked: false,
         disabled: true,
@@ -101,7 +101,7 @@
         meetRoomInfo: [
           { name: '资源名称：' + this.$route.query.roomName },
           { name: '资源规格：' + this.$route.query.nop + '人' },
-          { name: '使用时间：' + this.$route.query.start_time + ' -- ' + this.$route.query.end_time},
+          {name: '使用时间：' + this.$route.query.start_time + ' -- ' + this.$route.query.end_time},
           { name: '设备条件：' + this.$route.query.device },
           { name: '预 定 人： ' + this.$store.state.userInfo.username }
         ],
@@ -150,20 +150,18 @@
       nextStep () {
         if (this.checked === true) {
           this.$refs.meetInline.validate((valid) => {
-            if (valid) {         //   通过验证   调添加会议接口  TODO
+            if (valid) {
               this.meetSave()
             } else {
-              console.log('error')
             }
           })
         } else {
-          console.log('不邀请')           //  不发起邀请  调添加会议接口  TODO
           this.meetSave()
         }
       },
 //    保存会议
       meetSave () {
-        var data = {
+        let data = {
           room_id: this.room_id,
           uid: '84',   // TODO
           title: this.meetInline.title,
@@ -178,7 +176,6 @@
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('会议创建成功')
             this.$router.push({path: 'myMeeting'})
@@ -193,11 +190,10 @@
         //  TODO 在这里处理选中的数组
         this.meetInline.user = ''
         this.part_uid = ''
-        console.log(data)
-        var len = data.length
-        var ids = []
-        var users = []
-        for (var i = 0; i < len; i++) {
+        let len = data.length
+        let ids = []
+        let users = []
+        for (let i = 0; i < len; i++) {
           ids.push(data[i].uid)
           users.push(data[i].username)
         }
@@ -229,8 +225,6 @@
         loading: false,
         children: []
       }]
-//      console.log(this.$store.state.userInfo.username)
-//      this.$store.dispatch('querySidebarList', 'home')
     }
   }
 </script>
