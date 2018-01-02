@@ -2,11 +2,12 @@
   <div
     :class="['member-item', type]"
     @click="handleClick(options)">
-    <span :class="['avatar', 'ivu-avatar', gender]">{{name.substring(0, 1)}}</span>
-    <span class="member-name">{{name}}</span>
-    <span class="post-title">{{jobTitle}}</span>
-    <div v-if="type === 'complex'" class="phone"><Icon type="ios-telephone"/> <span>{{phone}}</span></div>
-    <div v-if="type === 'complex' && email && email !== 'null'" class="email"><Icon type="email"/> <span>{{email}}</span></div>
+    <span :class="['avatar', 'ivu-avatar', this.options.sex === '男' ? 'male' : 'female']">{{options.username.substring(0, 1)}}</span>
+    <span class="member-name">{{options.username}}</span>
+    <span v-if="type === 'complex'" class="post-title">{{options.post_title}}</span>
+    <div v-if="type === 'complex' && /^1\d{10}$/.test(this.options.phone)" class="phone"><Icon type="ios-telephone"/> <span>{{this.options.phone}}</span></div>
+    <div v-if="type === 'complex' && /^.+@.+\.\w+$/.test(this.options.email)" class="email"><Icon type="email"/> <span>{{this.options.email}}</span></div>
+    <Icon v-if="options.isSelected" class="selected-icon" type="checkmark-circled"/>
   </div>
 </template>
 
@@ -19,20 +20,11 @@ export default {
   },
   data () {
     return {
-      gender: this.options.sex === '男' ? 'male' : 'female',
-      name: this.options.username,
-      jobTitle: this.options.post_title,
-      phone: this.options.phone,
-      email: this.options.email
     }
   },
-  created () {
-  },
-  updated () {
-  },
   methods: {
-    handleClick (opts) {
-      this.$emit('onMemberItemClick', opts)
+    handleClick (data) {
+      this.$emit('onMemberItemClick', data)
     }
   }
 }
@@ -42,14 +34,14 @@ export default {
 <style lang="scss" scoped>
 .member-item {
   position: relative;
+  z-index: 99;
   height: 32px;
   margin-top: -19px;
   padding: 10px 16px 10px 48px;
   box-sizing: content-box;
   font-size: 14px;
-}
-.has-checkbox .member-item {
-  margin-left: 42px;
+  cursor: default;
+  background: #fff;
 }
 .avatar {
   position: absolute;
@@ -73,13 +65,12 @@ export default {
   color: #666;
 }
 .complex {
+  height: auto;
+  min-height: 32px;
   .member-name, .post-title {
     line-height: 16px;
     margin-bottom: 8px;
   }
-}
-.complex {
-  height: auto;
 }
 .phone, .email {
   line-height: 16px;
@@ -88,5 +79,7 @@ export default {
 }
 .email span {
   color: #999;
+}
+.selected-icon {
 }
 </style>

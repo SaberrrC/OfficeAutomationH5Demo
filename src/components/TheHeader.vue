@@ -80,29 +80,12 @@ export default {
     }
   },
   created () {
-    //  刷新页面时初始化 activeName
-    this.activeName = this.getCurrentActiveName()
-    //  TODO
-    this.divideNavigation([
-      {iconType: 'android-clipboard', name: '工作汇报', id: 'work_report', isShow: 1},
-      {iconType: 'compose', name: '审批流程', id: 'process', isShow: 1},
-      {iconType: 'easel', name: '会议管理', id: 'meeting_admin', isShow: 1},
-      {iconType: 'ios-chatboxes-outline', name: '公告管理', id: 'notice', isShow: 0},
-      {iconType: 'ios-world-outline', name: '新闻管理', id: 'news_admin', isShow: 0},
-      {iconType: 'ios-timer-outline', name: '考勤管理', id: 'attend_admin', isShow: 0},
-      {iconType: 'ios-paper-outline', name: '日志管理', id: 'log_admin', isShow: 0}
-    ])
     this.shortcut = [
       {
         iconType: 'ios-plus',
         name: '发起',
         id: 'launch',
-        children: [
-          {name: '写日报', id: 'work_report/daily'},
-          {name: '写周报', id: 'work_report/weekly'},
-          {name: '会议室预定', id: 'meeting_admin/book'},
-          {name: '填申请单', id: 'process/apply'}
-        ]
+        children: []  //  此处需要异步请求
       },
       {
         iconType: 'ios-help',
@@ -124,10 +107,32 @@ export default {
         ]
       }
     ]
-  },
-  updated () {
-    //  TODO 监控是否重绘，待删除
-    console.log('##### TheHeader updated')
+    //  获取用户信息
+    this.$store.dispatch('queryUserInfo').then((data) => {
+      window.localStorage.setItem('username', data.username)
+      window.localStorage.setItem('userCode', data.code)
+    })
+    //  刷新页面时初始化 activeName
+    this.activeName = this.getCurrentActiveName()
+    this.$ajax.get('/navit/queryNaviList').then((response) => {
+      if (response.data && response.data.code === '000000') {
+        console.log('导航菜单') // toDel
+        console.log(response.data.data) // toDel
+        this.divideNavigation(response.data.data)
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+    this.$ajax.get('news/getQuickLaunch').then((response) => {
+      if (response.data && response.data.code === '000000') {
+        let json = JSON.stringify(response.data.data)
+        json = json.replace(/url/g, 'id')
+        json = json.replace(/content/g, 'name')
+        this.shortcut[0].children = JSON.parse(json)
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
   },
   methods: {
     divideNavigation (list) {
@@ -162,10 +167,16 @@ export default {
       }
     },
     handleClick (id) {
-      this.handleSelect(id, () => {
-        //  更新 navigation 的 currentActiveName
-        this.$refs.navigation.currentActiveName = this.getCurrentActiveName()
-      })
+      if (id === 'logout') {
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('uid')
+        window.location.reload()
+      } else {
+        this.handleSelect(id, () => {
+          //  更新 navigation 的 currentActiveName
+          this.$refs.navigation.currentActiveName = this.getCurrentActiveName()
+        })
+      }
     }
   }
 }

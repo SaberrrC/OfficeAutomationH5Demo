@@ -10,7 +10,13 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/oa-api': {
+        target: 'http://118.31.18.67:8084',
+        pathRewrite: {'^/oa-api' : '/'},
+        changeOrigin: true
+      }
+    },
 
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST

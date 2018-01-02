@@ -1,19 +1,29 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import qs from 'qs'
 import axios from 'axios'
+
+// axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.baseURL = 'http://10.255.232.234/oa-api' //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
+axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''
+axios.defaults.transformRequest = [(data) => {
+  return qs.stringify(data || {})
+}]
 
 Vue.use(Vuex)
 
-//  TODO 临时测试环境变量
-const TEST_CONFIG = 'http://118.31.18.67:8084'
-
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
+    userInfo: {},
     sidebar: [],
     organization: []
   },
   mutations: {
+    queryUserInfo (state, newValue) {
+      state.userInfo = newValue
+    },
     updateSidebarList (state, newValue) {
       state.sidebar = newValue
     },
@@ -22,13 +32,25 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    //  获取当前用户信息
+    queryUserInfo (context) {
+      return axios.get('/user/getUserInfoById').then((response) => {
+        if (response.data && response.data.code === '000000') {
+          const result = response.data.data
+          context.commit('queryUserInfo', result)
+          return result
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     //  获取二级菜单列表，参数为模块 id
     querySidebarList (context, id) {
       //  TODO mock data
       if (id === 'home') {
         context.commit('updateSidebarList', [
           {
-            iconType: 'android-clipboard',
+            iconType: 'home',
             name: '善林OA',
             id: 'home'
           }
@@ -61,23 +83,86 @@ export default new Vuex.Store({
         ]
         context.commit('updateSidebarList', list)
       }
+      if (id === 'attend_admin') {
+        const list = [
+          {
+            iconType: 'ios-timer-outline',
+            name: '考勤管理',
+            id: 'attend_admin',
+            children: [
+              {name: '我的考勤', id: 'work_attend'},
+              {name: '假期查询', id: 'leave_query'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', list)
+      }
+      //    会议管理
+      if (id === 'meeting_admin') {
+        const MeetList = [
+          {
+            iconType: 'easel',
+            name: '会议管理',
+            id: 'meeting_admin',
+            children: [
+              {name: '会议室预定', id: 'add'},
+              {name: '我的会议', id: 'myMeeting'},
+              {name: '会议纪要', id: 'meetSummary'},
+              {name: '会议室设置', id: 'meetRoomEdit'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', MeetList)
+      }
+//    审批流程
+      if (id === 'process') {
+        const ProcessList = [
+          {
+            iconType: 'compose',
+            name: '审批流程',
+            id: 'process',
+            children: [
+              {name: '发起申请', id: 'launchIndex'},
+              {name: '我的申请', id: 'myLaunch'},
+              {name: '待办事宜', id: 'toDo'},
+              {name: '已办事宜', id: 'haveToDo'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', ProcessList)
+      }
+//     日志管理
+      if (id === 'log_admin') {
+        const LogList = [
+          {
+            iconType: 'ios-paper-outline',
+            name: '日志管理',
+            id: 'log_admin',
+            children: [
+              {name: 'WEB日志导出', id: 'webLogList'},
+              {name: 'API日志导出', id: 'apiLogList'}
+            ]
+          }
+        ]
+        context.commit('updateSidebarList', LogList)
+      }
     },
     queryOrganization (context, departmentId = '1') {
-      return axios.get(`${TEST_CONFIG}/organization/queryOrgAndUser`, {
+      return axios.get('/organization/queryOrgAndUser', {
         params: {
-          token: '67713c352c5d4ae99e8fd7d498d092a51512442839196', //  TODO 临时测试
-          uid: '1', //  TODO 临时测试
           orgId: departmentId
         }
-      }).then(function (response) {
-        if (response.data) {
+      }).then((response) => {
+        if (response.data && response.data.code === '000000') {
           const result = response.data.data
           context.commit('updateOrganization', result)
           return result
         }
-      }).catch(function (err) {
+      }).catch((err) => {
         console.log(err)
       })
     }
   }
 })
+
+export default store

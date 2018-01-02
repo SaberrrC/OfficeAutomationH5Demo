@@ -45,10 +45,6 @@ export default {
   created () {
     this.updateSidebar(this.$route.path)
   },
-  updated () {
-    //  TODO 监控是否重绘，待删除
-    console.log('##### Sidebar updated')
-  },
   methods: {
     updateSidebar (path) {
       var arr = path.substring(1).split('/')

@@ -1,15 +1,15 @@
 <template>
-  <div class="sign-in">
+  <div class="help">
     {{msg}}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SignIn',
+  name: 'Help',
   data () {
     return {
-      msg: '用户登录'
+      msg: '用户帮助'
     }
   }
 }

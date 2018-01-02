@@ -11,12 +11,11 @@
       </Input>
     </div>
     <Tree
-      :class="[isShowCheckbox ? 'has-checkbox' : '']"
-      :show-checkbox="isShowCheckbox"
-      :multiple="allowedMultiple"
-      :data="list"
+      :show-checkbox="showCheckbox"
+      :multiple="multiple"
+      :data="treeData"
       :load-data="loadData"
-      @on-check-change="handleCheckChange"/>
+      :emptyText="emptyText"></Tree>
   </div>
 </template>
 
@@ -25,68 +24,82 @@ import MemberItem from '@/components/MemberItem'
 
 export default {
   name: 'MemberTree',
-  components: {
-    MemberItem
-  },
   props: {
-    departmentId: String,
     showCheckbox: Boolean,
     multiple: Boolean,
+    initRootData: Array, //  初始化根节点数据
     type: String  //  个人信息是否完整模式，传入 'complex' 则显示电话号码和邮箱
   },
   data () {
     return {
       searchValue: '',
-      isShowCheckbox: this.showCheckbox || false,
-      allowedMultiple: this.multiple || true,
-      list: []
+      emptyText: '数据加载中，请稍后...',
+      treeData: this.initRootData
     }
-  },
-  created () {
-    this.$store.dispatch('queryOrganization', this.departmentId).then((data) => {
-      this.list = this.initRootData(data)
-    })
-  },
-  updated () {
-    //  TODO 监控是否重绘，待删除
-    console.log('##### Sidebar updated')
   },
   methods: {
     handleSearch () {
-      console.log(this.searchValue)
-    },
-    initRootData (data) {
-      const result = {
-        title: data.name,
-        expand: true,
-        children: []
+      if (this.searchValue) {
+        this.$ajax.get('/organization/queryUserByName', {
+          params: {
+            name: this.searchValue
+          }
+        }).then((response) => {
+          if (response.data && response.data.data && response.data.data.length) {
+            this.treeData = this.initMemberData(response.data.data)
+          } else {
+            this.treeData = []
+            this.emptyText = '没有符合条件的结果'
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+      } else {
+        this.treeData = this.initRootData
       }
-      for (let i = 0, l = data.children.length; i < l; i++) {
-        const item = data.children[i]
-        const memberCount = item.memberCount
-        if (memberCount) {
-          item.title = `${item.name}(${memberCount})`
-          item.children = []
+    },
+    loadData (item, callback) {
+      this.$store.dispatch('queryOrganization', item.id).then((data) => {
+        let json = JSON.stringify(data)
+        json = json.replace(/"name"/g, '"title"')
+        const newData = JSON.parse(json)
+        callback(this.initChildrenData(newData))
+      })
+    },
+    //  初始化子节点
+    initChildrenData (data) {
+      const children = data.children
+      const users = data.users
+      let newData = []
+      for (let i = 0, l = children.length; i < l; i++) {
+        //  过滤 memberCount 为 0 的项
+        const item = children[i]
+        if (item.memberCount > 0) {
+          item.title = `${item.title}（${item.memberCount}）`
           item.loading = false
-          result.children.push(item)
+          item.children = []
+          newData.push(item)
         }
       }
-      return [result]
+      //  判断该层级是否存在成员
+      if (users && users.length > 0) {
+        const _users = this.initMemberData(users)
+        newData = newData.concat(_users)
+      }
+      return newData
     },
-    initChildrenData (data) {
-      let result = []
-      const originUsers = data.users
-      const members = []
-      const departments = []
-      //  渲染成员列表
-      if (originUsers.length > 0) {
-        for (let i = 0, l = originUsers.length; i < l; i++) {
-          members[i] = {
-            render: (h, {r, n, d}) => {
+    //  初始化成员列表
+    initMemberData (data) {
+      const newData = []
+      if (data.length > 0) {
+        for (let i = 0, l = data.length; i < l; i++) {
+          newData[i] = {
+            title: data[i].username,
+            render: (h) => {
               return h(MemberItem, {
                 props: {
                   type: this.type,
-                  options: originUsers[i]
+                  options: data[i]
                 },
                 on: {
                   onMemberItemClick: this.handleMemberItemClick
@@ -96,29 +109,11 @@ export default {
           }
         }
       }
-      if (data.children.length > 0 && data.memberCount > originUsers.length) {
-        //  还存在子节点
-        for (let i = 0, l = data.children.length; i < l; i++) {
-          const item = data.children[i]
-          item.title = `${item.name}(${item.memberCount})`
-          item.children = []
-          item.loading = false
-          departments.push(item)
-        }
-      }
-      result = departments.concat(members)
-      return result
+      return newData
     },
-    loadData (item, callback) {
-      const id = item.id
-      this.$store.dispatch('queryOrganization', id).then((data) => {
-        callback(this.initChildrenData(data))
-      })
-    },
-    handleCheckChange (list) {
-    },
-    //  memberItem 组件的点击回调
-    handleMemberItemClick (opts) {
+    //  点击成员回调函数
+    handleMemberItemClick (data) {
+      this.$emit('onMemberItemClick', data)
     }
   }
 }
