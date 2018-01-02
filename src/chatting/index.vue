@@ -351,9 +351,9 @@ export default {
       this.$conn.open(options)
     },
     loadClickEvent (e) {
-      let h = document.querySelector('.header')
-      let s = document.querySelector('.sidebar')
-      let c = document.querySelector('.content')
+      let h = document.querySelector('#app > header.header')
+      let s = document.querySelector('#app > aside.sidebar')
+      let c = document.querySelector('#app > section.content')
       if (h.contains(e.target) || s.contains(e.target) || c.contains(e.target)) {
         this.showMesV = false
         this.adddialog = false
