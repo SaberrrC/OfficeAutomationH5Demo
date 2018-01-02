@@ -46,9 +46,9 @@
 	      },
 	      visible: false,
 	      header: {
-        	token: this.$ajax.defaults.headers.common['token'],
-        	uid: this.$ajax.defaults.headers.common['uid']
-          }
+	        token: this.$ajax.defaults.headers.common['token'],
+	        uid: this.$ajax.defaults.headers.common['uid']
+	      }
 	    }
 	  },
 	  methods: {
@@ -98,11 +98,10 @@
 	  },
 
 	  mounted () {
-	    console.log("个人信息",this.$store.state.userInfo)
 	    this.formBasic = this.$store.state.userInfo
-        if (this.formBasic.portrait) {
-          this.visible = true
-        }
+	    if (this.formBasic.portrait) {
+	      this.visible = true
+	    }
 	  }
 	}
 </script>

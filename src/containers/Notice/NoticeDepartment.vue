@@ -101,9 +101,9 @@
 	      uploadList: [],
 	      visible: false,
 	      header: {
-        	token: this.$ajax.defaults.headers.common['token'],
-        	uid: this.$ajax.defaults.headers.common['uid']
-          },
+	        token: this.$ajax.defaults.headers.common['token'],
+	        uid: this.$ajax.defaults.headers.common['uid']
+	      },
 	      ruleValidate: {
 	        title: [{
 	          required: true,

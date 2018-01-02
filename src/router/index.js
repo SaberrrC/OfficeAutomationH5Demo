@@ -201,7 +201,7 @@ const router = new Router({
       children: [
         { path: 'webLogList', component: WebLogList, name: 'WebLogList' },
         { path: 'apiLogList', component: ApiLogList, name: 'ApiLogList' }
-        ]
+      ]
     },
     {
       path: '/user_center',
