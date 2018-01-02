@@ -94,11 +94,11 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
-require('../config/webim.config.js')
-require('strophe')
-require('../assets/js/websdk-1.4.12.js')
-require('../assets/js/adapter.js')
-require('../assets/js/webrtc-1.4.13.js')
+import '@/config/webim.config.js'
+import 'strophe'
+import '@/assets/js/websdk-1.4.12.js'
+import '@/assets/js/adapter.js'
+import '@/assets/js/webrtc-1.4.13.js'
 
 import { mapState } from 'vuex'
 import config from '../config/index'
@@ -341,7 +341,7 @@ export default {
           console.log(list)
         } // 黑名单变动
       })
-      let options = {
+      const options = {
         apiUrl: window.WebIM.config.apiUrl,
         appKey: window.WebIM.config.appkey,
         user: this.imUser.userName,

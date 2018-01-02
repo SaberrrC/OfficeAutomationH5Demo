@@ -109,7 +109,7 @@ const chat = {
               name: result.username,
               img: result.portrait ? result.portrait : store.state.image
             })
-            console.log('获取，uid', tmp)
+            // console.log('获取，uid', tmp)
             fn && fn(tmp)
             let code = result.code
             if (store.state.userInfoDb && store.state.userInfoDb[code]) {
