@@ -3,16 +3,15 @@ import Vuex from 'vuex'
 
 import axios from 'axios'
 
-Vue.use(Vuex);
-
+Vue.use(Vuex)
 
 //  TODO 临时测试环境变量
-const TEST_CONFIG = 'http://118.31.18.67:8084';
+const TEST_CONFIG = 'http://118.31.18.67:8084'
 
 export default new Vuex.Store({
   state: {
     sidebar: [],
-    organization: [],
+    organization: []
   },
   mutations: {
     updateSidebarList (state, newValue) {

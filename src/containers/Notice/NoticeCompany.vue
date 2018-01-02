@@ -76,176 +76,164 @@
 
 <script>
 	export default {
-		name: 'NoticeCompany',
-		data() {
-			const validateUpload = (rule, value, callback) => {
-				if(value.length == 0) {
-					callback(new Error('请至少上传一张图片'));
-				} else {
-					callback();
-				}
-			};
-			return {
-				modal1:true,
-				formItem: {
-					title: "",
-					content: "",
-					noticeClass: "",
-					postType: [],
-					oIds: [],
-					uploadList: [],
-					defaultList: []
-				},
-				release: "",
-				releaseMode: [],
-				oIdsList: [{
-					name: "400",
-					id: "400"
-				}],
-				visible: false,
-				header: {},
-				noticeClassList: [{
-						value: "1",
-						label: "通知"
-					},
-					{
-						value: "2",
-						label: "表彰"
-					},
-					{
-						value: "3",
-						label: "活动"
-					}
-				],
-				ruleValidate: {
-					title: [{
-						required: true,
-						message: '请输入公告标题',
-						trigger: 'blur'
-					}],
-					noticeClass: [{
-						required: true,
-						message: '请选择公告类别',
-						trigger: 'change'
-					}],
-					content: [{
-						required: true,
-						message: '请输入公告内容',
-						trigger: 'blur'
-					}],
-					uploadList: [{
-						required: true,
-						validator: validateUpload,
-						trigger: 'change'
-					}],
-					oIds: [{
-						required: true,
-						type: 'array',
-						message: '请选择发布范围',
-						trigger: 'change'
-					}],
-					postType: [{
-						required: true,
-						type: 'array',
-						min: 1,
-						message: '至少选择一种发布方式',
-						trigger: 'change'
-					}]
-				}
-			}
-		},
-		methods: {
-			//获取发布范围部门名单
-			getDeprtmentList() {
-				this.$ajax({
-					method: 'get',
-					url: '/organization/queryDepartment?departmentName=',
-					headers: {
-						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-						uid: '960'
-					}
-				}).then((res) => {
-					console.log("获取发布范围部门名单", res.data)
-					if(res.data.code == "000000") {
-						this.oIdsList = res.data.data.dataList;
-					} else {
-						this.$Message.error(res.data.message);
-					}
-				}, (res) => {});
-			},
-			handleSuccess(res, file) {
-				console.log(res);
-				if(res.code == "000000") {
-					this.formItem.uploadList.push({
-						url: this.GLOBAL_.IMG_URL + res.data,
-						name: res.data,
-						status: "finished"
-					});
-					this.formItem.defaultList.push(res.data);
-					this.$refs["formItem"].validate((valid) => {
-						if(valid) {
+	  name: 'NoticeCompany',
+	  data () {
+	    const validateUpload = (rule, value, callback) => {
+	      if (value.length === 0) {
+	        callback(new Error('请至少上传一张图片'))
+	      } else {
+	        callback()
+	      }
+	    }
+	    return {
+	      modal1: true,
+	      formItem: {
+	        title: '',
+	        content: '',
+	        noticeClass: '',
+	        postType: [],
+	        oIds: [],
+	        uploadList: [],
+	        defaultList: []
+	      },
+	      release: '',
+	      releaseMode: [],
+	      oIdsList: [{
+	        name: '400',
+	        id: '400'
+	      }],
+	      visible: false,
+	      header: {},
+	      noticeClassList: [{
+	        value: '1',
+	        label: '通知'
+	      },
+	      {
+	        value: '2',
+	        label: '表彰'
+	      },
+	      {
+	        value: '3',
+	        label: '活动'
+	      }],
+	      ruleValidate: {
+	        title: [{
+	          required: true,
+	          message: '请输入公告标题',
+	          trigger: 'blur'
+	        }],
+	        noticeClass: [{
+	          required: true,
+	          message: '请选择公告类别',
+	          trigger: 'change'
+	        }],
+	        content: [{
+	          required: true,
+	          message: '请输入公告内容',
+	          trigger: 'blur'
+	        }],
+	        uploadList: [{
+	          required: true,
+	          validator: validateUpload,
+	          trigger: 'change'
+	        }],
+	        oIds: [{
+	          required: true,
+	          type: 'array',
+	          message: '请选择发布范围',
+	          trigger: 'change'
+	        }],
+	        postType: [{
+	          required: true,
+	          type: 'array',
+	          min: 1,
+	          message: '至少选择一种发布方式',
+	          trigger: 'change'
+	        }]
+	      }
+	    }
+	  },
+	  methods: {
+	// 获取发布范围部门名单
+	    getDeprtmentList () {
+	      this.$ajax({
+	        method: 'get',
+	        url: '/organization/queryDepartment?departmentName=',
+	        headers: {
+	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+	          uid: '960'
+	        }
+	      }).then((res) => {
+	        if (res.data.code === '000000') {
+	          this.oIdsList = res.data.data.dataList
+	        } else {
+	          this.$Message.error(res.data.message)
+	        }
+	      }, (res) => {})
+	    },
+	    handleSuccess (res, file) {
+	      if (res.code === '000000') {
+	        this.formItem.uploadList.push({
+	          url: this.GLOBAL_.IMG_URL + res.data,
+	          name: res.data,
+	          status: 'finished'
+	        })
+	        this.formItem.defaultList.push(res.data)
+	        this.$refs['formItem'].validate((valid) => {})
+	      }
+	    },
 
-						} else {
-							this.$Message.error('Fail!');
-						}
-					})
-				}
-
-			},
-
-			//发布部门公告
-			companySubmit() {
-				var data = {
-					title: this.formItem.title,
-					content: this.formItem.content,
-					noticeType: "1",
-					noticeClass: this.formItem.noticeClass,
-					postTypeList: this.formItem.postType,
-					attachList: this.formItem.defaultList,
-					oIds: this.formItem.oIds.join(",")
-				};
-				console.log(data);
-				this.$ajax({
-					method: 'post',
-					url: '/notice/create',
-					headers: {
-						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-						uid: '960'
-					},
-					data: data
-				}).then((res) => {
-					console.log("发布公司公告", res.data)
-					if(res.data.code == "000000") {
-						this.$Message.success('发布成功');
-					} else {
-						this.$Message.error(res.data.message);
-					}
-				}, (res) => {});
-			},
-			handleSubmit(name) {
-				this.$refs[name].validate((valid) => {
-					if(valid) {
-						this.companySubmit();
-					} else {
-						this.$Message.error('Fail!');
-					}
-				})
-			},
-			handleReset(name) {
-				this.$refs[name].resetFields();
-			}
-		},
-		mounted() {
-			this.header = {
-				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-				uid: '960'
-			};
-			this.getDeprtmentList();
-		},
+	// 发布部门公告
+	    companySubmit () {
+	      var data = {
+	        title: this.formItem.title,
+	        content: this.formItem.content,
+	        noticeType: '1',
+	        noticeClass: this.formItem.noticeClass,
+	        postTypeList: this.formItem.postType,
+	        attachList: this.formItem.defaultList,
+	        oIds: this.formItem.oIds.join(',')
+	      }
+	      this.$ajax({
+	        method: 'post',
+	        url: '/notice/create',
+	        headers: {
+	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+	          uid: '960'
+	        },
+	        data: data
+	      }).then((res) => {
+	        if (res.data.code === '000000') {
+	          this.$Message.success('发布成功')
+	        } else {
+	          this.$Message.error(res.data.message)
+	        }
+	      }, (res) => {})
+	    },
+	    handleSubmit (name) {
+	      this.$refs[name].validate((valid) => {
+	        if (valid) {
+	          this.companySubmit()
+	        } else {
+	          this.$Message.error('Fail!')
+	        }
+	      })
+	    },
+	    handleReset (name) {
+	      this.$refs[name].resetFields()
+	    }
+	  },
+	  mounted () {
+	    this.header = {
+	      token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+	      uid: '960'
+	    }
+	    this.getDeprtmentList()
+	  }
 	}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.notice-company {
 		padding: 16px;

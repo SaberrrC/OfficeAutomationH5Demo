@@ -57,26 +57,16 @@
 <script>
   export default {
     name: 'NewsAdd',
-    data() {
-      const validateURL = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入新闻链接'));
-        } else {
-          if (!/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/.test(value)) {
-            callback(new Error('新闻链接格式有误'));
-          }
-          callback();
-        }
-      };
+    data () {
       return {
         formItem: {
-          newsTitle: "",
-          newsLink: "",
-          newsPhoto: ""
+          newsTitle: '',
+          newsLink: '',
+          newsPhoto: ''
         },
         header: {},
         visible: false,
-        imgUploadUrl: "",
+        imgUploadUrl: '',
         ruleValidate: {
           newsTitle: [{
             required: true,
@@ -85,7 +75,8 @@
           }],
           newsLink: [{
             required: true,
-            validator: validateURL,
+            type: 'url',
+            message: '请输入正确的新闻链接',
             trigger: 'blur'
           }],
           newsPhoto: [{
@@ -98,36 +89,35 @@
       }
     },
     methods: {
-      //上传图片成功
-      handleSuccess(res, file) {
-        console.log(res);
-        if (res.code == "000000") {
-          this.visible = true;
-          this.imgUploadUrl = this.GLOBAL_.IMG_URL + res.data;
-          this.formItem.newsPhoto = res.data;
+      // 上传图片成功
+      handleSuccess (res, file) {
+        if (res.code === '000000') {
+          this.visible = true
+          this.imgUploadUrl = this.GLOBAL_.IMG_URL + res.data
+          this.formItem.newsPhoto = res.data
         } else {
-          this.$Message.error(res.errors);
+          this.$Message.error(res.errors)
         }
       },
 
-      //上传图片前格式验证
-      handleFormatError(file) {
+      // 上传图片前格式验证
+      handleFormatError (file) {
         this.$Notice.warning({
           title: '文件格式不正确',
           desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
-        });
+        })
       },
 
-      //上传图片前图片文件大小验证
-      handleMaxSize(file) {
+      // 上传图片前图片文件大小验证
+      handleMaxSize (file) {
         this.$Notice.warning({
           title: '超出文件大小限制',
           desc: '文件 ' + file.name + ' 太大，不能超过 1M。'
-        });
+        })
       },
 
-      //点击发布新闻
-      submitNews() {
+      // 点击发布新闻
+      submitNews () {
         this.$ajax({
           method: 'post',
           url: '/news/saveNews',
@@ -137,36 +127,32 @@
           },
           data: this.formItem
         }).then((res) => {
-          console.log("newsSubmit", res.data)
-          if (res.data.code == "000000") {
-            this.$Message.success('发布成功');
-            this.formItem.newsTitle = "";
-            this.formItem.newsLink = "";
-            this.formItem.newsPhoto = "";
-            this.visible = false;
+          if (res.data.code === '000000') {
+            this.$Message.success('发布成功')
+            this.formItem.newsTitle = ''
+            this.formItem.newsLink = ''
+            this.formItem.newsPhoto = ''
+            this.visible = false
           } else {
-            this.$Message.error(res.data.message);
+            this.$Message.error(res.data.message)
           }
         }, (res) => {
-        });
+        })
       },
-      handleSubmit(name) {
+      handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.submitNews();
+            this.submitNews()
           }
         })
       },
-      handleReset(name) {
-        this.$refs[name].resetFields();
+      handleReset (name) {
+        this.$refs[name].resetFields()
       }
 
     },
 
-    created() {
-    },
-
-    mounted() {
+    mounted () {
       this.header = {
         token: '73bd4ae0e7f54219aea15e6183d3ed1a',
         uid: '960'

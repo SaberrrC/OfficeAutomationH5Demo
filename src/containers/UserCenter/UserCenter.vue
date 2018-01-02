@@ -7,7 +7,7 @@
 <script>
   export default {
     name: 'UserCenter',
-    created() {
+    created () {
       this.$store.dispatch('querySidebarList', 'user_center')
     }
   }

@@ -7,7 +7,7 @@
 <script>
   export default {
     name: 'news',
-    created() {
+    created () {
       this.$store.dispatch('querySidebarList', 'news')
     }
   }

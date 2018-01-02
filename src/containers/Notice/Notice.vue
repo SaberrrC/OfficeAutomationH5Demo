@@ -7,7 +7,7 @@
 <script>
   export default {
     name: 'notice',
-    created() {
+    created () {
       this.$store.dispatch('querySidebarList', 'notice')
     }
   }

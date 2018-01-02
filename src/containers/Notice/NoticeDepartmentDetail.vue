@@ -70,144 +70,143 @@
 
 <script>
 	export default {
-		name: 'NoticeDepartment',
-		data() {
-			return {
-				formItem: {
-					title: "",
-					content: "",
-					noticeType: 2,
-					noticeClass: "",
-					postTypeList: [],
-					attachPath: [],
-					oIds: "",
-					createTime: ""
-				},
-				noticeClassList: [{
-						value: 1,
-						label: "通知"
-					},
-					{
-						value: 2,
-						label: "表彰"
-					},
-					{
-						value: 3,
-						label: "活动"
-					}
-				],
-				uploadList: [],
-				visible: false,
-				header: {},
-				disable: true
-			}
-		},
-		methods: {
-			handleSuccess(res, file) {
-				console.log(res);
-				if(res.code == "000000") {
-					this.uploadList.push({
-						url: this.GLOBAL_.IMG_URL + res.data,
-						name: res.data,
-						status: "finished"
-					})
-				}
+	  name: 'NoticeDepartmentDetail',
+	  data () {
+	    return {
+	      formItem: {
+	        title: '',
+	        content: '',
+	        noticeType: 2,
+	        noticeClass: '',
+	        postTypeList: [],
+	        attachPath: [],
+	        oIds: '',
+	        createTime: ''
+	      },
+	      noticeClassList: [{
+	        value: 1,
+	        label: '通知'
+	      },
+	      {
+	        value: 2,
+	        label: '表彰'
+	      },
+	      {
+	        value: 3,
+	        label: '活动'
+	      }],
+	      uploadList: [],
+	      visible: false,
+	      header: {},
+	      disable: true
+	    }
+	  },
+	  methods: {
+	    handleSuccess (res, file) {
+	      if (res.code === '000000') {
+	        this.uploadList.push({
+	          url: this.GLOBAL_.IMG_URL + res.data,
+	          name: res.data,
+	          status: 'finished'
+	        })
+	      }
+	    },
 
-			},
-
-			//获取公司公告详情信息
-			getDepartmentData() {
-				var id = this.$route.params.id;
-				this.$ajax({
-					method: 'get',
-					url: '/notice/' + id,
-					headers: {
-						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-						uid: '960'
-					},
-				}).then((res) => {
-					console.log("获取公司公告详情信息", res.data)
-					if(res.data.code == "000000") {
-						var result = res.data.data;
-						if(result.length != 0) {
-							this.formItem = result[0];
-						}
-					} else {
-						this.$Message.error(res.data.message);
-					}
-				}, (res) => {});
-			},
-			exit() {
-				if(this.$route.params.type == 2) {
-					this.$router.push({
-						path: '/notice/to'
-					})
-				}
-				if(this.$route.params.type == 1) {
-					this.$router.push({
-						path: '/notice/from'
-					})
-				}
-			},
-			//判断浏览器类型
-			myBrowser() {
-				var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
-				var isOpera = userAgent.indexOf("Opera") > -1;
-				if(isOpera) {
-					return "Opera"
-				}; //判断是否Opera浏览器
-				if(userAgent.indexOf("Firefox") > -1) {
-					return "FF";
-				} //判断是否Firefox浏览器
-				if(userAgent.indexOf("Chrome") > -1) {
-					return "Chrome";
-				}
-				if(userAgent.indexOf("Safari") > -1) {
-					return "Safari";
-				} //判断是否Safari浏览器
-				if(userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
-					return "IE";
-				}; //判断是否IE浏览器
-				if(userAgent.indexOf("Trident") > -1) {
-					return "Edge";
-				} //判断是否Edge浏览器
-			},
-			SaveAs5(imgURL) {
-				var oPop = window.open(imgURL, "", "width=1, height=1, top=5000, left=5000");
-				for(; oPop.document.readyState != "complete";) {
-					if(oPop.document.readyState == "complete") break;
-				}
-				oPop.document.execCommand("SaveAs");
-				oPop.close();
-			},
-			oDownLoad(url,index) {
-				alert(index);
-				var odownLoad = document.getElementsByClassName("downLoad")[index];
-				console.log(odownLoad)
-				if(this.myBrowser() === "IE" || this.myBrowser() === "Edge") {
-					//IE
-					odownLoad.href = "#";
-					var oImg = document.createElement("img");
-					oImg.src = url;
-					oImg.id = "downImg";
-					var odown = document.getElementById("down");
-					odown.appendChild(oImg);
-					this.SaveAs5(document.getElementById('downImg').src)
-				} else {
-					//!IE
-					odownLoad.href = url;
-					odownLoad.download = "";
-				}
-			}
-		},
-		mounted() {
-			//			this.uploadList = this.$refs.upload.fileList;
-			this.header = {
-				token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-				uid: '960'
-			};
-			this.getDepartmentData();
-		}
+	// 获取公司公告详情信息
+	    getDepartmentData () {
+	      let id = this.$route.params.id
+	      this.$ajax({
+	        method: 'get',
+	        url: '/notice/' + id,
+	        headers: {
+	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+	          uid: '960'
+	        }
+	      }).then((res) => {
+	        if (res.data.code === '000000') {
+	          let result = res.data.data
+	          if (result.length !== 0) {
+	            this.formItem = result[0]
+	          }
+	        } else {
+	          this.$Message.error(res.data.message)
+	        }
+	      }, (res) => {})
+	    },
+	    exit () {
+	      if (this.$route.params.type === 2) {
+	        this.$router.push({
+	          path: '/notice/to'
+	        })
+	      }
+	      if (this.$route.params.type === 1) {
+	        this.$router.push({
+	          path: '/notice/from'
+	        })
+	      }
+	    },
+	// 判断浏览器类型
+	    myBrowser () {
+	    // 取得浏览器的userAgent字符串
+	      let userAgent = navigator.userAgent
+	      let isOpera = userAgent.indexOf('Opera') > -1
+	      // 判断是否Opera浏览器
+	      if (isOpera) {
+	        return 'Opera'
+	      }
+	      // 判断是否Firefox浏览器
+	      if (userAgent.indexOf('Firefox') > -1) {
+	        return 'FF'
+	      }
+	      if (userAgent.indexOf('Chrome') > -1) {
+	        return 'Chrome'
+	      }
+	      // 判断是否Safari浏览器
+	      if (userAgent.indexOf('Safari') > -1) {
+	        return 'Safari'
+	      }
+	      // 判断是否IE浏览器
+	      if (userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1 && !isOpera) {
+	        return 'IE'
+	      }
+	    // 判断是否Edge浏览器
+	      if (userAgent.indexOf('Trident') > -1) {
+	        return 'Edge'
+	      }
+	    },
+	    SaveAs5 (imgURL) {
+	      let oPop = window.open(imgURL, '', 'width=1, height=1, top=5000, left=5000')
+	      for (; oPop.document.readyState !== 'complete';) {
+	        if (oPop.document.readyState === 'complete') break
+	      }
+	      oPop.document.execCommand('SaveAs')
+	      oPop.close()
+	    },
+	    oDownLoad (url, index) {
+	      let odownLoad = document.getElementsByClassName('downLoad')[index]
+	      if (this.myBrowser() === 'IE' || this.myBrowser() === 'Edge') {
+	// IE
+	        odownLoad.href = '#'
+	        let oImg = document.createElement('img')
+	        oImg.src = url
+	        oImg.id = 'downImg'
+	        let odown = document.getElementById('down')
+	        odown.appendChild(oImg)
+	        this.SaveAs5(document.getElementById('downImg').src)
+	      } else {
+	// !IE
+	        odownLoad.href = url
+	        odownLoad.download = ''
+	      }
+	    }
+	  },
+	  mounted () {
+	    this.header = {
+	      token: '73bd4ae0e7f54219aea15e6183d3ed1a',
+	      uid: '960'
+	    }
+	    this.getDepartmentData()
+	  }
 	}
 </script>
 
