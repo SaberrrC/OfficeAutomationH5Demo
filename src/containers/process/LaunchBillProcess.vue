@@ -56,7 +56,7 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="申请人">
-                        <span>朱展宏</span>
+                        <span>{{ billTitle.user }}</span>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -169,7 +169,7 @@
                       <Input
                         placeholder="请选择交接人"
                         icon="person"
-                        v-model="billDetail.handOverPepole"
+                        v-model="billDetailHandOverPepole.name"
                         @on-focus="checkHandOverPepole()"></Input>
                     </FormItem>
 
@@ -267,7 +267,11 @@
                   <Row>
                     <i-Col :lg="{span:6}" :md="{span:8}" :sm="{span:10}" :xs="{span:12}">
                       <FormItem label="工作交接人" prop="handOverPepole">
-                        <Input placeholder="请选择交接人" icon="person" v-model="addBill.handOverPepole"></Input>
+                        <Input placeholder="请选择交接人"
+                               icon="person"
+                               v-model="billAddHandOverPepole.name"
+                               @on-focus="checkAddHandOverPepole()"
+                        ></Input>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -297,6 +301,30 @@
       v-model="checkUser"
       title="选择工作交接人"
       @on-ok="ok"
+    >
+      <div style="border: 1px solid #cccccc;padding: 10px;width: 50%;margin-left: 25%;max-height: 400px;overflow: auto">
+        <ul>
+          <Form>
+            <RadioGroup v-model="handOverPepoleIndex">
+              <li v-for="(title,key) in handOverPepole">
+                <row>
+                  <i-Col span="18" offset="6">
+                    <FormItem>
+                      <Radio :label="key"><span>{{title.name}}</span></Radio>
+                    </FormItem>
+                  </i-Col>
+                </row>
+              </li>
+            </RadioGroup>
+          </Form>
+        </ul>
+      </div>
+    </Modal>
+
+    <Modal
+      v-model="checkAddUser"
+      title="选择工作交接人"
+      @on-ok="handleAddOk"
     >
       <div style="border: 1px solid #cccccc;padding: 10px;width: 50%;margin-left: 25%;max-height: 400px;overflow: auto">
         <ul>
@@ -366,7 +394,10 @@
       }
       return {
         checkUser: false,
+        checkAddUser: false,
         handOverPepole: [],
+        billDetailHandOverPepole: {},
+        billAddHandOverPepole: {},
         handOverPepoleIndex: 0,
         showAddBill: false,
         showAddbillButton: true,
@@ -374,7 +405,8 @@
         billTitle: {
           billCode: '',          // 出差单号
           type: '',              // 出差类别
-          applyDate: ''          // 申请日期
+          applyDate: '',          // 申请日期
+          user: this.$store.state.userInfo.username
         },
         type: [],              // 出差类别
         nchrevectionApplyDetail: [],               // 出差明细
@@ -384,7 +416,6 @@
           evectionAddress: '',   // 出差地点
           evectionRemark: '',    // 出差原因
           handOverPepole: '',     // 工作交接人
-          handOverPepolepk_psnjob: '',     // 工作交接人
           timeDifference: ''     // 时长
         },
         addBill: {
@@ -530,7 +561,7 @@
         }
 //      调添加出差申请接口   // TODO
         var len = this.nchrevectionApplyDetail.length
-        console.log('nchrevectionApplyDetail=',this.nchrevectionApplyDetail)
+        console.log('nchrevectionApplyDetail=', this.nchrevectionApplyDetail)
         for (var i = 0; i < len; i++) {
           var start = new Date(this.nchrevectionApplyDetail[i].startTime)
           var startYear = start.getFullYear()
@@ -734,12 +765,22 @@
       checkHandOverPepole () {
         this.checkUser = true
       },
+      //    选择工作交接人
+      checkAddHandOverPepole () {
+        this.checkAddUser = true
+      },
       ok () {
-        this.billDetail.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].name
-        this.billDetail.handOverPepolepk_psnjob = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
-        console.log(this.billDetail)
+        this.billDetailHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
+        this.billDetail.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
+        console.log(this.billDetailHandOverPepole)
         this.$refs.billDetail.validateField('handOverPepole')
 //        console.log(this.$refs.billDetail)
+      },
+      handleAddOk () {
+        this.billAddHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
+        this.addBill.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
+        console.log(this.billDetailHandOverPepole)
+        this.$refs.addBill.validateField('handOverPepole')
       },
 //    页面关闭
       pageClose () {

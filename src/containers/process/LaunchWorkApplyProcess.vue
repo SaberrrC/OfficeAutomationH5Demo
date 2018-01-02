@@ -56,7 +56,7 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="申请人">
-                        <span>朱展宏</span>
+                        <span>{{ workApplyTitle.user }}</span>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -272,7 +272,8 @@
         workApplyTitle: {
           workApplyCode: '',          // 加班单号
           type: '',              // 加班类别
-          applyDate: ''          // 申请日期
+          applyDate: '',          // 申请日期
+          user: this.$store.state.userInfo.username
         },
         type: [],              // 加班类别
         nCHREvectionApplyDeatil: [],               // 加班明细
