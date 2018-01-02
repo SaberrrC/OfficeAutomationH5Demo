@@ -232,7 +232,7 @@
 				console.log(data);
 				this.$ajax({
 					method: 'post',
-					url: '/oa-web/notice/create',
+					url: '/notice/create',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'

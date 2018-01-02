@@ -43,7 +43,7 @@
 					<tr>
 						<td>
 							<FormItem label="相关附件">
-								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" action="/oa-web/notice/upload">
+								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" action="/notice/upload">
 									<Button type="ghost" icon="ios-cloud-upload-outline" :disabled="disable">上传附件</Button>
 								</Upload>
 								<div v-if="formItem.attachList">
@@ -120,7 +120,7 @@
 				var id = this.$route.params.id;
 				this.$ajax({
 					method: 'get',
-					url: '/oa-web/notice/' + id,
+					url: '/notice/' + id,
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'

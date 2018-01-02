@@ -247,7 +247,7 @@
 			getNoticeData() {
 				this.$ajax({
 					method: 'get',
-					url: '/oa-web/notice',
+					url: '/notice',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
@@ -280,7 +280,7 @@
 				console.log("params", params);
 				this.$ajax({
 					method: 'post',
-					url: '/oa-web/notice/noticeIsShowHome',
+					url: '/notice/noticeIsShowHome',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'

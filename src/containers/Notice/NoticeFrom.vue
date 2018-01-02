@@ -237,7 +237,7 @@
 			getNoticeData() {
 				this.$ajax({
 					method: 'get',
-					url: '/oa-web/notice',
+					url: '/notice',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'

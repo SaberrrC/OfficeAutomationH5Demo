@@ -10,16 +10,7 @@ module.exports = {
 		// Paths
 		assetsSubDirectory: 'static',
 		assetsPublicPath: '/',
-		proxyTable: {
-			'/oa-web': {
-				target: 'http://10.255.232.234/oa-api',
-				//				target: 'http://118.31.18.67:8084',
-				pathRewrite: {
-					'^/oa-web': '/'
-				},
-				changeOrigin: true
-			}
-		},
+		proxyTable: {},
 
 		// Various Dev Server settings
 		host: '0.0.0.0', // can be overwritten by process.env.HOST
@@ -33,7 +24,7 @@ module.exports = {
 		// Use Eslint Loader?
 		// If true, your code will be linted during bundling and
 		// linting errors and warnings will be shown in the console.
-		useEslint: false,
+		useEslint: true,
 		// If true, eslint errors and warnings will also be shown in the error overlay
 		// in the browser.
 		showEslintErrorsInOverlay: false,

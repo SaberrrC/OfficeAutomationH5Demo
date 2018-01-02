@@ -50,7 +50,7 @@
 					callback();
 				}
 			};
-			return {  
+			return {
 				formCustom: {
 					oldpassword: "",
 					newpassword: "",
@@ -80,7 +80,7 @@
 					if(valid) {
 						this.$ajax({
 							method: 'post',
-							url: '/oa-web/user/changepwd',
+							url: '/user/changepwd',
 							headers: {
 								token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 								uid: '960'

@@ -130,7 +130,7 @@
 			getNewsData() {
 				this.$ajax({
 					method: 'get',
-					url: '/oa-web/news/getNewsList',
+					url: '/news/getNewsList',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
@@ -160,7 +160,7 @@
 				console.log("params", params);
 				this.$ajax({
 					method: 'post',
-					url: '/oa-web/news/isShowHome',
+					url: '/news/isShowHome',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
@@ -184,7 +184,7 @@
 			delNews(params) {
 				this.$ajax({
 					method: 'get',
-					url: '/oa-web/news/deleteNews',
+					url: '/news/deleteNews',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'

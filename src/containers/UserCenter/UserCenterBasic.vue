@@ -22,7 +22,7 @@
 					<div class="upload-img">
 						<img :src="formBasic.portrait" v-if="visible">
 					</div>
-					<Upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" action="/oa-web/user/upload" :headers="header" style="display: inline-block;">
+					<Upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" action="/user/upload" :headers="header" style="display: inline-block;">
 						<Button type="primary" style="width:100px;">点击上传</Button>
 					</Upload>
 				</FormItem>
@@ -78,7 +78,7 @@
 			getUserInfoById() {
 				this.$ajax({
 					method: 'get',
-					url: '/oa-web/user/getUserInfoById',
+					url: '/user/getUserInfoById',
 					headers: {
 						token: '73bd4ae0e7f54219aea15e6183d3ed1a',
 						uid: '960'
