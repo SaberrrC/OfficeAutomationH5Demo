@@ -1,6 +1,6 @@
 <template>
 	<div class="work-report-my-apply">
-		<Card>
+		<Card shadow>
 			<div slot="title">
 				<Form :label-width="80">
 					<Row>
@@ -22,8 +22,8 @@
 				</Form>
 			</div>
 
-			<Table height="450" :columns="dailycolumns" :data="DailyData" v-if="visible" no-data-text></Table>
-			<Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible" no-data-text></Table>
+			<Table height="450" :columns="dailycolumns" :data="DailyData" v-if="visible"></Table>
+			<Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible"></Table>
 			<br />
 			<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
 		</Card>
@@ -202,8 +202,8 @@ export default {
           ])
         }
       }],
-      DailyData: [{}],
-      WeeklyData: [{}]
+      DailyData: [],
+      WeeklyData: []
     }
   },
   methods: {
@@ -271,7 +271,10 @@ export default {
           this.DailyData = result.data
           this.total = result.total
         } else {
-
+          if (res.data.code === '020000') {
+            this.DailyData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 
@@ -293,7 +296,10 @@ export default {
           this.WeeklyData = result.data
           this.total = result.total
         } else {
-
+          if (res.data.code === '020000') {
+            this.WeeklyData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 

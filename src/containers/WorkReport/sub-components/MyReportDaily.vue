@@ -1,6 +1,6 @@
 <template>
 	<div class="work-report-daily">
-		<Card>
+		<Card shadow>
 			<p slot="title" style="text-align: center;">
 				日工作汇报
 			</p>
@@ -329,6 +329,10 @@ export default {
     console.log('##### WorkReportDaily created')
   },
   mounted () {
+    this.getData()
+  },
+  activated () {
+    this.dailyid = this.$route.params.id
     this.getData()
   }
 }

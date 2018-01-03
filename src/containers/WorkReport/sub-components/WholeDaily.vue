@@ -2,7 +2,7 @@
   <div class="whole-daily">
 
 
-    <Card>
+    <Card shadow>
       <p slot="title" style="text-align: center;">
         日工作汇报
       </p>
@@ -21,7 +21,7 @@
 
 
 
-    <Card style="margin-top: 20px;" v-show="showDetail">
+    <Card style="margin-top: 20px;" v-show="showDetail" shadow>
       <div class="card">
         <Row>
           <Col span="24">
@@ -257,44 +257,7 @@ export default {
           align: 'center'
         }
       ],
-      listData: [
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          dailyTime: '2017-10-03',
-          state: '已评分',
-          remarks: '',
-          score: 90
-        },
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          dailyTime: '2017-10-03',
-          state: '已评分',
-          remarks: '',
-          score: 90
-        },
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          dailyTime: '2017-10-03',
-          state: '已评分',
-          remarks: '',
-          score: 90
-        },
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          dailyTime: '2017-10-03',
-          state: '已评分',
-          remarks: '',
-          score: 90
-        }
-      ],
+      listData: [],
       showDetail: false,
       current: 1,
       total: 0,
@@ -399,7 +362,10 @@ export default {
           this.listData = result.data
           this.total = result.total
         } else {
-          this.listData = []
+          if (res.data.code === '020000') {
+            this.listData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 

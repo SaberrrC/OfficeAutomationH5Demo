@@ -1,6 +1,6 @@
 <template>
 	<div class="work-report-weekly">
-		<Card>
+		<Card shadow>
 			<p slot="title" style="text-align: center;">本周工作总结</p>
 
 			<Row>
@@ -190,6 +190,9 @@ export default {
     }
   },
   mounted () {
+    this.getReportWeeklyData()
+  },
+  activated () {
     this.getReportWeeklyData()
   }
 }

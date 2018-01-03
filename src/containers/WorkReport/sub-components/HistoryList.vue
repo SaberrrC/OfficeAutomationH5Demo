@@ -3,7 +3,7 @@
 		<Row>
 			<Col></Col>
 		</Row>
-		<Card>
+		<Card shadow>
 			<div slot="title">
 				<Form :label-width="80">
 					<Row>
@@ -141,40 +141,8 @@ export default {
           ])
         }
       }],
-      DailyData: [{
-        type: '日报',
-        name: '丁通',
-        reportTime: '2017-10-09',
-        submitTime: '2017-10-09',
-        status: '已评分',
-        judgeof: '优秀',
-        score: 90
-      }, {
-        type: '日报',
-        name: '丁通',
-        reportTime: '2017-10-09',
-        submitTime: '2017-10-09',
-        status: '已评分',
-        judgeof: '优秀',
-        score: 90
-      }, {
-        type: '日报',
-        name: '丁通',
-        reportTime: '2017-10-09',
-        submitTime: '2017-10-09',
-        status: '已评分',
-        judgeof: '优秀',
-        score: 90
-      }, {
-        type: '日报',
-        name: '丁通',
-        reportTime: '2017-10-09',
-        submitTime: '2017-10-09',
-        status: '已评分',
-        judgeof: '优秀',
-        score: 90
-      }],
-      WeeklyData: [{}],
+      DailyData: [],
+      WeeklyData: [],
       total: 0,
       pageNum: 1,
       pageSize: 10
@@ -263,7 +231,10 @@ export default {
           this.DailyData = result.data
           this.total = result.total
         } else {
-          this.$Message.error(res.data.message)
+          if (res.data.code === '020000') {
+            this.DailyData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 
@@ -287,7 +258,10 @@ export default {
           this.WeeklyData = result.data
           this.total = result.total
         } else {
-          this.$Message.error(res.data.message)
+          if (res.data.code === '020000') {
+            this.WeeklyData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 

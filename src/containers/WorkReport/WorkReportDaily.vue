@@ -1,6 +1,6 @@
 <template>
 	<div class="work-report-daily">
-		<Card>
+		<Card shadow>
 			<Modal v-model="showDraft" title="信息" @on-ok="drawDraft">
 				<p>是否导入草稿？</p>
 			</Modal>
