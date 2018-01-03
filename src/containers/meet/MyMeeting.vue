@@ -272,15 +272,14 @@ export default {
       if (row.start_time <= time) {
         this.$Message.error('当前会议已过期，请选择其他会议')
       } else {
-        this.$router.push({path: 'time', query: {meet_id: row.id, roomId: row.room_id, meet_time: row.start_time, send_type: row.send_type}})
+        this.$router.push({path: 'time', query: {meet_id: row.id, roomId: row.room_id, meet_time: row.start_time}})
       }
     },
     remove (row, index) {
       let myDate = new Date()
       let time = Math.round(myDate.getTime() / 1000)      // 当前时间戳
       let data = {
-        id: row.id,
-        send_type: row.send_type   //  TODO  后期需修改
+        id: row.id
       }
       const title = '确认'
       const content = '<p>确认是否取消该会议？</p>'

@@ -1,6 +1,6 @@
 <template>
   <div class="work-report-daily">
-    <Card>
+    <Card :dis-hover="true">
       <p slot="title">
         <span>选择时间</span>
         <br>
@@ -42,7 +42,7 @@
       return {
         nowTime: this.$route.query.meet_time ? parseInt(this.$route.query.meet_time) : parseInt(new Date().getTime() / 1000), // 当前时间戳
         meet_id: this.$route.query.meet_id ? this.$route.query.meet_id : '',                    //    会议id
-        send_type: this.$route.query.send_type ? this.$route.query.send_type : '',                    //    发送方式
+       // send_type: this.$route.query.send_type ? this.$route.query.send_type : '',                    //    发送方式
         roomId: this.$route.query.roomId,
         roomName: this.$route.query.roomName,
         nop: this.$route.query.nop,
@@ -391,8 +391,7 @@
                 var data = {
                   meeting_id: this.meet_id,
                   start_time: startTime,
-                  end_time: endTime,
-                  send_type: this.send_type
+                  end_time: endTime
                 }
                 this.$ajax.post(`/newMeetings/updateMeeting`, qs.stringify(data), {
                 }).then((response) => {
