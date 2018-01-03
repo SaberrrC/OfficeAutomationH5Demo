@@ -29,8 +29,11 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 Vue.prototype.$ajax = axios
+window.CONFIG = {
+  IMG_URL: 'http://10.255.232.234:96'
+}
 Vue.prototype.GLOBAL_ = {
-  IMG_URL: 'http://118.31.18.67:96',
+  IMG_URL: 'http://10.255.232.234:96',
   FORMAT_TIME: function (val) {
     let date = val ? new Date(val) : new Date()
     let y = date.getFullYear()

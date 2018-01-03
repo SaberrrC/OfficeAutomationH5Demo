@@ -23,6 +23,7 @@
 </template>
 
 <script>
+	import qs from 'qs'
 	export default {
 	  name: 'UserCenterEmail',
 	  data () {
@@ -56,9 +57,9 @@
 	      this.$ajax({
 	        method: 'post',
 	        url: '/user/updateEmail',
-	        data: {
+	        data: qs.stringify({
 	          email: this.email + this.emailSuffix
-	        }
+	        })
 	      }).then((res) => {
 	        if (res.data.code === '000000') {
 	          this.$Message.success('邮箱地址修改成功')

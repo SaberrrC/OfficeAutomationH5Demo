@@ -98,6 +98,7 @@
           this.visible = true
           this.imgUploadUrl = this.GLOBAL_.IMG_URL + res.data
           this.formItem.newsPhoto = res.data
+          this.$refs['formItem'].validate((valid) => {})
         } else {
           this.$Message.error(res.errors)
         }
