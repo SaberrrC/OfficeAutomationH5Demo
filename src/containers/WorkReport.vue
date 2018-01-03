@@ -12,3 +12,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .work-report{
+    height: 88vh;
+    overflow: auto;
+  }
+</style>
