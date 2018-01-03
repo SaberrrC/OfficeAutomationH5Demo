@@ -162,7 +162,9 @@ const chat = {
   userSearch (name) { // 搜索用户
     return new Promise(function (resolve, reject) {
       try {
-        window.axios.post(config.OA_API + '/phoneBook/searchPhoneBook', {name: name}).then((response) => {
+        window.axios.post(config.OA_API + '/phoneBook/searchPhoneBook', qs.stringify({
+          name: name
+        })).then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data
             setTimeout(function () {
@@ -476,7 +478,32 @@ const chat = {
         reject(error)
       }
     })
-   },
+  },
+  getSetting () {
+    return new Promise(function (resolve, reject) {
+      try {
+        window.axios.get(config.OA_API + '/user/getMessageSetting', {
+          params: {
+            uid: store.state.userinfo.uid
+          }
+        }).then((response) => {
+          console.log(response)
+          if (response.data && response.data.code === '000000') {
+            const result = qs.parse(response.data.data.value)
+            if (result.desktop === 1 || result.title === 0) {
+              resolve('desktop')
+            } else {
+              resolve('title')
+            }
+          } else {
+            resolve('title')
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    })
+  },
   ReCont (strCont) {
     let emotion = [
       { name: 'ee_1.png', text: '[):]' },
