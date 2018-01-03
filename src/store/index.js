@@ -146,6 +146,48 @@ const store = new Vuex.Store({
         ]
         context.commit('updateSidebarList', LogList)
       }
+      if (id === 'user_center') {
+        context.commit('updateSidebarList', [
+          {
+            iconType: 'person',
+            name: '个人中心',
+            id: 'user_center',
+            children: [
+              {name: '个人中心', id: 'basic'},
+              {name: '修改密码', id: 'password'},
+              {name: '修改邮箱', id: 'email'}
+            ]
+          }
+        ])
+      }
+      if (id === 'notice') {
+        context.commit('updateSidebarList', [
+          {
+            iconType: 'ios-chatboxes-outline',
+            name: '公告管理',
+            id: 'notice',
+            children: [
+              {name: '接收列表', id: 'from'},
+              {name: '发起列表', id: 'to'},
+              {name: '部门公告', id: 'department'},
+              {name: '公司公告', id: 'company'}
+            ]
+          }
+        ])
+      }
+      if (id === 'news') {
+        context.commit('updateSidebarList', [
+          {
+            iconType: 'ios-world-outline',
+            name: '新闻管理',
+            id: 'news_admin',
+            children: [
+              {name: '发布新闻', id: 'add'},
+              {name: '新闻列表', id: 'all'}
+            ]
+          }
+        ])
+      }
     },
     queryOrganization (context, departmentId = '1') {
       return axios.get('/organization/queryOrgAndUser', {

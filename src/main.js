@@ -18,6 +18,18 @@ axios.defaults.transformRequest = [(data) => {
   return qs.stringify(data || {})
 }]
 Vue.prototype.$ajax = axios
+Vue.prototype.GLOBAL_ = {
+  IMG_URL: 'http://118.31.18.67:96',
+  FORMAT_TIME: function (val) {
+    let date = val ? new Date(val) : new Date()
+    let y = date.getFullYear()
+    let m = date.getMonth() + 1
+    m = m < 10 ? '0' + m : m
+    let d = date.getDate()
+    d = d < 10 ? ('0' + d) : d
+    return y + '-' + m + '-' + d
+  }
+}
 
 Vue.use(iView)
 Vue.config.productionTip = false
@@ -33,5 +45,7 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: {
+    App
+  }
 })

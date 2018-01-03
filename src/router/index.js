@@ -29,6 +29,7 @@ import DepartmentList from '@/containers/WorkReport/sub-components/DepartmentLis
 import DepartmentDaily from '@/containers/WorkReport/sub-components/DepartmentDaily'
 import DepartmentWeekly from '@/containers/WorkReport/sub-components/DepartmentWeekly'
 import Setting from '@/containers/Setting'
+
 import Login from '@/containers/Login'
 import Help from '@/containers/Help'
 import AttendAdmin from '@/containers/AttendAdmin'
@@ -63,6 +64,22 @@ import HaveToDoProcess from '../containers/process/HaveToDoProcess.vue'
 import LogAdmin from '../containers/log/LogAdmin.vue'
 import WebLogList from '../containers/log/WebLogList.vue'
 import ApiLogList from '../containers/log/ApiLogList.vue'
+
+import UserCenter from '@/containers/UserCenter/UserCenter'
+import UserCenterBasic from '@/containers/UserCenter/UserCenterBasic'
+import UserCenterPassword from '@/containers/UserCenter/UserCenterPassword'
+import UserCenterEmail from '@/containers/UserCenter/UserCenterEmail'
+import Notice from '@/containers/Notice/Notice'
+import NoticeFrom from '@/containers/Notice/NoticeFrom'
+import NoticeTo from '@/containers/Notice/NoticeTo'
+import NoticeDepartment from '@/containers/Notice/NoticeDepartment'
+import NoticeDepartmentDetail from '@/containers/Notice/NoticeDepartmentDetail'
+import NoticeCompany from '@/containers/Notice/NoticeCompany'
+import NoticeCompanyDetail from '@/containers/Notice/NoticeCompanyDetail'
+import News from '@/containers/News/News'
+import NewsAdd from '@/containers/News/NewsAdd'
+import NewsAll from '@/containers/News/NewsAll'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -351,6 +368,85 @@ const router = new Router({
       children: [
         { path: 'webLogList', component: WebLogList, name: 'WebLogList' },
         { path: 'apiLogList', component: ApiLogList, name: 'ApiLogList' }
+      ]
+    },
+    {
+      path: '/user_center',
+      name: 'UserCenter',
+      component: UserCenter,
+      redirect: '/user_center/basic',
+      children: [
+        {
+          path: 'basic',
+          name: 'UserCenterBasic',
+          component: UserCenterBasic
+        },
+        {
+          path: 'password',
+          name: 'UserCenterPassword',
+          component: UserCenterPassword
+        },
+        {
+          path: 'email',
+          name: 'UserCenterEmail',
+          component: UserCenterEmail
+        }
+      ]
+    },
+    {
+      path: '/notice',
+      name: 'Notice',
+      component: Notice,
+      redirect: '/notice/from',
+      children: [
+        {
+          path: 'from',
+          name: 'NoticeFrom',
+          component: NoticeFrom
+        },
+        {
+          path: 'to',
+          name: 'NoticeTo',
+          component: NoticeTo
+        },
+        {
+          path: 'department',
+          name: 'NoticeDepartment',
+          component: NoticeDepartment
+        },
+        {
+          path: 'company',
+          name: 'NoticeCompany',
+          component: NoticeCompany
+        },
+        {
+          path: 'department_detail',
+          name: 'NoticeDepartmentDetail',
+          component: NoticeDepartmentDetail
+        },
+        {
+          path: 'company_detail',
+          name: 'NoticeCompanyDetail',
+          component: NoticeCompanyDetail
+        }
+      ]
+    },
+    {
+      path: '/news_admin',
+      name: 'News',
+      component: News,
+      redirect: '/news_admin/add',
+      children: [
+        {
+          path: 'add',
+          name: 'NewsAdd',
+          component: NewsAdd
+        },
+        {
+          path: 'all',
+          name: 'NewsAll',
+          component: NewsAll
+        }
       ]
     }
   ]
