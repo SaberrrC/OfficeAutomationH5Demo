@@ -34,12 +34,14 @@
                 <Icon :type="item.iconType"/>
                 {{item.name}}
               </DropdownItem>
+              <!--
               <DropdownItem
                 name="setting"
                 divided>
                 <Icon type="gear-a"/>
                 设置
               </DropdownItem>
+              -->
             </DropdownMenu>
           </Dropdown>
         </MenuItem>
