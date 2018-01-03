@@ -59,6 +59,7 @@
               ref="selection"
               :columns="haveTodoListHeader"
               :data="haveTodoList"
+              height="450"
               @on-row-click="showInfo">
             </Table>
             </div>
@@ -143,7 +144,9 @@
           {
             title: '审批时间',
             key: 'dealDate',
-            align: 'center'
+            align: 'center',
+            sortable: true,
+            width: 200
           }
         ],
         haveTodoList: []

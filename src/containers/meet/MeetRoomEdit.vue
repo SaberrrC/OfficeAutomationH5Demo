@@ -79,7 +79,7 @@
     </Modal>
   <div class="work-report-daily">
     <Card :dis-hover="true">
-      <Table  :columns="tableHead" :data="roomList"></Table>
+      <Table  :columns="tableHead" :data="roomList" height="450"></Table>
     </Card>
   </div>
   </div>
