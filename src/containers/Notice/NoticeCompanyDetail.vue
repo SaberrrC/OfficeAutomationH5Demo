@@ -122,11 +122,7 @@
 	      let id = this.$route.params.id
 	      this.$ajax({
 	        method: 'get',
-	        url: '/notice/' + id,
-	        headers: {
-	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-	          uid: '960'
-	        }
+	        url: '/notice/' + id
 	      }).then((res) => {
 	        if (res.data.code === '000000') {
 	          let result = res.data.data

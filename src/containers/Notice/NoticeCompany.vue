@@ -161,11 +161,7 @@
 	    getDeprtmentList () {
 	      this.$ajax({
 	        method: 'get',
-	        url: '/organization/queryDepartment?departmentName=',
-	        headers: {
-	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-	          uid: '960'
-	        }
+	        url: '/organization/queryDepartment?departmentName='
 	      }).then((res) => {
 	        if (res.data.code === '000000') {
 	          this.oIdsList = res.data.data.dataList
@@ -200,10 +196,6 @@
 	      this.$ajax({
 	        method: 'post',
 	        url: '/notice/create',
-	        headers: {
-	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-	          uid: '960'
-	        },
 	        data: data
 	      }).then((res) => {
 	        if (res.data.code === '000000') {

@@ -141,15 +141,6 @@
 	    }
 	  },
 	  methods: {
-	    getTime () {
-	      let date = new Date()
-	      let y = date.getFullYear()
-	      let m = date.getMonth() + 1
-	      m = m < 10 ? '0' + m : m
-	      let d = date.getDate()
-	      d = d < 10 ? ('0' + d) : d
-	      return y + '-' + m + '-' + d
-	    },
 	    handleView (name) {
 	      this.imgName = name
 	      this.visible = true
@@ -206,10 +197,6 @@
 	      this.$ajax({
 	        method: 'post',
 	        url: '/notice/create',
-	        headers: {
-	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-	          uid: '960'
-	        },
 	        data: data
 	      }).then((res) => {
 	        if (res.data.code === '000000') {

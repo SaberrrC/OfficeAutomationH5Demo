@@ -19,15 +19,6 @@ axios.defaults.transformRequest = [(data) => {
   return qs.stringify(data || {})
 }]
 */
-axios.interceptors.response.use(function (response) {
-  // 对响应数据做点什么
-  console.log('lanjie', response)
-  return response
-}, function (error) {
-  // 对响应错误做点什么
-  console.log(error)
-  return Promise.reject(error)
-})
 Vue.prototype.$ajax = axios
 window.CONFIG = {
   IMG_URL: 'http://10.255.232.234:96'
