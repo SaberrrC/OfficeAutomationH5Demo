@@ -62,6 +62,8 @@
                 <Upload
                   :action="action"
                   :headers="headers"
+                  :format="['jpg','jpeg','png']"
+                  :max-size="2048"
                   :show-upload-list="false"
                   :on-success="handleSuccess"
                 >
@@ -92,7 +94,7 @@
         modalTitle: '',
         okText: '',
 //        action: `http://10.255.232.234/oa-api/file`,
-        action: `http://118.31.18.67:96/file`,
+        action: this.$ajax.defaults.baseURL + `/file`,
         headers: {token: this.$store.state.userInfo.token, uid: this.$store.state.userInfo.uid},
         roomimg: '',
         modal1: false,
@@ -301,7 +303,7 @@
       handleSuccess (res, file) {
         if (res.code === '000000') {
           this.formItem.roomimg = res.data
-          this.roomimg = 'http://118.31.18.67:96' + res.data
+          this.roomimg = this.$ajax.defaults.baseURL + res.data
           this.$Message.info('success')
         }
       },
@@ -342,7 +344,7 @@
         this.formItem.nop = row.nop
         this.formItem.nop = parseInt(row.nop)
         this.formItem.roomimg = row.roomimg
-        this.roomimg = 'http://118.31.18.67:96' + this.formItem.roomimg
+        this.roomimg = this.$ajax.defaults.baseURL + this.formItem.roomimg
         this.$refs.formItem.validate('roomname')
         this.$refs.formItem.validate('address')
         this.$refs.formItem.validate('device')

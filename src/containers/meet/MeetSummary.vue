@@ -175,7 +175,7 @@
           uid: this.$store.state.userInfo.uid
         },
 //        action: `http://10.255.232.234/oa-api/file`,
-        action: `http://118.31.18.67:96/file`,
+        action: this.$ajax.defaults.baseURL + `/file`,
         initTreeData: [],
         uploadList: [],
         formItem: {

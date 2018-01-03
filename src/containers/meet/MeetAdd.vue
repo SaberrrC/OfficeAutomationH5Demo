@@ -62,7 +62,7 @@
             let room = []
             for (let i = 0; i < len; i++) {
               if (response.data.data[i].isuse === 1) {
-                response.data.data[i].roomimg = 'http://118.31.18.67:96' + response.data.data[i].roomimg
+                response.data.data[i].roomimg = this.$ajax.defaults.baseURL + response.data.data[i].roomimg
                 room.push(response.data.data[i])
               }
             }

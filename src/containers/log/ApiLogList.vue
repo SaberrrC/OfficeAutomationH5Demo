@@ -67,7 +67,7 @@
       },
 //    调下载日志接口
       download (item) {     // TODO  参数动态化
-        window.location.href = 'http://10.255.232.234/oa-api/log/apidownlogs?logname=' + item + '&token=' + this.$store.state.userInfo.username + '&uid=' + this.$store.state.userInfo.uid
+        window.location.href = this.$ajax.defaults.baseURL + '/log/apidownlogs?logname=' + item + '&token=' + this.$store.state.userInfo.username + '&uid=' + this.$store.state.userInfo.uid
       },
       changePage (page) {
         this.CurrentPage = page              // 发起列表当前页数
