@@ -44,7 +44,7 @@
 					<tr>
 						<td>
 							<FormItem label="相关附件" prop="defaultList">
-								<Upload ref="upload" :on-success="handleSuccess" :before-upload="handleBeforeUpload" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'">
+								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'">
 									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
 							</FormItem>
@@ -167,27 +167,6 @@
 	        this.formItem.defaultList.push(res.data)
 	        this.$refs['formItem'].validate((valid) => {})
 	      }
-	    },
-	    handleFormatError (file) {
-	      this.$Notice.warning({
-	        title: 'The file format is incorrect',
-	        desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-	      })
-	    },
-	    handleMaxSize (file) {
-	      this.$Notice.warning({
-	        title: 'Exceeding file size limit',
-	        desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-	      })
-	    },
-	    handleBeforeUpload () {
-	      const check = this.uploadList.length < 5
-	      if (!check) {
-	        this.$Notice.warning({
-	          title: 'Up to five pictures can be uploaded.'
-	        })
-	      }
-	      return check
 	    },
 
 	    formatPostType (postType) {

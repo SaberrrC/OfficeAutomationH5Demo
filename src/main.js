@@ -34,8 +34,6 @@ Vue.prototype.GLOBAL_ = {
 Vue.use(iView)
 Vue.config.productionTip = false
 
-
-
 axios.defaults.baseURL = 'http://10.255.232.234/oa-api'
 
 /* eslint-disable no-new */

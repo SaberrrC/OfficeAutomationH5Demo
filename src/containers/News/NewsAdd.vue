@@ -16,7 +16,7 @@
             </td>
             <td>
               <FormItem label="发布人">
-                {{GLOBAL_.USER_NAME}}
+                {{this.$store.state.userInfo.username}}
               </FormItem>
             </td>
           </tr>
