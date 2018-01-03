@@ -35,6 +35,7 @@
 </template>
 
 <script>
+  import qs from 'qs'
   export default {
     name: 'WorkReportDaily',
     data () {
@@ -393,7 +394,7 @@
                   end_time: endTime,
                   send_type: this.send_type
                 }
-                this.$ajax.post(`/newMeetings/updateMeeting`, data, {
+                this.$ajax.post(`/newMeetings/updateMeeting`, qs.stringify(data), {
                 }).then((response) => {
                   if (response.data.code === '000000') {
                     this.$Message.success('您已成功修改了本次会议的时间')

@@ -86,6 +86,7 @@
 </template>
 
 <script>
+  import qs from 'qs'
   export default {
     name: 'MeetRoomEdit',
     data () {
@@ -257,14 +258,14 @@
           if (valid) {
             if (this.okText === '确定') {
 //        调新建会议室接口
-              this.$ajax.post(`/newMeetingRooms`, this.formItem, {
+              this.$ajax.post(`/newMeetingRooms`, qs.stringify(this.formItem), {
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded'
                 }
               }).then((response) => {
                 if (response.data.code === '000000') {
-                  this.loading = false
                   this.$Message.success('会议室创建成功')
+                  this.modal1 = false
                   this.getMeetRoom()
                 }
               }).catch(function (err) {
@@ -274,14 +275,14 @@
 //        调修改会议室接口
               this.$refs.formItem.validate((valid) => {
                 if (valid) {
-                  this.$ajax.post(`/newMeetingRooms/update`, this.formItem, {
+                  this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.formItem), {
                     headers: {
                       'Content-Type': 'application/x-www-form-urlencoded'
                     }
                   }).then((response) => {
                     if (response.data.code === '000000') {
-                      this.loading = false
                       this.$Message.success('会议室修改成功')
+                      this.modal1 = false
                       this.getMeetRoom()
                     } else {
                       this.$Message.error(response.data.message)
@@ -318,7 +319,7 @@
         }
         this.roomList[index].nop = parseInt(this.roomList[index].nop)
 //      调修改会议室状态接口
-        this.$ajax.post(`/newMeetingRooms/update`, this.roomList[index], {
+        this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.roomList[index]), {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }

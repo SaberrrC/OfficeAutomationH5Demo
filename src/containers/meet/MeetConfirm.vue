@@ -83,6 +83,7 @@
 </template>
 
 <script>
+  import qs from 'qs'
   import MemberSelector from '@/components/MemberSelector'
   export default {
     components: {
@@ -171,7 +172,7 @@
           end_time: this.end_time,
           send_type: this.meetInline.checkbox.join(',')
         }
-        this.$ajax.post(`/newMeetings/save`, data, {
+        this.$ajax.post(`/newMeetings/save`, qs.stringify(data), {
 //          headers: {
 //            'Content-Type': 'application/x-www-form-urlencoded'
 //          }
