@@ -96,7 +96,8 @@ import 'element-ui/lib/theme-default/index.css'
 
 import '@/config/webim.config.js'
 import 'strophe'
-import '@/assets/js/websdk-1.4.12.js'
+// import '@/assets/js/websdk-1.4.12.js'
+import 'easemob-websdk'
 import '@/assets/js/adapter.js'
 import '@/assets/js/webrtc-1.4.13.js'
 
@@ -106,8 +107,10 @@ import qs from 'qs'
 import localforage from 'localforage'
 import chat from '../module/chatting'
 
+console.log(window.WebIM)
 Vue.use(ElementUI)
 let conn = new WebIM.connection(window.WebIM.config)
+// console.log(conn)
 Vue.prototype.$WebIM = window.WebIM
 Vue.prototype.$conn = conn
 Vue.prototype.$localforage = localforage
@@ -200,18 +203,16 @@ export default {
       window.attachEvent('onclick', this.loadClickEvent)
     }
   },
-  beforeCreate () {
-    // let uid = window.localStorage.getItem('uid')
-    // let token = window.localStorage.getItem('token')
-    // chat.initUserInfo(uid, token)
-  },
   created () {
     chat.queryUserInfoById().then(this.initChatting)
   },
   methods: {
     initChatting () {
+      // this.getSet()
+      // this.getRooms()
+      // chat.getGroups()
+      this.getCacleMessageList()
       let that = this
-      that.getCacleMessageList()
       this.$conn.listen({
         onOpened: function(message) {
           // 连接成功回调，连接成功后才可以发送消息
@@ -354,7 +355,7 @@ export default {
       let h = document.querySelector('#app > header.header')
       let s = document.querySelector('#app > aside.sidebar')
       let c = document.querySelector('#app > section.content')
-      if (h.contains(e.target) || s.contains(e.target) || c.contains(e.target)) {
+      if ((h && h.contains(e.target)) || (s && s.contains(e.target)) || (c && c.contains(e.target))) {
         this.showMesV = false
         this.adddialog = false
         this.PersonalmesValue = false
@@ -375,7 +376,7 @@ export default {
         this.$store.state.list = [] // 聊天列表
         this.$store.state.TXGroup = [] // 群组
         // 重新加载并缓存数据
-        chat.getGroups()
+        chat.queryUserInfoById().then(chat.getGroups())
         this.changeSection(1)
         this.$store.dispatch('clearState')
         this.$message({
@@ -1245,6 +1246,7 @@ export default {
     getCacleMessageList () {
       // 取缓存
       let state = this.$store.state
+      console.log('取缓存', state.userinfo.code)
       localforage.getItem('currentUserCode', function (err, value) {
         // 不是当前用户
         if (state.userinfo.code !== value || value === undefined || value === '' || value === null || !value) {

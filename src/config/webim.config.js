@@ -1,11 +1,6 @@
 /* eslint-disable */
-window.Strophe = {
-  Request: function () {},
-  Websocket: function () {}
-}
 
-window.WebIM = {}
-window.WebIM.config = {
+const webIMConfig = {
   url: 'im-api.easemob.com',
   xmppURL: 'im-api.easemob.com',
   apiUrl: (location.protocol === 'https:' ? 'https:' : 'http:') + '//a1.easemob.com',
@@ -29,3 +24,12 @@ window.WebIM.config = {
     type: 'none'
   }
 }
+
+window.Strophe = {
+  Request: function () {},
+  Websocket: function () {}
+}
+window.WebIM = {}
+window.WebIM.config = webIMConfig
+
+export default webIMConfig

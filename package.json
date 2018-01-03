@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "easemob-websdk": "^1.4.12",
     "element-ui": "1.4.9",
     "iview": "^2.7.4",
     "localforage": "^1.5.5",
