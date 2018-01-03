@@ -98,10 +98,7 @@
 	  },
 
 	  mounted () {
-	    this.formBasic = this.$store.state.userInfo
-	    if (this.formBasic.portrait) {
-	      this.visible = true
-	    }
+	    this.getUserInfoById()
 	  }
 	}
 </script>

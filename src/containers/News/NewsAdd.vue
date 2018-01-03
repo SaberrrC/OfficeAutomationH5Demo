@@ -16,7 +16,7 @@
             </td>
             <td>
               <FormItem label="发布人">
-                {{GLOBAL_.USER_NAME}}
+                {{this.$store.state.userInfo.username}}
               </FormItem>
             </td>
           </tr>
@@ -98,6 +98,7 @@
           this.visible = true
           this.imgUploadUrl = this.$ajax.defaults.baseURL + res.data
           this.formItem.newsPhoto = res.data
+          this.$refs['formItem'].validate((valid) => {})
         } else {
           this.$Message.error(res.errors)
         }
