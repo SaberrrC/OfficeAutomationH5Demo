@@ -748,10 +748,6 @@
 //    获取工作交接人
       getHandoverUser () {
         this.$ajax.get(`/HandoverUser/getHandoverUser`, {
-          headers: {
-            token: 'ecb94cb29a9b4bf396e5b04aad668770',
-            uid: '10483'
-          }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.handOverPepole = response.data.data
