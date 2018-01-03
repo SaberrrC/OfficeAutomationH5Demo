@@ -133,7 +133,6 @@ export default {
         for (let i = 0; i < len; i++) {
           this.news[i].newsPhoto = this.GLOBAL_.IMG_URL + this.news[i].newsPhoto
         }
-        console.log(this.news)
       }
     }).catch((err) => {
       console.log(err)
