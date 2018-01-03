@@ -34,8 +34,7 @@ Vue.prototype.GLOBAL_ = {
 Vue.use(iView)
 Vue.config.productionTip = false
 
-axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
-//  axios.defaults.baseURL = 'http://118.31.18.67:8084' //  TODO 测试时跨域设置，后期可以删除
+
 
 axios.defaults.baseURL = 'http://10.255.232.234/oa-api'
 
