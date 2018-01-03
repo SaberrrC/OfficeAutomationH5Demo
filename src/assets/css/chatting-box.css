@@ -1,0 +1,80 @@
+.chatting .elTree .noCheck {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: url(../assets/img-chat/noCheck.png);
+  border: 1px solid #ccc;
+  background-size: contain;
+  margin-left: 5px;
+}
+
+.chatting .elTree .check {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: url(../assets/img-chat/check.png);
+  border: 1px solid #ccc;
+  background-size: contain;
+  margin-left: 5px;
+}
+
+.chatting .headImg {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  /* background-color: red; */
+  background: url(../assets/img-chat/5.jpg);
+  /* border:1px solid #ccc; */
+  border-style: none;
+  border-width: 0;
+  background-size: contain;
+}
+
+.panel-c-c .grid-content .el-loading-mask {
+  position: absolute;
+  z-index: 9;
+  background-color: rgba(255, 255, 255, .9);
+  margin: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: opacity .3s;
+}
+
+.chatting .communication .p_list,
+.chatting .dialogBox .singleChatbox .grid-content,
+.chatting .dialogBox .singleChatbox .addmember,
+.chatting .dialogBox .singleChatbox .box_list,
+.chatting .dialogBox .singleChatbox .box_list img {
+  -moz-user-select: -moz-none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.chatting .dialogBox .singleChatbox .box_list .text,
+.chatting .dialogBox .singleChatbox .box_list .listTime,
+.chatting .dialogBox .singleChatbox .box_list .listLeftName {
+  -moz-user-select: unset;
+  -moz-user-select: unset;
+  -o-user-select: unset;
+  -khtml-user-select: unset;
+  -webkit-user-select: unset;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.chatting-message-history .message-history-img-view {
+  width: 100%;
+  height: 100%;
+  max-width: 600px;
+  max-width: calc(100vw - 40px);
+  max-height: 500px;
+  max-height: calc(100vh - 163px);
+}
