@@ -331,7 +331,7 @@ export default {
         user: this.imUser.userName,
         pwd: this.imUser.password
       }
-      console.log(options)
+      // console.log(options)
       this.$conn.open(options)
     },
     loadClickEvent (e) {

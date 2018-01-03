@@ -114,7 +114,7 @@ const mutations = {
         value: []
       }
     }
-    console.log('222', item.code)
+    // console.log('222', item.code)
     mutations.updateMessageNumber(state, sId)
     if (type === 'chat') {
       let code = item.CODE || item.code

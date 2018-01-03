@@ -37,6 +37,7 @@ Vue.use(iView)
 Vue.config.productionTip = false
 
 axios.defaults.baseURL = 'http://10.255.232.234/oa-api'
+window.axios = axios
 
 /* eslint-disable no-new */
 new Vue({

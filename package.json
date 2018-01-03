@@ -19,6 +19,7 @@
     "iview": "^2.7.4",
     "localforage": "^1.5.5",
     "lockr": "^0.8.4",
+    "qs": "^6.5.1",
     "vue": "^2.5.2",
     "vue-cookies": "^1.5.4",
     "vue-fullcalendar": "^1.0.9",

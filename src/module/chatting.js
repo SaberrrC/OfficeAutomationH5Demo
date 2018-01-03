@@ -7,6 +7,7 @@ import store from '../vuex/store'
 // let aes256 = require('aes256')
 // let CryptoJS = require('../assets/js/aes_1')
 import config from '../config/index'
+import qs from 'qs'
 
 const chat = {
   queryUserInfo (code) {
@@ -17,21 +18,24 @@ const chat = {
     return new Promise(function (resolve, reject) {
       // console.log('查找用户信息' + id)
       try {
-        window.axios.post(config.OA_API + '/user/queryUserByCodes', {
+        window.axios.post(config.OA_API + '/user/queryUserByCodes', qs.stringify({
           codeList: code
-        }).then((response) => {
+        })).then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data[0]
-            let tmp = Object.assign({}, result, {
-              departmentName: result.organ,
-              name: result.username,
-              img: result.portrait ? result.portrait : store.state.image
-            })
-            console.log('queryUserInfo', tmp)
-            if (store.state.userInfoDb && store.state.userInfoDb[code]) {
-              store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
-            } else {
-              store.state.userInfoDb[code] = tmp
+            let tmp = {}
+            if (result) {
+              tmp = Object.assign({}, result, {
+                departmentName: result.organ,
+                name: result.username,
+                img: result.portrait ? result.portrait : store.state.image
+              })
+              // console.log('queryUserInfo', tmp)
+              if (store.state.userInfoDb && store.state.userInfoDb[code]) {
+                store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
+              } else {
+                store.state.userInfoDb[code] = tmp
+              }
             }
             setTimeout(function () {
               resolve(tmp)
@@ -61,16 +65,19 @@ const chat = {
         }).then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data[0]
-            let tmp = Object.assign({}, result, {
-              departmentName: result.organ,
-              name: result.username,
-              img: result.portrait ? result.portrait : store.state.image
-            })
-            console.log('queryUserInfo', tmp)
-            if (store.state.userInfoDb && store.state.userInfoDb[code]) {
-              store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
-            } else {
-              store.state.userInfoDb[code] = tmp
+            let tmp = {}
+            if (result) {
+              tmp = Object.assign({}, result, {
+                departmentName: result.organ,
+                name: result.username,
+                img: result.portrait ? result.portrait : store.state.image
+              })
+              // console.log('queryUserInfo', tmp)
+              if (store.state.userInfoDb && store.state.userInfoDb[code]) {
+                store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
+              } else {
+                store.state.userInfoDb[code] = tmp
+              }
             }
             setTimeout(function () {
               fn && fn()
@@ -101,21 +108,24 @@ const chat = {
           }
           fn = null
         }
-        axios.get(config.OA_API + '/user/getUserInfoById', hd).then((response) => {
+        window.axios.get(config.OA_API + '/user/getUserInfoById', hd).then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data
-            let tmp = Object.assign({}, result, {
-              departmentName: result.organ,
-              name: result.username,
-              img: result.portrait ? result.portrait : store.state.image
-            })
-            // console.log('获取，uid', tmp)
-            fn && fn(tmp)
-            let code = result.code
-            if (store.state.userInfoDb && store.state.userInfoDb[code]) {
-              store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
-            } else {
-              store.state.userInfoDb[code] = tmp
+            let tmp = {}
+            if (result) {
+              tmp = Object.assign({}, result, {
+                departmentName: result.organ,
+                name: result.username,
+                img: result.portrait ? result.portrait : store.state.image
+              })
+              // console.log('获取，uid', tmp)
+              fn && fn(tmp)
+              let code = result.code
+              if (store.state.userInfoDb && store.state.userInfoDb[code]) {
+                store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
+              } else {
+                store.state.userInfoDb[code] = tmp
+              }
             }
             setTimeout(function () {
               resolve(tmp)
@@ -139,7 +149,7 @@ const chat = {
         }).then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data
-            console.log('queryOrganization', result, result.children, result.users)
+            // console.log('queryOrganization', result, result.children, result.users)
             resolve(result)
           }
         })
@@ -152,7 +162,7 @@ const chat = {
   userSearch (name) { // 搜索用户
     return new Promise(function (resolve, reject) {
       try {
-        axios.post(config.OA_API + '/phoneBook/searchPhoneBook', {name: name}).then((response) => {
+        window.axios.post(config.OA_API + '/phoneBook/searchPhoneBook', {name: name}).then((response) => {
           if (response.data && response.data.code === '000000') {
             const result = response.data.data
             setTimeout(function () {
@@ -323,7 +333,7 @@ const chat = {
       let options = {
         groupId: id,
         success: function (resp) {
-          console.log('queryGroupInfo: ', resp)
+          // console.log('queryGroupInfo: ', resp)
           resolve(resp)
         },
         error: function (E) {
@@ -344,17 +354,17 @@ const chat = {
           resolve(o)
         } else {
           let conn = Vue.prototype.$conn
-          console.log('获取单个群的信息', id)
+          // console.log('获取单个群的信息', id)
           conn.getGroupInfo({
             groupId: id,
             success: function (x) {
-              console.log('获取单个群的信息1', x)
+              // console.log('获取单个群的信息1', x)
               let tmp = Object.assign({}, x.data[0], {
                 groupId: id,
                 groupid: id,
                 groupname: x.data[0].name
               })
-              console.log('获取单个群的信息2', tmp)
+              // console.log('获取单个群的信息2', tmp)
               store.state.TXGroup.push(tmp)
               let groupLength = store.state.TXGroup.length
               chat.getGroupInfo(store.state.TXGroup[groupLength - 1], true) // 同时补全用户信息
@@ -514,7 +524,7 @@ const chat = {
         strCont = strCont.replace(item.text, strimg)
       }
     }
-    console.log(strCont)
+    // console.log(strCont)
     return strCont
   },
   updateGroup (id, type, obj) {
@@ -522,7 +532,7 @@ const chat = {
       return
     }
     let nextTick = Vue.prototype.$nextTick
-    console.log(id, type,obj)
+    // console.log(id, type,obj)
     if (type === 'delete') {
       console.log('删除当前群组')
       store.state.writeStructIsShow = false
@@ -563,7 +573,7 @@ const chat = {
       let cmd = function (og) {
         for (let i = 0; i < og.length; i++) {
           if (og[i].groupid === id) {
-            console.log('---', og[i])
+            // console.log('---', og[i])
             og[i].name = name
             og[i].groupname = name
           }
@@ -579,18 +589,18 @@ const chat = {
     // 踢出群成员
     if (type === 'deleteuser') {
       let o = store.state.otherInfo
-      console.log('id--type',id,type)
-      console.log('o.members',o.members.length)
+      // console.log('id--type',id,type)
+      // console.log('o.members',o.members.length)
       for (let i = 0; i < o.members.length; i++) {
         if (o.members[i].id === id) {
           store.state.otherInfo.members.splice(i, 1)
           let tmp = store.state.otherInfo
-          console.log('tmp',tmp)
+          // console.log('tmp',tmp)
           store.state.otherInfo = []
           store.state.otherInfo = tmp
         }
       }
-      console.log('store.state.otherInfo', store.state.otherInfo)
+      // console.log('store.state.otherInfo', store.state.otherInfo)
       console.log('删除成员')
     }
     if (type === 'add') {
@@ -612,7 +622,7 @@ const chat = {
       let affiliations = {
         member: 'sl_' + obj.code
       }
-      console.log('aaaaa',store.state.TXGroup)
+      // console.log('aaaaa',store.state.TXGroup)
       let tmp = store.state.TXGroup
       // for (let i = 0; i < tmp.length; i++) {
       //   if (tmp[i].groupid === id) {

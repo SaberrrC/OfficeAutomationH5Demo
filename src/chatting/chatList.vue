@@ -250,7 +250,7 @@
         return valueNew
       },
       async openChatBox (item, index) { // 点击时 更新对方的账号或群ID
-        console.log(this.$parent.$children)
+        // console.log(this.$parent.$children)
         this.$store.state.showSid = item.sId
         console.log(this.showSid)
         for(var i = 0; i < this.$parent.$children.length; i++){
