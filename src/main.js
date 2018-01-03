@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
-
+import store from './vuex/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+// import Lockr from 'lockr'
 
 //  import qs from 'qs'
 import axios from 'axios'
