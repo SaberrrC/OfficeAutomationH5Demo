@@ -92,9 +92,9 @@ export default {
         name: '帮助',
         id: 'help',
         children: [
-          {name: '帮助中心', id: 'https://www.baidu.com/'},
-          {name: '官方qq群', id: 'https://www.iviewui.com/'},
-          {name: '反馈', id: 'feedback'}
+          {name: '帮助中心', id: 'http://oa.shanlinjinrong.com/site/help'},
+          {name: '官方qq群', id: '#'},
+          {name: '反馈', id: '#'}
         ]
       },
       {
