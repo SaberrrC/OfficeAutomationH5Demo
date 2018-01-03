@@ -2,7 +2,7 @@
   <div class="whole-weekly">
 
 
-    <Card>
+    <Card shadow>
       <p slot="title" style="text-align: center;">
         周工作汇报
       </p>
@@ -124,40 +124,7 @@ export default {
           align: 'center'
         }
       ],
-      listData: [
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          reportTime: '2017-10-03',
-          ratingStatus: '已评分',
-          remarks: ''
-        },
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          reportTime: '2017-10-03',
-          ratingStatus: '已评分',
-          remarks: ''
-        },
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          reportTime: '2017-10-03',
-          ratingStatus: '已评分',
-          remarks: ''
-        },
-        {
-          department: '创新服务技术',
-          position: '前端开发',
-          name: '丁通',
-          reportTime: '2017-10-03',
-          ratingStatus: '已评分',
-          remarks: ''
-        }
-      ],
+      listData: [],
       showDetail: false,
       current: 1,
       total: 0,
@@ -191,7 +158,10 @@ export default {
           this.listData = result.data
           this.total = result.total
         } else {
-          this.listData = []
+          if (res.data.code === '020000') {
+            this.listData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 

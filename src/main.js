@@ -30,7 +30,11 @@ Vue.prototype.GLOBAL_ = {
     let d = date.getDate()
     d = d < 10 ? ('0' + d) : d
     return y + '-' + m + '-' + d
-  }
+  },
+  //  全员和部门都使用同一份数据
+  wholeList: [{}],
+  wholeDaily: [{}],
+  wholeWeekly: [{}]
 }
 
 Vue.use(iView)

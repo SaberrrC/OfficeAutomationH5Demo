@@ -155,6 +155,7 @@
 	        }
 	      }, {
 	        title: '操作',
+	        width: 100,
 	        key: 'id',
 	        render: (h, params) => {
 	          return h('div', [

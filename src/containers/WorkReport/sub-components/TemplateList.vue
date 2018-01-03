@@ -1,6 +1,6 @@
 <template>
 	<div class="work-report-template">
-		<Card>
+		<Card shadow>
 			<div slot="title" align="right">
 				<Button type="primary" @click="tempmModal = true">新建模板</Button>
 				<Modal v-model="tempmModal" title="添加模板" ok-text="添加" @on-ok="addTemp">
@@ -93,23 +93,7 @@ export default {
           ])
         }
       }],
-      listData: [{
-        type: '日报',
-        name: '日报2',
-        updateTime: '2017-10-09'
-      }, {
-        type: '日报',
-        name: '日报2',
-        updateTime: '2017-10-09'
-      }, {
-        type: '日报',
-        name: '日报2',
-        updateTime: '2017-10-09'
-      }, {
-        type: '日报',
-        name: '日报2',
-        updateTime: '2017-10-09'
-      }]
+      listData: []
     }
   },
   methods: {
@@ -210,7 +194,10 @@ export default {
         if (res.data.code === '000000') {
           this.listData = res.data.data
         } else {
-
+          if (res.data.code === '020000') {
+            this.listData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 

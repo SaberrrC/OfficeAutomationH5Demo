@@ -43,7 +43,7 @@
 					<tr>
 						<td colspan="2">
 							<FormItem label="相关附件">
-								<Upload ref="upload">
+								<Upload ref="upload" action="/notice/upload">
 									<Button type="ghost" icon="ios-cloud-upload-outline" :disabled="disable">上传附件</Button>
 								</Upload>
 								<div v-if="formItem.attachList">

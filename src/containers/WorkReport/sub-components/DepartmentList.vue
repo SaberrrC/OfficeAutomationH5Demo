@@ -1,6 +1,6 @@
 <template>
   <div class="report-admin-department">
-    <Card>
+    <Card shadow>
       <div slot="title">
         <Form :label-width="80">
 
@@ -121,51 +121,7 @@ export default {
         key: 'remarks',
         align: 'center'
       }],
-      listData: [{
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }, {
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }, {
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }, {
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }],
+      listData: [],
       total: 0,
       current: 1
     }
@@ -202,7 +158,10 @@ export default {
           this.listData = result.data
           this.total = result.total
         } else {
-
+          if (res.data.code === '020000') {
+            this.listData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 
@@ -272,7 +231,7 @@ export default {
     },
     //  导出
     exportReport () {
-      location.href = '/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
+      location.href = 'http://10.255.232.234/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
     }
   },
   mounted () {

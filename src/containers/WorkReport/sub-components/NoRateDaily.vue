@@ -1,6 +1,6 @@
 <template>
   <div class="no-rate-daily">
-    <Card>
+    <Card shadow>
       <p slot="title" style="text-align: center;">
         日工作汇报
       </p>

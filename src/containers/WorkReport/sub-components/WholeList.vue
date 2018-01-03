@@ -2,7 +2,7 @@
   <div class="whole-list">
     <Row>
       <Col span="6">
-        <Card style="height: 88vh" >
+        <Card style="height: 88vh" shadow>
           <div style="height: 57px;line-height: 50px;" align="center">组织架构</div>
           <Row>
             <Col span="24">
@@ -20,7 +20,7 @@
       </Col>
 
       <Col span="18">
-        <Card>
+        <Card shadow>
           <div slot="title">
             <Form :label-width="80">
 
@@ -147,51 +147,7 @@ export default {
         key: 'remarks',
         align: 'center'
       }],
-      listData: [{
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }, {
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }, {
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }, {
-        type: '日报',
-        name: '丁通',
-        depOne: '技术',
-        depTwo: '开发',
-        position: '前端',
-        count: 0,
-        avgScore: 100,
-        state: '已评分',
-        remarks: '',
-        dailyid: ''
-      }],
+      listData: [],
       total: 0,
       current: 1
     }
@@ -255,8 +211,12 @@ export default {
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
+          //  TODO 缓存数据
         } else {
-
+          if (res.data.code === '020000') {
+            this.listData = []
+            this.total = 0
+          }
         }
       }, (res) => {
 
@@ -275,6 +235,7 @@ export default {
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
+          //  TODO 缓存数据
         } else {
 
         }
@@ -308,7 +269,7 @@ export default {
     },
     //  导出
     exportReport () {
-      location.href = '/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
+      location.href = 'http://10.255.232.234/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
     }
   },
   mounted () {
