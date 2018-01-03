@@ -243,10 +243,10 @@
         // }
         // return data.value
         if(valueNew&&valueNew.indexOf("[") >=0 && valueNew.indexOf("]") > 0 ){
-          console.log(1)
+          // console.log(1)
           valueNew = chat.ReCont(valueNew)
         }
-        console.log(1,valueNew)
+        // console.log(1,valueNew)
         return valueNew
       },
       async openChatBox (item, index) { // 点击时 更新对方的账号或群ID

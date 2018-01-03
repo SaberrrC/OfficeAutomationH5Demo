@@ -245,8 +245,7 @@ const chat = {
               type: 'success'
             })
             chat.updateGroup(respData.data.groupid, 'add')
-            console.log('11111')
-            
+            // console.log('11111')
             if (obj.members && obj.members.length >= 1) {
               let id = respData.data.groupid
               let mbs = obj.members
@@ -1167,7 +1166,7 @@ const chat = {
     // data = data.substring(0,data.length-2)
     let topThree = data.substring(0, 3)
     let behindTwo = data.substring(data.length-2, data.length)
-    console.log(data)
+    // console.log(data)
     if(topThree === '<0-' && behindTwo === '->') {
       data = data.substring(3)
       data = data.substring(0, data.length-2)

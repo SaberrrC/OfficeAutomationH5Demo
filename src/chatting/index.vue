@@ -89,33 +89,20 @@
 </template>
 
 <script>
-/* eslint-disable */
-import Vue from 'vue'
+
+import {mapState} from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-
-import '@/config/webim.config.js'
-import 'strophe'
-// import '@/assets/js/websdk-1.4.12.js'
-import 'easemob-websdk'
-import '@/assets/js/adapter.js'
-import '@/assets/js/webrtc-1.4.13.js'
-
-import { mapState } from 'vuex'
-import config from '../config/index'
-import qs from 'qs'
 import localforage from 'localforage'
+import '../service/chatting'
+import config from '../config/index'
 import chat from '../module/chatting'
 
-console.log(window.WebIM)
+import Vue from 'vue'
 Vue.use(ElementUI)
-let conn = new WebIM.connection(window.WebIM.config)
-// console.log(conn)
-Vue.prototype.$WebIM = window.WebIM
-Vue.prototype.$conn = conn
 Vue.prototype.$localforage = localforage
 window.localforage = localforage
-
+/* eslint-disable */
 export default {
   name: 'chatting',
   data() {
@@ -208,10 +195,6 @@ export default {
   },
   methods: {
     initChatting () {
-      // this.getSet()
-      // this.getRooms()
-      // chat.getGroups()
-      this.getCacleMessageList()
       let that = this
       this.$conn.listen({
         onOpened: function(message) {
@@ -223,8 +206,8 @@ export default {
           // that.TXList() // 不需要
           // that.getSet()
           // that.getRooms()
-          // chat.getGroups()
-          // that.getCacleMessageList()
+          chat.getGroups()
+          that.getCacleMessageList()
           if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
             that.tmpFn.close()
             that.tmpFn = null
@@ -368,17 +351,18 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        localforage.removeItem('cacheChatList') // 清除聊天人列表.
-        localforage.removeItem('cacheMessageHistory') // 清除聊天记录缓存
-        localforage.removeItem('cacheGroup') // 清除群组列表
-        this.$store.state.userInfoDb = {} // 聊天用户
-        this.$store.state.singChatbox = {} // 聊天信息
-        this.$store.state.list = [] // 聊天列表
-        this.$store.state.TXGroup = [] // 群组
-        // 重新加载并缓存数据
-        chat.queryUserInfoById().then(chat.getGroups())
-        this.changeSection(1)
         this.$store.dispatch('clearState')
+        this.changeSection(1)
+        localforage.setItem('cacheChatList', []).then(() => {
+          localforage.removeItem('cacheChatList')
+        }) // 清除聊天人列表
+        localforage.setItem('cacheMessageHistory', {}).then(() => {
+          localforage.removeItem('cacheMessageHistory')
+        }) // 清除聊天记录缓存
+        localforage.setItem('cacheGroup', []).then(() => {
+          localforage.removeItem('cacheGroup')
+          chat.queryUserInfoById().then(chat.getGroups()) // 重新加载并缓存数据
+        }) // 清除群组列表
         this.$message({
           type: 'success',
           message: '聊天信息已清除!'

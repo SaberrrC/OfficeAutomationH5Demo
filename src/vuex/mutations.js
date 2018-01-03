@@ -23,6 +23,8 @@ const mutations = {
     state.thisNotDelete = false
   },
   clearState (state) {
+    state.userInfoDb = {} // 用户
+    state.TXGroup = [] // 群组
     state.userinfo = {},
     state.list = [],
     state.grossNumber = 0,
