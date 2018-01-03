@@ -340,10 +340,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/batch/batchScore',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: {
           reportData: this.selectData,
           reportType: 1
@@ -367,10 +363,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/dailyreport/leader',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -396,10 +388,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/weekreport/leader',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -424,11 +412,7 @@ export default {
     returnDaily (dailyid) {
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/reject/' + dailyid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/dailyreport/reject/' + dailyid
       }).then((res) => {
         console.log('退回数据', res.data)
         if (res.data.code === '000000') {
@@ -444,11 +428,7 @@ export default {
     returnWeekly (dailyid) {
       this.$ajax({
         method: 'get',
-        url: '/weekreport/reject/' + dailyid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/weekreport/reject/' + dailyid
       }).then((res) => {
         console.log('退回数据', res.data)
         if (res.data.code === '000000') {

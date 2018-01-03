@@ -328,10 +328,6 @@ export default {
       this.$ajax({
         method: 'get',
         url: '/templateManage/selectWorkChildTemplate',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         params: {
           childId: this.$route.params.childId
         }
@@ -361,10 +357,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/templateManage/insertWorkTemplate',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: data
       }).then((res) => {
         console.log('保存模版数据', res.data)

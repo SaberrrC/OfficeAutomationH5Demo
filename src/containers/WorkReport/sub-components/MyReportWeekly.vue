@@ -167,11 +167,7 @@ export default {
     getReportWeeklyData () {
       this.$ajax({
         method: 'get',
-        url: '/weekreport/' + this.$route.params.id,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/weekreport/' + this.$route.params.id
       }).then((res) => {
         console.log('获取周报数据', res.data)
         let result = res.data.data

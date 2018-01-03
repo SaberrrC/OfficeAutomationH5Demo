@@ -180,11 +180,7 @@ export default {
     getRateData () {
       this.$ajax({
         method: 'get',
-        url: '/weekreport/' + this.$route.params.dailyid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/weekreport/' + this.$route.params.dailyid
       }).then((res) => {
         console.log('草稿数据', res.data)
         let result = res.data.data
@@ -212,10 +208,6 @@ export default {
       this.$ajax({
         method: 'put',
         url: '/weekreport',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: data
       }).then((res) => {
         console.log('保存草稿', res.data)

@@ -258,10 +258,6 @@ export default {
       this.$ajax({
         method: 'get',
         url: '/dailyreport',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -285,10 +281,6 @@ export default {
       this.$ajax({
         method: 'get',
         url: '/weekreport/weekList',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,

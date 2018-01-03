@@ -425,11 +425,7 @@ export default {
     getcurrentLeader () {
       this.$ajax({
         method: 'get',
-        url: '/user/getCurrentLeader',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/user/getCurrentLeader'
       }).then((res) => {
         console.log('当前领导人', res.data)
         let result = res.data.data
@@ -448,11 +444,7 @@ export default {
     getLeaderList () {
       this.$ajax({
         method: 'get',
-        url: '/user/query/sameOrganization?username=' + this.leadname + '&pagesize=50&pagenum=1',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/user/query/sameOrganization?username=' + this.leadname + '&pagesize=50&pagenum=1'
       }).then((res) => {
         console.log('领导人列表', res.data)
         let result = res.data.data
@@ -486,10 +478,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/workreportdraft/addDraft',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: data
       }).then((res) => {
         console.log('保存草稿', res.data)
@@ -507,11 +495,7 @@ export default {
     getTempData () {
       this.$ajax({
         method: 'get',
-        url: '/templateManage/selectWorkChildTemplate?childId=' + this.$route.params.childId,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/templateManage/selectWorkChildTemplate?childId=' + this.$route.params.childId
       }).then((res) => {
         console.log('草稿数据', res.data)
         let result = res.data.data
@@ -533,11 +517,7 @@ export default {
     getDraft () {
       this.$ajax({
         method: 'get',
-        url: '/workreportdraft/selectWorkDraftByUserId?userId=' + window.uid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/workreportdraft/selectWorkDraftByUserId?userId=' + window.localStorage.getItem('uid')
       }).then((res) => {
         console.log('草稿数据', res.data)
         let result = res.data.data
@@ -598,10 +578,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/dailyreport',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: data
       }).then((res) => {
         console.log('提交日报', res.data)
@@ -620,11 +596,7 @@ export default {
     getEditData (id) {
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/' + id,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/dailyreport/' + id
       }).then((res) => {
         console.log('日报展示', res.data)
         let result = res.data.data

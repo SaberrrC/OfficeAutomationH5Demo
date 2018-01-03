@@ -194,11 +194,7 @@ export default {
       let endtime = this.timeFormat(this.endTime)
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10'
       }).then((res) => {
         console.log('日报列表', res.data)
         let result = res.data.data
@@ -218,11 +214,7 @@ export default {
       let endtime = this.timeFormat(this.endTime)
       this.$ajax({
         method: 'get',
-        url: '/weekreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/weekreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10'
       }).then((res) => {
         console.log('周报列表', res.data)
         let result = res.data.data
@@ -264,11 +256,7 @@ export default {
     getDepartment () {
       this.$ajax({
         method: 'get',
-        url: '/user/getUserInfoById',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/user/getUserInfoById'
       }).then((res) => {
         console.log('日报列表', res.data)
         let result = res.data.data
@@ -284,7 +272,7 @@ export default {
     },
     //  导出
     exportReport () {
-      location.href = '/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.uid + '&token=' + window.token
+      location.href = '/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
     }
   },
   mounted () {

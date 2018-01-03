@@ -391,11 +391,7 @@ export default {
     getListDate () {
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/dailyreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
       }).then((res) => {
         console.log('列表详情', res.data)
         let result = res.data.data
@@ -419,11 +415,7 @@ export default {
       console.log(row, index)
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/' + row.dailyid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/dailyreport/' + row.dailyid
       }).then((res) => {
         console.log('日报展示', res.data)
         let result = res.data.data

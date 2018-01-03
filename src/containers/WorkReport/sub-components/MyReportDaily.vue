@@ -307,11 +307,7 @@ export default {
     getData () {
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/' + this.dailyid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/dailyreport/' + this.dailyid
       }).then((res) => {
         console.log('日报展示', res.data)
         let result = res.data.data

@@ -128,10 +128,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/templateManage/insertTemplate',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: {
           templateName: this.templateName,
           templateType: this.defaultType
@@ -151,10 +147,6 @@ export default {
       this.$ajax({
         method: 'get',
         url: '/templateManage/delTemplateByCid',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         params: {
           id: id
         }
@@ -212,11 +204,7 @@ export default {
     getTempList () {
       this.$ajax({
         method: 'get',
-        url: '/templateManage/selectTemplateByUserId?userId=' + window.uid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/templateManage/selectTemplateByUserId?userId=' + window.localStorage.getItem('uid')
       }).then((res) => {
         console.log('模版数据', res.data)
         if (res.data.code === '000000') {

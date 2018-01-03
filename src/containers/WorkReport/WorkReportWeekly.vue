@@ -294,11 +294,7 @@ export default {
     getcurrentLeader () {
       this.$ajax({
         method: 'get',
-        url: '/user/getCurrentLeader',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/user/getCurrentLeader'
       }).then((res) => {
         console.log('当前领导人', res.data)
         let result = res.data.data
@@ -317,11 +313,7 @@ export default {
     getLeaderList () {
       this.$ajax({
         method: 'get',
-        url: '/user/query/sameOrganization?username=' + this.searchName + '&pagesize=50&pagenum=1',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/user/query/sameOrganization?username=' + this.searchName + '&pagesize=50&pagenum=1'
       }).then((res) => {
         console.log('领导人列表', res.data)
         let result = res.data.data
@@ -353,10 +345,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/weekreportdraft/addDraft',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: data
       }).then((res) => {
         console.log('保存草稿', res.data)
@@ -375,11 +363,7 @@ export default {
     getDraft () {
       this.$ajax({
         method: 'get',
-        url: '/weekreportdraft/selectWeekDraftByUserId?userId=' + window.uid,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/weekreportdraft/selectWeekDraftByUserId?userId=' + window.localStorage.getItem('uid')
       }).then((res) => {
         console.log('草稿数据', res.data)
         let result = res.data.data
@@ -481,10 +465,6 @@ export default {
       this.$ajax({
         method: 'post',
         url: '/weekreport/add',
-        headers: {
-          token: window.token,
-          uid: window.uid
-        },
         data: data
       }).then((res) => {
         console.log('发起周报', res.data)
@@ -502,11 +482,7 @@ export default {
     getTemp () {
       this.$ajax({
         method: 'get',
-        url: '/templateManage/selectWeekChildTemplate?childId=' + this.$route.params.childId,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/templateManage/selectWeekChildTemplate?childId=' + this.$route.params.childId
       }).then((res) => {
         console.log('草稿数据', res.data)
         let result = res.data.data
@@ -531,11 +507,7 @@ export default {
     getEditData () {
       this.$ajax({
         method: 'get',
-        url: '/weekreport/' + this.$route.params.id,
-        headers: {
-          token: window.token,
-          uid: window.uid
-        }
+        url: '/weekreport/' + this.$route.params.id
       }).then((res) => {
         console.log('草稿数据', res.data)
         let result = res.data.data
