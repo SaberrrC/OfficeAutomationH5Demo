@@ -25,6 +25,7 @@
 </template>
 
 <script>
+//  import qs from 'qs'
 
 export default {
   name: 'Login',
@@ -71,7 +72,7 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.formLogin.email = this.formLogin.email.trim()
+          //  console.log(qs.stringify(this.formLogin))
           //  执行登录 010123381
           this.$ajax.post('/user/webLogin', this.formLogin).then((response) => {
             if (response.data && response.data.code === '000000') {
