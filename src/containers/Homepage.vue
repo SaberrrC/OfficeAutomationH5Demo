@@ -129,6 +129,10 @@ export default {
     this.$ajax.get('/news/imgRoll').then((response) => {
       if (response.data && response.data.code === '000000') {
         this.news = response.data.data
+        let len = this.news.length
+        for (let i = 0; i < len; i++) {
+          this.news[i].newsPhoto = this.GLOBAL_.IMG_URL + this.news[i].newsPhoto
+        }
       }
     }).catch((err) => {
       console.log(err)

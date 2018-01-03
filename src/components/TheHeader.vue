@@ -95,8 +95,8 @@ export default {
         id: 'help',
         children: [
           {name: '帮助中心', id: 'http://oa.shanlinjinrong.com/site/help'},
-          {name: '官方qq群', id: '#'},
-          {name: '反馈', id: '#'}
+          {name: '官方qq群', id: 'qq'},
+          {name: '反馈', id: 'feedback'}
         ]
       },
       {

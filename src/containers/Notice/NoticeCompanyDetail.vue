@@ -43,7 +43,7 @@
 					<tr>
 						<td colspan="2">
 							<FormItem label="相关附件">
-								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" action="/notice/upload">
+								<Upload ref="upload" action="/notice/upload">
 									<Button type="ghost" icon="ios-cloud-upload-outline" :disabled="disable">上传附件</Button>
 								</Upload>
 								<div v-if="formItem.attachList">
@@ -117,26 +117,12 @@
 	    }
 	  },
 	  methods: {
-	    handleSuccess (res, file) {
-	      if (res.code === '000000') {
-	        this.uploadList.push({
-	          url: this.GLOBAL_.IMG_URL + res.data,
-	          name: res.data,
-	          status: 'finished'
-	        })
-	      }
-	    },
-
 	// 获取公司公告详情信息
 	    getCompanyData () {
 	      let id = this.$route.params.id
 	      this.$ajax({
 	        method: 'get',
-	        url: '/notice/' + id,
-	        headers: {
-	          token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-	          uid: '960'
-	        }
+	        url: '/notice/' + id
 	      }).then((res) => {
 	        if (res.data.code === '000000') {
 	          let result = res.data.data
@@ -218,10 +204,6 @@
 	  },
 	  mounted () {
 	    this.getCompanyData()
-	    this.header = {
-	      token: '73bd4ae0e7f54219aea15e6183d3ed1a',
-	      uid: '960'
-	    }
 	  }
 	}
 </script>

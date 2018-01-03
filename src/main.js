@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
-
+import store from './vuex/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+// import Lockr from 'lockr'
 
 //  import qs from 'qs'
 import axios from 'axios'
@@ -19,18 +19,9 @@ axios.defaults.transformRequest = [(data) => {
   return qs.stringify(data || {})
 }]
 */
-axios.interceptors.response.use(function (response) {
-  // 对响应数据做点什么
-  console.log('lanjie', response)
-  return response
-}, function (error) {
-  // 对响应错误做点什么
-  console.log(error)
-  return Promise.reject(error)
-})
 Vue.prototype.$ajax = axios
 Vue.prototype.GLOBAL_ = {
-  IMG_URL: 'http://118.31.18.67:96',
+  IMG_URL: 'http://10.255.232.234:96',
   FORMAT_TIME: function (val) {
     let date = val ? new Date(val) : new Date()
     let y = date.getFullYear()
@@ -43,13 +34,14 @@ Vue.prototype.GLOBAL_ = {
   //  全员和部门都使用同一份数据
   wholeList: [{}],
   wholeDaily: [{}],
-  wholeWeekly: [{}],
+  wholeWeekly: [{}]
 }
 
 Vue.use(iView)
 Vue.config.productionTip = false
 
 axios.defaults.baseURL = 'http://10.255.232.234/oa-api'
+window.axios = axios
 
 /* eslint-disable no-new */
 new Vue({

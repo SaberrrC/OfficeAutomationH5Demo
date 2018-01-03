@@ -84,7 +84,7 @@
                   <Upload
                     :action="action"
                     :headers="headers"
-                     multiple
+                    multiple
                     ref="upload"
                     :max-size="1024"
                     :before-upload="handleBeforeUpload"
@@ -119,9 +119,6 @@
                 </FormItem>
               </i-Col>
             </Row>
-            </FormItem>
-
-
           </Form>
         <Modal
           v-model="showTitle"
@@ -136,8 +133,7 @@
               <row>
                 <i-Col span="18" offset="3">
                   <FormItem label="选择会议">
-                    <Input v-model="title" icon="ios-search" @on-change="getTitle">
-                    </Input>
+                    <Input v-model="title" icon="ios-search" @on-change="getTitle"></Input>
                   </FormItem>
                 </i-Col>
               </row>
@@ -162,6 +158,7 @@
 </template>
 
 <script>
+  import qs from 'qs'
   import MemberSelector from '@/components/MemberSelector'
   export default {
     components: {
@@ -171,11 +168,10 @@
       return {
         isShow: false,
         headers: {
-          token: this.$store.state.userInfo.username,
-          uid: this.$store.state.userInfo.uid
+          token: this.$ajax.defaults.headers.common['token'],
+          uid: this.$ajax.defaults.headers.common['uid']
         },
-//        action: `http://10.255.232.234/oa-api/file`,
-        action: `http://118.31.18.67:96/file`,
+        action: this.$ajax.defaults.baseURL + `/file`,
         initTreeData: [],
         uploadList: [],
         formItem: {
@@ -301,7 +297,7 @@
               time: this.formItem.time,                    // 会议时间
               meetingPlace: this.formItem.meetingPlace,            // 会议地点
               title: this.formItem.title,                   // 会议主题
-              recorder: this.formItem.recorder,                // 记录人
+              recorder: this.$store.state.userInfo.uid,                // 记录人
               content: this.formItem.content,                 // 主要议题
               conclusion: this.formItem.conclusion,              // 会议结论
               accessoryUrl: this.accessoryUrl,            // 相关附件
@@ -309,18 +305,16 @@
               sendType: type                 // 发布方式
             }
 //            /********调发布接口**********/
-            this.$ajax.post(`/sendMeetingSummary`, approveRequest, {
+            this.$ajax.post(`/sendMeetingSummary`, qs.stringify(approveRequest), {
             }).then((response) => {
               if (response.data.code === '000000') {
-                this.$Message.success('收回成功')
-                this.$router.push({path: this.type})
+                this.$Message.success('会议纪要发布成功')
               } else {
                 this.$Message.success(response.data.message)
               }
             }).catch(function (err) {
               console.log(err)
             })
-            this.$Message.success('Success!')
           } else {
           }
         })

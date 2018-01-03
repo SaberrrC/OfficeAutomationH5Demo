@@ -19,6 +19,7 @@
 </template>
 
 <script>
+	import qs from 'qs'
 	export default {
 	  name: 'UserCenterPassword',
 	  data () {
@@ -80,10 +81,10 @@
 	          this.$ajax({
 	            method: 'post',
 	            url: '/user/changepwd',
-	            data: {
+	            data: qs.stringify({
 	              oldpassword: this.formCustom.oldpassword,
 	              newpassword: this.formCustom.newpassword
-	            }
+	            })
 	          }).then((res) => {
 	            if (res.data.code === '000000') {
 	              this.$Message.success('密码修改成功')

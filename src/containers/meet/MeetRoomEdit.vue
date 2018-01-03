@@ -62,6 +62,8 @@
                 <Upload
                   :action="action"
                   :headers="headers"
+                  :format="['jpg','jpeg','png']"
+                  :max-size="2048"
                   :show-upload-list="false"
                   :on-success="handleSuccess"
                 >
@@ -84,6 +86,7 @@
 </template>
 
 <script>
+  import qs from 'qs'
   export default {
     name: 'MeetRoomEdit',
     data () {
@@ -91,9 +94,11 @@
         loading: true,
         modalTitle: '',
         okText: '',
-//        action: `http://10.255.232.234/oa-api/file`,
-        action: `http://118.31.18.67:96/file`,
-        headers: {token: this.$store.state.userInfo.token, uid: this.$store.state.userInfo.uid},
+        action: this.$ajax.defaults.baseURL + `/file`,
+        headers: {
+          token: this.$ajax.defaults.headers.common['token'],
+          uid: this.$ajax.defaults.headers.common['uid']
+        },
         roomimg: '',
         modal1: false,
         formItem: {
@@ -253,15 +258,15 @@
           if (valid) {
             if (this.okText === '确定') {
 //        调新建会议室接口
-              this.$ajax.post(`/newMeetingRooms`, this.formItem, {
+              this.$ajax.post(`/newMeetingRooms`, qs.stringify(this.formItem), {
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded'
                 }
               }).then((response) => {
                 if (response.data.code === '000000') {
-                  this.getMeetRoom()
                   this.$Message.success('会议室创建成功')
-                  this.$Modal.remove()
+                  this.modal1 = false
+                  this.getMeetRoom()
                 }
               }).catch(function (err) {
                 console.log(err)
@@ -270,15 +275,15 @@
 //        调修改会议室接口
               this.$refs.formItem.validate((valid) => {
                 if (valid) {
-                  this.$ajax.post(`/newMeetingRooms/update`, this.formItem, {
+                  this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.formItem), {
                     headers: {
                       'Content-Type': 'application/x-www-form-urlencoded'
                     }
                   }).then((response) => {
                     if (response.data.code === '000000') {
-                      this.getMeetRoom()
                       this.$Message.success('会议室修改成功')
-                      this.$Modal.remove()
+                      this.modal1 = false
+                      this.getMeetRoom()
                     } else {
                       this.$Message.error(response.data.message)
                       this.getMeetRoom()
@@ -301,7 +306,7 @@
       handleSuccess (res, file) {
         if (res.code === '000000') {
           this.formItem.roomimg = res.data
-          this.roomimg = 'http://118.31.18.67:96' + res.data
+          this.roomimg = this.GLOBAL_.IMG_URL + res.data
           this.$Message.info('success')
         }
       },
@@ -314,7 +319,7 @@
         }
         this.roomList[index].nop = parseInt(this.roomList[index].nop)
 //      调修改会议室状态接口
-        this.$ajax.post(`/newMeetingRooms/update`, this.roomList[index], {
+        this.$ajax.post(`/newMeetingRooms/update`, qs.stringify(this.roomList[index]), {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
@@ -342,7 +347,7 @@
         this.formItem.nop = row.nop
         this.formItem.nop = parseInt(row.nop)
         this.formItem.roomimg = row.roomimg
-        this.roomimg = 'http://118.31.18.67:96' + this.formItem.roomimg
+        this.roomimg = this.GLOBAL_.IMG_URL + row.roomimg
         this.$refs.formItem.validate('roomname')
         this.$refs.formItem.validate('address')
         this.$refs.formItem.validate('device')
