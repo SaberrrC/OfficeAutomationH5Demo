@@ -84,7 +84,7 @@
                   <Upload
                     :action="action"
                     :headers="headers"
-                     multiple
+                    multiple
                     ref="upload"
                     :max-size="1024"
                     :before-upload="handleBeforeUpload"
@@ -119,9 +119,6 @@
                 </FormItem>
               </i-Col>
             </Row>
-            </FormItem>
-
-
           </Form>
         <Modal
           v-model="showTitle"
@@ -136,8 +133,7 @@
               <row>
                 <i-Col span="18" offset="3">
                   <FormItem label="选择会议">
-                    <Input v-model="title" icon="ios-search" @on-change="getTitle">
-                    </Input>
+                    <Input v-model="title" icon="ios-search" @on-change="getTitle"></Input>
                   </FormItem>
                 </i-Col>
               </row>
@@ -171,10 +167,9 @@
       return {
         isShow: false,
         headers: {
-          token: this.$store.state.userInfo.username,
-          uid: this.$store.state.userInfo.uid
+          token: this.$ajax.defaults.headers.common['token'],
+          uid: this.$ajax.defaults.headers.common['uid']
         },
-//        action: `http://10.255.232.234/oa-api/file`,
         action: this.$ajax.defaults.baseURL + `/file`,
         initTreeData: [],
         uploadList: [],

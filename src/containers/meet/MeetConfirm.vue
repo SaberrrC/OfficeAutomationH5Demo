@@ -163,18 +163,18 @@
       meetSave () {
         let data = {
           room_id: this.room_id,
-          uid: '84',   // TODO
+          uid: this.$store.state.userInfo.uid,
           title: this.meetInline.title,
           part_uid: this.part_uid,
           content: this.meetInline.content,
           start_time: this.start_time,
           end_time: this.end_time,
           send_type: this.meetInline.checkbox.join(',')
-        }  // TODO 组装数据
+        }
         this.$ajax.post(`/newMeetings/save`, data, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
+//          headers: {
+//            'Content-Type': 'application/x-www-form-urlencoded'
+//          }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('会议创建成功')
@@ -187,7 +187,6 @@
         })
       },
       getSelectedMembers (data) {
-        //  TODO 在这里处理选中的数组
         this.meetInline.user = ''
         this.part_uid = ''
         let len = data.length

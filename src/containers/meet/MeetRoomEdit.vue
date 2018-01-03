@@ -93,9 +93,11 @@
         loading: true,
         modalTitle: '',
         okText: '',
-//        action: `http://10.255.232.234/oa-api/file`,
         action: this.$ajax.defaults.baseURL + `/file`,
-        headers: {token: this.$store.state.userInfo.token, uid: this.$store.state.userInfo.uid},
+        headers: {
+          token: this.$ajax.defaults.headers.common['token'],
+          uid: this.$ajax.defaults.headers.common['uid']
+        },
         roomimg: '',
         modal1: false,
         formItem: {
@@ -261,9 +263,9 @@
                 }
               }).then((response) => {
                 if (response.data.code === '000000') {
-                  this.getMeetRoom()
+                  this.loading = false
                   this.$Message.success('会议室创建成功')
-                  this.$Modal.remove()
+                  this.getMeetRoom()
                 }
               }).catch(function (err) {
                 console.log(err)
@@ -278,9 +280,9 @@
                     }
                   }).then((response) => {
                     if (response.data.code === '000000') {
-                      this.getMeetRoom()
+                      this.loading = false
                       this.$Message.success('会议室修改成功')
-                      this.$Modal.remove()
+                      this.getMeetRoom()
                     } else {
                       this.$Message.error(response.data.message)
                       this.getMeetRoom()
@@ -303,7 +305,7 @@
       handleSuccess (res, file) {
         if (res.code === '000000') {
           this.formItem.roomimg = res.data
-          this.roomimg = this.$ajax.defaults.baseURL + res.data
+          this.roomimg = this.GLOBAL_.IMG_URL + res.data
           this.$Message.info('success')
         }
       },
@@ -344,7 +346,7 @@
         this.formItem.nop = row.nop
         this.formItem.nop = parseInt(row.nop)
         this.formItem.roomimg = row.roomimg
-        this.roomimg = this.$ajax.defaults.baseURL + this.formItem.roomimg
+        this.roomimg = this.GLOBAL_.IMG_URL + row.roomimg
         this.$refs.formItem.validate('roomname')
         this.$refs.formItem.validate('address')
         this.$refs.formItem.validate('device')

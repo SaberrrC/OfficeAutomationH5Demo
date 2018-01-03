@@ -372,7 +372,7 @@
               this.$Message.info('请选择连续的时间')
             } else {
               startClock = clock[0]     // 开始时间点
-              startClock = clock[0] + len   // 结束时间点
+              endClock = clock[0] + len   // 结束时间点
               var n = this.click_time[0].click_week - 1              // 会议时长
               var thisDatetime = this.click_time[0].week1_time + 3600 * 24 * n     // 选择会议当天0点的时间戳
               var myDate = new Date(thisDatetime * 1000)
