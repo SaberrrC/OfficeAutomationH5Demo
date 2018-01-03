@@ -1,0 +1,520 @@
+.chatting .singleChatbox {
+  position: relative;
+}
+
+.chatting .el-col {
+  border-radius: 4px;
+}
+
+.chatting .bg-purple-dark {
+  background: #99a9bf;
+}
+
+.chatting .bg-purple {
+  background: #d3dce6;
+}
+
+.chatting .bg-purple-light {
+  background: #e5e9f2;
+}
+
+.chatting .grid-content {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-top-right-radius: 4px;
+  border-bottom: 1px solid #ddd;
+  height: 50px;
+}
+
+.chatting .row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
+}
+
+.chatting .grid-content span {
+  display: inline-block;
+  min-height: 36px;
+  line-height: 50px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.chatting .grid-content .name {
+  cursor: pointer;
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chatting .grid-content .chat-box-menu {
+  float: right;
+  width: 50px;
+  cursor: pointer;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.chatting .box_list {
+  border-top: none;
+  border-bottom: 1px solid #ddd;
+  height: 300px;
+  overflow: auto;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.chatting .box_list .listTime {
+  text-align: center;
+  font-size: 12px;
+  color: #7a7f8a;
+  margin-top: 10px;
+}
+
+.chatting .box_list .listContent {
+  width: 300px;
+  min-height: 50px;
+  margin-top: 5px;
+}
+
+.chatting .listContent:after {
+  content: '.';
+  height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+.chatting .listContent .img {
+  width: 30px;
+  height: 30px;
+  float: left;
+  box-sizing: border-box;
+}
+
+.chatting .listContent .img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 25%;
+  border: 1px solid #ddd;
+}
+
+.chatting .listContent .text {
+  padding: 10px;
+  float: left;
+  width: calc(300px - 70px);
+  white-space: normal;
+  word-break: break-all;
+  background: #ddd;
+  margin-left: 20px;
+  border-radius: 4px;
+  min-height: 30px;
+}
+
+.chatting .box_list .listContentRight {
+  /* width: 300px; */
+  min-height: 50px;
+  margin-top: 5px;
+  padding-left: 35%;
+}
+
+.chatting .listContentRight:after {
+  content: '.';
+  height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+.chatting .listContentRight .img {
+  width: 30px;
+  height: 30px;
+  float: right;
+  box-sizing: border-box;
+}
+
+.chatting .listContentRight .img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 25%;
+  border: 1px solid #ddd;
+}
+
+.chatting .listContentRight .text {
+  padding: 10px;
+  float: right;
+  width: calc(300px - 70px);
+  white-space: normal;
+  word-break: break-all;
+  background: #66b1ff;
+  margin-right: 20px;
+  color: #fff;
+  border-radius: 4px;
+  min-height: 30px;
+}
+.chatting .listContentRight .listRightName{
+  width: calc(300px - 50px);
+  text-align: right;
+  font-size: 14px;
+  color: #999999;
+}
+.chatting .listLeftName{
+  width: 300px;
+  margin-left: 50px;
+  font-size: 14px;
+  color: #999999;
+}
+/*个人信息弹出框*/
+
+.chatting .Personalmes {
+  z-index: 101;
+  width: 420px;
+  /*height: 300px;*/
+  border: 1px solid #BCBCBC;
+  position: fixed;
+  left: 40%;
+  top: 20%;
+  background-color: #fff;
+  /*padding: 10px;*/
+  border-radius: 5px;
+}
+
+.chatting .Personalmes .title {
+  text-align: left;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.chatting .Personalmes .personnalbaseImg {
+  position: relative;
+}
+
+.chatting .personnalbaseImg .close {
+  position: absolute;
+  top: -25px;
+  right: 10px;
+}
+
+.chatting .personnalbaseImg .close:hover {
+  cursor: pointer;
+}
+
+.chatting .personnalbaseImg .avatar {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding-top: 4px;
+  padding-left: 7px;
+  box-sizing: border-box;
+}
+
+.chatting .avatar img {
+  border-radius: 50%;
+}
+
+.chatting .personnalbaseImg .baseMes {
+  display: inline-block;
+}
+
+.chatting .baseMes {
+  margin-left: 10px;
+}
+
+.chatting .baseMes p {
+  font-weight: 800;
+  margin: 5px;
+}
+
+.chatting .baseMes span {
+  font-size: 14px;
+}
+
+.chatting .personnalfoot {
+  margin-top: 10px;
+  border-top: 1px solid #BCBCBC;
+  width: 100%;
+  padding: 10px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.chatting .personnalfoot .email,
+.chatting .personnalfoot .phone {
+  display: inline-block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.chatting .personnalfoot .email {
+  width: 100%;
+}
+
+.chatting .personnalfoot .phone {
+  display: inline-block;
+  width: 34%;
+}
+
+.chatting .personnalfoot .department {
+  font-size: 14px;
+}
+
+
+/*增加成员*/
+
+.chatting .addmember {
+  position: absolute;
+  background: #eee;
+  right: 0px;
+  top: 50px;
+  width: 200px;
+  height: 450px;
+  z-index: 101;
+  /*background-color: pink;*/
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chatting .slide-fade-enter-active {
+  transition: all .5s ease;
+  /* width: 600px; */
+}
+
+.chatting .slide-fade-leave-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  /* width: 600px; */
+}
+
+.chatting .slide-fade-enter,
+.slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */
+
+{
+  /* transform: translateX(10px); */
+  /* width: 600px; */
+  opacity: 0;
+}
+
+.chatting .addmember .addIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.chatting .addmember .addIcon {
+  cursor: pointer;
+}
+
+.chatting .addmember img {
+  width: 30px;
+  height: 30px;
+  vertical-align: sub;
+}
+
+.chatting .personnelList {
+  width: 180px;
+  height: 350px;
+  margin-top: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.chatting .member-list-item {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chatting .member-list-item:hover {
+  background-color: #e4e8f1;
+}
+
+.chatting .member-list-item .title {
+  cursor: default;
+  width: 100px;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chatting .member-list-item .menu {
+  float: right;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.chatting .adddialog {
+  z-index: 102;
+  width: 400px;
+  height: 400px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  position: absolute;
+  padding: 10px;
+  padding-right: 5px;
+  top:50px;
+  left:380px;
+  /*position: relative;*/
+}
+
+
+.chatting .adddialog .title {
+  border-bottom: 1px solid #ccc;
+  line-height: 36px;
+}
+
+.chatting .adddialog .addressTreeleft {
+  width: 45%;
+  padding-right: 10px;
+  padding-top: 10px;
+  border-radius: 5px;
+  float: left;
+  border-right: 1px solid #ccc;
+  padding-right: 5px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.chatting .addressTreeleft .listSearch{
+  width: 100%;
+  /* background-color: red; */
+  overflow-y: auto;
+  height:320px;
+  margin-top: 10px;
+}
+.chatting .addressTreeleft .listSearch .child_name{
+  font-size: 14px;
+}
+.chatting .addressTreeleft .elTree {
+  height: 320px;
+  /* overflow-y: auto; */
+  margin-top: 10px;
+  width: 232px;
+}
+
+.chatting .addressTreeleft .elTree .el-tree {
+  overflow: auto;
+  height: 310px;
+  width: 171px;
+}
+.chatting .adddialog .addressTreeRight {
+  float: right;
+  text-align: left;
+  width: 50%;
+  height: 92%;
+  position: relative;
+  box-sizing: border-box;
+  /*height: */
+}
+
+.chatting .addressTreeRight .choice span {
+  width: 100%;
+  height: 55px;
+  line-height: 55px;
+  display: inline-block;
+  text-align: center;
+
+}
+
+.chatting .addressTreeRight .closeSpan:hover {
+  cursor: pointer;
+}
+
+.chatting .addressTreeRight .closeSpan {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  /* background:url(../assets/img-chat/closeSpan.png); */
+  /* border: 1px solid #ccc; */
+  background-size: contain;
+  margin-left: 10px;
+  vertical-align: middle;
+  float: right;
+}
+
+.chatting .addressTreeRight .imgSpan {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  /*background:url(../assets/img-chat/3.jpg);*/
+  border: 1px solid #ccc;
+  background-size: contain;
+  vertical-align: middle;
+  float: left;
+}
+.chatting .addressTreeRight ul{
+  height: 270px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.chatting .addressTreeRight ul li {
+  width: 94%;
+}
+.chatting .addressTreeRight ul li span{
+  list-style-type: none;
+  height: 26px;
+  line-height: 26px;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+  width: 160px;
+  display: inline-block;
+}
+
+.chatting .addressTreeRight .btn {
+  position: absolute;
+  bottom: 0;
+}
+
+.chatting .TXTleft {
+  float: left;
+  font-size: 80px;
+}
+
+.chatting .TXTright {
+  float: left;
+}
+
+.chatting .TXTright_name {
+  font-size: 13px;
+  margin-top: 14px;
+  width: 150px;
+}
+
+.chatting .TXTright_n {
+  font-size: 16px;
+  margin-top: 5px;
+  width: 150px;
+}
+.chatting h5{
+  width: 100%;
+  text-align: center;
+  color: red;
+  height: 40px;
+  line-height: 40px;
+  margin-top: 5px;
+  cursor: pointer;
+  /* border-top:1px solid #000; */
+}
+.chatting .singleChatbox .hidden{
+  width: 93%;
+  height: 100%;
+  /* background-color: pink; */
+  display: block;
+  z-index: 33;
+  position: absolute;
+  top: 0;
+}

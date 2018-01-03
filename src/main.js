@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
-
+import store from './vuex/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+// import Lockr from 'lockr'
 
 //  import qs from 'qs'
 import axios from 'axios'
@@ -37,6 +37,7 @@ Vue.use(iView)
 Vue.config.productionTip = false
 
 axios.defaults.baseURL = 'http://10.255.232.234/oa-api'
+window.axios = axios
 
 /* eslint-disable no-new */
 new Vue({

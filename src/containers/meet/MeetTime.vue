@@ -1,6 +1,6 @@
 <template>
   <div class="work-report-daily">
-    <Card>
+    <Card :dis-hover="true">
       <p slot="title">
         <span>选择时间</span>
         <br>
@@ -35,13 +35,14 @@
 </template>
 
 <script>
+  import qs from 'qs'
   export default {
     name: 'WorkReportDaily',
     data () {
       return {
         nowTime: this.$route.query.meet_time ? parseInt(this.$route.query.meet_time) : parseInt(new Date().getTime() / 1000), // 当前时间戳
         meet_id: this.$route.query.meet_id ? this.$route.query.meet_id : '',                    //    会议id
-        send_type: this.$route.query.send_type ? this.$route.query.send_type : '',                    //    发送方式
+       // send_type: this.$route.query.send_type ? this.$route.query.send_type : '',                    //    发送方式
         roomId: this.$route.query.roomId,
         roomName: this.$route.query.roomName,
         nop: this.$route.query.nop,
@@ -372,7 +373,7 @@
               this.$Message.info('请选择连续的时间')
             } else {
               startClock = clock[0]     // 开始时间点
-              startClock = clock[0] + len   // 结束时间点
+              endClock = clock[0] + len   // 结束时间点
               var n = this.click_time[0].click_week - 1              // 会议时长
               var thisDatetime = this.click_time[0].week1_time + 3600 * 24 * n     // 选择会议当天0点的时间戳
               var myDate = new Date(thisDatetime * 1000)
@@ -390,10 +391,9 @@
                 var data = {
                   meeting_id: this.meet_id,
                   start_time: startTime,
-                  end_time: endTime,
-                  send_type: this.send_type
+                  end_time: endTime
                 }
-                this.$ajax.post(`/newMeetings/updateMeeting`, data, {
+                this.$ajax.post(`/newMeetings/updateMeeting`, qs.stringify(data), {
                 }).then((response) => {
                   if (response.data.code === '000000') {
                     this.$Message.success('您已成功修改了本次会议的时间')

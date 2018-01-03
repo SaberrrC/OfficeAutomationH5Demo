@@ -1,0 +1,277 @@
+.chatting-container {
+  z-index: 99;
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  margin-top: -250px;
+  margin-left: -450px;
+  min-width: 900px;
+  min-height: 500px;
+}
+
+.chatting-container.min {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  width: 0;
+  height: 0;
+  min-width: unset;
+  min-height: unset;
+}
+
+.chatting-container .chatting-mask {
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.chatting-container .chatting {
+  color: #2c3e50;
+  width: 900px;
+  height: 500px;
+  background: #eee;
+  border: 0;
+  position: relative;
+}
+
+.chatting-container .chatting.min {
+  display: none;
+}
+.chatting-container .chatting .sidebar {
+  position: relative;
+  width: 80px;
+  height: 100%;
+  background: #5a5e66;
+  float: left;
+  text-align: center;
+}
+
+.chatting-container .chatting-icon,
+.chatting .sidebar .name .circle,
+.chatting .sidebar .webim,
+.chatting .personnalbaseImg .close {
+  cursor: pointer;
+}
+
+.chatting .sidebar .webim {
+  font-size: 40px;
+  text-align: center;
+  margin-top: 20px;
+  color: #e4e4e4;
+  position: relative;
+}
+
+.chatting .webim.webim-M {
+  position: absolute;
+  bottom: 3%;
+  left: 0;
+  right: 0;
+}
+
+.chatting .sidebar .webim:hover {
+  color: #3a8ee6;
+}
+
+.chatting .name div {
+  text-align: center;
+  overflow: hidden;
+}
+
+.chatting .name .circle {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  /* border:1px solid rgb(221, 221, 221); */
+  border-radius: 50%;
+  text-align: center;
+  /* padding-top:5px; */
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 10px;
+}
+
+.chatting .sidebar .name img {
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+}
+
+.chatting .communication {
+  width: 300px;
+  height: 100%;
+  float: left;
+  position: relative;
+}
+
+.chatting .communication,
+.chatting .dialogBox {
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.chatting .dialogBox {
+  width: 520px;
+  height: 100%;
+  float: left;
+}
+
+.chatting .popup {
+  z-index: 101;
+  width: 200px;
+  background: #fff;
+  position: absolute;
+  border-radius: 4px;
+  bottom: 0px;
+  left: 80px;
+  border: 1px solid #ddd;
+}
+
+.chatting .popup .popup_select {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chatting-container .chatting-icon {
+  position: fixed;
+  right: 90px;
+  bottom: 90px;
+  width: 40px;
+  height: 40px;
+  background: url("../assets/img-chat/mes.png");
+  background-size: contain;
+  border-radius: 50%;
+  z-index: 200;
+}
+
+.chatting .webim-E .num,
+.chatting-container .chatting-icon .num {
+  font-size: 14px;
+  color: #fff;
+  display: inline-block;
+  height: 18px;
+  border-radius: 50%;
+  background-color: red;
+  line-height: 18px;
+  text-align: center;
+}
+
+.chatting .webim-E .num {
+  position: absolute;
+  width: 30px;
+  top: 7px;
+  right: 10px;
+}
+
+.chatting-container .chatting-icon .num {
+  position: absolute;
+  top: -2px;
+  left: 25px;
+  width: 30px;
+}
+
+.chatting .classBlue {
+  color: #3a8ee6 !important;
+}
+
+.chatting .Personalmes {
+  z-index: 101;
+  text-align: left;
+  width: 420px;
+  /*height: 300px;*/
+  border: 1px solid #bcbcbc;
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  background-color: #fff;
+  border-radius: 5px;
+  /*padding: 10px;*/
+}
+
+.chatting .Personalmes .title {
+  /*height: 30px;*/
+  text-align: left;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.chatting .Personalmes .personnalbaseImg {
+  position: relative;
+}
+
+.chatting .personnalbaseImg .close {
+  position: absolute;
+  top: -25px;
+  right: 10px;
+}
+
+.chatting .personnalbaseImg .avatar {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #f2f2f2;
+  /*border-radius: 50%;*/
+  padding-top: 4px;
+  padding-left: 7px;
+  box-sizing: border-box;
+}
+
+.chatting .personnalbaseImg img {
+  border-radius: 50%;
+}
+
+.chatting .personnalbaseImg .baseMes {
+  display: inline-block;
+}
+
+.chatting .baseMes {
+  margin-left: 10px;
+}
+
+.chatting .baseMes p {
+  font-weight: 800;
+  margin: 5px;
+}
+
+.chatting .baseMes span {
+  font-size: 14px;
+}
+
+.chatting .personnalfoot {
+  margin-top: 10px;
+  border-top: 1px solid #bcbcbc;
+  width: 100%;
+  padding: 10px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.chatting .personnalfoot .email,
+.chatting .personnalfoot .phone {
+  display: inline-block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.chatting .personnalfoot .email {
+  width: 100%;
+}
+
+.chatting .personnalfoot .phone {
+  display: inline-block;
+  width: 34%;
+}
+
+.chatting .personnalfoot .department {
+  font-size: 14px;
+}
