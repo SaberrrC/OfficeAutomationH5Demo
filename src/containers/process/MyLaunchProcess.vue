@@ -58,6 +58,7 @@
             :columns="myLaunchHeader"
             :data="myLaunchList"
             height="450"
+            :loading="loading"
             @on-row-click="showInfo">
           </Table>
           </div>
@@ -84,6 +85,7 @@
     name: 'MyLaunch',
     data () {
       return {
+        loading: false,
         formItem: {
           time: '4',
           status: ''
@@ -198,6 +200,7 @@
     methods: {
 //    获取我发起的列表
       getMyLaunchList () {
+        this.loading = true
         this.$ajax.get(`/myApply/queryApproveByAll`, {
           params: {
             time: this.formItem.time,
@@ -211,8 +214,10 @@
           if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
             this.launchTotal = response.data.data.total
             this.myLaunchList = response.data.data.dataList
+            this.loading = false
           } else if (response.data.code === '000000' && response.data.data.dataList.length === 0) {
             this.myLaunchList = []
+            this.loading = false
           }
         }).catch(function (err) {
           console.log(err)
