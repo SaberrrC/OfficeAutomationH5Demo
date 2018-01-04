@@ -148,6 +148,7 @@
       },
       handleReset (name) {
         this.$refs[name].resetFields()
+        this.visible = false
       }
 
     }

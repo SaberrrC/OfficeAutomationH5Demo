@@ -201,6 +201,7 @@
 	      }).then((res) => {
 	        if (res.data.code === '000000') {
 	          this.$Message.success('发布成功')
+	          this.handleReset('formItem')
 	        } else {
 	          this.$Message.error(res.data.message)
 	        }
@@ -217,6 +218,7 @@
 	    },
 	    handleReset (name) {
 	      this.$refs[name].resetFields()
+	      this.$refs.upload.clearFiles()
 	    }
 	  }
 	}
