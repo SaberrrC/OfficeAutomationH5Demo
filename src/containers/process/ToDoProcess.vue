@@ -64,6 +64,7 @@
               ref="selection"
               :columns="toDoListHeader"
               :data="toDoList"
+              :loading="loading"
               @on-selection-change="handleChecked"
               @on-row-click="showInfo"></Table>
             <div style="margin: 10px;overflow: hidden">
@@ -87,6 +88,7 @@
     name: 'Todo',
     data () {
       return {
+        loading: false,
         formItem: {
           time: '4',
           launchUser: ''
@@ -208,6 +210,7 @@
       },
 //    获取待我审批列表
       getToDoList () {
+        this.loading = true
         this.$ajax.get(`/MyAplication/selectMyAplication`, {
           params: {
             checkmanId: this.$store.state.userInfo.code,
@@ -223,8 +226,10 @@
           if (response.data.code === '000000') {
             this.launchTotal = response.data.data.total
             this.toDoList = response.data.data.data
+            this.loading = false
           } else if (response.data.code === '020000') {
             this.toDoList = []
+            this.loading = false
           }
         }).catch(function (err) {
           console.log(err)
@@ -289,7 +294,7 @@
           title: title,
           content: content,
           onOk: () => {
-            this.handleEdit('true')
+            this.handleEdit(true)
           }
         })
       },
@@ -301,7 +306,7 @@
           title: title,
           content: content,
           onOk: () => {
-            this.handleEdit('false')
+            this.handleEdit(false)
           }
         })
       },
@@ -312,10 +317,10 @@
         if (len !== 0) {
           this.checkList = []
           this.checkList.push(row)
-          this.handleEdit('true')
+          this.handleEdit(true)
         } else {
           this.checkList.push(row)
-          this.handleEdit('true')
+          this.handleEdit(true)
         }
 //        console.log(row)
       },
@@ -325,10 +330,10 @@
         if (len !== 0) {
           this.checkList = []
           this.checkList.push(row)
-          this.handleEdit('false')
+          this.handleEdit(false)
         } else {
           this.checkList.push(row)
-          this.handleEdit('false')
+          this.handleEdit(false)
         }
       },
 //    调同意/驳回接口

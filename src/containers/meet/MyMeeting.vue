@@ -20,7 +20,11 @@
     <Card :dis-hover="true">
       <!--发起列表-->
       <div v-show="showLaunchList">
-        <Table border height="450" :columns="launchTableHead" :data="launchTableData"></Table>
+        <Table border height="450"
+               :columns="launchTableHead"
+               :data="launchTableData"
+               :loading="launchLoading"
+        ></Table>
         <div style="margin: 10px;overflow: hidden">
           <div>
             <Page
@@ -64,6 +68,7 @@ export default {
   name: 'MyMeeting',
   data () {
     return {
+      launchLoading: false,
       showLaunchList: true,
       showBeInvitedList: false,
       launchTotal: 0,                 // 发起列表总条数
@@ -203,6 +208,7 @@ export default {
     },
 //      获取发起列表
     getLaunchMeet () {
+      this.launchLoading = true
       this.$ajax.post(`/newMeetings/reserve`, qs.stringify({currentPage: this.launchCurrentPage, pageSize: this.launchPageSize}), {
       }).then((response) => {
         if (response.data.code === '000000' && response.data.data.data.length !== 0) {
@@ -261,6 +267,7 @@ export default {
             }
           }
           this.launchTableData = data
+          this.launchLoading = false
         }
       }).catch(function (err) {
         console.log(err)

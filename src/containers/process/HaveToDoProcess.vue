@@ -60,6 +60,7 @@
               :columns="haveTodoListHeader"
               :data="haveTodoList"
               height="450"
+              :loading="loading"
               @on-row-click="showInfo">
             </Table>
             </div>
@@ -86,6 +87,7 @@
     name: 'HaveTodo',
     data () {
       return {
+        loading: false,
         formItem: {
           time: '4',
           status: ''
@@ -172,6 +174,7 @@
       },
 //    获取已审批列表
       getHaveToDoList () {
+        this.loading = true
         this.$ajax.get(`/MyAplication/selectMyAplication`, {
           params: {
             checkmanId: this.$store.state.userInfo.code,
@@ -187,8 +190,10 @@
           if (response.data.code === '000000') {
             this.launchTotal = response.data.data.total
             this.haveTodoList = response.data.data.data
+            this.loading = false
           } else if (response.data.code === '020000') {
             this.haveTodoList = []
+            this.loading = false
           }
         }).catch(function (err) {
           console.log(err)
