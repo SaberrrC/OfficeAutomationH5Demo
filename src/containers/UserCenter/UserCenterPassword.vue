@@ -26,6 +26,10 @@
 	    const validatePass = (rule, value, callback) => {
 	      if (value === '') {
 	        callback(new Error('请输入新密码'))
+	      } else if (value === this.formCustom.oldpassword) {
+	        callback(new Error('新密码不能与原始密码相同'))
+	      } else if (!/^[a-zA-Z0-9]{6,15}$/.test(value)) {
+	        callback(new Error('请输入6-15位的数字或字母'))
 	      } else {
 	        if (this.formCustom.checkpassword !== '') {
 	// 对第二个密码框单独验证
