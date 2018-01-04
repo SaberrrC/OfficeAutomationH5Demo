@@ -7,12 +7,12 @@
         日工作汇报
       </p>
       <p slot="extra">
-        <Button type="error">关闭</Button>
-        <Button type="primary">
+        <Button type="error" @click="back">关闭</Button>
+        <Button type="primary" @click="goLeft">
           <Icon type="chevron-left"></Icon>
         </Button>
-        <Button type="primary">
-          <Icon type="chevron-right"></Icon>
+        <Button type="primary" @click="goRight">
+          <Icon type="chevron-right" @click="goRight"></Icon>
         </Button>
       </p>
       <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
@@ -202,8 +202,7 @@
           </Col>
         </Row>
         <Row style="margin: 20px;">
-          <Col span="8" align="center">工作日志&nbsp;&nbsp;
-          <Input v-model="reportData.worklogScore" readonly></Input></Col>
+          <Col span="8" align="center">工作日志&nbsp;&nbsp;<Input v-model="reportData.worklogScore" readonly></Input></Col>
           <Col span="8" align="center">职业素养&nbsp;&nbsp;<Input v-model="reportData.professionalismScore" readonly></Input></Col>
           <Col span="8" align="center">团队合作&nbsp;&nbsp;<Input v-model="reportData.teamScore" readonly></Input></Col>
         </Row>
@@ -216,191 +215,211 @@
 </template>
 
 <script>
-export default {
-  name: 'WholeDaily',
-  data () {
-    return {
-      storeData: this.$route.params,
-      columns: [
-        {
-          title: '部门',
-          key: 'department',
-          align: 'center'
-        },
-        {
-          title: '岗位',
-          key: 'position',
-          align: 'center'
-        },
-        {
-          title: '姓名',
-          key: 'name',
-          align: 'center'
-        },
-        {
-          title: '汇报时间',
-          key: 'dailyTime',
-          align: 'center'
-        },
-        {
-          title: '状态',
-          key: 'state',
-          align: 'center'
-        },
-        {
-          title: '备注',
-          key: 'remarks',
-          align: 'center'
-        },
-        {
-          title: '评分',
-          key: 'score',
-          align: 'center'
-        }
-      ],
-      listData: [],
-      showDetail: false,
-      current: 1,
-      total: 0,
-      reportData: {
-        'workPlanOne': '',
-        'workPlanTwo': '',
-        'workPlanThree': '',
-        'workPlanFour': '',
-        'workPlanFive': '',
-        'workPlanSix': '',
-        'workPlanSeven': '',
-        'workPlanEigth': '',
-        'workOne': '',
-        'workTwo': '',
-        'workThree': '',
-        'workFour': '',
-        'workFive': '',
-        'workSix': '',
-        'workSeven': '',
-        'workEigth': '',
-        'workResultOne': '',
-        'workResultTwo': '',
-        'workResultThree': '',
-        'workResultFour': '',
-        'workResultFive': '',
-        'workResultSix': '',
-        'workResultSeven': '',
-        'workResultEigth': '',
-        'selfRatingOne': '',
-        'selfRatingTwo': '',
-        'selfRatingThree': '',
-        'selfRatingFour': '',
-        'selfRatingFive': '',
-        'selfRatingSix': '',
-        'selfRatingSeven': '',
-        'selfRatingEigth': '',
-        'supervisorRatingOne': '',
-        'supervisorRatingTwo': '',
-        'supervisorRatingThree': '',
-        'supervisorRatingFour': '',
-        'supervisorRatingFive': '',
-        'supervisorRatingSix': '',
-        'supervisorRatingSeven': '',
-        'supervisorRatingEigth': '',
-        'checkRatingOne': '',
-        'checkRatingTwo': '',
-        'checkRatingThree': '',
-        'checkRatingFour': '',
-        'checkRatingFive': '',
-        'checkRatingSix': '',
-        'checkRatingSeven': '',
-        'checkRatingEigth': '',
-        'selfBehavior': '',
-        'selfEnvironmental': '',
-        'selfSave': '',
-        'selfCommunication': '',
-        'selfAppearance': '',
-        'selfDiscipline': '',
-        'supervisorBehavior': '',
-        'supervisorEnvironmental': '',
-        'supervisorSave': '',
-        'supervisorCommunication': '',
-        'supervisorAppearance': '',
-        'supervisorDiscipline': '',
-        'checkBehavior': '',
-        'checkEnvironmental': '',
-        'checkSave': '',
-        'checkCommunication': '',
-        'checkAppearance': '',
-        'checkDiscipline': '',
-        'selfJobInitiative': '',
-        'selfCooperation': '',
-        'selfDedicated': '',
-        'selfOrganization': '',
-        'supervisorJobInitiative': '',
-        'supervisorCooperation': '',
-        'supervisorDedicated': '',
-        'supervisorOrganization': '',
-        'checkJobInitiative': '',
-        'checkCooperation': '',
-        'checkDedicated': '',
-        'checkOrganization': '',
-        'tomorrowPlan': '',
-        'worklogScore': '',
-        'professionalismScore': '',
-        'teamScore': '',
-        'totalScore': ''
-      }
-    }
-  },
-  methods: {
-    func (event) {},
-    //  获取列表数据
-    getListDate () {
-      this.$ajax({
-        method: 'get',
-        url: '/dailyreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
-      }).then((res) => {
-        console.log('列表详情', res.data)
-        let result = res.data.data
-        if (res.data.code === '000000') {
-          this.listData = result.data
-          this.total = result.total
-        } else {
-          if (res.data.code === '020000') {
-            this.listData = []
-            this.total = 0
+  export default {
+    name: 'WholeDaily',
+    data () {
+      return {
+        storeData: this.$route.params,
+        columns: [
+          {
+            title: '部门',
+            key: 'department',
+            align: 'center'
+          },
+          {
+            title: '岗位',
+            key: 'position',
+            align: 'center'
+          },
+          {
+            title: '姓名',
+            key: 'name',
+            align: 'center'
+          },
+          {
+            title: '汇报时间',
+            key: 'dailyTime',
+            align: 'center'
+          },
+          {
+            title: '状态',
+            key: 'state',
+            align: 'center'
+          },
+          {
+            title: '备注',
+            key: 'remarks',
+            align: 'center'
+          },
+          {
+            title: '评分',
+            key: 'score',
+            align: 'center'
           }
+        ],
+        listData: [],
+        showDetail: false,
+        current: 1,
+        total: 0,
+        reportData: {
+          'workPlanOne': '',
+          'workPlanTwo': '',
+          'workPlanThree': '',
+          'workPlanFour': '',
+          'workPlanFive': '',
+          'workPlanSix': '',
+          'workPlanSeven': '',
+          'workPlanEigth': '',
+          'workOne': '',
+          'workTwo': '',
+          'workThree': '',
+          'workFour': '',
+          'workFive': '',
+          'workSix': '',
+          'workSeven': '',
+          'workEigth': '',
+          'workResultOne': '',
+          'workResultTwo': '',
+          'workResultThree': '',
+          'workResultFour': '',
+          'workResultFive': '',
+          'workResultSix': '',
+          'workResultSeven': '',
+          'workResultEigth': '',
+          'selfRatingOne': '',
+          'selfRatingTwo': '',
+          'selfRatingThree': '',
+          'selfRatingFour': '',
+          'selfRatingFive': '',
+          'selfRatingSix': '',
+          'selfRatingSeven': '',
+          'selfRatingEigth': '',
+          'supervisorRatingOne': '',
+          'supervisorRatingTwo': '',
+          'supervisorRatingThree': '',
+          'supervisorRatingFour': '',
+          'supervisorRatingFive': '',
+          'supervisorRatingSix': '',
+          'supervisorRatingSeven': '',
+          'supervisorRatingEigth': '',
+          'checkRatingOne': '',
+          'checkRatingTwo': '',
+          'checkRatingThree': '',
+          'checkRatingFour': '',
+          'checkRatingFive': '',
+          'checkRatingSix': '',
+          'checkRatingSeven': '',
+          'checkRatingEigth': '',
+          'selfBehavior': '',
+          'selfEnvironmental': '',
+          'selfSave': '',
+          'selfCommunication': '',
+          'selfAppearance': '',
+          'selfDiscipline': '',
+          'supervisorBehavior': '',
+          'supervisorEnvironmental': '',
+          'supervisorSave': '',
+          'supervisorCommunication': '',
+          'supervisorAppearance': '',
+          'supervisorDiscipline': '',
+          'checkBehavior': '',
+          'checkEnvironmental': '',
+          'checkSave': '',
+          'checkCommunication': '',
+          'checkAppearance': '',
+          'checkDiscipline': '',
+          'selfJobInitiative': '',
+          'selfCooperation': '',
+          'selfDedicated': '',
+          'selfOrganization': '',
+          'supervisorJobInitiative': '',
+          'supervisorCooperation': '',
+          'supervisorDedicated': '',
+          'supervisorOrganization': '',
+          'checkJobInitiative': '',
+          'checkCooperation': '',
+          'checkDedicated': '',
+          'checkOrganization': '',
+          'tomorrowPlan': '',
+          'worklogScore': '',
+          'professionalismScore': '',
+          'teamScore': '',
+          'totalScore': ''
         }
-      }, (res) => {
-
-      })
+      }
     },
-    //  分页查询
-    changePage (e) {
-      this.current = e
-      this.getListDate()
+    methods: {
+      func (event) {},
+      //  获取列表数据
+      getListDate (id) {
+        this.$ajax({
+          method: 'get',
+          url: '/dailyreport/detils/' + id + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
+        }).then((res) => {
+          console.log('列表详情', res.data)
+          let result = res.data.data
+          if (res.data.code === '000000') {
+            this.listData = result.data
+            this.total = result.total
+          } else {
+            if (res.data.code === '020000') {
+              this.listData = []
+              this.total = 0
+            }
+          }
+        }, (res) => {
+
+        })
+      },
+      //  分页查询
+      changePage (e) {
+        this.current = e
+        this.getListDate()
+      },
+      //  点击行，查看详情
+      openDetail (row, index) {
+        console.log(row, index)
+        this.$ajax({
+          method: 'get',
+          url: '/dailyreport/' + row.dailyid
+        }).then((res) => {
+          console.log('日报展示', res.data)
+          let result = res.data.data
+          if (res.data.code === '000000') {
+            this.showDetail = true
+            this.reportData = result
+          } else {
+
+          }
+        }, (res) => {
+
+        })
+      },
+      //  关闭
+      back () {
+        location.hash = '/report_admin/whole/wholeList'
+      },
+      //  左右切换
+      goRight () {
+        this.GLOBAL_.currentIndex ++
+        this.GLOBAL_.currentIndex = this.GLOBAL_.currentIndex === 10 ? 0 : this.GLOBAL_.currentIndex
+        let data = this.GLOBAL_.wholeList[this.GLOBAL_.currentIndex]
+        this.getListDate(data.userId)
+      },
+      goLeft () {
+        this.GLOBAL_.currentIndex --
+        this.GLOBAL_.currentIndex = this.GLOBAL_.currentIndex === -1 ? 9 : this.GLOBAL_.currentIndex
+        let data = this.GLOBAL_.wholeList[this.GLOBAL_.currentIndex]
+        this.getListDate(data.userId)
+      }
     },
-    //  点击行，查看详情
-    openDetail (row, index) {
-      console.log(row, index)
-      this.$ajax({
-        method: 'get',
-        url: '/dailyreport/' + row.dailyid
-      }).then((res) => {
-        console.log('日报展示', res.data)
-        let result = res.data.data
-        if (res.data.code === '000000') {
-          this.showDetail = true
-          this.reportData = result
-        } else {
-
-        }
-      }, (res) => {
-
-      })
+    mounted () {
+      this.getListDate(this.storeData.userId)
+    },
+    activated () {
+      this.getListDate(this.storeData.userId)
     }
-  },
-  mounted () {
-    this.getListDate()
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

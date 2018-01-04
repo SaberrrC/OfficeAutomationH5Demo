@@ -34,8 +34,7 @@ Vue.prototype.GLOBAL_ = {
   },
   //  全员和部门都使用同一份数据
   wholeList: [{}],
-  wholeDaily: [{}],
-  wholeWeekly: [{}]
+  currentIndex: 0
 }
 
 Vue.use(iView)

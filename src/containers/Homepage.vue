@@ -41,7 +41,7 @@
             <Icon type="ios-chatboxes-outline"/>
             公司公告
           </h3>
-          <a href="javascript:void(0);" slot="extra" @click="$router.push('/notice_list')">更多
+          <a href="javascript:void(0);" slot="extra" @click="$router.push('/notice')">更多
             <Icon type="arrow-right-b"/>
           </a>
           <ul>

@@ -157,6 +157,7 @@ export default {
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
+          this.GLOBAL_.wholeList = result.data
         } else {
           if (res.data.code === '020000') {
             this.listData = []
@@ -180,6 +181,7 @@ export default {
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
+          this.GLOBAL_.wholeList = result.data
         } else {
 
         }
@@ -199,6 +201,7 @@ export default {
     //  跳转详情页
     goDetail (row, index) {
       console.log(row, index)
+      this.GLOBAL_.currentIndex = index
       this.$router.push({
         'name': this.type === 0 ? 'DepartmentDaily' : 'DepartmentWeekly',
         'params': {
