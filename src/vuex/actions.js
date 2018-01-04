@@ -23,6 +23,7 @@ const actions = {
         }
       ])
     }
+
     /*
     if (id === 'work_report') {
       const list = [
