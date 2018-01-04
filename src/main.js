@@ -20,6 +20,7 @@ axios.defaults.transformRequest = [(data) => {
   return qs.stringify(data || {})
 }]
 */
+
 Vue.prototype.$ajax = axios
 Vue.prototype.GLOBAL_ = {
   IMG_URL: 'http://10.255.232.234:96',
