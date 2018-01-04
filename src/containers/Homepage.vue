@@ -41,7 +41,7 @@
             <Icon type="ios-chatboxes-outline"/>
             公司公告
           </h3>
-          <a href="javascript:void(0);" slot="extra" @click="$router.push('/notice_list')">更多
+          <a href="javascript:void(0);" slot="extra" @click="$router.push('/notice')">更多
             <Icon type="arrow-right-b"/>
           </a>
           <ul>
@@ -108,7 +108,7 @@ export default {
   },
   created () {
     //  加载二级菜单
-    this.$store.dispatch('querySidebarList', 'home')
+    this.$store.dispatch('querySidebarList', '0')
     //  请求通讯录组织架构
     this.$store.dispatch('queryOrganization').then((response) => {
       let jsonStr = JSON.stringify(response.children)

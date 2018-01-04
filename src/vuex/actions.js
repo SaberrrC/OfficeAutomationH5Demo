@@ -14,12 +14,13 @@ const actions = {
   // 获取二级菜单列表，参数为模块 id
   querySidebarList (context, id) {
     //  TODO mock data
-    if (id === 'home') {
+    if (id === '0') {
       context.commit('updateSidebarList', [
         {
           iconType: 'home',
           name: '善林OA',
-          id: 'home'
+          id: '0',
+          url: 'home'
         }
       ])
     }
