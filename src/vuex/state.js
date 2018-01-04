@@ -3,15 +3,13 @@ const state = {
   userInfo: {},
   sidebar: [],
   organization: [],
-  thisNotDelete: '',     // 这个不要删
   writeStructIsShow: false, // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
   userinfo: {}, // 当前用户的所有资料
   imUser: { // 个人账号密码
     userName: '', // SL_011000066
     password: '123456'
   },
-  list: [], // 當前聊天列表
-  userlist: [],     // 获取所有用户
+  list: [], // 当前聊天列表
   groupIdShow: '',
   openChatSid: '',
   other: '', // 对方的账号或群ID
@@ -21,18 +19,14 @@ const state = {
   showSid: '', // personneList.vue 改变背景色
   grossNumber: 0, // 全部未读消息
   has: 0,
-  // wholeNews: {}
   singChatbox: {}, // 对话 结构列表
   singChatlist: [], // 当前对话消息列表
   currentChatObj: [],
   TXGroup: [], // 群组
   TXRoom: [], // 聊天室
-  showLeftMenu: false,
-  globalLoading: false,
-  menus: [],
-  rules: [],
-  userGroups: [],
-  organizes: [],
+  // menus: [],
+  // rules: [],
+  // userGroups: [],
   image: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QBcRXhpZgAATU0AKgAAAAgABAMCAAIAAAAWAAAAPlEQAAEAAAABAQAAAFERAAQAAAABAAAOxFESAAQAAAABAAAOxAAAAABQaG90b3Nob3AgSUNDIHByb2ZpbGUA/' +
   '+IMWElDQ19QUk9GSUxFAAEBAAAMSExpbm8CEAAAbW50clJHQiBYWVogB84AAgAJAAYAMQAAYWNzcE1TRlQAAAAASUVDIHNSR0' +
   'IAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1IUCAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' +

@@ -1357,7 +1357,7 @@ export default {
         desktop: this.desktop,
         title: this.title
       })
-      console.log(this.settingValue)
+      // console.log(this.settingValue)
       window.axios.get(config.OA_API + '/user/setMessageSetting', {
         params: {
           uid: this.userinfo.uid,
