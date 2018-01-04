@@ -487,9 +487,8 @@ const chat = {
             uid: store.state.userinfo.uid
           }
         }).then((response) => {
-          console.log(response)
           if (response.data && response.data.code === '000000') {
-            const result = qs.parse(response.data.data.value)
+            let result = JSON.parse(response.data.data.value)
             if (result.desktop === 1 || result.title === 0) {
               resolve('desktop')
             } else {

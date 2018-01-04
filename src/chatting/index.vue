@@ -1054,14 +1054,15 @@ export default {
       })
     },
     getSetting () {
+      let that = this
       chat.getSetting().then((x) => {
         if (x === 'desktop') {
-          this.checked1 = true
-          this.checked2 = false
+          that.checked1 = true
+          that.checked2 = false
         }
         if (x === 'title') {
-          this.checked1 = false
-          this.checked2 = true
+          that.checked1 = false
+          that.checked2 = true
         }
       })
     },
@@ -1356,7 +1357,7 @@ export default {
         desktop: this.desktop,
         title: this.title
       })
-      console.log(this.settingValue)
+      // console.log(this.settingValue)
       window.axios.get(config.OA_API + '/user/setMessageSetting', {
         params: {
           uid: this.userinfo.uid,
