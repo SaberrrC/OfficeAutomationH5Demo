@@ -9,7 +9,7 @@
       <Submenu
         v-for="item in list"
         :key="item.id"
-        :name="item.id">
+        :name="item.url">
         <template slot="title">
           <Icon :type="item.iconType"/>
           {{item.name}}
@@ -17,7 +17,7 @@
         <MenuItem
           v-for="i in item.children"
           :key="i.id"
-          :name="`${item.id}/${i.id}`">
+          :name="`${item.url}/${i.url}`">
           {{i.name}}
         </MenuItem>
       </Submenu>

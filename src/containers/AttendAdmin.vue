@@ -6,7 +6,7 @@
 export default {
   name: 'AttendAdmin',
   created () {
-    this.$store.dispatch('querySidebarList', 'attend_admin')
+    this.$store.dispatch('querySidebarList', '11')
   }
 }
 </script>

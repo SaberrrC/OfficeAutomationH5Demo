@@ -15,7 +15,7 @@
         <MenuItem
           v-for="item in navigationIsShow"
           :key="item.id"
-          :name="item.id">
+          :name="item.url">
           <Icon :type="item.iconType"/>
           {{item.name}}
         </MenuItem>
@@ -30,7 +30,7 @@
               <DropdownItem
                 v-for="item in navigationMore"
                 :key="item.id"
-                :name="item.id">
+                :name="item.url">
                 <Icon :type="item.iconType"/>
                 {{item.name}}
               </DropdownItem>
