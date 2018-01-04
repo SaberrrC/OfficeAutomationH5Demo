@@ -8,7 +8,7 @@
   export default {
     name: 'MeetingAdmin',
     created () {
-      this.$store.dispatch('querySidebarList', 'meeting_admin')
+      this.$store.dispatch('querySidebarList', '10')
     }
   }
 </script>
