@@ -44,7 +44,7 @@
 					<tr>
 						<td colspan="2">
 							<FormItem label="相关附件" prop="uploadList">
-								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'">
+								<Upload ref="upload":default-file-list="defaultList" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'">
 									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
 							</FormItem>
@@ -87,6 +87,7 @@
 	    }
 	    return {
 	      modal1: true,
+	      defaultList: [],
 	      formItem: {
 	        title: '',
 	        content: '',
@@ -200,6 +201,7 @@
 	      }).then((res) => {
 	        if (res.data.code === '000000') {
 	          this.$Message.success('发布成功')
+	          this.handleReset('formItem')
 	        } else {
 	          this.$Message.error(res.data.message)
 	        }
@@ -210,12 +212,13 @@
 	        if (valid) {
 	          this.companySubmit()
 	        } else {
-	          this.$Message.error('Fail!')
+	          this.$Message.error('请完善页面数据!')
 	        }
 	      })
 	    },
 	    handleReset (name) {
 	      this.$refs[name].resetFields()
+	      this.$refs.upload.clearFiles()
 	    }
 	  },
 	  mounted () {

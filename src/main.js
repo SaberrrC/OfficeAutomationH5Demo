@@ -7,11 +7,12 @@ import store from './vuex/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 // import Lockr from 'lockr'
+import config from './config/index.js'
 
 //  import qs from 'qs'
 import axios from 'axios'
 axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可以删除
-axios.defaults.baseURL = 'http://10.255.232.234/oa-api' //  TODO 测试时跨域设置，后期可以删除
+axios.defaults.baseURL = config.OA_API
 axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
 axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''
 /*
@@ -40,7 +41,6 @@ Vue.prototype.GLOBAL_ = {
 Vue.use(iView)
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'http://10.255.232.234/oa-api'
 window.axios = axios
 
 /* eslint-disable no-new */

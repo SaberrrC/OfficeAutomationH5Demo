@@ -1,8 +1,7 @@
-/* eslint-disable */
 const actions = {
-  //  获取当前用户信息
+  // 获取当前用户信息
   queryUserInfo (context) {
-    return axios.get('/user/getUserInfoById').then((response) => {
+    return window.axios.get('/user/getUserInfoById').then((response) => {
       if (response.data && response.data.code === '000000') {
         const result = response.data.data
         context.commit('queryUserInfo', result)
@@ -12,7 +11,7 @@ const actions = {
       console.log(err)
     })
   },
-  //  获取二级菜单列表，参数为模块 id
+  // 获取二级菜单列表，参数为模块 id
   querySidebarList (context, id) {
     //  TODO mock data
     if (id === 'home') {
@@ -159,7 +158,7 @@ const actions = {
     }
     */
     //  根据一级菜单id获取二级菜单
-    return axios.get('/auth/queryRightByPid', {
+    return window.axios.get('/auth/queryRightByPid', {
       params: {
         rightId: id
       }
@@ -174,7 +173,7 @@ const actions = {
     })
   },
   queryOrganization (context, departmentId = '1') {
-    return axios.get('/organization/queryOrgAndUser', {
+    return window.axios.get('/organization/queryOrgAndUser', {
       params: {
         orgId: departmentId
       }
@@ -191,20 +190,8 @@ const actions = {
   clearOther (context) {
     context.commit('clearOther')
   },
-  thisNotDelete (context) {
-    context.commit('thisNotDelete')
-  },
-  setthisNotDelete (context) {
-    context.commit('setthisNotDelete')
-  },
-  userlist (context) {
-    context.commit('userlist') // 获取所有用户
-  },
   clearState (context) {
     context.commit('clearState')
-  },
-  clearToken (context) {
-    context.commit('clearToken')
   },
   writeStructIsShow (context, is) { // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
     context.commit('writeStructIsShow', is)
@@ -230,7 +217,8 @@ const actions = {
   TXList (context, array) { // 通讯列表数据
     context.commit('TXList', array)
   },
-  TXGroup (context, array) { // 通讯列表数据
+  // 群组列表数据
+  TXGroup (context, array) {
     context.commit('TXGroup', array)
   },
   TXRoom (context, array) { // 聊天室
@@ -242,41 +230,14 @@ const actions = {
   async updateRoom (context, obj) { // 聊天室
     context.commit('updateRoom', obj)
   },
-  destroyRoom ({commit}) { // 聊天室
-    commit('destroyRoom')
+  destroyRoom (context) { // 聊天室
+    context.commit('destroyRoom')
   },
-  showLeftMenu ({commit}, status) {
-    commit('showLeftMenu', status)
+  setUsers (context, users) {
+    context.commit('setUsers', users)
   },
-  showLoading ({commit}, status) {
-    commit('showLoading', status)
-  },
-  setMenus ({commit}, menus) {
-    commit('setMenus', menus)
-  },
-  setRules ({commit}, rules) {
-    commit('setRules', rules)
-  },
-  setUsers ({commit}, users) {
-    commit('setUsers', users)
-  },
-  setImg ({commit}, src) {
-	 commit('setImg', src)
-  },
-  setUserGroups ({commit}, userGroups) {
-    commit('setUserGroups', userGroups)
-  },
-  setOrganizes ({commit}, organizes) {
-    commit('setOrganizes', organizes)
-  },
-  logOut ({commit}) {
-    commit('logOut')
-  },
-  setSsid ({commit}, ssid) {
-	 commit('setSsid', ssid)
-  },
-  currentChatObj ({commit}, data) {
-    commit('currentChatObj', data)
+  currentChatObj (context, data) {
+    context.commit('currentChatObj', data)
   }
 }
 
