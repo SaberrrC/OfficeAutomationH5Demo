@@ -8,7 +8,7 @@
   export default {
     name: 'Process',
     created () {
-      this.$store.dispatch('querySidebarList', 'process')
+      this.$store.dispatch('querySidebarList', '3')
     }
   }
 </script>
