@@ -167,7 +167,6 @@
                   on: {
                     click: (event) => {
                       this.HandleAgree(params.row)
-//                      console.log(params.row)
                       event.stopPropagation()
                     }
                   }
@@ -179,7 +178,6 @@
                   },
                   on: {
                     click: (event) => {
-//                      this.remove(params.index)
                       this.handleReject(params.row)
                       event.stopPropagation()
                     }
@@ -222,7 +220,6 @@
             pageSize: this.launchPageSize
           }
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.launchTotal = response.data.data.total
             this.toDoList = response.data.data.data
@@ -241,8 +238,6 @@
       },
 //    点击某一行
       showInfo (row, index) {
-        console.log(row)
-        console.log(index)
         var data = {
           billType: row.pkBillType,          // 单据类型
           billCode: row.billNo,          // 单据编码
@@ -252,26 +247,21 @@
           pageNum: this.launchCurrentPage,            // 发起列表当前页数
           pageSize: this.launchPageSize,              // 发起列表每页显示条数
           time: this.formItem.time,
-          selectApproveState: this.formItem.status,   // 查询单据状态
+          launchUser: this.formItem.launchUser,   // 搜索人
           selectBillType: this.billType,               // 查询方式（加班/签卡/休假/调休/全部）
           index: index
         }
-        console.log(data)
         switch (row.pkBillType) {
           case '6402':
-            console.log('签卡申请')
             this.$router.push({path: 'signCardLaunchInfo', query: data})
             break
           case '6403':
-            console.log('出差申请')
             this.$router.push({path: 'billLaunchInfo', query: data})
             break
           case '6404':
-            console.log('休假申请')
             this.$router.push({path: 'furloughLaunchInfo', query: data})
             break
           case '6405':
-            console.log('加班申请')
             this.$router.push({path: 'workApplyLaunchInfo', query: data})
             break
         }
@@ -284,7 +274,6 @@
           this.disabled = false
         }
         this.checkList = selection
-        console.log(this.checkList)
       },
 //    点击批量同意
       handleBatchAgree () {
@@ -313,7 +302,6 @@
 //    点击同意
       HandleAgree (row) {
         var len = this.checkList.length
-        console.log(len)
         if (len !== 0) {
           this.checkList = []
           this.checkList.push(row)
@@ -322,7 +310,6 @@
           this.checkList.push(row)
           this.handleEdit(true)
         }
-//        console.log(row)
       },
 //    点击驳回
       handleReject (row) {
@@ -349,10 +336,8 @@
           }
           approveRequest.push(data)
         }
-        console.log(approveRequest)
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('审批成功')
             this.getToDoList()
