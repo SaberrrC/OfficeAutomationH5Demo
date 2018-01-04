@@ -149,7 +149,7 @@ export default {
       }],
       listData: [],
       total: 0,
-      current: 1,
+      current: 1
     }
   },
   methods: {
