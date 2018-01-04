@@ -149,7 +149,7 @@ export default {
       }],
       listData: [],
       total: 0,
-      current: 1
+      current: 1,
     }
   },
   methods: {
@@ -212,6 +212,7 @@ export default {
           this.listData = result.data
           this.total = result.total
           //  TODO 缓存数据
+          this.GLOBAL_.wholeList = result.data
         } else {
           if (res.data.code === '020000') {
             this.listData = []
@@ -236,6 +237,7 @@ export default {
           this.listData = result.data
           this.total = result.total
           //  TODO 缓存数据
+          this.GLOBAL_.wholeList = result.data
         } else {
 
         }
@@ -255,6 +257,7 @@ export default {
     //  跳转详情页
     goDetail (row, index) {
       console.log(row, index)
+      this.GLOBAL_.currentIndex = index
       this.$router.push({
         'name': this.type === 0 ? 'WholeDaily' : 'WholeWeekly',
         'params': {

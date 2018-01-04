@@ -7,11 +7,11 @@
         周工作汇报
       </p>
       <p slot="extra">
-        <Button type="error">关闭</Button>
-        <Button type="primary">
+        <Button type="error" @click="back">关闭</Button>
+        <Button type="primary" @click="goLeft">
           <Icon type="chevron-left"></Icon>
         </Button>
-        <Button type="primary">
+        <Button type="primary" @click="goRight">
           <Icon type="chevron-right"></Icon>
         </Button>
       </p>
@@ -22,7 +22,7 @@
 
 
 
-    <Card  v-show="showDetail">
+    <Card  v-show="showDetail"  shadow>
       <Row  style="margin-top: 40px;">
         <Col span="24">
         <table cellpadding="0" cellspacing="0">
@@ -87,117 +87,136 @@
 </template>
 
 <script>
-export default {
-  name: 'WholeWeekly',
-  data () {
-    return {
-      storeData: this.$route.params,
-      columns: [
-        {
-          title: '部门',
-          key: 'department',
-          align: 'center'
-        },
-        {
-          title: '岗位',
-          key: 'position',
-          align: 'center'
-        },
-        {
-          title: '姓名',
-          key: 'userName',
-          align: 'center'
-        },
-        {
-          title: '汇报时间',
-          key: 'reportTime',
-          align: 'center'
-        },
-        {
-          title: '状态',
-          key: 'ratingStatus',
-          align: 'center'
-        },
-        {
-          title: '备注',
-          key: 'remarks',
-          align: 'center'
-        }
-      ],
-      listData: [],
-      showDetail: false,
-      current: 1,
-      total: 0,
-      weeklySummary: [
-        {
-          difference: '',
-          remark: '',
-          work: '',
-          workPlan: ''
-        }
-      ],
-      weekPlane: [
-        {
-          nextWorkPlan: '',
-          personLiable: '',
-          remark: ''
-        }
-      ]
-    }
-  },
-  methods: {
-    //  获取列表数据
-    getListDate () {
-      this.$ajax({
-        method: 'get',
-        url: '/weekreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
-      }).then((res) => {
-        console.log('列表详情', res.data)
-        let result = res.data.data
-        if (res.data.code === '000000') {
-          this.listData = result.data
-          this.total = result.total
-        } else {
-          if (res.data.code === '020000') {
-            this.listData = []
-            this.total = 0
+  export default {
+    name: 'WholeWeekly',
+    data () {
+      return {
+        storeData: this.$route.params,
+        columns: [
+          {
+            title: '部门',
+            key: 'department',
+            align: 'center'
+          },
+          {
+            title: '岗位',
+            key: 'position',
+            align: 'center'
+          },
+          {
+            title: '姓名',
+            key: 'userName',
+            align: 'center'
+          },
+          {
+            title: '汇报时间',
+            key: 'reportTime',
+            align: 'center'
+          },
+          {
+            title: '状态',
+            key: 'ratingStatus',
+            align: 'center'
+          },
+          {
+            title: '备注',
+            key: 'remarks',
+            align: 'center'
           }
-        }
-      }, (res) => {
-
-      })
+        ],
+        listData: [],
+        showDetail: false,
+        current: 1,
+        total: 0,
+        weeklySummary: [
+          {
+            difference: '',
+            remark: '',
+            work: '',
+            workPlan: ''
+          }
+        ],
+        weekPlane: [
+          {
+            nextWorkPlan: '',
+            personLiable: '',
+            remark: ''
+          }
+        ]
+      }
     },
-    //  分页查询
-    changePage (e) {
-      this.current = e
-      this.getListDate()
+    methods: {
+      //  获取列表数据
+      getListDate (id) {
+        this.$ajax({
+          method: 'get',
+          url: '/weekreport/detils/' + id + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
+        }).then((res) => {
+          console.log('列表详情', res.data)
+          let result = res.data.data
+          if (res.data.code === '000000') {
+            this.listData = result.data
+            this.total = result.total
+          } else {
+            if (res.data.code === '020000') {
+              this.listData = []
+              this.total = 0
+            }
+          }
+        }, (res) => {
+
+        })
+      },
+      //  分页查询
+      changePage (e) {
+        this.current = e
+        this.getListDate()
+      },
+      //  点击行，查看详情
+      openDetail (row, index) {
+        console.log(row, index)
+        this.$ajax({
+          method: 'get',
+          url: '/weekreport/' + row.id
+        }).then((res) => {
+          console.log('周报详情', res.data)
+          let result = res.data.data
+          if (res.data.code === '000000') {
+            this.showDetail = true
+            this.weeklySummary = result.weeklySummary
+            this.weekPlane = result.weekPlane
+          } else {
+
+          }
+        }, (res) => {
+
+        })
+      },
+      //  关闭
+      back () {
+        location.hash = '/report_admin/whole/wholeList'
+      },
+      //  左右切换
+      goRight () {
+        this.GLOBAL_.currentIndex ++
+        this.GLOBAL_.currentIndex = this.GLOBAL_.currentIndex === 10 ? 0 : this.GLOBAL_.currentIndex
+        let data = this.GLOBAL_.wholeList[this.GLOBAL_.currentIndex]
+        this.getListDate(data.userId)
+      },
+      goLeft () {
+        this.GLOBAL_.currentIndex --
+        this.GLOBAL_.currentIndex = this.GLOBAL_.currentIndex === -1 ? 9 : this.GLOBAL_.currentIndex
+        let data = this.GLOBAL_.wholeList[this.GLOBAL_.currentIndex]
+        this.getListDate(data.userId)
+      }
     },
-    //  点击行，查看详情
-    openDetail (row, index) {
-      console.log(row, index)
-      this.$ajax({
-        method: 'get',
-        url: '/weekreport/' + row.id
-      }).then((res) => {
-        console.log('周报详情', res.data)
-        let result = res.data.data
-        if (res.data.code === '000000') {
-          this.showDetail = true
-          this.weeklySummary = result.weeklySummary
-          this.weekPlane = result.weekPlane
-        } else {
-
-        }
-      }, (res) => {
-
-      })
+    mounted () {
+      this.getListDate(this.storeData.userId)
+    },
+    activated () {
+      this.getListDate(this.storeData.userId)
     }
-  },
-  mounted () {
-    console.log('params', this.$route.params)
-    this.getListDate()
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

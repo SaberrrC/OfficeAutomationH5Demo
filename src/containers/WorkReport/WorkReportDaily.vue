@@ -265,7 +265,7 @@
 					<Col span="24">
 					<p class="leader">
 						<span>接收人：{{leaderName}}</span>
-						<Button type="info" size="small" @click="showLeader = true"><Icon type="plus-round"></Icon></Button>
+						<Button type="info" size="small" @click="switchLeader"><Icon type="plus-round"></Icon></Button>
 						<Modal v-model="showLeader" title="接收人">
 							<p>
 								<Input v-model="leadname" placeholder="搜索" style="width: 200px"></Input>
@@ -464,6 +464,12 @@ export default {
       this.leaderName = row.username + '———' + row.post
       this.leaderId = row.id
       this.showLeader = false
+    },
+    //  点击加号
+    switchLeader () {
+      this.showLeader = true
+      this.leadname = ''
+      this.getLeaderList()
     },
     //  一键自评
     oneKey (typeData, btnStr) {

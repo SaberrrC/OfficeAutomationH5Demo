@@ -326,6 +326,10 @@ export default {
   mounted () {
     console.log(location.hash)
     this.getDetail()
+  },
+  activated () {
+    this.dailyid = this.$route.params.dailyid
+    this.getDetail()
   }
 }
 </script>
