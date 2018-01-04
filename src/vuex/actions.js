@@ -24,7 +24,35 @@ const actions = {
         }
       ])
     }
+    /*if (id === '2') {
+      const list = [
+        {
+          iconType: 'android-clipboard',
+          name: '工作汇报',
+          id: '2',
+          children: [
+            {name: '发起日报', id: 'daily'},
+            {name: '发起周报', id: 'weekly'},
+            {name: '我发起的', id: 'my_report'},
+            {name: '待评分', id: 'no_rate'},
+            {name: '历史记录', id: 'history'},
+            {name: '模板管理', id: 'template'}
+          ]
+        },
+        {
+          iconType: 'android-clipboard',
+          name: '汇报管理',
+          id: 'report_admin',
+          children: [
+            {name: '查看全员汇报', id: 'whole'},
+            {name: '查看部门汇报', id: 'department'}
+          ]
+        }
+      ]
 
+
+      context.commit('updateSidebarList', list)
+    }*/
     /*
     if (id === 'work_report') {
       const list = [
@@ -166,6 +194,7 @@ const actions = {
       }
     }).then((response) => {
       if (response.data && response.data.code === '000000') {
+        console.log(response.data)
         const result = response.data.data
         context.commit('updateSidebarList', result)
         return result
