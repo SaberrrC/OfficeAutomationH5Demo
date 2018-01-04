@@ -208,6 +208,9 @@ export default {
   },
   mounted () {
     this.getRateData()
+  },
+  activated () {
+    this.getRateData()
   }
 }
 </script>

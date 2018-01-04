@@ -79,7 +79,7 @@
     </Modal>
   <div class="work-report-daily">
     <Card :dis-hover="true">
-      <Table  :columns="tableHead" :data="roomList" height="450"></Table>
+      <Table  :columns="tableHead" :data="roomList" height="450" :loading="tableloading"></Table>
     </Card>
   </div>
   </div>
@@ -92,6 +92,7 @@
     data () {
       return {
         loading: true,
+        tableloading: false,
         modalTitle: '',
         okText: '',
         action: this.$ajax.defaults.baseURL + `/file`,
@@ -221,6 +222,7 @@
     methods: {
       //      获取会议室列表
       getMeetRoom () {
+        this.tableloading = true
         this.$ajax.get(`/newMeetingRooms`, {
         }).then((response) => {
           if (response.data.code === '000000') {
@@ -233,6 +235,7 @@
               room.push(response.data.data[i])
             }
             this.roomList = room
+            this.tableloading = false
           }
         }).catch(function (err) {
           console.log(err)

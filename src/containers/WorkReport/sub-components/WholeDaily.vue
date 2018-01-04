@@ -7,12 +7,12 @@
         日工作汇报
       </p>
       <p slot="extra">
-        <Button type="error">关闭</Button>
-        <Button type="primary">
+        <Button type="error" @click="back">关闭</Button>
+        <Button type="primary" @click="goLeft">
           <Icon type="chevron-left"></Icon>
         </Button>
-        <Button type="primary">
-          <Icon type="chevron-right"></Icon>
+        <Button type="primary" @click="goRight">
+          <Icon type="chevron-right" @click="goRight"></Icon>
         </Button>
       </p>
       <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
@@ -351,10 +351,10 @@ export default {
   methods: {
     func (event) {},
     //  获取列表数据
-    getListDate () {
+    getListDate (id) {
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/detils/' + this.storeData.userId + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
+        url: '/dailyreport/detils/' + id + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
       }).then((res) => {
         console.log('列表详情', res.data)
         let result = res.data.data
@@ -394,10 +394,30 @@ export default {
       }, (res) => {
 
       })
+    },
+    //  关闭
+    back () {
+      location.hash = '/report_admin/whole/wholeList'
+    },
+    //  左右切换
+    goRight () {
+      this.GLOBAL_.currentIndex ++
+      this.GLOBAL_.currentIndex = this.GLOBAL_.currentIndex === 10 ? 0 : this.GLOBAL_.currentIndex
+      let data = this.GLOBAL_.wholeList[this.GLOBAL_.currentIndex]
+      this.getListDate(data.userId)
+    },
+    goLeft () {
+      this.GLOBAL_.currentIndex --
+      this.GLOBAL_.currentIndex = this.GLOBAL_.currentIndex === -1 ? 9 : this.GLOBAL_.currentIndex
+      let data = this.GLOBAL_.wholeList[this.GLOBAL_.currentIndex]
+      this.getListDate(data.userId)
     }
   },
   mounted () {
-    this.getListDate()
+    this.getListDate(this.storeData.userId)
+  },
+  activated () {
+    this.getListDate(this.storeData.userId)
   }
 }
 </script>

@@ -282,6 +282,7 @@
         time: this.$route.query.time,
         selectApproveState: this.$route.query.selectApproveState,   // 查询单据状态
         selectBillType: this.$route.query.selectBillType,               // 查询方式（加班/休假/休假/调休/全部）
+        launchUser: this.$route.query.launchUser,               // 查询人员
         index: parseInt(this.$route.query.index),
         userName: '',                             // 发起人
         duration: ''                              // 单位（时长）
@@ -298,7 +299,6 @@
             billCode: this.$route.query.billCode
           }
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.billTitle.billCode = response.data.data.billCode
             this.billTitle.applyDate = response.data.data.applyDate
@@ -308,7 +308,6 @@
             this.applyWorkFlows = response.data.data.nchrapplyWorkFlow
             this.userName = response.data.data.userName
           }
-          console.log(this.billTitle.type)
           if (this.billTitle.type === '加班转调休' || this.billTitle.type === '哺乳假') {
             this.duration = '小时'
           } else {
@@ -351,7 +350,6 @@
         }]
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('审批成功')
             this.$router.push({path: this.type})
@@ -372,7 +370,6 @@
         }]
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('审批成功')
             this.$router.push({path: this.type})
@@ -394,7 +391,6 @@
         }
         this.$ajax.post(`/myApply/approveCallBack`, approveRequest, {
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('收回成功')
             this.$router.push({path: this.type})
@@ -416,7 +412,6 @@
         if (this.pageNum === 1) {
           serialNumber = this.index + 1
         } else {
-          console.log(0)
           serialNumber = this.pageNum * this.pageSize + this.index + 1
         }
         if (serialNumber === 1) {
@@ -426,147 +421,287 @@
         var num = serialNumber - 1
         var nextData = {}
 //        /******调分页接口,获取上一条数据的信息*********/
-        this.$ajax.get(`/myApply/queryApproveByAll`, {
-          params: {
+        let url = ''
+        let data = {}
+        if (this.type === 'myLaunch') {
+          url = '/myApply/queryApproveByAll'
+          data = {
             time: this.time,
             approveState: this.selectApproveState,
             billType: this.selectBillType,
             pageNum: num,
             pageSize: 1
           }
-        }).then((response) => {
-          if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
-            nextData.billCode = response.data.data.dataList[0].billCode
-            nextData.billType = response.data.data.dataList[0].billType
-            nextData.approveState = response.data.data.dataList[0].approveState
-            if (nextData.billType === this.$route.query.billType) {
-              this.$route.query.billCode = nextData.billCode
-              this.$route.query.billType = nextData.billType
-              console.log(this.$route)
-              this.index = this.index - 1
-              this.getBillInfo()
+          this.$ajax.get(url, {
+            params: data
+          }).then((response) => {
+            if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
+              nextData.billCode = response.data.data.dataList[0].billCode
+              nextData.billType = response.data.data.dataList[0].billType
+              nextData.approveState = response.data.data.dataList[0].approveState
+              if (nextData.billType === this.$route.query.billType) {
+                this.$route.query.billCode = nextData.billCode
+                this.$route.query.billType = nextData.billType
+                this.index = this.index - 1
+                this.getBillInfo()
+              } else {
+                var data = {
+                  billType: nextData.billType,          // 单据类型
+                  billCode: nextData.billCode,          // 单据编码
+                  approveState: nextData.approveState,          // 单据状态
+                  type: this.type,                 // 前一页面类型（我的申请）
+                  total: this.total,                 // 发起列表总条数
+                  pageNum: this.pageNum,            // 发起列表当前页数
+                  pageSize: this.pageSize,              // 发起列表每页显示条数
+                  time: this.time,
+                  selectApproveState: this.selectApproveState,   // 查询单据状态
+                  selectBillType: this.selectBillType,               // 查询方式（加班/出差/休假/调休/全部）
+                  index: this.index - 1
+                }
+                switch (nextData.billType) {
+                  case '6402':
+                    this.$router.push({path: 'signCardLaunchInfo', query: data})
+                    this.getBillInfo()
+                    break
+                  case '6403':
+                    this.$router.push({path: 'billLaunchInfo', query: data})
+                    break
+                  case '6404':
+                    this.$router.push({path: 'furloughLaunchInfo', query: data})
+                    break
+                  case '6405':
+                    this.$router.push({path: 'workApplyLaunchInfo', query: data})
+                    break
+                }
+              }
             } else {
-              var data = {
-                billType: nextData.billType,          // 单据类型
-                billCode: nextData.billCode,          // 单据编码
-                approveState: nextData.approveState,          // 单据状态
-                type: this.type,                 // 前一页面类型（我的申请）
-                total: this.total,                 // 发起列表总条数
-                pageNum: this.pageNum,            // 发起列表当前页数
-                pageSize: this.pageSize,              // 发起列表每页显示条数
-                time: this.time,
-                selectApproveState: this.selectApproveState,   // 查询单据状态
-                selectBillType: this.selectBillType,               // 查询方式（加班/休假/休假/调休/全部）
-                index: this.index - 1
-              }
-              switch (nextData.billType) {
-                case '6402':
-                  console.log('签卡申请')
-                  this.$router.push({path: 'signCardLaunchInfo', query: data})
-                  this.getBillInfo()
-                  break
-                case '6403':
-                  console.log('出差申请')
-                  this.$router.push({path: 'billLaunchInfo', query: data})
-                  break
-                case '6404':
-                  console.log('休假申请')
-                  this.$router.push({path: 'furloughLaunchInfo', query: data})
-                  break
-                case '6405':
-                  console.log('加班申请')
-                  this.$router.push({path: 'workApplyLaunchInfo', query: data})
-                  break
-              }
             }
-          } else {
+          }).catch(function (err) {
+            console.log(err)
+          })
+        } else {
+          if (this.type === 'todo') {
+            url = '/MyAplication/selectMyAplication'
+            data = {
+              checkmanId: this.$store.state.userInfo.code,
+              userName: '',
+              isCheck: 'N',
+              pkBillType: this.selectBillType,
+              time: this.time,
+              pageNum: num,
+              pageSize: 1
+            }
+          } else if (this.type === 'haveTodo') {
+            url = '/myApply/queryApproveByAll'
+            data = {
+              checkmanId: this.$store.state.userInfo.code,
+              userName: '',
+              isCheck: 'Y',
+              pkBillType: this.selectBillType,
+              time: this.time,
+              pageNum: num,
+              pageSize: 1
+            }
           }
-        }).catch(function (err) {
-          console.log(err)
-        })
+          this.$ajax.get(url, {
+            params: data
+          }).then((response) => {
+            if (response.data.code === '000000') {
+              nextData.billCode = response.data.data.data[0].billNo
+              nextData.billType = response.data.data.data[0].pkBillType
+              if (nextData.billType === this.$route.query.billType) {
+                this.$route.query.billCode = nextData.billCode
+                this.$route.query.billType = nextData.billType
+                this.index = this.index - 1
+                this.getBillInfo()
+              } else {
+                var data = {
+                  billType: nextData.billType,          // 单据类型
+                  billCode: nextData.billCode,          // 单据编码
+                  approveState: nextData.approveState,          // 单据状态
+                  type: this.type,                 // 前一页面类型（我的申请）
+                  total: this.total,                 // 发起列表总条数
+                  pageNum: this.pageNum,            // 发起列表当前页数
+                  pageSize: this.pageSize,              // 发起列表每页显示条数
+                  time: this.time,
+                  launchUser: this.launchUser,       // 查询人员
+                  selectBillType: this.selectBillType,               // 查询方式（加班/出差/休假/调休/全部）
+                  index: this.index - 1
+                }
+                switch (nextData.billType) {
+                  case '6402':
+                    this.$router.push({path: 'signCardLaunchInfo', query: data})
+                    this.getBillInfo()
+                    break
+                  case '6403':
+                    this.$router.push({path: 'billLaunchInfo', query: data})
+                    break
+                  case '6404':
+                    this.$router.push({path: 'furloughLaunchInfo', query: data})
+                    break
+                  case '6405':
+                    this.$router.push({path: 'workApplyLaunchInfo', query: data})
+                    break
+                }
+              }
+            } else {
+            }
+          }).catch(function (err) {
+            console.log(err)
+          })
+        }
       },
 //    下一页
       pageNext () {
 //        /***计算当前条数***/
         var serialNumber = 0
-        console.log(this.index)
         if (this.pageNum === 1) {
           serialNumber = this.index + 1
         } else {
           serialNumber = this.pageNum * this.pageSize + this.index + 1
         }
-        var num = serialNumber + 1
+        var num = serialNumber
         if (num === this.total) {
           this.$Message.info('已经是最后一条')
           return false
+        } else {
+          num = serialNumber + 1
         }
         var nextData = {}
 //        /******调分页接口,获取上一条/下一条数据的信息*********/
-        this.$ajax.get(`/myApply/queryApproveByAll`, {
-          params: {
+        let url = ''
+        let data = {}
+        if (this.type === 'myLaunch') {
+          url = '/myApply/queryApproveByAll'
+          data = {
             time: this.time,
             approveState: this.selectApproveState,
             billType: this.selectBillType,
             pageNum: num,
             pageSize: 1
           }
-        }).then((response) => {
-          if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
-            nextData.billCode = response.data.data.dataList[0].billCode
-            nextData.billType = response.data.data.dataList[0].billType
-            nextData.approveState = response.data.data.dataList[0].approveState
-            if (nextData.billType === this.$route.query.billType) {
-              this.$route.query.billCode = nextData.billCode
-              this.$route.query.billType = nextData.billType
-              console.log(this.$route)
-              this.index = this.index + 1
-              this.getBillInfo()
+          this.$ajax.get(url, {
+            params: data
+          }).then((response) => {
+            if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
+              nextData.billCode = response.data.data.dataList[0].billCode
+              nextData.billType = response.data.data.dataList[0].billType
+              nextData.approveState = response.data.data.dataList[0].approveState
+              if (nextData.billType === this.$route.query.billType) {
+                this.$route.query.billCode = nextData.billCode
+                this.$route.query.billType = nextData.billType
+                this.index = this.index + 1
+                this.getBillInfo()
+              } else {
+                var data = {
+                  billType: nextData.billType,          // 单据类型
+                  billCode: nextData.billCode,          // 单据编码
+                  approveState: nextData.approveState,          // 单据状态
+                  type: this.type,                 // 前一页面类型（我的申请）
+                  total: this.total,                 // 发起列表总条数
+                  pageNum: this.pageNum,            // 发起列表当前页数
+                  pageSize: this.pageSize,              // 发起列表每页显示条数
+                  time: this.time,
+                  selectApproveState: this.selectApproveState,   // 查询单据状态
+                  selectBillType: this.selectBillType,               // 查询方式（加班/出差/休假/调休/全部）
+                  index: this.index + 1
+                }
+                switch (nextData.billType) {
+                  case '6402':
+                    this.$router.push({path: 'signCardLaunchInfo', query: data})
+                    this.getBillInfo()
+                    break
+                  case '6403':
+                    this.$router.push({path: 'billLaunchInfo', query: data})
+                    break
+                  case '6404':
+                    this.$router.push({path: 'furloughLaunchInfo', query: data})
+                    break
+                  case '6405':
+                    this.$router.push({path: 'workApplyLaunchInfo', query: data})
+                    break
+                }
+              }
             } else {
-              var data = {
-                billType: nextData.billType,          // 单据类型
-                billCode: nextData.billCode,          // 单据编码
-                approveState: nextData.approveState,          // 单据状态
-                type: this.type,                 // 前一页面类型（我的申请）
-                total: this.total,                 // 发起列表总条数
-                pageNum: this.pageNum,            // 发起列表当前页数
-                pageSize: this.pageSize,              // 发起列表每页显示条数
-                time: this.time,
-                selectApproveState: this.selectApproveState,   // 查询单据状态
-                selectBillType: this.selectBillType,               // 查询方式（加班/休假/休假/调休/全部）
-                index: this.index + 1
-              }
-              console.log(data)
-              switch (nextData.billType) {
-                case '6402':
-                  console.log('签卡申请')
-                  this.$router.push({path: 'signCardLaunchInfo', query: data})
-                  this.getBillInfo()
-                  break
-                case '6403':
-                  console.log('出差申请')
-                  this.$router.push({path: 'billLaunchInfo', query: data})
-                  break
-                case '6404':
-                  console.log('休假申请')
-                  this.$router.push({path: 'furloughLaunchInfo', query: data})
-                  break
-                case '6405':
-                  console.log('加班申请')
-                  this.$router.push({path: 'workApplyLaunchInfo', query: data})
-                  break
-              }
             }
-          } else {
+          }).catch(function (err) {
+            console.log(err)
+          })
+        } else {
+          if (this.type === 'todo') {
+            url = '/MyAplication/selectMyAplication'
+            data = {
+              checkmanId: this.$store.state.userInfo.code,
+              userName: '',
+              isCheck: 'N',
+              pkBillType: this.selectBillType,
+              time: this.time,
+              pageNum: num,
+              pageSize: 1
+            }
+          } else if (this.type === 'haveTodo') {
+            url = '/myApply/queryApproveByAll'
+            data = {
+              checkmanId: this.$store.state.userInfo.code,
+              userName: '',
+              isCheck: 'Y',
+              pkBillType: this.selectBillType,
+              time: this.time,
+              pageNum: num,
+              pageSize: 1
+            }
           }
-        }).catch(function (err) {
-          console.log(err)
-        })
+          this.$ajax.get(url, {
+            params: data
+          }).then((response) => {
+            if (response.data.code === '000000') {
+              nextData.billCode = response.data.data.data[0].billNo
+              nextData.billType = response.data.data.data[0].pkBillType
+              if (nextData.billType === this.$route.query.billType) {
+                this.$route.query.billCode = nextData.billCode
+                this.$route.query.billType = nextData.billType
+                this.index = this.index + 1
+                this.getBillInfo()
+              } else {
+                var data = {
+                  billType: nextData.billType,          // 单据类型
+                  billCode: nextData.billCode,          // 单据编码
+                  approveState: nextData.approveState,          // 单据状态
+                  type: this.type,                 // 前一页面类型（我的申请）
+                  total: this.total,                 // 发起列表总条数
+                  pageNum: this.pageNum,            // 发起列表当前页数
+                  pageSize: this.pageSize,              // 发起列表每页显示条数
+                  time: this.time,
+                  launchUser: this.launchUser,        // 查询人员
+                  selectBillType: this.selectBillType,               // 查询方式（加班/出差/休假/调休/全部）
+                  index: this.index + 1
+                }
+                switch (nextData.billType) {
+                  case '6402':
+                    this.$router.push({path: 'signCardLaunchInfo', query: data})
+                    this.getBillInfo()
+                    break
+                  case '6403':
+                    this.$router.push({path: 'billLaunchInfo', query: data})
+                    break
+                  case '6404':
+                    this.$router.push({path: 'furloughLaunchInfo', query: data})
+                    break
+                  case '6405':
+                    this.$router.push({path: 'workApplyLaunchInfo', query: data})
+                    break
+                }
+              }
+            } else {
+            }
+          }).catch(function (err) {
+            console.log(err)
+          })
+        }
       }
     },
     created () {
       this.getBillInfo()
-      console.log(this.$route)
-      console.log('12345' + this.$route.name)
     }
   }
 </script>
