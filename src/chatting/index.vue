@@ -204,7 +204,7 @@ export default {
           // 所以无需调用conn.setPresence();
           console.log('%c [opened] 即时通讯连接已成功建立', 'color: green')
           // that.TXList() // 不需要
-          // that.getSet()
+          that.getSetting()
           // that.getRooms()
           chat.getGroups()
           that.getCacleMessageList()
@@ -1053,30 +1053,18 @@ export default {
         window.store.dispatch('TXList', TXListState)
       })
     },
-    getSet () {
+    getSetting () {
       let that = this
-      this.$http.get(config.OA_JAVA_URL + 'user/getMessageSetting', {
-          params: {
-            token: that.$store.state.userinfo.token,
-            uid: that.$store.state.userinfo.uid
-          }
-        }).then(function(response) {
-          var data = JSON.parse(response.body.data.value)
-          if (data.desktop === 1) {
-            this.checked1 = true
-          } else {
-            this.checked1 = false
-          }
-          if (data.title === 1) {
-            this.checked2 = true
-          } else {
-            this.checked2 = false
-          }
-        },
-        function(response) {
-          // console.log(response)
+      chat.getSetting().then((x) => {
+        if (x === 'desktop') {
+          that.checked1 = true
+          that.checked2 = false
         }
-      )
+        if (x === 'title') {
+          that.checked1 = false
+          that.checked2 = true
+        }
+      })
     },
     hidebox () {
       //console.log(this)
@@ -1369,11 +1357,10 @@ export default {
         desktop: this.desktop,
         title: this.title
       })
-      console.log(this.settingValue)
-      this.$http.get(config.OA_JAVA_URL + 'user/setMessageSetting', {
+      // console.log(this.settingValue)
+      window.axios.get(config.OA_API + '/user/setMessageSetting', {
         params: {
-          token: that.$store.state.userinfo.token,
-          uid: that.$store.state.userinfo.uid,
+          uid: this.userinfo.uid,
           value: this.settingValue
         }
       }).then(function(response) {
@@ -1396,10 +1383,9 @@ export default {
       })
       let that = this
       console.log(this.settingValue)
-      this.$http.get(config.OA_JAVA_URL + 'user/setMessageSetting', {
+      window.axios.get(config.OA_API + '/user/setMessageSetting', {
         params: {
-          token: that.$store.state.userinfo.token,
-          uid: that.$store.state.userinfo.uid,
+          uid: this.userinfo.uid,
           value: this.settingValue
         }
       }).then(function(response) {

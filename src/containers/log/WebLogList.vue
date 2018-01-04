@@ -1,7 +1,8 @@
 <template>
   <div class="work-report-daily">
-    <Card>
+    <Card :dis-hover="true">
       <p slot="title">WEB日志导出</p>
+      <div style="height: 450px;overflow: auto">
       <ul>
         <li>
           <Row>
@@ -18,6 +19,7 @@
           </a>
         </li>
       </ul>
+      </div>
       <div style="margin: 10px;overflow: hidden">
         <div>
           <Page

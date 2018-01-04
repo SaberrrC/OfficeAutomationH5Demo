@@ -20,7 +20,7 @@
     <Card :dis-hover="true">
       <!--发起列表-->
       <div v-show="showLaunchList">
-        <Table border :columns="launchTableHead" :data="launchTableData"></Table>
+        <Table border height="450" :columns="launchTableHead" :data="launchTableData"></Table>
         <div style="margin: 10px;overflow: hidden">
           <div>
             <Page
@@ -38,7 +38,7 @@
 
         <!--受邀列表-->
       <div v-show="showBeInvitedList">
-        <Table border :columns="beInvitedTableHead" :data="beInvitedTableData"></Table>
+        <Table border height="450" :columns="beInvitedTableHead" :data="beInvitedTableData"></Table>
         <div style="margin: 10px;overflow: hidden">
           <div>
             <Page

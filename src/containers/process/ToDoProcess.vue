@@ -27,7 +27,7 @@
           <p slot="title" class="header">
           <span>
             <Row>
-              <i-Col :lg="{span:10}" :md="{span:12}" :sm="{span:14}" :xs="{span:16}" >
+              <i-Col :lg="{span:10}" :md="{span:12}" :sm="{span:13}" :xs="{span:14}" >
                   <row>
                     <Form :model="formItem" :label-width="80">
                       <i-Col span="11">
@@ -51,7 +51,7 @@
                     </Form>
                     </row>
               </i-Col>
-              <i-Col :lg="{span:6,offset:8}" :md="{span:8,offset:4}" :sm="{span:10}" :xs="{span:6,offset:8}">
+              <i-Col :lg="{span:6,offset:8}" :md="{span:8,offset:4}" :sm="{span:10,offset:1}" :xs="{span:10,offset:0}">
                 <Button type="primary" style="margin-right: 20px" :disabled="disabled" @click="handleBatchAgree">批量同意</Button>
                 <Button type="error" :disabled="disabled" @click="handleBatchReject">批量驳回</Button>
               </i-Col>
@@ -60,13 +60,12 @@
         </p>
           <div class="work-report-daily">
             <Table
+              height="450"
               ref="selection"
               :columns="toDoListHeader"
               :data="toDoList"
               @on-selection-change="handleChecked"
-              @on-row-click="showInfo"
-            >
-            </Table>
+              @on-row-click="showInfo"></Table>
             <div style="margin: 10px;overflow: hidden">
               <Page
                 :total="launchTotal"
@@ -152,6 +151,7 @@
             title: '操作',
             key: 'status',
             align: 'center',
+            width: 150,
             render: (h, params) => {
               return h('div', [
                 h('Button', {

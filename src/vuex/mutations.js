@@ -1,4 +1,3 @@
-/* eslint-disable */
 import state from './state'
 import store from './store'
 import chat from '../module/chatting'
@@ -16,29 +15,19 @@ const mutations = {
   clearOther (state) {
     state.other = ''
   },
-  thisNotDelete (state) {
-    state.thisNotDelete = 'aaa'
-  },
-  setthisNotDelete (state) {
-    state.thisNotDelete = false
-  },
   clearState (state) {
-    state.userInfoDb = {} // 用户
-    state.TXGroup = [] // 群组
-    state.userinfo = {},
-    state.list = [],
-    state.grossNumber = 0,
-    state.singChatbox = {},
-    state.singChatlist = [],
-    state.imUser.userName = '',
-    state.other = '',
-    state.otherInfo = {},
-    state.has = 0,
-    state.thisNotDelete = '',
+    state.userInfoDb = {}
+    state.TXGroup = []
+    state.userinfo = {}
+    state.list = []
+    state.grossNumber = 0
+    state.singChatbox = {}
+    state.singChatlist = []
+    state.imUser.userName = ''
+    state.other = ''
+    state.otherInfo = {}
+    state.has = 0
     state.writeStructIsShow = false
-  },
-  clearToken (state) {
-    state.userinfo.token = ''
   },
   writeStructIsShow (state, is) {
     // console.log(state)
@@ -55,9 +44,9 @@ const mutations = {
   updateMessageNumber (state, sId) {
     // console.log('1111111111', sId)
     for (var i = 0; i < state.list.length; i++) {
-      if (state.list[i].sId == sId) {
-        if (typeof state.list[i].count == 'number') {
-          //console.log(list[i].count)
+      if (state.list[i].sId === sId) {
+        if (typeof state.list[i].count === 'number') {
+          // console.log(list[i].count)
           state.grossNumber = state.grossNumber - state.list[i].count
           state.list[i].count = 0
         } else {}
@@ -74,8 +63,7 @@ const mutations = {
         state.list.splice(i, 1)
         str = false
         break
-      }
-      else {
+      } else {
         str = false
       }
     }
@@ -94,7 +82,7 @@ const mutations = {
     // console.log(['打开聊天对话框', item])
     // 更新聊天对象的信息
     let sId = item.sId ? item.sId : item.roomId ? 'R_' + item.roomId : item.groupId ? 'G_' + item.groupId : item.code ? 'SL_' + item.code : 'SL_' + item.CODE
-    let type = typeof (item.type) === 'string' ? item.type : item.roomId ? 'chatroom' : item.groupId ?  'chatgroup' : 'chat'
+    let type = typeof (item.type) === 'string' ? item.type : item.roomId ? 'chatroom' : item.groupId ? 'chatgroup' : 'chat'
     if (item.sId) {
       if (item.sId.substr(0, 2) === 'R_') {
         type = 'chatroom'
@@ -118,8 +106,8 @@ const mutations = {
     mutations.updateMessageNumber(state, sId)
     if (type === 'chat') {
       let code = item.CODE || item.code
-      if (code || item.sId && item.sId.substr(0, 3) === 'SL_') {
-        let id = code ? code : sId.substring(3)
+      if (code || (item.sId && item.sId.substr(0, 3) === 'SL_')) {
+        let id = code || sId.substring(3)
         chat.setUserInfo(id, function () {
           // console.log('设置用户信息', id, state.userInfoDb[id])
           let o = state.userInfoDb[id]
@@ -197,7 +185,7 @@ const mutations = {
       // console.log(0)
       obj['showTime'] = mutations.timeFormat(obj.time)
     } else {
-      let time = state.singChatbox[state.other]['value'][state.singChatbox[state.other]['value'].length-1].time - state.singChatbox[state.other]['value'][state.singChatbox[state.other]['value'].length-2].time
+      let time = state.singChatbox[state.other]['value'][state.singChatbox[state.other]['value'].length - 1].time - state.singChatbox[state.other]['value'][state.singChatbox[state.other]['value'].length - 2].time
       if ((time / 60).toFixed(0) >= 2) {
         obj['showTime'] = mutations.timeFormat(obj.time)
       } else {
@@ -213,7 +201,7 @@ const mutations = {
     // console.log(['收到消息结构', obj])
     let sId = obj.sId
     if (state.singChatbox && state.singChatbox[sId]) {} else {
-      state.singChatbox[sId] = { value: []}
+      state.singChatbox[sId] = {value: []}
     }
     // console.log([sId, obj])
     state.singChatbox[sId]['value'].push(obj)
@@ -234,7 +222,7 @@ const mutations = {
     let b = state.singChatbox
     state.singChatbox = {}
     state.singChatbox = b
-    if (state.other != sId) {
+    if (state.other !== sId) {
       mutations.unshiftList2(state, obj) // 置顶新消息
       state.grossNumber += 1
     }
@@ -330,45 +318,9 @@ const mutations = {
       hour12: false
     })
   },
-  showLeftMenu (state, status) {
-    state.showLeftMenu = status
-  },
-  showLoading (state, status) {
-    state.globalLoading = status
-  },
-  setMenus (state, menus) {
-    state.menus = menus
-  },
-  setRules (state, rules) {
-    state.rules = rules
-  },
   setUsers (state, users) {
     state.imUser.userName = 'SL_' + users.code
     state.userinfo = users
-  },
-  setImg (state, src) {
-    state.userinfo.img = src
-    // Lockr.set('userinfo', state.userinfo)
-  },
-  setUserGroups (state, userGroups) {
-    state.userGroups = userGroups
-  },
-  setOrganizes (state, organizes) {
-    state.organizes = organizes
-  },
-  logOut() {
-    Lockr.rm('userinfo')
-    Lockr.rm('oa-menu')
-    Lockr.rm('oa_sync_ssid')
-    Lockr.rm('oa_ssid')
-    sessionStorage.removeItem('count')
-    store.dispatch("clearToken")
-    store.dispatch("setthisNotDelete")
-    store.dispatch("clearState")
-    router.replace('/site/login')
-  },
-  setSsid (state, ssid) {
-    Lockr.set('oa_ssid', ssid)
   },
   currentChatObj (state, data) {
     state.currentChatObj = data

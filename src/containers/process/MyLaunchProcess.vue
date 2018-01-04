@@ -57,6 +57,7 @@
             ref="selection"
             :columns="myLaunchHeader"
             :data="myLaunchList"
+            height="450"
             @on-row-click="showInfo">
           </Table>
           </div>
@@ -168,6 +169,7 @@
             title: '操作',
             key: 'approveState',
             align: 'center',
+            width: 150,
             render: (h, params) => {
               return h('div', [
                 h('Button', {
