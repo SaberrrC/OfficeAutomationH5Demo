@@ -14,12 +14,28 @@ const actions = {
   // 获取二级菜单列表，参数为模块 id
   querySidebarList (context, id) {
     //  TODO mock data
-    if (id === 'home') {
+    if (id === '0') {
       context.commit('updateSidebarList', [
         {
           iconType: 'home',
           name: '善林OA',
-          id: 'home'
+          id: '0',
+          url: 'home'
+        }
+      ])
+    }
+    if (id === 'user_center') {
+      context.commit('updateSidebarList', [
+        {
+          iconType: 'person',
+          name: '个人中心',
+          id: 'user_center',
+          url: 'user_center',
+          children: [
+            {name: '个人中心', id: 'basic', url: 'basic'},
+            {name: '修改密码', id: 'password', url: 'password'},
+            {name: '修改邮箱', id: 'email', url: 'email'}
+          ]
         }
       ])
     }
