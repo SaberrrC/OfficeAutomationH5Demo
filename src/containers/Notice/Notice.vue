@@ -8,7 +8,7 @@
   export default {
     name: 'notice',
     created () {
-      this.$store.dispatch('querySidebarList', 'notice')
+      this.$store.dispatch('querySidebarList', '5')
     }
   }
 </script>
