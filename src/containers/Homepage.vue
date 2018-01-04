@@ -108,7 +108,7 @@ export default {
   },
   created () {
     //  加载二级菜单
-    this.$store.dispatch('querySidebarList', 'home')
+    this.$store.dispatch('querySidebarList', '0')
     //  请求通讯录组织架构
     this.$store.dispatch('queryOrganization').then((response) => {
       let jsonStr = JSON.stringify(response.children)
