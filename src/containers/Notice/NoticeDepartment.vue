@@ -211,8 +211,6 @@
 	      this.$refs[name].validate((valid) => {
 	        if (valid) {
 	          this.noticeSubmit()
-	        } else {
-	          this.$Message.error('Fail!')
 	        }
 	      })
 	    },
@@ -229,7 +227,7 @@
 	.notice-department {
 		padding: 16px;
 		.card-title-extra {
-			width: 117px;
+			width: 118px;
 			position: absolute;
 			top: -4px;
 			right: 0;

@@ -96,7 +96,7 @@
       handleSuccess (res, file) {
         if (res.code === '000000') {
           this.visible = true
-          this.imgUploadUrl = this.$ajax.defaults.baseURL + res.data
+          this.imgUploadUrl = this.GLOBAL_.IMG_URLL + res.data
           this.formItem.newsPhoto = res.data
           this.$refs['formItem'].validate((valid) => {})
         } else {

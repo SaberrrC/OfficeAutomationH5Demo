@@ -157,6 +157,7 @@
 	        if (res.data.code === '000000') {
 	          this.getNewsData()
 	        } else {
+	          this.getNewsData()
 	          this.$Message.error(res.data.message)
 	        }
 	      }, (res) => {})
