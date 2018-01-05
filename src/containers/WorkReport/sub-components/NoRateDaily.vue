@@ -410,11 +410,11 @@ export default {
   mounted () {
     console.log(this.dailyid)
     this.getDetail()
-  },
-  /*activated () {
+  }
+  /* activated () {
     this.dailyid = this.$route.params.dailyid
     this.getDetail()
-  }*/
+  } */
 }
 </script>
 

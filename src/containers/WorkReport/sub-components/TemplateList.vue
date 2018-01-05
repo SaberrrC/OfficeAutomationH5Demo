@@ -25,7 +25,7 @@
           @on-ok="sureDel(delid)"
           >
           <p>确定要删除吗？</p>
-          
+
         </Modal>
 			</div>
 			<Table height="450" :columns="columns" :data="listData" @on-row-click="toTempDetail"></Table>
@@ -157,7 +157,7 @@ export default {
     },
     delTemp (id) {
       this.delTip = true
-      this.delid = id;
+      this.delid = id
     },
     sureDel (id) {
       this.$ajax({
