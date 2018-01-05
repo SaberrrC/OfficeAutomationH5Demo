@@ -1,22 +1,21 @@
 <template>
 	<div class="work-report-weekly">
+    <Row style="background-color: white;height: 53px;padding-top: 10px;padding-left: 16px;">
+      <Col span="24" align="left">
+      开始时间
+      <DatePicker v-model="startTime" :clearable="false" type="date" :options="options" placeholder="Select date" style="width: 200px;margin-right: 20px;" format="yyyy-MM-dd"></DatePicker>
+      结束时间
+      <DatePicker type="date" :value="endTime" :clearable="false" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" disabled></DatePicker>
+
+      </Col>
+    </Row>
+    <div style="padding: 16px;">
 		<Card shadow>
 			<Modal v-model="showDraft" title="信息" @on-ok="drawDraft">
 				<p>是否导入草稿？</p>
 			</Modal>
-
-			<p slot="title" style="text-align: center;">本周工作总结</p>
-
+			<p style="text-align: center; padding-bottom: 16px;font-weight: 800;">本周工作总结</p>
 			<Row>
-				<Col span="12" style="text-align: center;"> 开始时间
-				<DatePicker v-model="startTime" :clearable="false" type="date" :options="options" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd"></DatePicker>
-				</Col>
-				<Col span="12" style="text-align: center;"> 结束时间
-				<DatePicker type="date" :value="endTime" :clearable="false" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" disabled></DatePicker>
-				</Col>
-			</Row>
-
-			<Row style="margin-top: 40px;">
 				<Col span="24">
 				<table cellpadding="0" cellspacing="0">
 					<thead>
@@ -126,7 +125,7 @@
 				</Col>
 			</Row>
 		</Card>
-
+    </div>
 	</div>
 </template>
 
@@ -556,7 +555,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.work-report-weekly {
-		padding: 16px;
+		/*padding: 16px;*/
 	}
 
 	h4 {
