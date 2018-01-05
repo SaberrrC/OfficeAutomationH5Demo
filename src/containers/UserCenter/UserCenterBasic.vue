@@ -1,6 +1,6 @@
 <template>
 	<div class="user-center-basic">
-		<Card>
+		<Card :dis-hover="true">
 			<p slot="title">个人基本信息</p>
 			<i-form :model="formBasic" :label-width="80">
 				<FormItem label="姓名">

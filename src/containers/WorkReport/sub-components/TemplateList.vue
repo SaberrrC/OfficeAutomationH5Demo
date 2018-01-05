@@ -3,7 +3,7 @@
 		<Card shadow>
 			<div slot="title" align="right">
 				<Button type="primary" @click="tempmModal = true">新建模板</Button>
-				<Modal v-model="tempmModal" title="添加模板" ok-text="添加" @on-ok="addTemp">
+				<Modal v-model="tempmModal" title="添加模板" ok-text="添加" @on-ok="addTemp" @on-cancel="cancelTemp">
 					<p style="margin-bottom: 20px;">
 						模板类型
 						<Select v-model="defaultType" style="width:300px;">
@@ -12,7 +12,7 @@
 					</p>
 					<p>
 						模板名称
-						<Input v-model="templateName" placeholder="请输入" style="width: 300px"></Input>
+						<Input v-model="templateName" :maxlength="10" placeholder="请输入" style="width: 300px"></Input>
 					</p>
 				</Modal>
 			</div>
@@ -56,6 +56,7 @@ export default {
         key: 'updateTime'
       }, {
         title: '操作',
+        width: 200,
         key: 'operation',
         align: 'center',
         render: (h, params) => {
@@ -120,12 +121,18 @@ export default {
         console.log('新增模版数据', res.data)
         if (res.data.code === '000000') {
           this.getTempList()
+          this.defaultType = '1'
+          this.templateName = ''
         } else {
           this.$Message.error(res.data.message)
         }
       }, (res) => {
 
       })
+    },
+    cancelTemp () {
+      this.defaultType = '1'
+      this.templateName = ''
     },
     delTemp (id) {
       this.$ajax({
@@ -137,7 +144,7 @@ export default {
       }).then((res) => {
         console.log('删除模版数据', res.data)
         if (res.data.code === '000000') {
-          this.$Message.success('模板添加成功')
+          this.$Message.success('模板删除成功')
           this.getTempList()
         } else {
 
@@ -147,7 +154,7 @@ export default {
       })
     },
     toTempDetail (row) {
-      if (row.templateType === '1') {
+      if (row.templateType === 1) {
         this.$router.push({
           name: 'TemplateDaily',
           params: {
@@ -156,7 +163,7 @@ export default {
           }
         })
       }
-      if (row.templateType === '2') {
+      if (row.templateType === 2) {
         this.$router.push({
           name: 'TemplateWeekly',
           params: {
@@ -167,7 +174,7 @@ export default {
       }
     },
     toUseTemp (row) {
-      if (row.templateType === '1') {
+      if (row.templateType === 1) {
         this.$router.push({
           name: 'WorkReportDaily',
           params: {
@@ -175,7 +182,7 @@ export default {
           }
         })
       }
-      if (row.templateType === '2') {
+      if (row.templateType === 2) {
         this.$router.push({
           name: 'WorkReportWeekly',
           params: {

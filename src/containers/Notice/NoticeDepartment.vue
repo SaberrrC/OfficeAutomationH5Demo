@@ -1,6 +1,6 @@
 <template>
 	<div class="notice-department">
-		<Card>
+		<Card :dis-hover="true">
 			<p slot="title">部门公告</p>
 			<div slot="extra" class="card-title-extra">
 				<Button type="primary" @click="handleReset('formItem')">取消</Button>
@@ -211,8 +211,6 @@
 	      this.$refs[name].validate((valid) => {
 	        if (valid) {
 	          this.noticeSubmit()
-	        } else {
-	          this.$Message.error('Fail!')
 	        }
 	      })
 	    },
@@ -229,7 +227,7 @@
 	.notice-department {
 		padding: 16px;
 		.card-title-extra {
-			width: 117px;
+			width: 118px;
 			position: absolute;
 			top: -4px;
 			right: 0;

@@ -218,6 +218,9 @@
           } else if (response.data.code === '000000' && response.data.data.dataList.length === 0) {
             this.myLaunchList = []
             this.loading = false
+          } else {
+            this.myLaunchList = []
+            this.loading = false
           }
         }).catch(function (err) {
           console.log(err)
@@ -356,8 +359,8 @@
     height: 36px;
   }
   .header {
-    height: 48px;
-    line-height: 48px;
+    height: 53px;
+    line-height: 53px;
     padding-left: 24px;
     background: #ffffff;
     border-left: 1px solid #cccccc;

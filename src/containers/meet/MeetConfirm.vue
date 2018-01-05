@@ -1,5 +1,5 @@
 <template>
-  <div class='work-report-daily'>
+  <div class='confirm'>
     <Card :dis-hover='true'>
       <!--会议室预定-->
       <Row>
@@ -53,7 +53,7 @@
             <row>
               <i-Col span='12'>
                 <FormItem prop='user' label='与会人员'>
-                  <Input v-model='meetInline.user' placeholder='请选择与会人员' icon='person' :disabled='disabled' @on-focus='doSelectMember(data1)'></Input>
+                  <Input v-model='meetInline.user' placeholder='请选择与会人员' icon='person' :disabled='disabled' @on-focus='doSelectMember(data1)' :readonly="true"></Input>
                 </FormItem>
                 <member-selector
                   v-if='isShow'
@@ -231,7 +231,7 @@
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-  .work-report-daily {
+  .confirm {
     padding: 16px;
   }
 

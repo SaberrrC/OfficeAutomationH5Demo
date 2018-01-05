@@ -1,6 +1,6 @@
 <template>
 	<div class='news-all'>
-		<Card>
+		<Card :dis-hover="true">
 			<div slot="title">
 				<i-form :label-width="80">
 					<Row>
@@ -157,6 +157,7 @@
 	        if (res.data.code === '000000') {
 	          this.getNewsData()
 	        } else {
+	          this.getNewsData()
 	          this.$Message.error(res.data.message)
 	        }
 	      }, (res) => {})

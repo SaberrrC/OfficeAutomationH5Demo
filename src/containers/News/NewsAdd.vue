@@ -1,6 +1,6 @@
 <template>
   <div class="news-add">
-    <Card>
+    <Card :dis-hover="true">
       <p slot="title">公司新闻</p>
       <div slot="extra" class="card-title-extra">
         <Button type="primary" @click="handleReset('formItem')">取消</Button>
@@ -96,7 +96,7 @@
       handleSuccess (res, file) {
         if (res.code === '000000') {
           this.visible = true
-          this.imgUploadUrl = this.$ajax.defaults.baseURL + res.data
+          this.imgUploadUrl = this.GLOBAL_.IMG_URLL + res.data
           this.formItem.newsPhoto = res.data
           this.$refs['formItem'].validate((valid) => {})
         } else {

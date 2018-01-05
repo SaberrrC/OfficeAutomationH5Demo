@@ -398,6 +398,10 @@
                   if (response.data.code === '000000') {
                     this.$Message.success('您已成功修改了本次会议的时间')
                     this.$router.push({path: 'myMeeting'})
+                  } else if (response.data.code === '023611') {
+                    this.$Message.error('不能选择当前日期之前的日期')
+                  } else {
+                    this.$Message.error(response.data.message)
                   }
                 }).catch(function (err) {
                   console.log(err)

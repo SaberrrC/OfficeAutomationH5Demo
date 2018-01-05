@@ -1,6 +1,6 @@
 <template>
 	<div class="notice-from">
-		<Card>
+		<Card :dis-hover="true">
 			<div slot="title">
 				<i-form :label-width="80">
 					<Row>
@@ -38,7 +38,7 @@
 			<div class="container">
 				<Table height="450" :columns="columns" :data="data"></Table>
 				<br>
-				<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
+				<Page :total="total" :current="pageNum" @on-change="handPageChange" show-total></Page>
 			</div>
 		</Card>
 	</div>
@@ -173,11 +173,6 @@
 	      this.getNoticeData()
 	    },
 
-	// 每页显示条数切换
-	    handPageSizeChange (val) {
-	      this.pageSize = val
-	      this.getNoticeData()
-	    },
 	    noticeTypeFormat (ele) {
 	      switch (ele) {
 	        case 1:

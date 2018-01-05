@@ -7,7 +7,7 @@
         <i-Col span="3">
           <h3 @click="pageClose()" style="padding: 0 5px"><Button type="text" icon="close-round"></Button></h3>
         </i-Col>
-        <i-Col span="3" offset="18">
+        <i-Col span="3" offset="18" style="text-align: right;padding-right: 16px">
           <Button type="primary" @click="submitEvectionApply()">提交</Button>
         </i-Col>
       </Row>
@@ -434,8 +434,8 @@
     padding: 16px;
   }
   .header {
-    height: 48px;
-    line-height: 48px;
+    height: 53px;
+    line-height: 53px;
     /*padding-left: 20px;*/
     background: #ffffff;
   }
