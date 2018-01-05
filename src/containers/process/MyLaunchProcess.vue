@@ -301,7 +301,7 @@
           console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('收回成功')
-            this.$router.push({path: this.type})
+            this.getMyLaunchList()
           } else {
             this.$Message.success(response.data.message)
           }
