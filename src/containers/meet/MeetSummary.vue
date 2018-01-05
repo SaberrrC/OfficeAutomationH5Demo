@@ -398,7 +398,7 @@
     padding: 0;
   }
   .header .ivu-btn {
-    margin-right: 20px;
+    margin-right: 16px;
   }
   .work-report-daily h3{
     background-color: #F5F6F8 ;

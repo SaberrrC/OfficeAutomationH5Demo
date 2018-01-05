@@ -9,10 +9,10 @@
           <h3 @click="pagePrev()"><Button type="text">上一页</Button></h3>
           <h3 @click="pageNext()"><Button type="text">下一页</Button></h3>
         </i-Col>
-        <i-Col span="3" offset="9" v-if="type === 'myLaunch' && approveState === '3' ">
+        <i-Col span="3" offset="9" v-if="type === 'myLaunch' && approveState === '3' " style="text-align: right;padding-right: 16px">
           <Button type="primary" @click="approveCallBack()">收回</Button>
         </i-Col>
-        <i-Col span="6" offset="6" v-if="type === 'todo'" style="text-align: center">
+        <i-Col span="6" offset="6" v-if="type === 'todo'" style="text-align: right;padding-right: 16px">
                 <Button type="primary" @click="handleAgree('true')" style="margin-right: 20px">同意</Button>
                 <Button type="error" @click="handleReject('false')">驳回</Button>
         </i-Col>

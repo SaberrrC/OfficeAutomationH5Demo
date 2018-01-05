@@ -6,7 +6,7 @@
         <i-Col :lg="{span:3}" :xs="{span:6}">
           <a href="javascript:void (0)"><h3>会议室设置</h3></a>
         </i-Col>
-        <i-Col :lg="{span:3,offset:18}" :xs="{span:3,offset:15}">
+        <i-Col :lg="{span:3,offset:18}" :xs="{span:3,offset:15}" style="text-align: right;padding-right: 16px">
           <Button type="primary" @click="establish()">新建</Button>
         </i-Col>
       </Row>
@@ -401,9 +401,9 @@
     padding-left: 20px;
     background: #ffffff;
   }
-  .header .ivu-btn {
-    margin-right: 20px;
-  }
+  /*.header .ivu-btn {*/
+    /*margin-right: 20px;*/
+  /*}*/
   .ivu-modal-content {
     position: relative;
     background-color: #fff;

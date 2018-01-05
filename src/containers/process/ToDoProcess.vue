@@ -51,7 +51,7 @@
                     </Form>
                     </row>
               </i-Col>
-              <i-Col :lg="{span:6,offset:8}" :md="{span:8,offset:4}" :sm="{span:10,offset:1}" :xs="{span:10,offset:0}">
+              <i-Col :lg="{span:6,offset:8}" :md="{span:8,offset:4}" :sm="{span:10,offset:1}" :xs="{span:10,offset:0}" style="text-align: right;padding-right: 16px">
                 <Button type="primary" style="margin-right: 20px" :disabled="disabled" @click="handleBatchAgree">批量同意</Button>
                 <Button type="error" :disabled="disabled" @click="handleBatchReject">批量驳回</Button>
               </i-Col>
