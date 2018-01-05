@@ -8,7 +8,7 @@
 export default {
   name: 'WorkReport',
   created () {
-    this.$store.dispatch('querySidebarList', 'work_report')
+    this.$store.dispatch('querySidebarList', '2')
   }
 }
 </script>
