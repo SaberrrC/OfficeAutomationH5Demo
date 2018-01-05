@@ -157,6 +157,7 @@
                     <FormItem label="工作交接人" prop="handOverPepole">
                       <Input placeholder="请选择交接人"
                              icon="person"
+                             :readonly="true"
                              v-model="billDetailHandOverPepole.name"
                              @on-focus="checkHandOverPepole()"></Input>
                     </FormItem>
@@ -243,6 +244,7 @@
                       <FormItem label="工作交接人" prop="handOverPepole">
                         <Input placeholder="请选择交接人"
                                icon="person"
+                               :readonly="true"
                                v-model="billAddHandOverPepole.name"
                                @on-focus="checkAddHandOverPepole()"></Input>
                       </FormItem>
