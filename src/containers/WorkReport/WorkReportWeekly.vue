@@ -529,7 +529,6 @@ export default {
           this.checkmantext = result.checkman + '———' + result.postName
           this.weeklySummary = result.weeklySummary
           this.nextWeekPlane = result.weekPlane
-          console.log(this.weeklySummary, '-------', this.nextWeekPlane)
         } else {
         }
       }, (res) => {
