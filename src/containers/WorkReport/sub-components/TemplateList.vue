@@ -3,7 +3,7 @@
 		<Card shadow>
 			<div slot="title" align="right">
 				<Button type="primary" @click="tempmModal = true">新建模板</Button>
-				<Modal v-model="tempmModal" title="添加模板" ok-text="添加" @on-ok="addTemp" @on-cancel="cancelTemp">
+				<Modal v-model="tempmModal" title="添加模板">
 					<p style="margin-bottom: 20px;">
 						模板类型
 						<Select v-model="defaultType" style="width:300px;">
@@ -14,6 +14,10 @@
 						模板名称
 						<Input v-model="templateName" :maxlength="10" placeholder="请输入" style="width: 300px"></Input>
 					</p>
+					<div slot="footer">
+                		<Button type="text" size="large" @click="cancelTemp">取消</Button>
+                		<Button type="primary" size="large" @click="addTemp">添加</Button>
+            		</div>
 				</Modal>
 			</div>
 			<Table height="450" :columns="columns" :data="listData" @on-row-click="toTempDetail"></Table>
@@ -127,8 +131,10 @@ export default {
           this.getTempList()
           this.defaultType = '1'
           this.templateName = ''
+          this.tempmModal = false
         } else {
           this.$Message.error(res.data.message)
+          this.tempmModal = false
         }
       }, (res) => {
 
@@ -137,6 +143,7 @@ export default {
     cancelTemp () {
       this.defaultType = '1'
       this.templateName = ''
+      this.tempmModal = false
     },
     delTemp (id) {
       this.$ajax({
