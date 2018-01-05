@@ -141,7 +141,7 @@ export default {
     this.$ajax.get('/notice/noticeHome').then((response) => {
       if (response.data && response.data.code === '000000') {
         this.notices = response.data.data
-        console.log("notices", this.notices)
+        console.log('notices', this.notices)
       }
     }).catch((err) => {
       console.log(err)
