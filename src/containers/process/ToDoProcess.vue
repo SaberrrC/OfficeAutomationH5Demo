@@ -402,8 +402,8 @@
     height: 36px;
   }
   .header {
-    height: 48px;
-    line-height: 48px;
+    height: 53px;
+    line-height: 53px;
     padding-left: 24px;
     background: #ffffff;
     border-left: 1px solid #cccccc;

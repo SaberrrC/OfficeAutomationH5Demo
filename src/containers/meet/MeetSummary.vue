@@ -391,8 +391,8 @@
     padding: 16px;
   }
   .header {
-    height: 48px;
-    line-height: 48px;
+    height: 53px;
+    line-height: 53px;
     text-align: right;
     background: #ffffff;
     padding: 0;
