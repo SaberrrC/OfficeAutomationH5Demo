@@ -194,6 +194,7 @@ export default {
         }
       }, {
         title: '打分',
+        width: 100,
         key: 'totalScore',
         align: 'center',
         render: (h, params) => {
@@ -242,6 +243,7 @@ export default {
         sortable: true
       }, {
         title: '操作',
+        width: 200,
         key: 'operation',
         align: 'center',
         render: (h, params) => {
