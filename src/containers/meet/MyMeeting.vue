@@ -7,10 +7,10 @@
           <a href="javascript:void (0)" @click="clickLaunchList()">
             <h3 style="display: inline-block;" :class="{active:LaunchList.isActive}">{{LaunchList.title}}</h3>
           </a>
-          <h3 style="display: inline-block;margin: 0 10px">|</h3>
-          <a href="javascript:void (0)" @click="clickBeInvitedList()">
-            <h3 style="display: inline-block" :class="{active:BeInvitedList.isActive}">{{BeInvitedList.title}}</h3>
-          </a>
+          <!--<h3 style="display: inline-block;margin: 0 10px">|</h3>-->
+          <!--<a href="javascript:void (0)" @click="clickBeInvitedList()">-->
+            <!--<h3 style="display: inline-block" :class="{active:BeInvitedList.isActive}">{{BeInvitedList.title}}</h3>-->
+          <!--</a>-->
         </i-Col>
       </Row>
     </span>
@@ -335,8 +335,8 @@ export default {
     padding: 16px;
   }
   .header {
-    height: 48px;
-    line-height: 48px;
+    height: 53px;
+    line-height: 53px;
     padding-left: 20px;
     background: #ffffff;
   }

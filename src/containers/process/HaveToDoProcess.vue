@@ -266,6 +266,7 @@
     background: #ffffff;
     padding: 20px ;
     color: #1c2438;
+    /*border-right: 1px solid #cccccc;*/
   }
   .contents {
     margin-left: 200px;
@@ -281,8 +282,8 @@
     height: 36px;
   }
   .header {
-    height: 48px;
-    line-height: 48px;
+    height: 53px;
+    line-height: 53px;
     padding-left: 24px;
     background: #ffffff;
     border-left: 1px solid #cccccc;
