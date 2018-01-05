@@ -206,8 +206,8 @@ export default {
           // that.TXList() // 不需要
           that.getSetting()
           // that.getRooms() // 不需要
-          chat.getGroups()
           chat.getCacheMessageList()
+          chat.getGroups()
           if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
             that.tmpFn.close()
             that.tmpFn = null
@@ -216,10 +216,10 @@ export default {
         },
         onTextMessage: function(message) {
           console.log(['接收到文本消息', message])
-          if(message.from === 'sl_admin' || message.from === 'sl_notice'){
-            return 
+          if (message.from === 'sl_admin' || message.from === 'sl_notice' || message.to === 'sl_admin' || message.to === 'sl_notice') {
+            return
           }
-          if(message.errorCode === '404'){
+          if (message.errorCode === '404') {
             return
           }
           //message.data = chat.decrpty(message.data,message.from)
