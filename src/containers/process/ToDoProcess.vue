@@ -227,6 +227,9 @@
           } else if (response.data.code === '020000') {
             this.toDoList = []
             this.loading = false
+          } else {
+            this.toDoList = []
+            this.loading = false
           }
         }).catch(function (err) {
           console.log(err)

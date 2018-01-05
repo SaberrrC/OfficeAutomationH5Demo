@@ -268,6 +268,9 @@ export default {
           }
           this.launchTableData = data
           this.launchLoading = false
+        } else {
+          this.launchTableData = []
+          this.launchLoading = false
         }
       }).catch(function (err) {
         console.log(err)
