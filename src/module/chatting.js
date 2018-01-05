@@ -503,6 +503,49 @@ const chat = {
       }
     })
   },
+  getCacheMessageList () { // 取缓存
+    localforage.getItem('currentUserCode', function (err, value) {
+      // 是否当前用户
+      if (store.state.userinfo.code === value) {
+        console.log('取缓存', store.state.userinfo.code)
+        localforage.setItem('currentUserCode', store.state.userinfo.code)
+        localforage.getItem('cacheUser', function (err, value) {
+          if (value) {
+            store.state.userInfoDb = value
+          }
+        })
+        localforage.getItem('cacheGroup', function (err, value) {
+          if (value) {
+            store.state.TXGroup = []
+            store.state.TXGroup = value
+          }
+        })
+        localforage.getItem('cacheMessageHistory', function (err, value) {
+          if (value) {
+            store.state.singChatbox = value
+          }
+        })
+        localforage.getItem('cacheChatList', function (err, value) {
+          if (value) {
+            store.state.list = []
+            store.state.list = value
+          }
+        })
+        localforage.getItem('cachegrossNumber', function (err, value) {
+          if (value) {
+            store.state.grossNumber = value
+          }
+        })
+      } else {
+        localforage.setItem('currentUserCode', store.state.userinfo.code)
+        localforage.setItem('cacheUser', {})
+        localforage.setItem('cacheGroup', [])
+        localforage.setItem('cacheMessageHistory', {})
+        localforage.setItem('cacheChatList', [])
+        localforage.setItem('cachegrossNumber', 0)
+      }
+    })
+  },
   ReCont (strCont) {
     let emotion = [
       { name: 'ee_1.png', text: '[):]' },
