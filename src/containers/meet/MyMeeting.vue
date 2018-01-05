@@ -7,10 +7,10 @@
           <a href="javascript:void (0)" @click="clickLaunchList()">
             <h3 style="display: inline-block;" :class="{active:LaunchList.isActive}">{{LaunchList.title}}</h3>
           </a>
-          <h3 style="display: inline-block;margin: 0 10px">|</h3>
-          <a href="javascript:void (0)" @click="clickBeInvitedList()">
-            <h3 style="display: inline-block" :class="{active:BeInvitedList.isActive}">{{BeInvitedList.title}}</h3>
-          </a>
+          <!--<h3 style="display: inline-block;margin: 0 10px">|</h3>-->
+          <!--<a href="javascript:void (0)" @click="clickBeInvitedList()">-->
+            <!--<h3 style="display: inline-block" :class="{active:BeInvitedList.isActive}">{{BeInvitedList.title}}</h3>-->
+          <!--</a>-->
         </i-Col>
       </Row>
     </span>

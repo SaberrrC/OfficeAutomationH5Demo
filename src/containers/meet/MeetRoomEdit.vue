@@ -310,7 +310,7 @@
         if (res.code === '000000') {
           this.formItem.roomimg = res.data
           this.roomimg = this.GLOBAL_.IMG_URL + res.data
-          this.$Message.info('success')
+          this.$Message.info('图片上传成功')
         }
       },
 //    开关状态改变
