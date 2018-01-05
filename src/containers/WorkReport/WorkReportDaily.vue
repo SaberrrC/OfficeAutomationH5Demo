@@ -1,5 +1,12 @@
 <template>
 	<div class="work-report-daily">
+    <Row style="background-color: white;height: 53px;padding-top: 10px;padding-left: 16px;">
+      <Col span="24">
+      日期
+      <DatePicker :options="options" type="date" placeholder="Select date" style="width: 200px" v-model="reportTime" format="yyyy-MM-dd" @on-change="changeTime" :clearable="false"></DatePicker>
+      </Col>
+    </Row>
+    <div style="padding: 16px;">
 		<Card shadow>
 			<Modal v-model="showDraft" title="信息" @on-ok="drawDraft">
 				<p>是否导入草稿？</p>
@@ -14,8 +21,7 @@
 				日工作汇报
 			</p>
 			<div slot="extra">
-				日期
-				<DatePicker :options="options" type="date" placeholder="Select date" style="width: 200px" v-model="reportTime" format="yyyy-MM-dd" @on-change="changeTime" :clearable="false"></DatePicker>
+
 			</div>
 			<div class="card">
 				<Row>
@@ -286,6 +292,7 @@
 				</Row>
 			</div>
 		</Card>
+    </div>
 	</div>
 </template>
 
@@ -643,7 +650,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.work-report-daily {
-		padding: 16px;
+		/*padding: 16px;*/
 		.card {
 			table {
 				width: 100%;

@@ -6,7 +6,7 @@ import router from './router'
 import store from './vuex/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-// import Lockr from 'lockr'
+//  import Lockr from 'lockr'
 import config from './config/index.js'
 
 //  import qs from 'qs'
@@ -20,6 +20,7 @@ axios.defaults.transformRequest = [(data) => {
   return qs.stringify(data || {})
 }]
 */
+
 Vue.prototype.$ajax = axios
 Vue.prototype.GLOBAL_ = {
   IMG_URL: 'http://10.255.232.234:96',

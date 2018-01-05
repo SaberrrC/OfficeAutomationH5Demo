@@ -50,7 +50,7 @@
               @click="handleToNoticeDetail(item.id)"
               :title="item.title">
               <span class="notice-title">{{item.title}}</span><span class="notice-name">{{item.postUserId}}</span><span
-              class="notice-type">{{item.noticeClass}}</span><span class="notice-time">{{item.createTime}}</span>
+              class="notice-type">{{noticeType(item.noticeClass)}}</span><span class="notice-time">{{formatDate(item.createTime*1000,false)}}</span>
             </li>
           </ul>
         </Card>
@@ -141,6 +141,7 @@ export default {
     this.$ajax.get('/notice/noticeHome').then((response) => {
       if (response.data && response.data.code === '000000') {
         this.notices = response.data.data
+        console.log('notices', this.notices)
       }
     }).catch((err) => {
       console.log(err)
@@ -206,6 +207,17 @@ export default {
       //  TODO 公告详情
       console.log(id)
       //  window.open(`/notice_detail/?${id}`)
+    },
+    formatDate,
+    noticeType (type) {
+      switch (type) {
+        case 1:
+          return '通知'
+        case 2:
+          return '表彰'
+        case 3:
+          return '活动'
+      }
     }
   }
 }

@@ -24,7 +24,7 @@
 					<tr>
 						<td>
 							<FormItem label="发布日期">
-								{{GLOBAL_.FORMAT_TIME(formItem.createTime)}}
+								{{GLOBAL_.FORMAT_TIME(formItem.createTime * 1000)}}
 							</FormItem>
 						</td>
 						<td>
