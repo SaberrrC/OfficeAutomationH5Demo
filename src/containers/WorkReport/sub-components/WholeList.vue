@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import config from '@/config/index.js'
 export default {
   name: 'WholeList',
   data () {
@@ -272,7 +273,7 @@ export default {
     },
     //  导出
     exportReport () {
-      location.href = 'http://10.255.232.234/oa-api/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
+      location.href = config.OA_API + '/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
     }
   },
   mounted () {

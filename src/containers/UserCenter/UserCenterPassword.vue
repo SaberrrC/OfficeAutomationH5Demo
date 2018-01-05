@@ -1,6 +1,6 @@
 <template>
 	<div class="user-center-password">
-		<Card>
+		<Card :dis-hover="true">
 			<p slot="title">个人密码修改</p>
 			<Button type="primary" slot="extra" class="card-title-extra" @click="handleSubmit('formCustom')">保存</Button>
 			<i-form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80" style="width:400px;">

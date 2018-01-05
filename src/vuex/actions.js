@@ -24,6 +24,7 @@ const actions = {
         }
       ])
     }
+
     if (id === 'user_center') {
       context.commit('updateSidebarList', [
         {
@@ -180,6 +181,7 @@ const actions = {
       }
     }).then((response) => {
       if (response.data && response.data.code === '000000') {
+        console.log(response.data)
         const result = response.data.data
         context.commit('updateSidebarList', result)
         return result

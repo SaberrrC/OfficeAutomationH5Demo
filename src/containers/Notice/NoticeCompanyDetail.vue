@@ -1,6 +1,6 @@
 <template>
 	<div class="notice-company-detail">
-		<Card>
+		<Card :dis-hover="true">
 			<p slot="title">公司公告</p>
 			<div slot="extra" class="card-title-extra">
 				<Button type="primary" @click="exit">退出</Button>

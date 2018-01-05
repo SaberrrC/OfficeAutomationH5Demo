@@ -1,6 +1,6 @@
 <template>
 	<div class="notice-department">
-		<Card>
+		<Card :dis-hover="true">
 			<p slot="title">部门公告</p>
 			<div slot="extra" class="card-title-extra">
 				<Button type="primary" @click="handleReset('formItem')">取消</Button>
