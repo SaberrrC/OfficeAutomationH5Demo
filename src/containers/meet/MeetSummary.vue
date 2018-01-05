@@ -309,6 +309,7 @@
             }).then((response) => {
               if (response.data.code === '000000') {
                 this.$Message.success('会议纪要发布成功')
+                this.$router.push({path: 'myMeeting'})
               } else {
                 this.$Message.success(response.data.message)
               }
