@@ -15,10 +15,7 @@
     <Modal
       v-model="modal1"
       :title="modalTitle"
-      :loading="loading"
-      @on-ok="ok"
       @on-cancel="cancel"
-      :ok-text="okText"
       :closable="false"
       class-name="vertical-center-modal"
       class="modal"
@@ -76,6 +73,10 @@
         </Row>
 
       </Form>
+      <div slot="footer">
+        <Button type="ghost" @click="modal1 = false">取消</Button>
+        <Button type="primary"  @click="ok">{{ okText }}</Button>
+      </div>
     </Modal>
   <div class="work-report-daily">
     <Card :dis-hover="true">
@@ -91,7 +92,6 @@
     name: 'MeetRoomEdit',
     data () {
       return {
-        loading: true,
         tableloading: false,
         modalTitle: '',
         okText: '',
@@ -225,6 +225,7 @@
         this.tableloading = true
         this.$ajax.get(`/newMeetingRooms`, {
         }).then((response) => {
+          console.log(response)
           if (response.data.code === '000000') {
             let len = response.data.data.length
             let room = []
@@ -235,6 +236,9 @@
               room.push(response.data.data[i])
             }
             this.roomList = room
+            this.tableloading = false
+          } else {
+            this.roomList = []
             this.tableloading = false
           }
         }).catch(function (err) {
@@ -269,6 +273,9 @@
                 if (response.data.code === '000000') {
                   this.$Message.success('会议室创建成功')
                   this.modal1 = false
+                  this.getMeetRoom()
+                } else {
+                  this.$Message.error(response.data.message)
                   this.getMeetRoom()
                 }
               }).catch(function (err) {
@@ -311,6 +318,7 @@
           this.formItem.roomimg = res.data
           this.roomimg = this.GLOBAL_.IMG_URL + res.data
           this.$Message.info('图片上传成功')
+          this.$refs.formItem.validateField('roomimg')
         }
       },
 //    开关状态改变
