@@ -1,6 +1,6 @@
 <template>
 	<div class="notice-to">
-		<Card>
+		<Card :dis-hover="true">
 			<div slot="title">
 				<i-form :label-width="80">
 					<Row>

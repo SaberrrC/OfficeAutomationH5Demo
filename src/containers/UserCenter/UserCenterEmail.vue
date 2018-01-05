@@ -1,6 +1,6 @@
 <template>
 	<div class='user-center-email'>
-		<Card>
+		<Card :dis-hover="true">
 			<p slot="title">个人邮箱修改</p>
 			<div slot="extra" class="card-title-extra">
 				<Button type="primary" @click="visible = false">修改</Button>
