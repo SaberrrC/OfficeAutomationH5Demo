@@ -554,6 +554,9 @@
           nchrfurloughApplyDetail: this.nCHREvectionApplyDeatil
         }  // TODO 组装数据
         this.$ajax.post(`/nchrFurlough/submitFurlough`, JSON.stringify(data), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
