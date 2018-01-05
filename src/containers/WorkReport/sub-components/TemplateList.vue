@@ -110,6 +110,10 @@ export default {
     },
     //  新增模版
     addTemp () {
+      if (!this.templateName) {
+        this.$Message.error('请输入模版名称')
+        return
+      }
       this.$ajax({
         method: 'post',
         url: '/templateManage/insertTemplate',
