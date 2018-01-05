@@ -77,18 +77,29 @@ body {
     padding-right: 16px;
     text-align: right;
   }
-  .duty-record {
-    .comp-full-calendar {
-      padding: 0;
-      .full-calendar-header {
-        display: none;
+  .full-calendar-header {
+    display: none;
+  }
+  .full-calendar-body {
+    .weeks {
+      border: 0;
+      .week {
+        border: 0;
       }
     }
-    .full-calendar-body {
-      .weeks {
+    .week-row {
+      border: 0;
+      .day-cell {
+        min-height: 40px;
+        padding: 15px 0;
         border: 0;
-        .week {
-          border: 0;
+        line-height: 40px;
+        p {
+          height: 40px;
+          width: 40px;
+          margin: 0 auto;
+          font-size: 14px;
+          text-align: center;
         }
       }
       .today {
@@ -143,45 +154,34 @@ body {
           background-color: #2d8cf0;
         }
       }
-      .events-day {
-        position: relative;
+    }
+  }
+  .duty-record {
+    .comp-full-calendar {
+      padding: 0;
+    }
+    .week-row {
+      .day-cell {
         min-height: 32px;
-        height: 32px;
         padding: 15px 0;
-        box-sizing: content-box;
-        .day-number {
-          padding: 0;
+        line-height: 30px;
+        p {
+          height: 32px;
+          width: 32px;
+          font-size: 12px;
         }
-        .event-box {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          margin: -16px 0 0 -16px;
-          .event-item {
-            height: 32px;
-            width: 32px;
-            margin: 0;
-            padding: 0;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-          }
-          .leave {
-            color: #fff;
-            background-color: #19be6b;
-          }
-          .abnormal {
-            color: #fff;
-            background-color: #ed3f14;
-          }
-          .overtime {
-            color: #fff;
-            background-color: #f90;
-          }
-          .business {
-            color: #fff;
-            background-color: #2d8cf0;
-          }
+      }
+    }
+    .events-day {
+      min-height: 32px;
+      height: 32px;
+      padding: 15px 0;
+      .event-box {
+        margin: -16px 0 0 -16px;
+        .event-item {
+          height: 32px;
+          width: 32px;
+          line-height: 30px;
         }
       }
     }
