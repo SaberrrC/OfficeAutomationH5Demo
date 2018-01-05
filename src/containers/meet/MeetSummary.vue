@@ -12,7 +12,7 @@
               <Row>
                 <i-Col span="8">
                   <FormItem label="会议主题">
-                    <Input v-model="formItem.title" placeholder="请选择会议主题" @on-focus="showTitle = true"></Input>
+                    <Input v-model="formItem.title" placeholder="请选择会议主题" @on-focus="showTitle = true" :readonly="true"></Input>
                   </FormItem>
                 </i-Col>
                 <i-Col span="16"></i-Col>
@@ -101,7 +101,7 @@
             <Row>
               <i-Col span="8">
                 <FormItem label="发布范围" prop="range">
-                  <Input v-model="formItem.range" placeholder="请选择发布范围" icon="person" @on-focus="doSelectMember(data1)"></Input>
+                  <Input v-model="formItem.range" placeholder="请选择发布范围" icon="person" @on-focus="doSelectMember(data1)" :readonly="true"></Input>
                 </FormItem>
                 <member-selector
                   v-if="isShow"
