@@ -193,6 +193,9 @@
           } else if (response.data.code === '020000') {
             this.haveTodoList = []
             this.loading = false
+          } else {
+            this.haveTodoList = []
+            this.loading = false
           }
         }).catch(function (err) {
           console.log(err)

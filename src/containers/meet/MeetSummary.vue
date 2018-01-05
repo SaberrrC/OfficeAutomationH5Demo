@@ -4,7 +4,7 @@
       <Button>取消</Button>
       <Button type="primary" @click="query()">发布</Button>
     </p>
-    <div class="work-report-daily">
+    <div class="summary">
       <h3 slot="title">会议纪要</h3>
       <Card class="contents" shadow>
           <Form  ref="formItem" :model="formItem"  :rules="ruleFormItem" :label-width="82" label-position="left">
@@ -309,6 +309,7 @@
             }).then((response) => {
               if (response.data.code === '000000') {
                 this.$Message.success('会议纪要发布成功')
+                this.$router.push({path: 'myMeeting'})
               } else {
                 this.$Message.success(response.data.message)
               }
@@ -387,7 +388,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .work-report-daily {
+  .summary {
     padding: 16px;
   }
   .header {

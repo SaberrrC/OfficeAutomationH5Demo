@@ -218,6 +218,9 @@
           } else if (response.data.code === '000000' && response.data.data.dataList.length === 0) {
             this.myLaunchList = []
             this.loading = false
+          } else {
+            this.myLaunchList = []
+            this.loading = false
           }
         }).catch(function (err) {
           console.log(err)

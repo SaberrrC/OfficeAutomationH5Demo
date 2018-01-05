@@ -1,5 +1,5 @@
 <template>
-  <div class='work-report-daily'>
+  <div class='confirm'>
     <Card :dis-hover='true'>
       <!--会议室预定-->
       <Row>
@@ -231,7 +231,7 @@
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-  .work-report-daily {
+  .confirm {
     padding: 16px;
   }
 

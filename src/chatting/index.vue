@@ -205,9 +205,9 @@ export default {
           console.log('%c [opened] 即时通讯连接已成功建立', 'color: green')
           // that.TXList() // 不需要
           that.getSetting()
-          // that.getRooms()
+          // that.getRooms() // 不需要
           chat.getGroups()
-          that.getCacleMessageList()
+          chat.getCacheMessageList()
           if (that.tmpFn && that.tmpFn.close) { // 移除掉线的提示
             that.tmpFn.close()
             that.tmpFn = null
@@ -1214,53 +1214,6 @@ export default {
           //console.log('Error!', e)
         }
       })
-    },
-    getCacleMessageList () {
-      // 取缓存
-      let state = this.$store.state
-      console.log('取缓存', state.userinfo.code)
-      localforage.getItem('currentUserCode', function (err, value) {
-        // 不是当前用户
-        if (state.userinfo.code !== value || value === undefined || value === '' || value === null || !value) {
-          localforage.setItem('currentUserCode', state.userinfo.code)
-          localforage.setItem('cacheUser', {})
-          localforage.setItem('cacheGroup', [])
-          localforage.setItem('cacheMessageHistory', {})
-          localforage.setItem('cacheChatList', [])
-          localforage.setItem('cachegrossNumber', 0)
-          return
-        } else {
-          localforage.setItem('currentUserCode', state.userinfo.code)
-        }
-      })
-      localforage.getItem('cacheUser', function (err, value) {
-        if (value) {
-          state.userInfoDb = value
-        }
-      })
-      localforage.getItem('cacheGroup', function (err, value) {
-        if (value) {
-          state.TXGroup = []
-          state.TXGroup = value
-        }
-      })
-      localforage.getItem('cacheMessageHistory', function (err, value) {
-        if (value) {
-          state.singChatbox = value
-        }
-      })
-      localforage.getItem('cacheChatList', function (err, value) {
-        if (value) {
-          state.list = []
-          state.list = value
-        }
-      })
-      localforage.getItem('cachegrossNumber', function (err, value) {
-        if (value) {
-          state.grossNumber = value
-        }
-      })
-      this.$forceUpdate()
     }
   },
   watch: {
