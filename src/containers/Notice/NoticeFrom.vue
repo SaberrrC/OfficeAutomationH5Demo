@@ -140,7 +140,7 @@
 	        sortable: true,
 	        render: (h, params) => {
 	          return h('div', [
-	            this.dateFormat(params.row.createTime)
+	            this.dateFormat(params.row.createTime * 1000)
 	          ])
 	        }
 	      }, {
