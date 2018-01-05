@@ -14,6 +14,12 @@
 			<Modal v-model="showDraft" title="信息" @on-ok="drawDraft">
 				<p>是否导入草稿？</p>
 			</Modal>
+      <Modal
+        v-model="cancel"
+        title="信息"
+      >
+        <p>是否放弃当前编辑</p>
+      </Modal>
 			<p style="text-align: center; padding-bottom: 16px;font-weight: 800;">本周工作总结</p>
 			<Row>
 				<Col span="24">
@@ -118,7 +124,7 @@
 					</Modal>
 				</p>
 				<p class="btn">
-					<Button type="info">取消</Button>
+					<Button type="info" @click="cancel = true">取消</Button>
 					<Button type="info" @click="saveDraft">存草稿</Button>
 					<Button type="info" @click="submitWeek">提交</Button>
 				</p>
@@ -134,6 +140,7 @@ export default {
   name: 'WorkReportWeekly',
   data () {
     return {
+      cancel: false,
       startTime: this.getTime(this.getMonday(new Date())),
       endTime: '2017-12-12',
       options: {
@@ -514,14 +521,15 @@ export default {
         method: 'get',
         url: '/weekreport/' + this.$route.params.id
       }).then((res) => {
-        console.log('草稿数据', res.data)
+        console.log('编辑数据', res.data)
         let result = res.data.data
         if (res.data.code === '000000') {
           this.startTime = new Date(result.startTime)
           this.endTime = result.endTime
           this.checkmantext = result.checkman + '———' + result.postName
-          this.weeklySummary = this.formatDate(result.weeklySummary)
-          this.nextWeekPlane = this.formatDate(result.weekPlane)
+          this.weeklySummary = result.weeklySummary
+          this.nextWeekPlane = result.weekPlane
+          console.log(this.weeklySummary,'-------',this.nextWeekPlane)
         } else {
         }
       }, (res) => {

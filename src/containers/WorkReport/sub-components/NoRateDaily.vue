@@ -411,10 +411,10 @@ export default {
     console.log(this.dailyid)
     this.getDetail()
   },
-  activated () {
+  /*activated () {
     this.dailyid = this.$route.params.dailyid
     this.getDetail()
-  }
+  }*/
 }
 </script>
 

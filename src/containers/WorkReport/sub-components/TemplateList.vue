@@ -19,6 +19,13 @@
                 		<Button type="primary" size="large" @click="addTemp">添加</Button>
             		</div>
 				</Modal>
+        <Modal
+          v-model="delTip"
+          title="信息"
+          @on-ok="sureDel(delid)"
+          >
+          <p>确定要删除吗？</p>
+        </Modal>
 			</div>
 			<Table height="450" :columns="columns" :data="listData" @on-row-click="toTempDetail"></Table>
 		</Card>
@@ -30,6 +37,8 @@ export default {
   name: 'work-report-template',
   data () {
     return {
+      delid: '',
+      delTip: false,
       tempmModal: false,
       loading: true,
       selectType: [{
@@ -146,6 +155,10 @@ export default {
       this.tempmModal = false
     },
     delTemp (id) {
+      this.delTip = true
+      this.delid = id;
+    },
+    sureDel (id) {
       this.$ajax({
         method: 'get',
         url: '/templateManage/delTemplateByCid',
