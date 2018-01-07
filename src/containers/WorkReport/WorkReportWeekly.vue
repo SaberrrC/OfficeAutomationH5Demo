@@ -126,7 +126,7 @@
 				<p class="btn">
 					<Button type="info" @click="cancel = true">取消</Button>
 					<Button type="info" @click="saveDraft">存草稿</Button>
-					<Button type="info" @click="submitWeek">提交</Button>
+					<Button type="info" @click="submitWeek" :loading="loading">提交</Button>
 				</p>
 				</Col>
 			</Row>
@@ -140,6 +140,7 @@ export default {
   name: 'WorkReportWeekly',
   data () {
     return {
+      loading: false,
       cancel: false,
       startTime: this.getTime(this.getMonday(new Date())),
       endTime: '2017-12-12',
@@ -486,6 +487,7 @@ export default {
         this.$Message.error('请选择检查人')
         return
       }
+      this.loading = true
       if (this.$route.params.id) {
         //  编辑提交
         data.id = this.$route.params.id
@@ -497,13 +499,15 @@ export default {
           console.log('编辑提交', res.data)
           // var result = res.data.data
           if (res.data.code === '000000') {
+            this.loading = false
             this.$Message.success('发送成功')
             location.hash = '/work_report/my_report/myReportList'
           } else {
+            this.loading = false
             this.$Message.success(res.data.message)
           }
         }, (res) => {
-
+          this.loading = false
         })
       } else {
         this.$ajax({
@@ -514,13 +518,15 @@ export default {
           console.log('发起周报', res.data)
           // var result = res.data.data
           if (res.data.code === '000000') {
+            this.loading = false
             this.$Message.success('发送成功')
             location.hash = '/work_report/my_report/myReportList'
           } else {
+            this.loading = false
             this.$Message.success(res.data.message)
           }
         }, (res) => {
-
+          this.loading = false
         })
       }
     },

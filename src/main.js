@@ -22,13 +22,41 @@ axios.defaults.transformRequest = [(data) => {
 */
 
 //  添加请求拦截器
-/* axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function (config) {
   //  在发送请求之前做些什么
-  console.log(config)
+  //  console.log(config.headers.token)
+  if (~location.hash.indexOf('login?redirect')) {
+    //  登陆页,直接通过
+    return config
+  } else {
+    //  其他页面，判断token存不存在
+    //  alert('前: ' + JSON.stringify(localStorage))
+    if (!localStorage.token) {
+      location.hash = '/login?redirect=/home'
+    } else {
+      return config
+    }
+  }
 }, function (error) {
   //  对请求错误做些什么
-  //  return Promise.reject(error);
   console.log(error)
+  return Promise.reject(error)
+})
+
+// 添加响应拦截器
+/* axios.interceptors.response.use(function (response) {
+  // 对响应数据做点什么
+  return response
+}, function (error) {
+  // 对响应错误做点什么
+  console.log(error)
+  if (error.toString() === 'Error: Request failed with status code 401') {
+    //  token失效
+    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('uid')
+    location.hash = '/login?redirect=/home'
+  }
+  return Promise.reject(error)
 }) */
 
 Vue.prototype.$ajax = axios

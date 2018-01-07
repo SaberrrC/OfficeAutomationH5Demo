@@ -1,35 +1,34 @@
 <template>
 	<div class="work-report-history">
-		<Row>
-			<Col></Col>
-		</Row>
-		<Card shadow>
-			<div slot="title">
-				<Form :label-width="80">
-					<Row>
-						<Col span="6">
-						<FormItem label="类型">
-							<Select v-model="defaultType">
-								<Option v-for="item in selectType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</Select>
-						</FormItem>
-						</Col>
-						<Col span="6">
-						<FormItem label="汇报日期">
-							<Select v-model="defaultReport">
-								<Option v-for="item in reportTime" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</Select>
-						</FormItem>
-						</Col>
-					</Row>
+    <div style="height: 53px;background-color: white;padding-top: 10px;">
+      <Form :label-width="80">
+        <Row>
+          <Col span="6">
+          <FormItem label="类型">
+            <Select v-model="defaultType">
+              <Option v-for="item in selectType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+          </Col>
+          <Col span="6">
+          <FormItem label="汇报日期">
+            <Select v-model="defaultReport">
+              <Option v-for="item in reportTime" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+          </Col>
+        </Row>
 
-				</Form>
-			</div>
-			<Table height="450" :columns="dailycolumns" :data="DailyData" v-if="visible" @on-row-click="dailyRowClick"></Table>
-			<Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible" @on-row-click="weeklyRowClick"></Table>
-			<br />
-			<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
-		</Card>
+      </Form>
+    </div>
+		<div style="padding: 16px;">
+      <Card shadow>
+        <Table height="450" :columns="dailycolumns" :data="DailyData" v-if="visible" @on-row-click="dailyRowClick"></Table>
+        <Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible" @on-row-click="weeklyRowClick"></Table>
+        <br />
+        <Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
+      </Card>
+    </div>
 	</div>
 </template>
 
@@ -297,6 +296,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.work-report-history {
-		padding: 16px;
+		/*padding: 16px;*/
 	}
 </style>
