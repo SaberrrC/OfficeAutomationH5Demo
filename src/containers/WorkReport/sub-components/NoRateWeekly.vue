@@ -218,7 +218,7 @@ export default {
             path: '/work_report/no_rate/noRateList'
           })
         } else {
-
+          this.$Message.error(res.data.message)
         }
       }, (res) => {
 

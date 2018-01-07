@@ -128,6 +128,12 @@ export default {
         this.$Message.error('请输入模版名称')
         return
       }
+      for (let i = 0; i < this.listData.length; i++) {
+        if (this.listData[i].templateName === this.templateName) {
+          this.$Message.error('模版名称已存在')
+          return
+        }
+      }
       this.$ajax({
         method: 'post',
         url: '/templateManage/insertTemplate',

@@ -117,7 +117,10 @@ const router = new Router({
         {
           path: 'weekly',
           name: 'WorkReportWeekly',
-          component: WorkReportWeekly
+          component: WorkReportWeekly,
+          meta: {
+            requireAuth: true
+          }
         },
         {
           path: 'my_report',
@@ -128,17 +131,26 @@ const router = new Router({
             {
               path: 'myReportList',
               name: 'MyReportList',
-              component: MyReportList
+              component: MyReportList,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'myReportDaily',
               name: 'MyReportDaily',
-              component: MyReportDaily
+              component: MyReportDaily,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'myReportWeekly',
               name: 'MyReportWeekly',
-              component: MyReportWeekly
+              component: MyReportWeekly,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -147,21 +159,33 @@ const router = new Router({
           name: 'WorkReportNoRate',
           component: WorkReportNoRate,
           redirect: '/work_report/no_rate/noRateList',
+          meta: {
+            requireAuth: true
+          },
           children: [
             {
               path: 'noRateList',
               name: 'NoRateList',
-              component: NoRateList
+              component: NoRateList,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'noRateDaily',
               name: 'NoRateDaily',
-              component: NoRateDaily
+              component: NoRateDaily,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'noRateWeekly',
               name: 'NoRateWeekly',
-              component: NoRateWeekly
+              component: NoRateWeekly,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -170,21 +194,33 @@ const router = new Router({
           name: 'WorkReportHistory',
           component: WorkReportHistory,
           redirect: '/work_report/history/historyList',
+          meta: {
+            requireAuth: true
+          },
           children: [
             {
               path: 'historyList',
               name: 'HistoryList',
-              component: HistoryList
+              component: HistoryList,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'historyDaily',
               name: 'HistoryDaily',
-              component: HistoryDaily
+              component: HistoryDaily,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'historyWeekly',
               name: 'HistoryWeekly',
-              component: HistoryWeekly
+              component: HistoryWeekly,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -193,21 +229,33 @@ const router = new Router({
           name: 'WorkReportTemplate',
           component: WorkReportTemplate,
           redirect: '/work_report/template/templateList',
+          meta: {
+            requireAuth: true
+          },
           children: [
             {
               path: 'templateList',
               name: 'TemplateList',
-              component: TemplateList
+              component: TemplateList,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'templateDaily',
               name: 'TemplateDaily',
-              component: TemplateDaily
+              component: TemplateDaily,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'templateWeekly',
               name: 'TemplateWeekly',
-              component: TemplateWeekly
+              component: TemplateWeekly,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         }
@@ -224,21 +272,33 @@ const router = new Router({
           name: 'ReportAdminWhole',
           component: ReportAdminWhole,
           redirect: '/report_admin/whole/wholeList',
+          meta: {
+            requireAuth: true
+          },
           children: [
             {
               path: 'wholeList',
               name: 'WholeList',
-              component: WholeList
+              component: WholeList,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'wholeDaily',
               name: 'WholeDaily',
-              component: WholeDaily
+              component: WholeDaily,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'wholeWeekly',
               name: 'WholeWeekly',
-              component: WholeWeekly
+              component: WholeWeekly,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -247,21 +307,33 @@ const router = new Router({
           name: 'ReportAdminDepartment',
           component: ReportAdminDepartment,
           redirect: '/report_admin/department/departmentList',
+          meta: {
+            requireAuth: true
+          },
           children: [
             {
               path: 'departmentList',
               name: 'DepartmentList',
-              component: DepartmentList
+              component: DepartmentList,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'departmentDaily',
               name: 'DepartmentDaily',
-              component: DepartmentDaily
+              component: DepartmentDaily,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: 'departmentWeekly',
               name: 'DepartmentWeekly',
-              component: DepartmentWeekly
+              component: DepartmentWeekly,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         }
@@ -298,7 +370,10 @@ const router = new Router({
     {
       path: '/setting',
       name: 'Setting',
-      component: Setting
+      component: Setting,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/login',

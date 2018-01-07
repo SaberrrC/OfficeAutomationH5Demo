@@ -581,6 +581,12 @@ export default {
       data.time = this.getTime(this.reportTime)
       console.log(data)
       for (let k in data) {
+        if (!data.checkmanId) {
+          this.$Message.error({
+            content: '请选择接收人'
+          })
+          return
+        }
         if (!data[k]) {
           this.$Message.error({
             content: '当前还有未填写的日报内容，请检查'
@@ -588,22 +594,43 @@ export default {
           return
         }
       }
-      this.$ajax({
-        method: 'post',
-        url: '/dailyreport',
-        data: data
-      }).then((res) => {
-        console.log('提交日报', res.data)
-        // var result = res.data.data
-        if (res.data.code === '000000') {
-          this.$Message.success('提交成功')
-          location.hash = '/work_report/my_report/myReportList'
-        } else {
-          this.$Message.error(res.data.message)
-        }
-      }, (res) => {
+      if (this.$route.params.id) {
+        //  编辑的提交
+        data.dailyId = this.$route.params.id
+        this.$ajax({
+          method: 'put',
+          url: '/upddailyreport',
+          data: data
+        }).then((res) => {
+          console.log('编辑提交日报', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.$Message.success('提交成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.$Message.error(res.data.message)
+          }
+        }, (res) => {
 
-      })
+        })
+      } else {
+        this.$ajax({
+          method: 'post',
+          url: '/dailyreport',
+          data: data
+        }).then((res) => {
+          console.log('提交日报', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.$Message.success('提交成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.$Message.error(res.data.message)
+          }
+        }, (res) => {
+
+        })
+      }
     },
     //  编辑数据
     getEditData (id) {

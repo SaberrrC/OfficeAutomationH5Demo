@@ -339,6 +339,13 @@ export default {
       }
     },
     selectSubmit () {
+      console.log(this.selectData)
+      for (let i = 0; i < this.selectData.length; i++) {
+        if (!this.selectData[i].ratings || !this.selectData[i].totalScore) {
+          this.$Message.error('请对所有勾选的日报进行评价和打分')
+          return
+        }
+      }
       this.$ajax({
         method: 'post',
         url: '/batch/batchScore',

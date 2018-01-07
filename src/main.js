@@ -21,6 +21,16 @@ axios.defaults.transformRequest = [(data) => {
 }]
 */
 
+//  添加请求拦截器
+/* axios.interceptors.request.use(function (config) {
+  //  在发送请求之前做些什么
+  console.log(config)
+}, function (error) {
+  //  对请求错误做些什么
+  //  return Promise.reject(error);
+  console.log(error)
+}) */
+
 Vue.prototype.$ajax = axios
 Vue.prototype.GLOBAL_ = {
   IMG_URL: 'http://10.255.232.234:96',

@@ -273,6 +273,10 @@ export default {
     },
     //  添加一行方法
     addLine () {
+      if (this.weeklySummary.length === 9) {
+        this.$Message.error('添加条数已达上限！')
+        return
+      }
       this.weeklySummary.push({
         workPlan: '',
         work: '',
@@ -282,6 +286,10 @@ export default {
       })
     },
     addLineNext () {
+      if (this.nextWeekPlane.length === 9) {
+        this.$Message.error('添加条数已达上限！')
+        return
+      }
       this.nextWeekPlane.push({
         nextWorkPlan: '',
         personLiable: '',
@@ -474,22 +482,47 @@ export default {
         this.$Message.error('下周工作计划至少填写一行内容')
         return
       }
-      this.$ajax({
-        method: 'post',
-        url: '/weekreport/add',
-        data: data
-      }).then((res) => {
-        console.log('发起周报', res.data)
-        // var result = res.data.data
-        if (res.data.code === '000000') {
-          this.$Message.success('发送成功')
-          location.hash = '/work_report/my_report/myReportList'
-        } else {
-          this.$Message.success(res.data.message)
-        }
-      }, (res) => {
+      if (!data.checkmanId) {
+        this.$Message.error('请选择检查人')
+        return
+      }
+      if (this.$route.params.id) {
+        //  编辑提交
+        data.id = this.$route.params.id
+        this.$ajax({
+          method: 'put',
+          url: '/weekreport/upd',
+          data: data
+        }).then((res) => {
+          console.log('编辑提交', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.$Message.success('发送成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.$Message.success(res.data.message)
+          }
+        }, (res) => {
 
-      })
+        })
+      } else {
+        this.$ajax({
+          method: 'post',
+          url: '/weekreport/add',
+          data: data
+        }).then((res) => {
+          console.log('发起周报', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.$Message.success('发送成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.$Message.success(res.data.message)
+          }
+        }, (res) => {
+
+        })
+      }
     },
     getTemp () {
       this.$ajax({

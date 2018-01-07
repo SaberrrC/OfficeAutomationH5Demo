@@ -374,6 +374,17 @@ export default {
     },
     //  提交打分 professionalismScore   teamScore   worklogScore
     submitReport () {
+      //  校验数据
+      for (var k in this.oneKeyData) {
+        if (!this.reportData[k]) {
+          this.$Message.error('当前还有未填写的内容，请检查')
+          return
+        }
+      }
+      if (!this.reportData.worklogScore || !this.reportData.professionalismScore || !this.reportData.teamScore) {
+        this.$Message.error('评分未完整')
+        return
+      }
       let params = {}
       Object.assign(params, this.oneKeyData)
       console.log(params)
@@ -396,7 +407,7 @@ export default {
           this.$Message.success('提交成功')
           location.hash = '/work_report/no_rate/noRateList'
         } else {
-
+          this.$Message.error(res.data.message)
         }
       }, (res) => {
 
