@@ -363,15 +363,15 @@
           var start = new Date(this.nCHREvectionApplyDeatil[i].signTime)
           var startYear = start.getFullYear()
           var startMouth = start.getMonth()
-          startMouth = startMouth < 10 ? '0' + (startMouth + 1) : startMouth + 1
+          startMouth = startMouth < 10 ? '0' + (startMouth + 1) : (startMouth + 1).toString()
           var startDate = start.getDate()
-          startDate = startDate < 10 ? '0' + startDate : startDate
+          startDate = startDate < 10 ? '0' + startDate : startDate.toString()
           var startHours = start.getHours()
-          startHours = startHours < 10 ? '0' + startHours : startHours
+          startHours = startHours < 10 ? '0' + startHours : startHours.toString()
           var startMinutes = start.getMinutes()
-          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
-          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
           start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
           this.nCHREvectionApplyDeatil[i].signTime = start
         }

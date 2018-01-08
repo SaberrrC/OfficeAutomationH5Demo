@@ -534,15 +534,15 @@
           var end = new Date(this.nCHREvectionApplyDeatil[i].endTime)
           var endYear = end.getFullYear()
           var endMouth = end.getMonth()
-          endMouth = endMouth === 0 ? 1 : endMouth + 1
+          endMouth = endMouth === 0 ? 1 : (endMouth + 1).toString()
           var endDate = end.getDate()
-          endDate = endDate < 10 ? '0' + endDate : endDate
+          endDate = endDate < 10 ? '0' + endDate : endDate.toString()
           var endHours = end.getHours()
-          endHours = endHours < 10 ? '0' + endHours : endHours
+          endHours = endHours < 10 ? '0' + endHours : endHours.toString()
           var endMinutes = end.getMinutes()
-          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes
+          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes.toString()
           var endSeconds = end.getSeconds()
-          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
+          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds.toString()
           end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
           this.nCHREvectionApplyDeatil[i].endTime = end
         }

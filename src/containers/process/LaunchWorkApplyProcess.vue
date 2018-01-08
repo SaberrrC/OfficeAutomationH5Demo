@@ -409,10 +409,8 @@
             this.nCHREvectionApplyDeatil.push(this.addWorkApply)
           }
         } else {
-          console.log(123)
           return false
         }
-//      调添加加班申请接口   // TODO
         var len = this.nCHREvectionApplyDeatil.length
         for (var i = 0; i < len; i++) {
           var start = new Date(this.nCHREvectionApplyDeatil[i].startTime)
@@ -420,13 +418,13 @@
           var startMouth = start.getMonth()
           startMouth = startMouth === 0 ? 1 : startMouth + 1
           var startDate = start.getDate()
-          startDate = startDate < 10 ? '0' + startDate : startDate
+          startDate = startDate < 10 ? '0' + startDate : startDate.toString()
           var startHours = start.getHours()
-          startHours = startHours < 10 ? '0' + startHours : startHours
+          startHours = startHours < 10 ? '0' + startHours : startHours.toString()
           var startMinutes = start.getMinutes()
-          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
-          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
           start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
           this.nCHREvectionApplyDeatil[i].startTime = start
           var end = new Date(this.nCHREvectionApplyDeatil[i].endTime)
@@ -434,13 +432,13 @@
           var endMouth = end.getMonth()
           endMouth = endMouth === 0 ? 1 : endMouth + 1
           var endDate = end.getDate()
-          endDate = endDate < 10 ? '0' + endDate : endDate
+          endDate = endDate < 10 ? '0' + endDate : endDate.toString()
           var endHours = end.getHours()
-          endHours = endHours < 10 ? '0' + endHours : endHours
+          endHours = endHours < 10 ? '0' + endHours : endHours.toString()
           var endMinutes = end.getMinutes()
-          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes
+          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes.toString()
           var endSeconds = end.getSeconds()
-          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
+          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds.toString()
           end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
           this.nCHREvectionApplyDeatil[i].endTime = end
         }
@@ -449,7 +447,7 @@
           monocode: this.workApplyTitle.workApplyCode,
           type: this.workApplyTitle.type,
           detailList: this.nCHREvectionApplyDeatil
-        }  // TODO 组装数据
+        }
         this.$ajax.post(`/WorkApply/addWorkApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'

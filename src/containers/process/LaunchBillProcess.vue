@@ -568,15 +568,15 @@
           var start = new Date(this.nchrevectionApplyDetail[i].startTime)
           var startYear = start.getFullYear()
           var startMouth = start.getMonth()
-          startMouth = startMouth === 0 ? 1 : startMouth + 1
+          startMouth = startMouth === 0 ? 1 : (startMouth + 1).toString()
           var startDate = start.getDate()
-          startDate = startDate < 10 ? '0' + startDate : startDate
+          startDate = startDate < 10 ? '0' + startDate : startDate.toString()
           var startHours = start.getHours()
-          startHours = startHours < 10 ? '0' + startHours : startHours
+          startHours = startHours < 10 ? '0' + startHours : startHours.toString()
           var startMinutes = start.getMinutes()
-          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
-          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
           start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
           this.nchrevectionApplyDetail[i].startTime = start
           var end = new Date(this.nchrevectionApplyDetail[i].endTime)
