@@ -1,5 +1,5 @@
 .chatting-container {
-  z-index: 99;
+  z-index: 1000;
   position: fixed;
   padding: 0;
   margin: 0;
@@ -25,7 +25,7 @@
 .chatting-container .chatting-mask {
   height: 100%;
   width: 100%;
-  z-index: 100;
+  z-index: 1000;
   position: absolute;
   top: 0;
   left: 0;
@@ -125,7 +125,7 @@
 }
 
 .chatting .popup {
-  z-index: 101;
+  z-index: 1001;
   width: 200px;
   background: #fff;
   position: absolute;
@@ -149,7 +149,7 @@
   background: url("../assets/img-chat/mes.png");
   background-size: contain;
   border-radius: 50%;
-  z-index: 200;
+  z-index: 2000;
 }
 
 .chatting .webim-E .num,
@@ -183,17 +183,15 @@
 }
 
 .chatting .Personalmes {
-  z-index: 101;
+  z-index: 1001;
   text-align: left;
   width: 420px;
-  /*height: 300px;*/
   border: 1px solid #bcbcbc;
   position: absolute;
   left: 50%;
   top: 6%;
   background-color: #fff;
   border-radius: 5px;
-  /*padding: 10px;*/
 }
 
 .chatting .Personalmes .title {

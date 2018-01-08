@@ -180,7 +180,7 @@
           meetingPlace: '',
           users: '',
           moderator: '',
-          recorder: '',
+          recorder: this.$store.state.userInfo.username,
           content: '',
           conclusion: '',
           range: '',
@@ -236,7 +236,7 @@
         this.formItem.time = this.meetList[this.meetTitle].time
         this.formItem.meetingPlace = this.meetList[this.meetTitle].meetingPlace
         this.formItem.moderator = this.meetList[this.meetTitle].moderator
-        this.formItem.recorder = this.meetList[this.meetTitle].recorder
+//        this.formItem.recorder = this.meetList[this.meetTitle].recorder
         this.formItem.content = this.meetList[this.meetTitle].content
         this.formItem.conclusion = this.meetList[this.meetTitle].conclusion
         if (this.meetList[this.meetTitle].users !== []) {

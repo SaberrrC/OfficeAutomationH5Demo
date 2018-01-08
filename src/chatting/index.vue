@@ -66,7 +66,7 @@
       </div>
       </div>
       <div class="addressTreeRight">
-        <div class="choice"><span>已选择</span></div>
+        <div class="choice">已选择</div>
         <ul>
           <li v-for='(item,index) in candidateOptions'>
             <span>{{item.label}}</span>
@@ -607,32 +607,33 @@ export default {
             that.$store.dispatch('receiveText', msg)
             chat && !!sentFromMe && chat.showNewMsgNotice(msg)
           })
-        }),function(reason, data) {
-          window.axios.post(config.OA_API + '/user/queryUserByCodes', {
-          codeList: code
-          }).then((response) => {
-            if (response.data && response.data.code === '000000') {
-              const result = response.data.data[0]
-              let tmp = Object.assign({}, result, {
-                departmentName: result.organ,
-                name: result.username,
-                img: result.portrait ? result.portrait : store.state.image
-              })
-              console.log('queryUserInfo', tmp)
-              if (store.state.userInfoDb && store.state.userInfoDb[code]) {
-                store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
-              } else {
-                store.state.userInfoDb[code] = tmp
-              }
-              setTimeout(function () {
-                that.$nextTick(function () { // 收到数据推送再来执行
-                  that.$store.dispatch('receiveText', msg)
-                  chat && !!sentFromMe && chat.showNewMsgNotice(msg)
-                })
-              }, 0)
-            }
-          })
-        }
+        })
+        // function(reason, data) {
+        //   window.axios.post(config.OA_API + '/user/queryUserByCodes', {
+        //   codeList: code
+        //   }).then((response) => {
+        //     if (response.data && response.data.code === '000000') {
+        //       const result = response.data.data[0]
+        //       let tmp = Object.assign({}, result, {
+        //         departmentName: result.organ,
+        //         name: result.username,
+        //         img: result.img ? config.OA_IMG + result.img : store.state.image
+        //       })
+        //       console.log('queryUserInfo', tmp)
+        //       if (store.state.userInfoDb && store.state.userInfoDb[code]) {
+        //         store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
+        //       } else {
+        //         store.state.userInfoDb[code] = tmp
+        //       }
+        //       setTimeout(function () {
+        //         that.$nextTick(function () { // 收到数据推送再来执行
+        //           that.$store.dispatch('receiveText', msg)
+        //           chat && !!sentFromMe && chat.showNewMsgNotice(msg)
+        //         })
+        //       }, 0)
+        //     }
+        //   })
+        // }
       } else {
         this.$store.dispatch('receiveText', msg)
         chat&& !!sentFromMe && chat.showNewMsgNotice(msg)
@@ -775,8 +776,7 @@ export default {
           this.tmpFn = this.$message({
             showClose: true,
             message: '即时通讯服务端关闭了连接，请刷新页面、重新登录或稍候再试！',
-            type: 'warning',
-            duration: 0
+            type: 'warning'
           })
           break
         default:
@@ -1134,20 +1134,19 @@ export default {
     showMes () {
       if (!this.showMesV) {
         this.showMesV = true
-        this.changeSection(1)
-        this.$store.state.personnelistIndex = 100
+        // this.changeSection(1)
+        // this.$store.state.personnelistIndex = 100
         // this.$store.state.otherInfo = this.$store.state.list[0]
         // this.$store.dispatch('updateListChatStatus', [
         //   this.$store.state.list[0].from,
         //   0
         // ])
         //this.$store.dispatch('defaultCount', [this.$store.state.list[0], 0])  //解决已点击图标清除所有未读信息提醒
-
-        this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
+        // this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
       } else {
-        //console.log('最小化')
-        this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
-        this.$store.dispatch('clearOther') //清除当前聊天监控
+        // console.log('最小化')
+        // this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
+        // this.$store.dispatch('clearOther') //清除当前聊天监控
         this.showMesV = false
       }
     },
@@ -1156,12 +1155,11 @@ export default {
       this.isPopup = !this.isPopup
     },
     changeSection (x) {
-      this.$store.state.groupIdShow = ''//取消群高亮
-      if(x === 2|| x === 3){
+      this.$store.state.groupIdShow = '' // 取消群高亮
+      if(x === 2|| x === 3) {
          document.getElementById('textarea').innerHTML = ''
-         this.$store.dispatch('clearOther') //清除当前聊天监控
+         this.$store.dispatch('clearOther') // 清除当前聊天监控
       }
-     
       if (this.sectionType !== x || !this.list || this.list.length < 1) {
         this.$store.dispatch('writeStructIsShow', false)
       }
@@ -1276,21 +1274,7 @@ export default {
     grossNumber () {
       // 缓存未读信息个数
       localforage.setItem('cachegrossNumber', this.grossNumber)
-      let that = this
-      if(this.grossNumber > 0) {
-        // window.timeone = setInterval(function() {
-        //   var title = document.title
-        //   if (/新/.test(title) === false) {
-        //       document.title = '【你有新消息】'
-        //   } else {
-        //       document.title = '【　　　　　】'
-        //   }
-        // }, 1000)
-      } else {
-        // document.title = that.titleInit
-        // clearInterval(window.timeone)
-      }
-      if (this.checked1 === 1) {
+      if(this.grossNumber > 0 && this.checked1) {
         this.showMesV = true
       }
     },

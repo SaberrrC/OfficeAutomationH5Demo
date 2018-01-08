@@ -8,7 +8,7 @@
   export default {
     name: 'log_admin',
     created () {
-      this.$store.dispatch('querySidebarList', 'log_admin')
+      this.$store.dispatch('querySidebarList', '9')
     }
   }
 </script>

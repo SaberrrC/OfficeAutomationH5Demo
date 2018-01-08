@@ -157,6 +157,7 @@
                     <FormItem label="工作交接人" prop="handOverPepole">
                       <Input placeholder="请选择交接人"
                              icon="person"
+                             :readonly="true"
                              v-model="billDetailHandOverPepole.name"
                              @on-focus="checkHandOverPepole()"></Input>
                     </FormItem>
@@ -243,6 +244,7 @@
                       <FormItem label="工作交接人" prop="handOverPepole">
                         <Input placeholder="请选择交接人"
                                icon="person"
+                               :readonly="true"
                                v-model="billAddHandOverPepole.name"
                                @on-focus="checkAddHandOverPepole()"></Input>
                       </FormItem>
@@ -552,12 +554,15 @@
           nchrfurloughApplyDetail: this.nCHREvectionApplyDeatil
         }  // TODO 组装数据
         this.$ajax.post(`/nchrFurlough/submitFurlough`, JSON.stringify(data), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message)
+            this.$Message.error(response.data.message + ',' + response.data.data)
           }
         }).catch(function (err) {
           console.log(err)
@@ -610,6 +615,7 @@
         this.addfurlough.startTime = ''
         this.addfurlough.endTime = ''
         this.addfurlough.FurloughRemark = ''
+        this.billAddHandOverPepole = {}
         this.addfurlough.handOverPepole = ''
         this.addfurlough.timeDifference = ''
         console.log(this.nCHREvectionApplyDeatil)

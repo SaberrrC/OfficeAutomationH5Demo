@@ -363,7 +363,7 @@
           var start = new Date(this.nCHREvectionApplyDeatil[i].signTime)
           var startYear = start.getFullYear()
           var startMouth = start.getMonth()
-          startMouth = startMouth === 0 ? 1 : startMouth + 1
+          startMouth = startMouth < 10 ? '0' + (startMouth + 1) : startMouth + 1
           var startDate = start.getDate()
           startDate = startDate < 10 ? '0' + startDate : startDate
           var startHours = start.getHours()
@@ -381,12 +381,15 @@
           nchrSignDetails: this.nCHREvectionApplyDeatil
         }  // TODO 组装数据
         this.$ajax.post(`/nchrSign/saveSign`, JSON.stringify(data), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message)
+            this.$Message.error(response.data.message + ',' + response.data.data)
           }
         }).catch(function (err) {
           console.log(err)

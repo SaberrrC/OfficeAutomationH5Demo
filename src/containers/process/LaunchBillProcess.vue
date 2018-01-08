@@ -169,6 +169,7 @@
                       <Input
                         placeholder="请选择交接人"
                         icon="person"
+                        :readonly="true"
                         v-model="billDetailHandOverPepole.name"
                         @on-focus="checkHandOverPepole()"></Input>
                     </FormItem>
@@ -269,6 +270,7 @@
                       <FormItem label="工作交接人" prop="handOverPepole">
                         <Input placeholder="请选择交接人"
                                icon="person"
+                               :readonly="true"
                                v-model="billAddHandOverPepole.name"
                                @on-focus="checkAddHandOverPepole()"
                         ></Input>
@@ -611,7 +613,7 @@
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message)
+            this.$Message.error(response.data.message + ',' + response.data.data)
           }
         }).catch(function (err) {
           console.log(err)
@@ -665,6 +667,7 @@
         this.addBill.endTime = ''
         this.addBill.evectionAddress = ''
         this.addBill.evectionRemark = ''
+        this.billAddHandOverPepole = {}
         this.addBill.handOverPepole = ''
         this.addBill.timeDifference = ''
         console.log(this.nchrevectionApplyDetail)

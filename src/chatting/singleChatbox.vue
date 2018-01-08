@@ -759,47 +759,45 @@ export default {
       return oimg;
     },
     openFile (file) {
-      window.location.href = file.url;
+      window.location.href = file.url
     },
     openImage (img) {
-      let h = this.$createElement;
+      let h = this.$createElement
       this.$msgbox({
         title: '查看图片',
         customClass: 'chatting-message-history',
-        message: h(
-          'img', {
-            class: 'message-history-img-view',
-            attrs: {
-              src: img.url,
-              title: img.name,
-              alt: img.name,
-              }
-            // style: 'width: 100%;height: 100%;max-width: 600px;max-height: 500px;max-height: calc(100vh - 163px);'
+        message: h('img', {
+          class: 'message-history-img-view',
+          attrs: {
+            src: img.url,
+            title: img.name,
+            alt: img.name,
           }
-        ),
+          // style: 'width: 100%;height: 100%;max-width: 600px;max-height: 500px;max-height: calc(100vh - 163px);'
+        }),
         showCancelButton: true,
         confirmButtonText: '下载',
         cancelButtonText: '取消',
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
-            window.location.href = img.url;
-            done();
+            window.location.href = img.url
+            done()
           } else {
-            done();
+            done()
           }
         }
       }).then(action => {
-        done();
-      });
+        done()
+      })
     },
-    //模糊查询
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.label.indexOf(value) !== -1;
+    // 模糊查询
+    filterNode (value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
     },
     // 添加人员取消按钮
     addCancel() {
-      this.adddialog = !this.adddialog;
+      this.adddialog = false
     },
     getNodeStyle() {
       // debugger
@@ -846,40 +844,36 @@ export default {
       }
     },
     // 模糊查询选择
-    handleSelectRebate(scope) {
-      // console.log(scope);
-    },
+    // handleSelectRebate (scope) {},
     // 模糊查询调取
-    querySearchAsyncRebate(queryString, cb) {},
+    // querySearchAsyncRebate (queryString, cb) {},
     // 点击姓名出现个人信息弹框
     showPersonalmes() {
-      // console.log(this.userinfo)
-      // console.log(this.otherInfo)
-      this.PersonalmesValue = !this.PersonalmesValue;
-      this.$parent.isShowImMask = true;
+      this.PersonalmesValue = true
+      this.$parent.isShowImMask = true
     },
     // 关闭个人信息弹框
     closepersonnalbase() {
-      this.PersonalmesValue = !this.PersonalmesValue;
+      this.PersonalmesValue = false
+      this.$parent.isShowImMask = false
     },
-    showOtherList() {
-      this.addmembershow = !this.addmembershow;
-      this.singChatboxShow = true;
+    showOtherList () {
+      this.addmembershow = !this.addmembershow
+      this.singChatboxShow = true
       //this.$parent.isShowImMask = true;
     },
     // 点击+ 添加人员
     clickAdd() {
       //this.addmembershow = false
-      // this.dialogVisibleAdd = true;
-      this.$parent.adddialog = true;
-      this.$parent.isShowImMask = true;
-      // console.log(this)
-      this.candidateOptions = [];
-      this.getNodeStyle();
+      // this.dialogVisibleAdd = true
+      this.$parent.adddialog = true
+      this.$parent.isShowImMask = true
+      this.candidateOptions = []
+      this.getNodeStyle()
     },
     bytesToSize (bytes) {
       return chat.bytesToSize(bytes)
     }
   }
-};
+}
 </script>

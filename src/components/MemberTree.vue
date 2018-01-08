@@ -11,11 +11,20 @@
       </Input>
     </div>
     <Tree
+      v-if="!showSearchResult"
       :show-checkbox="showCheckbox"
       :multiple="multiple"
       :data="treeData"
       :load-data="loadData"
       :emptyText="emptyText"></Tree>
+    <ul v-else class="search-result">
+      <li v-for="item in searchResultList">
+        <member-item
+          :type="type"
+          :options="item"
+          @onMemberItemClick="handleMemberItemClick"/>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -30,11 +39,16 @@ export default {
     initRootData: Array, //  初始化根节点数据
     type: String  //  个人信息是否完整模式，传入 'complex' 则显示电话号码和邮箱
   },
+  components: {
+    MemberItem
+  },
   data () {
     return {
       searchValue: '',
+      showSearchResult: false,
       emptyText: '数据加载中，请稍后...',
-      treeData: this.initRootData
+      treeData: this.initRootData,
+      searchResultList: []
     }
   },
   methods: {
@@ -46,8 +60,10 @@ export default {
           }
         }).then((response) => {
           if (response.data && response.data.data && response.data.data.length) {
-            this.treeData = this.initMemberData(response.data.data)
+            this.searchResultList = response.data.data
+            this.showSearchResult = true
           } else {
+            this.showSearchResult = false
             this.treeData = []
             this.emptyText = '没有符合条件的结果'
           }
@@ -55,6 +71,7 @@ export default {
           console.log(err)
         })
       } else {
+        this.showSearchResult = false
         this.treeData = this.initRootData
       }
     },
@@ -126,5 +143,13 @@ export default {
 }
 .search-bar {
   margin-bottom: 16px;
+}
+.search-result {
+  li {
+    margin: 8px 0;
+    .member-item {
+      margin-top: 0;
+    }
+  }
 }
 </style>
