@@ -230,7 +230,7 @@
 	          dateFilter: this.dateFilter,
 	          noticeType: this.noticeType,
 	          noticeClass: this.noticeClass,
-	          isHomeShow: this.isHomeShow
+	          isHomepageShow: this.isHomeShow
 	        }
 	      }).then((res) => {
 	        if (res.data.code === '000000') {
