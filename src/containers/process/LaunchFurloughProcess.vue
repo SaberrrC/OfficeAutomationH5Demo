@@ -562,7 +562,7 @@
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message)
+            this.$Message.error(response.data.message + ',' + response.data.data)
           }
         }).catch(function (err) {
           console.log(err)
@@ -615,6 +615,7 @@
         this.addfurlough.startTime = ''
         this.addfurlough.endTime = ''
         this.addfurlough.FurloughRemark = ''
+        this.billAddHandOverPepole = {}
         this.addfurlough.handOverPepole = ''
         this.addfurlough.timeDifference = ''
         console.log(this.nCHREvectionApplyDeatil)
