@@ -607,32 +607,33 @@ export default {
             that.$store.dispatch('receiveText', msg)
             chat && !!sentFromMe && chat.showNewMsgNotice(msg)
           })
-        }),function(reason, data) {
-          window.axios.post(config.OA_API + '/user/queryUserByCodes', {
-          codeList: code
-          }).then((response) => {
-            if (response.data && response.data.code === '000000') {
-              const result = response.data.data[0]
-              let tmp = Object.assign({}, result, {
-                departmentName: result.organ,
-                name: result.username,
-                img: result.portrait ? result.portrait : store.state.image
-              })
-              console.log('queryUserInfo', tmp)
-              if (store.state.userInfoDb && store.state.userInfoDb[code]) {
-                store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
-              } else {
-                store.state.userInfoDb[code] = tmp
-              }
-              setTimeout(function () {
-                that.$nextTick(function () { // 收到数据推送再来执行
-                  that.$store.dispatch('receiveText', msg)
-                  chat && !!sentFromMe && chat.showNewMsgNotice(msg)
-                })
-              }, 0)
-            }
-          })
-        }
+        })
+        // function(reason, data) {
+        //   window.axios.post(config.OA_API + '/user/queryUserByCodes', {
+        //   codeList: code
+        //   }).then((response) => {
+        //     if (response.data && response.data.code === '000000') {
+        //       const result = response.data.data[0]
+        //       let tmp = Object.assign({}, result, {
+        //         departmentName: result.organ,
+        //         name: result.username,
+        //         img: result.img ? config.OA_IMG + result.img : store.state.image
+        //       })
+        //       console.log('queryUserInfo', tmp)
+        //       if (store.state.userInfoDb && store.state.userInfoDb[code]) {
+        //         store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
+        //       } else {
+        //         store.state.userInfoDb[code] = tmp
+        //       }
+        //       setTimeout(function () {
+        //         that.$nextTick(function () { // 收到数据推送再来执行
+        //           that.$store.dispatch('receiveText', msg)
+        //           chat && !!sentFromMe && chat.showNewMsgNotice(msg)
+        //         })
+        //       }, 0)
+        //     }
+        //   })
+        // }
       } else {
         this.$store.dispatch('receiveText', msg)
         chat&& !!sentFromMe && chat.showNewMsgNotice(msg)
@@ -1134,20 +1135,19 @@ export default {
     showMes () {
       if (!this.showMesV) {
         this.showMesV = true
-        this.changeSection(1)
-        this.$store.state.personnelistIndex = 100
+        // this.changeSection(1)
+        // this.$store.state.personnelistIndex = 100
         // this.$store.state.otherInfo = this.$store.state.list[0]
         // this.$store.dispatch('updateListChatStatus', [
         //   this.$store.state.list[0].from,
         //   0
         // ])
         //this.$store.dispatch('defaultCount', [this.$store.state.list[0], 0])  //解决已点击图标清除所有未读信息提醒
-
-        this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
+        // this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
       } else {
-        //console.log('最小化')
-        this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
-        this.$store.dispatch('clearOther') //清除当前聊天监控
+        // console.log('最小化')
+        // this.$store.dispatch('writeStructIsShow', false) // 右侧栏写入框是否显示  默认为false    每次用户选择当前群组或聊天对象时才显示
+        // this.$store.dispatch('clearOther') //清除当前聊天监控
         this.showMesV = false
       }
     },
@@ -1156,12 +1156,11 @@ export default {
       this.isPopup = !this.isPopup
     },
     changeSection (x) {
-      this.$store.state.groupIdShow = ''//取消群高亮
-      if(x === 2|| x === 3){
+      this.$store.state.groupIdShow = '' // 取消群高亮
+      if(x === 2|| x === 3) {
          document.getElementById('textarea').innerHTML = ''
-         this.$store.dispatch('clearOther') //清除当前聊天监控
+         this.$store.dispatch('clearOther') // 清除当前聊天监控
       }
-     
       if (this.sectionType !== x || !this.list || this.list.length < 1) {
         this.$store.dispatch('writeStructIsShow', false)
       }
