@@ -72,7 +72,7 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          //  执行登录 010123381
+          //  执行登录
           this.$ajax.post('/user/webLogin', qs.stringify(this.formLogin)).then((response) => {
             if (response.data && response.data.code === '000000') {
               const data = response.data.data

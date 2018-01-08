@@ -53,7 +53,7 @@ body {
   font: 14px/1.6 'Microsoft Yahei', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  .organization .ivu-tree {
+  .organization .ivu-tree, .organization .search-result {
     position: absolute;
     top: 109px;
     right: 16px;
