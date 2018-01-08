@@ -253,16 +253,43 @@
         } else {
           if (this.workApplyDetail.endTime !== '' && value > this.workApplyDetail.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.workApplyDetail.endTime !== '' && value < this.workApplyDetail.endTime) {
+            this.$refs.workApplyDetail.validateField('endTime')
           }
         }
       }
       const validateEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.workApplyDetail.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.workApplyDetail.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.workApplyDetail.startTime) {
+            this.$refs.workApplyDetail.validateField('startTime')
+          }
+        }
+      }
+
+      const validateAddStartTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择开始时间'))
+        } else {
+          if (this.addWorkApply.endTime !== '' && value > this.addWorkApply.endTime) {
+            callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.addWorkApply.endTime !== '' && value < this.addWorkApply.endTime) {
+            this.$refs.addWorkApply.validateField('endTime')
+          }
+        }
+      }
+      const validateAddEndTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择结束时间'))
+        } else {
+          if (value < this.addWorkApply.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.addWorkApply.startTime) {
+            this.$refs.addWorkApply.validateField('startTime')
+          }
         }
       }
       return {
@@ -308,10 +335,10 @@
         },
         ruleaddWorkApply: {
           startTime: [
-            { required: true, type: 'date', message: '请选择开始时间', trigger: 'change' }
+            { validator: validateAddStartTime, trigger: 'change' }
           ],
           endTime: [
-            { required: true, type: 'date', message: '请选择结束时间', trigger: 'change' }
+            { validator: validateAddEndTime, trigger: 'change' }
           ],
           cause: [
             { required: true, message: '请输入加班原因', trigger: 'blur' }

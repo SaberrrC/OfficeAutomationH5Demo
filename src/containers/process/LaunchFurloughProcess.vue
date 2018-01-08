@@ -332,16 +332,43 @@
         } else {
           if (this.furloughDetail.endTime !== '' && value > this.furloughDetail.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.furloughDetail.endTime !== '' && value < this.furloughDetail.endTime) {
+            this.$refs.furloughDetail.validateField('endTime')
           }
         }
       }
       const validateEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.furloughDetail.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.furloughDetail.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.furloughDetail.startTime) {
+            this.$refs.furloughDetail.validateField('startTime')
+          }
+        }
+      }
+
+      const validateAddStartTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择开始时间'))
+        } else {
+          if (this.addfurlough.endTime !== '' && value > this.addfurlough.endTime) {
+            callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.addfurlough.endTime !== '' && value < this.addfurlough.endTime) {
+            this.$refs.addfurlough.validateField('endTime')
+          }
+        }
+      }
+      const validateAddEndTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择结束时间'))
+        } else {
+          if (value < this.addfurlough.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.furloughDetail.startTime) {
+            this.$refs.addfurlough.validateField('startTime')
+          }
         }
       }
       return {
@@ -408,10 +435,10 @@
         },
         ruleaddfurlough: {
           startTime: [
-            { required: true, type: 'date', message: '请选择开始时间', trigger: 'change' }
+            { validator: validateAddStartTime, trigger: 'change' }
           ],
           endTime: [
-            { required: true, type: 'date', message: '请选择结束时间', trigger: 'change' }
+            { validator: validateAddEndTime, trigger: 'change' }
           ],
           FurloughRemark: [
             { required: true, message: '请输入休假事由', trigger: 'blur' }

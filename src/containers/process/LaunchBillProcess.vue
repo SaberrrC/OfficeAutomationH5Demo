@@ -363,16 +363,20 @@
         } else {
           if (this.billDetail.endTime !== '' && value > this.billDetail.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.billDetail.endTime !== '' && value < this.billDetail.endTime) {
+            this.$refs.billDetail.validateField('endTime')
           }
         }
       }
       const validateEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.billDetail.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.billDetail.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.billDetail.startTime) {
+            this.$refs.billDetail.validateField('startTime')
+          }
         }
       }
 
@@ -382,16 +386,20 @@
         } else {
           if (this.addBill.endTime !== '' && value > this.addBill.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.addBill.endTime !== '' && value < this.addBill.endTime) {
+            this.$refs.addBill.validateField('endTime')
           }
         }
       }
       const validateAddEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.addBill.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.addBill.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.addBill.startTime) {
+            this.$refs.addBill.validateField('startTime')
+          }
         }
       }
       return {
