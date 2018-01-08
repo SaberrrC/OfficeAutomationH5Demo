@@ -143,6 +143,7 @@
               })
             }
             tmp.push(tmpData)
+            continue
           }
           if (oData[i].roomId && oData[i].roomId != '') {
             tmpData = Object.assign(tmpData, {
@@ -150,9 +151,10 @@
               img: this.image,
               name: oData[i].name,
               sId: 'R_' + oData[i].roomId,
-              value: typeof(oData[i].value) == 'string' ? oData[i].value : ''
+              value: typeof(oData[i].value) === 'string' ? oData[i].value : ''
             })
             tmp.push(tmpData)
+            continue
           } else if (oData[i].type === 'chatroom') {
             let o = this.TXRoom.filter((item) => {return item.roomId === oData[i].sId.substring(2)})
             // console.log('tmp[i]', o)
@@ -162,11 +164,12 @@
               img: this.image,
               name: o[0].name,
               sId: oData[i].sId,
-              value: typeof(oData[i].value) == 'string' ? oData[i].value : ''
+              value: typeof(oData[i].value) === 'string' ? oData[i].value : ''
             })
             tmp.push(tmpData)
+            continue
           }
-          if (oData[i].groupId && oData[i].groupId != '') {
+          if (oData[i].groupId && oData[i].groupId !== '') {
             // console.log('111', oData[i], this.TXGroup.length, this.TXGroup)
             // for (let j = 0; j < this.TXGroup.length; j++) {
             //   console.log('12345', oData[i].sId.substring(2),  this.TXGroup[j].groupid,  this.TXGroup[j].groupname)
@@ -176,9 +179,10 @@
               img: this.image,
               name: oData[i].groupname,
               sId: 'G_' + oData[i].groupId,
-              value: typeof(oData[i].value) == 'string' ? oData[i].value : ''
+              value: typeof(oData[i].value) === 'string' ? oData[i].value : ''
             })
             tmp.push(tmpData)
+            continue
           } else if (oData[i].type === 'groupchat') {
             let o = this.TXGroup.filter((item) => {return item.groupid === oData[i].sId.substring(2)})
             // for (let j = 0; j < this.TXGroup.length; j++) {
@@ -186,7 +190,7 @@
             // }
             // console.log('222',o, oData[i], o[0].name, o[0].groupname)
             // tmp[i]['name'] = o[0].name
-            if(o && o.length > 0 ) {
+            if(o && o.groupname && o.length > 0 ) {
               tmpData = Object.assign({}, tmpData, {
                 type: 'chatgroup',
                 img: this.image,
@@ -195,13 +199,10 @@
                 value: typeof(oData[i].value) === 'string' ? oData[i].value : ''
               })
               tmp.push(tmpData)
+              continue
             }
           }
         }
-          // this.$store.state.grossNumber = countTotal;
-        // this.$nextTick(function () {
-        //   this.$forceUpdate()
-        // })
         return tmp
       }
     },
