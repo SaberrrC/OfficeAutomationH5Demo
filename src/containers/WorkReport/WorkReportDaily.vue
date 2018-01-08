@@ -575,25 +575,25 @@ export default {
     submitReport () {
       let data = {}
       data = Object.assign(data, this.textAreaData, this.workSelf, this.professionSelf, this.teamSelf)
-      data.checkman = this.leadusername
-      data.checkmanId = this.leaderId
-      data.supervisor = this.leadusername
-      data.supervisorId = this.leaderId
-      data.time = this.getTime(this.reportTime)
-      console.log(data)
       for (let k in data) {
-        if (!data.checkmanId) {
-          this.$Message.error({
-            content: '请选择接收人'
-          })
-          return
-        }
         if (!data[k]) {
           this.$Message.error({
             content: '当前还有未填写的日报内容，请检查'
           })
           return
         }
+      }
+      data.checkman = this.leadusername
+      data.checkmanId = this.leaderId
+      data.supervisor = this.leadusername
+      data.supervisorId = this.leaderId
+      data.time = this.getTime(this.reportTime)
+      console.log(data)
+      if (!data.checkmanId) {
+        this.$Message.error({
+          content: '请选择接收人'
+        })
+        return
       }
       this.loading = true
       if (this.$route.params.id) {

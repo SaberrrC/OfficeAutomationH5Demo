@@ -1,6 +1,6 @@
 <template>
 	<div class="no-rate-weekly">
-		<<Card shadow>
+		<Card shadow>
 			<p slot="title" style="text-align: center;">本周工作总结</p>
 
 			<Row>

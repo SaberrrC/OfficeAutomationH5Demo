@@ -109,7 +109,7 @@
             <tr>
               <td>2.环境卫生</td>
               <td colspan="3" style="text-align: left;"> 保持个人工作环境干净整洁,无灰尘无死角,桌面地面无纸屑杂物,办公用品摆放整齐</td>
-              <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfEnvironmental"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfEnvironMental"></Input></td>
               <td><Input type="textarea" placeholder="" v-model="reportData.supervisorEnvironMental"></Input></td>
               <td><Input type="textarea" placeholder="" v-model="reportData.checkEnvironMental"></Input></td>
             </tr>
@@ -264,7 +264,7 @@ export default {
         'checkRatingSeven': '',
         'checkRatingEigth': '',
         'selfBehavior': '',
-        'selfEnvironmental': '',
+        'selfEnvironMental': '',
         'selfSave': '',
         'selfCommunication': '',
         'selfAppearance': '',

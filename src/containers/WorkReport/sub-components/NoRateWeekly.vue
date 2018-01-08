@@ -182,7 +182,7 @@ export default {
         method: 'get',
         url: '/weekreport/' + this.$route.params.dailyid
       }).then((res) => {
-        console.log('草稿数据', res.data)
+        console.log('周报数据', res.data)
         let result = res.data.data
         if (res.data.code === '000000') {
           this.startTime = new Date(result.startTime)
@@ -210,7 +210,7 @@ export default {
         url: '/weekreport',
         data: data
       }).then((res) => {
-        console.log('保存草稿', res.data)
+        console.log('评价周报', res.data)
         // var result = res.data.data
         if (res.data.code === '000000') {
           this.$Message.success('评价成功')
