@@ -39,7 +39,7 @@
                       </i-Col>
                       <i-Col span="11" offset="2">
                         <FormItem label="状态">
-                          <Select v-model="formItem.status" @on-change="checkStatus()">
+                          <Select v-model="formItem.status" @on-change="checkStatus">
                           <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         </FormItem>
@@ -118,7 +118,7 @@
         ],
         statusList: [
           {
-            value: '-2',
+            value: 'all',
             label: '全部'
           },
           {
@@ -201,14 +201,18 @@
 //    获取我发起的列表
       getMyLaunchList () {
         this.loading = true
+        let data = {
+          time: this.formItem.time,
+          approveState: this.formItem.status,
+          billType: this.billType,
+          pageNum: this.launchCurrentPage,
+          pageSize: this.launchPageSize
+        }
+        if (data.approveState === 'all') {
+          data.approveState = ''
+        }
         this.$ajax.get(`/myApply/queryApproveByAll`, {
-          params: {
-            time: this.formItem.time,
-            approveState: this.formItem.status,
-            billType: this.billType,
-            pageNum: this.launchCurrentPage,
-            pageSize: this.launchPageSize
-          }
+          params: data
         }).then((response) => {
           console.log(response)
           if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
@@ -268,10 +272,12 @@
         this.getMyLaunchList()
       },
 //    选择发起状态
-      checkStatus () {
-        if (this.formItem.status === '-2') {
-          this.formItem.status = ''
-        }
+      checkStatus (value) {
+        console.log(value)
+//        if (value === '-2') {
+//          this.formItem.status = ''
+//        }
+//        console.log()
         this.getMyLaunchList()
       },
 //    选择发起审批类型
