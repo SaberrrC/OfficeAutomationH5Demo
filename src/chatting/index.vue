@@ -102,12 +102,12 @@ import Vue from 'vue'
 Vue.use(ElementUI)
 Vue.prototype.$localforage = localforage
 window.localforage = localforage
-/* eslint-disable */
+
 export default {
   name: 'chatting',
-  data() {
+  data () {
     return {
-      search:'',
+      search: '',
       props: {
         label: 'name',
         children: 'children',
@@ -125,7 +125,7 @@ export default {
       number: 99,
       checked1: false,
       checked2: true,
-      checked3:false,
+      checked3: false,
       isPopup: false, // 设置的弹出框是否显示   默认为不显示
       gapX: '',
       gapy: '',
@@ -142,12 +142,13 @@ export default {
       title: '',
       groupValue: {},
       n: 0,
-      titleInit:'善林OA - 改变 , 不只是你的工作方式',
-      senderId:'',
-      keys:'sl_ease_oa_#$%^&*(',
-      key:'',
-      tmpFn: null,
-      newAddMembers:[]
+      titleInit: '善林OA - 改变 , 不只是你的工作方式',
+      senderId: '',
+      keys: 'sl_ease_oa_#$%^&*(',
+      key: '',
+      tmpFn: null, // 饿了么组件里的messagebox，临时存储
+      newAddMembers: [],
+      eventResize: null // 窗口resize事件，临时存储
     }
   },
   components: {
@@ -174,25 +175,28 @@ export default {
       showSid: state => state.showSid
     }),
     isGroupChat () {
-      if (this.otherInfo.groupId && this.otherInfo.groupId != '') {
+      if (this.otherInfo.groupId && this.otherInfo.groupId !== '') {
         return true
       } else {
         return false
       }
     }
   },
-  mounted() {
+  mounted () {
     this.htmlHeight = document.documentElement.clientHeight + ''
     this.htmlWidth = document.documentElement.clientWidth + ''
     if (typeof window.addEventListener !== 'undefined') {
-      document.addEventListener('click', this.loadClickEvent,false)
+      window.addEventListener('click', this.loadClickEvent, false)
+      window.addEventListener('resize', this.loadResizeEvent, false)
     } else {
       window.attachEvent('onclick', this.loadClickEvent)
+      window.attachEvent('onresize', this.loadResizeEvent)
     }
   },
   created () {
     chat.queryUserInfoById().then(this.initChatting)
   },
+  /* eslint-disable */
   methods: {
     initChatting () {
       let that = this
@@ -343,6 +347,22 @@ export default {
         this.adddialog = false
         this.PersonalmesValue = false
       }
+    },
+    loadResizeEvent () {
+      if (this.eventResize) {
+        clearTimeout(this.eventResize)
+      }
+      this.eventResize = setTimeout(() => {
+        let o = this.$refs.ChatIcon.getBoundingClientRect()
+        let w = document.documentElement.clientWidth
+        let h = document.documentElement.clientHeight
+        if (w <= o.right) {
+          this.$refs.ChatIcon.style.left = w - o.width + 'px'
+        }
+        if (h <= o.bottom) {
+          this.$refs.ChatIcon.style.top = h - o.height + 'px'
+        }
+      }, 20)
     },
     clearMessg () {
       this.isPopup = false
