@@ -20,6 +20,7 @@ import WorkReportTemplate from '@/containers/WorkReport/WorkReportTemplate'
 import TemplateList from '@/containers/WorkReport/sub-components/TemplateList'
 import TemplateDaily from '@/containers/WorkReport/sub-components/TemplateDaily'
 import TemplateWeekly from '@/containers/WorkReport/sub-components/TemplateWeekly'
+import ReportAdmin from '@/containers/ReportAdmin'
 import ReportAdminWhole from '@/containers/WorkReport/ReportAdminWhole'
 import WholeList from '@/containers/WorkReport/sub-components/WholeList'
 import WholeDaily from '@/containers/WorkReport/sub-components/WholeDaily'
@@ -263,8 +264,8 @@ const router = new Router({
     },
     {
       path: '/report_admin',
-      name: 'WorkReport',
-      component: WorkReport,
+      name: 'ReportAdmin',
+      component: ReportAdmin,
       redirect: '/report_admin/whole',
       children: [
         {
