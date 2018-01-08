@@ -66,7 +66,7 @@
       </div>
       </div>
       <div class="addressTreeRight">
-        <div class="choice"><span>已选择</span></div>
+        <div class="choice">已选择</div>
         <ul>
           <li v-for='(item,index) in candidateOptions'>
             <span>{{item.label}}</span>
@@ -776,8 +776,7 @@ export default {
           this.tmpFn = this.$message({
             showClose: true,
             message: '即时通讯服务端关闭了连接，请刷新页面、重新登录或稍候再试！',
-            type: 'warning',
-            duration: 0
+            type: 'warning'
           })
           break
         default:
@@ -1275,21 +1274,7 @@ export default {
     grossNumber () {
       // 缓存未读信息个数
       localforage.setItem('cachegrossNumber', this.grossNumber)
-      let that = this
-      if(this.grossNumber > 0) {
-        // window.timeone = setInterval(function() {
-        //   var title = document.title
-        //   if (/新/.test(title) === false) {
-        //       document.title = '【你有新消息】'
-        //   } else {
-        //       document.title = '【　　　　　】'
-        //   }
-        // }, 1000)
-      } else {
-        // document.title = that.titleInit
-        // clearInterval(window.timeone)
-      }
-      if (this.checked1 === 1) {
+      if(this.grossNumber > 0 && this.checked1) {
         this.showMesV = true
       }
     },
