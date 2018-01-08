@@ -43,8 +43,8 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<FormItem label="相关附件" prop="uploadList">
-								<Upload ref="upload":default-file-list="defaultList" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'">
+							<FormItem label="相关附件" prop="defaultList">
+								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'" :format="['jpg','jpeg','png','gif','bmp','tif','txt','zip','rar','doc','docx','xls','xlsx','ppt','pptx','accdb','pdf','rtf','psd','wps','pages','numbers','key']" :before-upload="handleBeforeUpload" :on-format-error="handleFormatError" :on-remove="handleRemove">
 									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
 							</FormItem>
@@ -80,21 +80,19 @@
 	  data () {
 	    const validateUpload = (rule, value, callback) => {
 	      if (value.length === 0) {
-	        callback(new Error('请至少上传一张图片'))
+	        callback(new Error('请至少上传一个附件'))
 	      } else {
 	        callback()
 	      }
 	    }
 	    return {
 	      modal1: true,
-	      defaultList: [],
 	      formItem: {
 	        title: '',
 	        content: '',
 	        noticeClass: '',
 	        postType: [],
 	        oIds: [],
-	        uploadList: [],
 	        defaultList: []
 	      },
 	      release: '',
@@ -136,7 +134,7 @@
 	          message: '请输入公告内容',
 	          trigger: 'blur'
 	        }],
-	        uploadList: [{
+	        defaultList: [{
 	          required: true,
 	          validator: validateUpload,
 	          trigger: 'change'
@@ -171,18 +169,35 @@
 	        }
 	      }, (res) => {})
 	    },
+	    handleBeforeUpload () {
+	      const check = this.$refs.upload.fileList.length < 3
+	      if (!check) {
+	        this.$Notice.warning({
+	          title: '最多上传三个附件'
+	        })
+	      }
+	      return check
+	    },
 	    handleSuccess (res, file) {
 	      if (res.code === '000000') {
-	        this.formItem.uploadList.push({
-	          url: this.GLOBAL_.IMG_URL + res.data,
-	          name: res.data,
-	          status: 'finished'
-	        })
 	        this.formItem.defaultList.push(res.data)
 	        this.$refs['formItem'].validate((valid) => {})
 	      }
 	    },
-
+	    handleRemove (file, fileList) {
+	      for (let i = 0; i < this.formItem.defaultList.length; i++) {
+	        if (this.formItem.defaultList[i] === file.response.data) {
+	          this.formItem.defaultList.splice(this.formItem.defaultList.indexOf(this.formItem.defaultList[i]), 1)
+	        }
+	      }
+	      this.$refs['formItem'].validate((valid) => {})
+	    },
+	    handleFormatError (file) {
+	      this.$Notice.warning({
+	        title: '上传文件格式有误',
+	        desc: '附件 ' + file.name + ' 格式错误, 请选择以下格式：jpg、jpeg、gif、png、bmp、tif、txt、zip、rar、doc、docx、xls、xlsx、ppt、pptx、accdb、pdf、rtf、psd、wps、pages、numbers、key'
+	      })
+	    },
 	// 发布部门公告
 	    companySubmit () {
 	      var data = {

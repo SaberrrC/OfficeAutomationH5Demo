@@ -22,7 +22,7 @@
 			<div class="container">
 				<Table height="450" :columns="columns" :data="data"></Table>
 				<br>
-				<Page :total="total" :current="pageNum" :on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
+				<Page :total="total" :current="pageNum" :on-change="handPageChange" show-total></Page>
 			</div>
 		</Card>
 	</div>
@@ -116,12 +116,6 @@
 	      this.getNewsData()
 	    },
 
-	// 每页显示条数切换
-	    handPageSizeChange (val) {
-	      this.pageSize = val
-	      this.getNewsData()
-	    },
-
 	// 获取新闻列表数据
 	    getNewsData () {
 	      this.$ajax({
@@ -139,6 +133,10 @@
 	          this.total = result.total
 	          this.data = result.data
 	        } else {
+	          if (res.data.code === '020000') {
+	            this.total = 0
+	            this.data = []
+	          }
 	          this.$Message.error(res.data.message)
 	        }
 	      }, (res) => {})
