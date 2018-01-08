@@ -235,6 +235,9 @@ export default {
     },
     //  导出
     exportReport () {
+      if (this.state === 0) {
+        this.$Message.error('全部状态不可导出，请切换其他状态')
+      }
       location.href = config.OA_API + '/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
     }
   },

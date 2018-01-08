@@ -1,23 +1,37 @@
 <template>
 	<div class="work-report-template">
-		<Card shadow>
-			<div slot="title" align="right">
-				<Button type="primary" @click="tempmModal = true">新建模板</Button>
-				<Modal v-model="tempmModal" title="添加模板" ok-text="添加" @on-ok="addTemp" @on-cancel="cancelTemp">
-					<p style="margin-bottom: 20px;">
-						模板类型
-						<Select v-model="defaultType" style="width:300px;">
-							<Option v-for="item in selectType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-						</Select>
-					</p>
-					<p>
-						模板名称
-						<Input v-model="templateName" :maxlength="10" placeholder="请输入" style="width: 300px"></Input>
-					</p>
-				</Modal>
-			</div>
-			<Table height="450" :columns="columns" :data="listData" @on-row-click="toTempDetail"></Table>
-		</Card>
+    <div style="height: 53px;background-color: white;padding-top: 10px;padding-right: 16px;" align="right">
+      <Button type="primary" @click="tempmModal = true">新建模板</Button>
+    </div>
+		<div style="padding: 16px;">
+      <Card shadow>
+        <Modal v-model="tempmModal" title="添加模板">
+          <p style="margin-bottom: 20px;">
+            模板类型
+            <Select v-model="defaultType" style="width:300px;">
+              <Option v-for="item in selectType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </p>
+          <p>
+            模板名称
+            <Input v-model="templateName" :maxlength="10" placeholder="请输入" style="width: 300px"></Input>
+          </p>
+          <div slot="footer">
+            <Button type="text" size="large" @click="cancelTemp">取消</Button>
+            <Button type="primary" size="large" @click="addTemp">添加</Button>
+          </div>
+        </Modal>
+        <Modal
+          v-model="delTip"
+          title="信息"
+          @on-ok="sureDel(delid)"
+        >
+          <p>确定要删除吗？</p>
+
+        </Modal>
+        <Table height="450" :columns="columns" :data="listData" @on-row-click="toTempDetail"></Table>
+      </Card>
+    </div>
 	</div>
 </template>
 
@@ -26,6 +40,8 @@ export default {
   name: 'work-report-template',
   data () {
     return {
+      delid: '',
+      delTip: false,
       tempmModal: false,
       loading: true,
       selectType: [{
@@ -114,6 +130,12 @@ export default {
         this.$Message.error('请输入模版名称')
         return
       }
+      for (let i = 0; i < this.listData.length; i++) {
+        if (this.listData[i].templateName === this.templateName) {
+          this.$Message.error('模版名称已存在')
+          return
+        }
+      }
       this.$ajax({
         method: 'post',
         url: '/templateManage/insertTemplate',
@@ -127,8 +149,10 @@ export default {
           this.getTempList()
           this.defaultType = '1'
           this.templateName = ''
+          this.tempmModal = false
         } else {
           this.$Message.error(res.data.message)
+          this.tempmModal = false
         }
       }, (res) => {
 
@@ -137,8 +161,13 @@ export default {
     cancelTemp () {
       this.defaultType = '1'
       this.templateName = ''
+      this.tempmModal = false
     },
     delTemp (id) {
+      this.delTip = true
+      this.delid = id
+    },
+    sureDel (id) {
       this.$ajax({
         method: 'get',
         url: '/templateManage/delTemplateByCid',
@@ -224,7 +253,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.work-report-template {
-		padding: 16px;
+		/*padding: 16px;*/
 	}
 </style>
 

@@ -1,88 +1,84 @@
 <template>
   <div class="whole-weekly">
-
-
-    <Card shadow>
-      <p slot="title" style="text-align: center;">
-        周工作汇报
-      </p>
-      <p slot="extra">
-        <Button type="error" @click="back">关闭</Button>
-        <Button type="primary" @click="goLeft">
-          <Icon type="chevron-left"></Icon>
-        </Button>
-        <Button type="primary" @click="goRight">
-          <Icon type="chevron-right"></Icon>
-        </Button>
-      </p>
-      <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
-      <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
-    </Card>
-
-
-
-
-    <Card  v-show="showDetail"  shadow>
-      <Row  style="margin-top: 40px;">
-        <Col span="24">
-        <table cellpadding="0" cellspacing="0">
-          <thead>
-          <tr>
-            <th>工作计划</th>
-            <th>实际工作</th>
-            <th>差异分析</th>
-            <th>备注（选填）</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="item in weeklySummary">
-            <td><Input type="textarea" placeholder="" readonly v-model="item.workPlan"></Input></td>
-            <td><Input type="textarea" placeholder="" readonly v-model="item.work"></Input></td>
-            <td><Input type="textarea" placeholder="" readonly v-model="item.difference"></Input></td>
-            <td><Input type="textarea" placeholder="" readonly v-model="item.remark"></Input></td>
-          </tr>
-          </tbody>
-        </table>
-        </Col>
-      </Row>
+    <p style="height: 53px;background-color: white;padding-top: 10px;padding-right: 16px;text-align: right">
+      <Button type="error" @click="back">关闭</Button>
+      <Button type="primary" @click="goLeft">
+        <Icon type="chevron-left"></Icon>
+      </Button>
+      <Button type="primary" @click="goRight">
+        <Icon type="chevron-right"></Icon>
+      </Button>
+    </p>
+    <div style="padding: 16px;">
+      <Card shadow>
+        <p style="text-align: center;height: 40px;">
+          周工作汇报
+        </p>
+        <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
+        <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
+      </Card>
+      <Card  v-show="showDetail"  shadow>
+        <Row  style="margin-top: 40px;">
+          <Col span="24">
+          <table cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+              <th>工作计划</th>
+              <th>实际工作</th>
+              <th>差异分析</th>
+              <th>备注（选填）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in weeklySummary">
+              <td><Input type="textarea" placeholder="" readonly v-model="item.workPlan"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.work"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.difference"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.remark"></Input></td>
+            </tr>
+            </tbody>
+          </table>
+          </Col>
+        </Row>
 
 
 
-      <h4 style="margin-top: 40px; line-height: 40px;">下周工作计划</h4>
-      <Row>
-        <Col span="24">
-        <table cellpadding="0" cellspacing="0">
-          <thead>
-          <tr>
-            <th>工作计划（计划工作目标、计划节点）</th>
-            <th>责任人</th>
-            <th>备注（选填）</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="item in weekPlane">
-            <td><Input type="textarea" placeholder="" readonly v-model="item.nextWorkPlan"></Input></td>
-            <td><Input type="textarea" placeholder="" readonly v-model="item.personLiable"></Input></td>
-            <td><Input type="textarea" placeholder="" readonly v-model="item.remark"></Input></td>
-          </tr>
-          </tbody>
-        </table>
-        </Col>
-      </Row>
+        <h4 style="margin-top: 40px; line-height: 40px;">下周工作计划</h4>
+        <Row>
+          <Col span="24">
+          <table cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+              <th>工作计划（计划工作目标、计划节点）</th>
+              <th>责任人</th>
+              <th>备注（选填）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="item in weekPlane">
+              <td><Input type="textarea" placeholder="" readonly v-model="item.nextWorkPlan"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.personLiable"></Input></td>
+              <td><Input type="textarea" placeholder="" readonly v-model="item.remark"></Input></td>
+            </tr>
+            </tbody>
+          </table>
+          </Col>
+        </Row>
 
 
 
-      <Row style="margin: 20px;">
-        <Col span="24" align="center">
-        <h4>评语（选填）</h4>
-        </Col>
-      </Row>
-      <Row style="margin: 20px;">
-        <Col span="24" align="center">
-        <Input type="textarea" placeholder=""></Input>
-        </Col>
-      </Row>
-    </Card>
+        <Row style="margin: 20px;">
+          <Col span="24" align="center">
+          <h4>评语（选填）</h4>
+          </Col>
+        </Row>
+        <Row style="margin: 20px;">
+          <Col span="24" align="center">
+          <Input type="textarea" placeholder=""></Input>
+          </Col>
+        </Row>
+      </Card>
+    </div>
   </div>
 </template>
 
@@ -222,7 +218,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .whole-weekly{
-    padding: 16px;
+    /*padding: 16px;*/
   }
   h4{
     text-align: center;

@@ -58,8 +58,8 @@
 					<tr>
 						<td>
 							<FormItem label="发布范围">
-								<i-select v-model="formItem.oIds" :disabled="disable">
-									<i-option v-for="item in oIdsList" :value="item.value" :key="item.value">{{ item.label }}
+								<i-select v-model="oids" filterable multiple :disabled="disable">
+									<i-option v-for="item in oIdsList" :value="item.id" :key="item.id">{{ item.name }}
 									</i-option>
 								</i-select>
 							</FormItem>
@@ -89,15 +89,11 @@
 	        content: '',
 	        noticeClass: '',
 	        postTypeList: [],
-	        oIds: '',
+	        oids: '',
 	        createTime: ''
 	      },
-	      release: '',
-	      releaseMode: [],
-	      oIdsList: [{
-	        label: '400',
-	        value: 400
-	      }],
+	      oids: [],
+	      oIdsList: [],
 	      uploadList: [],
 	      visible: false,
 	      header: {},
@@ -117,6 +113,19 @@
 	    }
 	  },
 	  methods: {
+	// 获取发布范围部门名单
+	    getDeprtmentList () {
+	      this.$ajax({
+	        method: 'get',
+	        url: '/organization/queryDepartment?departmentName='
+	      }).then((res) => {
+	        if (res.data.code === '000000') {
+	          this.oIdsList = res.data.data.dataList
+	        } else {
+	          this.$Message.error(res.data.message)
+	        }
+	      }, (res) => {})
+	    },
 	// 获取公司公告详情信息
 	    getCompanyData () {
 	      let id = this.$route.params.id
@@ -128,6 +137,7 @@
 	          let result = res.data.data
 	          if (result.length !== 0) {
 	            this.formItem = result[0]
+	            this.oids = result[0].oids.split(',')
 	          }
 	        } else {
 	          this.$Message.error(res.data.message)
@@ -203,6 +213,7 @@
 	    }
 	  },
 	  mounted () {
+	    this.getDeprtmentList()
 	    this.getCompanyData()
 	  }
 	}

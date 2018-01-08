@@ -49,7 +49,7 @@
               v-for="item in notices"
               @click="handleToNoticeDetail(item.id)"
               :title="item.title">
-              <span class="notice-title">{{item.title}}</span><span class="notice-name">{{item.postUserId}}</span><span
+              <span class="notice-title">{{item.title}}</span><span class="notice-name">{{item.postTitle}}</span><span
               class="notice-type">{{noticeType(item.noticeClass)}}</span><span class="notice-time">{{formatDate(item.createTime*1000,false)}}</span>
             </li>
           </ul>

@@ -1,32 +1,28 @@
 <template>
   <div class="whole-daily">
-
-
-    <Card shadow>
-      <p slot="title" style="text-align: center;">
-        日工作汇报
-      </p>
-      <p slot="extra">
-        <Button type="error" @click="back">关闭</Button>
-        <Button type="primary" @click="goLeft">
-          <Icon type="chevron-left"></Icon>
-        </Button>
-        <Button type="primary" @click="goRight">
-          <Icon type="chevron-right" @click="goRight"></Icon>
-        </Button>
-      </p>
-      <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
-      <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
-    </Card>
-
-
-
-    <Card style="margin-top: 20px;" v-show="showDetail" shadow>
-      <div class="card">
-        <Row>
-          <Col span="24">
-          <table cellpadding="0" cellspacing="0">
-            <thead>
+    <div style="height: 53px;padding-top: 10px;padding-right: 16px;background-color: white;text-align: right">
+      <Button type="error" @click="back">关闭</Button>
+      <Button type="primary" @click="goLeft">
+        <Icon type="chevron-left"></Icon>
+      </Button>
+      <Button type="primary" @click="goRight">
+        <Icon type="chevron-right" @click="goRight"></Icon>
+      </Button>
+    </div>
+    <div style="padding: 16px;">
+      <Card shadow>
+        <p style="text-align: center;height: 40px;">
+          日工作汇报
+        </p>
+        <Table :columns="columns" :data="listData" @on-row-click="openDetail"></Table>
+        <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
+      </Card>
+      <Card style="margin-top: 20px;" v-show="showDetail" shadow>
+        <div class="card">
+          <Row>
+            <Col span="24">
+            <table cellpadding="0" cellspacing="0">
+              <thead>
               <tr>
                 <th></th>
                 <th>时间</th>
@@ -37,8 +33,8 @@
                 <th>监督人</th>
                 <th>检查人</th>
               </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
               <tr>
                 <td rowspan="8"> 工 <br/> 作 <br/> 日 <br/> 志 </td>
                 <td class="record_time">9:00-10:00</td>
@@ -192,25 +188,26 @@
                   <Input type="textarea" placeholder="" height="300px" readonly v-model="reportData.tomorrowPlan"></Input>
                 </td>
               </tr>
-            </tbody>
-          </table>
-          </Col>
-        </Row>
-        <Row style="margin: 20px;">
-          <Col span="24" align="center">
+              </tbody>
+            </table>
+            </Col>
+          </Row>
+          <Row style="margin: 20px;">
+            <Col span="24" align="center">
             <h3>检查人进行评分</h3>
-          </Col>
-        </Row>
-        <Row style="margin: 20px;">
-          <Col span="8" align="center">工作日志&nbsp;&nbsp;<Input v-model="reportData.worklogScore" readonly></Input></Col>
-          <Col span="8" align="center">职业素养&nbsp;&nbsp;<Input v-model="reportData.professionalismScore" readonly></Input></Col>
-          <Col span="8" align="center">团队合作&nbsp;&nbsp;<Input v-model="reportData.teamScore" readonly></Input></Col>
-        </Row>
-        <Row style="margin: 20px;">
-          <Col span="24" align="right">总评分：{{reportData.totalScore}}</Col>
-        </Row>
-      </div>
-    </Card>
+            </Col>
+          </Row>
+          <Row style="margin: 20px;">
+            <Col span="8" align="center">工作日志&nbsp;&nbsp;<Input v-model="reportData.worklogScore" readonly></Input></Col>
+            <Col span="8" align="center">职业素养&nbsp;&nbsp;<Input v-model="reportData.professionalismScore" readonly></Input></Col>
+            <Col span="8" align="center">团队合作&nbsp;&nbsp;<Input v-model="reportData.teamScore" readonly></Input></Col>
+          </Row>
+          <Row style="margin: 20px;">
+            <Col span="24" align="right">总评分：{{reportData.totalScore}}</Col>
+          </Row>
+        </div>
+      </Card>
+    </div>
   </div>
 </template>
 
@@ -425,7 +422,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .whole-daily{
-    padding: 16px;
+    /*padding: 16px;*/
     .card {
       table {
         width: 100%;

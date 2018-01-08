@@ -82,6 +82,8 @@ export default {
               setTimeout(() => {
                 window.location.reload()
               }, 0)
+            } else {
+              this.$Message.error(response.data.message)
             }
           }).catch((err) => {
             console.log(err)

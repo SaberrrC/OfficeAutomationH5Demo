@@ -14,6 +14,12 @@
 			<Modal v-model="showDraft" title="信息" @on-ok="drawDraft">
 				<p>是否导入草稿？</p>
 			</Modal>
+      <Modal
+        v-model="cancel"
+        title="信息"
+      >
+        <p>是否放弃当前编辑</p>
+      </Modal>
 			<p style="text-align: center; padding-bottom: 16px;font-weight: 800;">本周工作总结</p>
 			<Row>
 				<Col span="24">
@@ -118,9 +124,9 @@
 					</Modal>
 				</p>
 				<p class="btn">
-					<Button type="info">取消</Button>
+					<Button type="info" @click="cancel = true">取消</Button>
 					<Button type="info" @click="saveDraft">存草稿</Button>
-					<Button type="info" @click="submitWeek">提交</Button>
+					<Button type="info" @click="submitWeek" :loading="loading">提交</Button>
 				</p>
 				</Col>
 			</Row>
@@ -134,6 +140,8 @@ export default {
   name: 'WorkReportWeekly',
   data () {
     return {
+      loading: false,
+      cancel: false,
       startTime: this.getTime(this.getMonday(new Date())),
       endTime: '2017-12-12',
       options: {
@@ -266,6 +274,10 @@ export default {
     },
     //  添加一行方法
     addLine () {
+      if (this.weeklySummary.length === 9) {
+        this.$Message.error('添加条数已达上限！')
+        return
+      }
       this.weeklySummary.push({
         workPlan: '',
         work: '',
@@ -275,6 +287,10 @@ export default {
       })
     },
     addLineNext () {
+      if (this.nextWeekPlane.length === 9) {
+        this.$Message.error('添加条数已达上限！')
+        return
+      }
       this.nextWeekPlane.push({
         nextWorkPlan: '',
         personLiable: '',
@@ -467,22 +483,52 @@ export default {
         this.$Message.error('下周工作计划至少填写一行内容')
         return
       }
-      this.$ajax({
-        method: 'post',
-        url: '/weekreport/add',
-        data: data
-      }).then((res) => {
-        console.log('发起周报', res.data)
-        // var result = res.data.data
-        if (res.data.code === '000000') {
-          this.$Message.success('发送成功')
-          location.hash = '/work_report/my_report/myReportList'
-        } else {
-          this.$Message.success(res.data.message)
-        }
-      }, (res) => {
-
-      })
+      if (!data.checkmanId) {
+        this.$Message.error('请选择检查人')
+        return
+      }
+      this.loading = true
+      if (this.$route.params.id) {
+        //  编辑提交
+        data.id = this.$route.params.id
+        this.$ajax({
+          method: 'put',
+          url: '/weekreport/upd',
+          data: data
+        }).then((res) => {
+          console.log('编辑提交', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.loading = false
+            this.$Message.success('发送成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.loading = false
+            this.$Message.success(res.data.message)
+          }
+        }, (res) => {
+          this.loading = false
+        })
+      } else {
+        this.$ajax({
+          method: 'post',
+          url: '/weekreport/add',
+          data: data
+        }).then((res) => {
+          console.log('发起周报', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.loading = false
+            this.$Message.success('发送成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.loading = false
+            this.$Message.success(res.data.message)
+          }
+        }, (res) => {
+          this.loading = false
+        })
+      }
     },
     getTemp () {
       this.$ajax({
@@ -514,14 +560,14 @@ export default {
         method: 'get',
         url: '/weekreport/' + this.$route.params.id
       }).then((res) => {
-        console.log('草稿数据', res.data)
+        console.log('编辑数据', res.data)
         let result = res.data.data
         if (res.data.code === '000000') {
           this.startTime = new Date(result.startTime)
           this.endTime = result.endTime
           this.checkmantext = result.checkman + '———' + result.postName
-          this.weeklySummary = this.formatDate(result.weeklySummary)
-          this.nextWeekPlane = this.formatDate(result.weekPlane)
+          this.weeklySummary = result.weeklySummary
+          this.nextWeekPlane = result.weekPlane
         } else {
         }
       }, (res) => {

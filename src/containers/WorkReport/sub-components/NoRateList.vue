@@ -1,34 +1,36 @@
 <template>
 	<div class="work-report-no-rate">
-		<Card shadow>
-			<div slot="title">
-				<Form :label-width="80">
-					<Row>
-						<Col span="6">
-						<FormItem label="类型">
-							<Select v-model="defaultType">
-								<Option v-for="item in selectType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</Select>
-						</FormItem>
-						</Col>
-						<Col span="6">
-						<FormItem label="汇报日期">
-							<Select v-model="defaultReport">
-								<Option v-for="item in reportTime" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</Select>
-						</FormItem>
-						</Col>
-						<Col span="12" align="right">
-						<Button type="primary" @click="handleSelect" v-if="visible">批量提交</Button>
-						</Col>
-					</Row>
-				</Form>
-			</div>
-			<Table height="450" ref="selection" :columns="dailycolumns" :data="DailyData" v-if="visible"></Table>
-			<Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible"></Table>
-			<br />
-			<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
-		</Card>
+    <p style="height: 53px;text-align: left;padding-top: 10px;background-color: white">
+      <Form :label-width="80">
+        <Row>
+          <Col span="6">
+          <FormItem label="类型">
+            <Select v-model="defaultType">
+              <Option v-for="item in selectType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+          </Col>
+          <Col span="6">
+          <FormItem label="汇报日期">
+            <Select v-model="defaultReport">
+              <Option v-for="item in reportTime" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+          </Col>
+          <Col span="12" align="right">
+          <Button type="primary" @click="handleSelect" v-if="visible">批量提交</Button>
+          </Col>
+        </Row>
+      </Form>
+    </p>
+    <div style="padding: 16px;">
+      <Card shadow>
+        <Table height="450" ref="selection" :columns="dailycolumns" :data="DailyData" v-if="visible"></Table>
+        <Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible"></Table>
+        <br />
+        <Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
+      </Card>
+    </div>
 		<Modal v-model="modal" title="批量审批" @on-ok="selectSubmit" @on-cancel="selectCancel">
 			<p>是否批量提交已勾选的日报评价？</p>
 		</Modal>
@@ -339,6 +341,13 @@ export default {
       }
     },
     selectSubmit () {
+      console.log(this.selectData)
+      for (let i = 0; i < this.selectData.length; i++) {
+        if (!this.selectData[i].ratings || !this.selectData[i].totalScore) {
+          this.$Message.error('请对所有勾选的日报进行评价和打分')
+          return
+        }
+      }
       this.$ajax({
         method: 'post',
         url: '/batch/batchScore',
@@ -493,6 +502,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.work-report-no-rate {
-		padding: 16px;
+		/*padding: 16px;*/
 	}
 </style>

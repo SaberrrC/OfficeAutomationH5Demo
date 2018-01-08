@@ -218,7 +218,7 @@ export default {
             path: '/work_report/no_rate/noRateList'
           })
         } else {
-
+          this.$Message.error(res.data.message)
         }
       }, (res) => {
 
@@ -227,10 +227,10 @@ export default {
   },
   mounted () {
     this.getRateData()
-  },
-  activated () {
-    this.getRateData()
   }
+  /* activated () {
+    this.getRateData()
+  } */
 }
 </script>
 

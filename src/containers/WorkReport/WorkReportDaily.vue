@@ -286,7 +286,7 @@
 					<p class="btn">
 						<Button type="info" @click="cancel=true">取消</Button>
 						<Button type="info" @click="saveDraft">存草稿</Button>
-						<Button type="info" @click="submitReport">提交</Button>
+						<Button type="info" @click="submitReport" :loading="loading">提交</Button>
 					</p>
 					</Col>
 				</Row>
@@ -301,6 +301,7 @@ export default {
   name: 'WorkReportDaily',
   data () {
     return {
+      loading: false,
       options: {
         disabledDate (date) {
           return date && date.valueOf() > Date.now()
@@ -581,6 +582,12 @@ export default {
       data.time = this.getTime(this.reportTime)
       console.log(data)
       for (let k in data) {
+        if (!data.checkmanId) {
+          this.$Message.error({
+            content: '请选择接收人'
+          })
+          return
+        }
         if (!data[k]) {
           this.$Message.error({
             content: '当前还有未填写的日报内容，请检查'
@@ -588,22 +595,48 @@ export default {
           return
         }
       }
-      this.$ajax({
-        method: 'post',
-        url: '/dailyreport',
-        data: data
-      }).then((res) => {
-        console.log('提交日报', res.data)
-        // var result = res.data.data
-        if (res.data.code === '000000') {
-          this.$Message.success('提交成功')
-          location.hash = '/work_report/my_report/myReportList'
-        } else {
-          this.$Message.error(res.data.message)
-        }
-      }, (res) => {
-
-      })
+      this.loading = true
+      if (this.$route.params.id) {
+        //  编辑的提交
+        data.dailyId = this.$route.params.id
+        this.$ajax({
+          method: 'put',
+          url: '/upddailyreport',
+          data: data
+        }).then((res) => {
+          console.log('编辑提交日报', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.loading = false
+            this.$Message.success('提交成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.loading = false
+            this.$Message.error(res.data.message)
+          }
+        }, (res) => {
+          this.loading = false
+        })
+      } else {
+        this.$ajax({
+          method: 'post',
+          url: '/dailyreport',
+          data: data
+        }).then((res) => {
+          console.log('提交日报', res.data)
+          // var result = res.data.data
+          if (res.data.code === '000000') {
+            this.loading = false
+            this.$Message.success('提交成功')
+            location.hash = '/work_report/my_report/myReportList'
+          } else {
+            this.loading = false
+            this.$Message.error(res.data.message)
+          }
+        }, (res) => {
+          this.loading = false
+        })
+      }
     },
     //  编辑数据
     getEditData (id) {
