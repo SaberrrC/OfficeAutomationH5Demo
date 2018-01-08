@@ -111,7 +111,12 @@
 	      }, {
 	        title: '已读',
 	        key: 'isRead',
-	        sortable: true
+	        sortable: true,
+	        render: (h, params) => {
+	          return h('div', [
+	            this.isReadTypeFormat(params.row.isRead)
+	          ])
+	        }
 	      }, {
 	        title: '类型',
 	        key: 'noticeType',
@@ -195,7 +200,16 @@
 	          return ''
 	      }
 	    },
-
+	    isReadTypeFormat (ele) {
+	      switch (ele) {
+	        case 1:
+	          return '已读'
+	        case 2:
+	          return '未读'
+	        default:
+	          return ''
+	      }
+	    },
 	    dateFormat (ele) {
 	      var date = new Date(ele)
 	      var y = date.getFullYear()
@@ -217,7 +231,7 @@
 	          dateFilter: this.dateFilter,
 	          noticeType: this.noticeType,
 	          noticeClass: this.noticeClass,
-	          oIds: 400
+	          oIds: this.$store.state.userInfo.oid
 	        }
 	      }).then((res) => {
 	        console.log('发送给我的公告列表', res.data)

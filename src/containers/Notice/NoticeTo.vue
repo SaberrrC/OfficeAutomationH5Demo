@@ -70,7 +70,7 @@
 	        value: 1,
 	        label: '公司公告'
 	      }, {
-	        value: 2,
+	        value: '2',
 	        label: '部门公告'
 	      }],
 	      noticeClassList: [{
@@ -230,7 +230,7 @@
 	          dateFilter: this.dateFilter,
 	          noticeType: this.noticeType,
 	          noticeClass: this.noticeClass,
-	          isHomeShow: this.isHomeShow
+	          isHomepageShow: this.isHomeShow
 	        }
 	      }).then((res) => {
 	        if (res.data.code === '000000') {

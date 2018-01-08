@@ -28,7 +28,7 @@ const chat = {
               tmp = Object.assign({}, result, {
                 departmentName: result.organ,
                 name: result.username,
-                img: result.portrait ? result.portrait : store.state.image
+                img: result.img ? config.OA_IMG + result.img : store.state.image
               })
               // console.log('queryUserInfo', tmp)
               if (store.state.userInfoDb && store.state.userInfoDb[code]) {
@@ -70,7 +70,7 @@ const chat = {
               tmp = Object.assign({}, result, {
                 departmentName: result.organ,
                 name: result.username,
-                img: result.portrait ? result.portrait : store.state.image
+                img: result.img ? config.OA_IMG + result.img : store.state.image
               })
               // console.log('queryUserInfo', tmp)
               if (store.state.userInfoDb && store.state.userInfoDb[code]) {
@@ -116,7 +116,7 @@ const chat = {
               tmp = Object.assign({}, result, {
                 departmentName: result.organ,
                 name: result.username,
-                img: result.portrait ? result.portrait : store.state.image
+                img: result.img ? config.OA_IMG + result.img : store.state.image
               })
               // console.log('获取，uid', tmp)
               fn && fn(tmp)
