@@ -272,12 +272,7 @@
         this.getMyLaunchList()
       },
 //    选择发起状态
-      checkStatus (value) {
-        console.log(value)
-//        if (value === '-2') {
-//          this.formItem.status = ''
-//        }
-//        console.log()
+      checkStatus () {
         this.getMyLaunchList()
       },
 //    选择发起审批类型
