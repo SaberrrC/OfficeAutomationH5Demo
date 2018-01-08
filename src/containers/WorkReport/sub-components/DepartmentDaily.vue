@@ -206,7 +206,7 @@
             <Col span="24" align="right">总评分：{{reportData.totalScore}}</Col>
           </Row>
         </div>
-        
+
       </Card>
     </div>
   </div>

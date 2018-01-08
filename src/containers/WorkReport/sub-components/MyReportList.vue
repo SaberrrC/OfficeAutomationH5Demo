@@ -25,7 +25,7 @@
 			<Table height="450" :columns="dailycolumns" :data="DailyData" v-if="visible"></Table>
 			<Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible"></Table>
 			<br />
-			<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
+			<Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-total></Page>
 		</Card>
     </div>
 	</div>
