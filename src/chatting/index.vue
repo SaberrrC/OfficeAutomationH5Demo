@@ -66,7 +66,7 @@
       </div>
       </div>
       <div class="addressTreeRight">
-        <div class="choice"><span>已选择</span></div>
+        <div class="choice">已选择</div>
         <ul>
           <li v-for='(item,index) in candidateOptions'>
             <span>{{item.label}}</span>

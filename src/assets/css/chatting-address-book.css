@@ -31,7 +31,7 @@
   font-size: 14px;
   margin-top: 10px;
   position: fixed;
-  z-index: 3;
+  z-index: 1001;
   left: 50%;
   top: 50%;
   margin-left: -140px;
@@ -204,7 +204,7 @@
   left: 30%;
   top: 30%;
   background-color: #fff;
-  z-index: 999;
+  z-index: 1001;
   /*padding: 10px;*/
 }
 

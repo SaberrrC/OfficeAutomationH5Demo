@@ -602,7 +602,7 @@ export default {
   margin-right: 10px;
 }
 .font_img {
-  z-index: 101;
+  z-index: 1001;
   width: 396px;
   height: 117px;
   background: #ddd;
@@ -637,6 +637,6 @@ export default {
 } */
 .el-icon-document {
   position: relative;
-  z-index: 10;
+  z-index: 1000;
 }
 </style>
