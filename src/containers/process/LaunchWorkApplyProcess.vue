@@ -26,7 +26,7 @@
         <Form ref="workApplyTitle" :model="workApplyTitle"  :rules="ruleWorkApplyTitle" :label-width="82" label-position="left">
             <Row>
               <i-Col span="12">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="加班编码">
@@ -643,20 +643,6 @@
     border: 1px solid #eeeeee;
     padding-left: 16px;
     padding-top: 8px;
-    padding-bottom: 8px;
     background: #ffffff;
   }
-
-  .ivu-form-item {
-    margin-bottom: 0;
-  }
-
 </style>
-<style>
-  .work-report-daily .ivu-form-item-error-tip {
-    top: 15%;
-    right: -94px;
-    left:auto;
-  }
-</style>
-
