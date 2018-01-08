@@ -26,7 +26,7 @@
         <Form ref="furloughTitle" :model="furloughTitle"  :rules="rulefurloughTitle" :label-width="82" label-position="left">
             <Row>
               <i-Col span="12">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="休假编码">
@@ -52,7 +52,7 @@
             </Row>
             <Row>
               <i-Col span="12">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="申请日期">
@@ -332,16 +332,43 @@
         } else {
           if (this.furloughDetail.endTime !== '' && value > this.furloughDetail.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.furloughDetail.endTime !== '' && value < this.furloughDetail.endTime) {
+            this.$refs.furloughDetail.validateField('endTime')
           }
         }
       }
       const validateEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.furloughDetail.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.furloughDetail.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.furloughDetail.startTime) {
+            this.$refs.furloughDetail.validateField('startTime')
+          }
+        }
+      }
+
+      const validateAddStartTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择开始时间'))
+        } else {
+          if (this.addfurlough.endTime !== '' && value > this.addfurlough.endTime) {
+            callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.addfurlough.endTime !== '' && value < this.addfurlough.endTime) {
+            this.$refs.addfurlough.validateField('endTime')
+          }
+        }
+      }
+      const validateAddEndTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择结束时间'))
+        } else {
+          if (value < this.addfurlough.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.furloughDetail.startTime) {
+            this.$refs.addfurlough.validateField('startTime')
+          }
         }
       }
       return {
@@ -408,10 +435,10 @@
         },
         ruleaddfurlough: {
           startTime: [
-            { required: true, type: 'date', message: '请选择开始时间', trigger: 'change' }
+            { validator: validateAddStartTime, trigger: 'change' }
           ],
           endTime: [
-            { required: true, type: 'date', message: '请选择结束时间', trigger: 'change' }
+            { validator: validateAddEndTime, trigger: 'change' }
           ],
           FurloughRemark: [
             { required: true, message: '请输入休假事由', trigger: 'blur' }
@@ -534,15 +561,15 @@
           var end = new Date(this.nCHREvectionApplyDeatil[i].endTime)
           var endYear = end.getFullYear()
           var endMouth = end.getMonth()
-          endMouth = endMouth === 0 ? 1 : endMouth + 1
+          endMouth = endMouth === 0 ? 1 : (endMouth + 1).toString()
           var endDate = end.getDate()
-          endDate = endDate < 10 ? '0' + endDate : endDate
+          endDate = endDate < 10 ? '0' + endDate : endDate.toString()
           var endHours = end.getHours()
-          endHours = endHours < 10 ? '0' + endHours : endHours
+          endHours = endHours < 10 ? '0' + endHours : endHours.toString()
           var endMinutes = end.getMinutes()
-          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes
+          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes.toString()
           var endSeconds = end.getSeconds()
-          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
+          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds.toString()
           end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
           this.nCHREvectionApplyDeatil[i].endTime = end
         }
@@ -775,20 +802,6 @@
     border: 1px solid #eeeeee;
     padding-left: 16px;
     padding-top: 8px;
-    padding-bottom: 8px;
     background: #ffffff;
   }
-
-  .ivu-form-item {
-    margin-bottom: 0;
-  }
-
 </style>
-<style>
-  .work-report-daily .ivu-form-item-error-tip {
-    top: 15%;
-    right: -94px;
-    left:auto;
-  }
-</style>
-

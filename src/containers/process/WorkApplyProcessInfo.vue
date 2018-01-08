@@ -341,7 +341,7 @@
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
           if (response.data.code === '000000') {
-            this.$Message.success('审批成功')
+            this.$Message.success('驳回成功')
             this.$router.push({path: this.type})
           } else {
             this.$Message.success(response.data.message)

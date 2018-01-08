@@ -26,7 +26,7 @@
         <Form ref="workApplyTitle" :model="workApplyTitle"  :rules="ruleWorkApplyTitle" :label-width="82" label-position="left">
             <Row>
               <i-Col span="12">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="加班编码">
@@ -253,16 +253,43 @@
         } else {
           if (this.workApplyDetail.endTime !== '' && value > this.workApplyDetail.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.workApplyDetail.endTime !== '' && value < this.workApplyDetail.endTime) {
+            this.$refs.workApplyDetail.validateField('endTime')
           }
         }
       }
       const validateEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.workApplyDetail.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.workApplyDetail.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.workApplyDetail.startTime) {
+            this.$refs.workApplyDetail.validateField('startTime')
+          }
+        }
+      }
+
+      const validateAddStartTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择开始时间'))
+        } else {
+          if (this.addWorkApply.endTime !== '' && value > this.addWorkApply.endTime) {
+            callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.addWorkApply.endTime !== '' && value < this.addWorkApply.endTime) {
+            this.$refs.addWorkApply.validateField('endTime')
+          }
+        }
+      }
+      const validateAddEndTime = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请选择结束时间'))
+        } else {
+          if (value < this.addWorkApply.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.addWorkApply.startTime) {
+            this.$refs.addWorkApply.validateField('startTime')
+          }
         }
       }
       return {
@@ -308,10 +335,10 @@
         },
         ruleaddWorkApply: {
           startTime: [
-            { required: true, type: 'date', message: '请选择开始时间', trigger: 'change' }
+            { validator: validateAddStartTime, trigger: 'change' }
           ],
           endTime: [
-            { required: true, type: 'date', message: '请选择结束时间', trigger: 'change' }
+            { validator: validateAddEndTime, trigger: 'change' }
           ],
           cause: [
             { required: true, message: '请输入加班原因', trigger: 'blur' }
@@ -409,10 +436,8 @@
             this.nCHREvectionApplyDeatil.push(this.addWorkApply)
           }
         } else {
-          console.log(123)
           return false
         }
-//      调添加加班申请接口   // TODO
         var len = this.nCHREvectionApplyDeatil.length
         for (var i = 0; i < len; i++) {
           var start = new Date(this.nCHREvectionApplyDeatil[i].startTime)
@@ -420,13 +445,13 @@
           var startMouth = start.getMonth()
           startMouth = startMouth === 0 ? 1 : startMouth + 1
           var startDate = start.getDate()
-          startDate = startDate < 10 ? '0' + startDate : startDate
+          startDate = startDate < 10 ? '0' + startDate : startDate.toString()
           var startHours = start.getHours()
-          startHours = startHours < 10 ? '0' + startHours : startHours
+          startHours = startHours < 10 ? '0' + startHours : startHours.toString()
           var startMinutes = start.getMinutes()
-          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
-          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
           start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
           this.nCHREvectionApplyDeatil[i].startTime = start
           var end = new Date(this.nCHREvectionApplyDeatil[i].endTime)
@@ -434,13 +459,13 @@
           var endMouth = end.getMonth()
           endMouth = endMouth === 0 ? 1 : endMouth + 1
           var endDate = end.getDate()
-          endDate = endDate < 10 ? '0' + endDate : endDate
+          endDate = endDate < 10 ? '0' + endDate : endDate.toString()
           var endHours = end.getHours()
-          endHours = endHours < 10 ? '0' + endHours : endHours
+          endHours = endHours < 10 ? '0' + endHours : endHours.toString()
           var endMinutes = end.getMinutes()
-          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes
+          endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes.toString()
           var endSeconds = end.getSeconds()
-          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
+          endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds.toString()
           end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
           this.nCHREvectionApplyDeatil[i].endTime = end
         }
@@ -449,7 +474,7 @@
           monocode: this.workApplyTitle.workApplyCode,
           type: this.workApplyTitle.type,
           detailList: this.nCHREvectionApplyDeatil
-        }  // TODO 组装数据
+        }
         this.$ajax.post(`/WorkApply/addWorkApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -618,20 +643,6 @@
     border: 1px solid #eeeeee;
     padding-left: 16px;
     padding-top: 8px;
-    padding-bottom: 8px;
     background: #ffffff;
   }
-
-  .ivu-form-item {
-    margin-bottom: 0;
-  }
-
 </style>
-<style>
-  .work-report-daily .ivu-form-item-error-tip {
-    top: 15%;
-    right: -94px;
-    left:auto;
-  }
-</style>
-

@@ -329,6 +329,12 @@
 //    调同意/驳回接口
       handleEdit (text) {
         var len = this.checkList.length
+        var batch = ''
+        if (len === 1) {
+          batch = ''
+        } else {
+          batch = '批量'
+        }
         var approveRequest = []
         for (var j = 0; j < len; j++) {
           var data = {
@@ -342,7 +348,11 @@
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
           if (response.data.code === '000000') {
-            this.$Message.success('审批成功')
+            if (text === true) {
+              this.$Message.success(batch + '审批成功')
+            } else if (text === false) {
+              this.$Message.success(batch + '驳回成功')
+            }
             this.getToDoList()
             this.checkList = []
           } else {

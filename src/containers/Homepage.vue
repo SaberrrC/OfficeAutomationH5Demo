@@ -204,9 +204,13 @@ export default {
   },
   methods: {
     handleToNoticeDetail (id) {
-      //  TODO 公告详情
-      console.log(id)
-      //  window.open(`/notice_detail/?${id}`)
+      this.$router.push({
+        name: 'NoticeCompanyDetail',
+        params: {
+          id: id,
+          type: 1
+        }
+      })
     },
     formatDate,
     noticeType (type) {

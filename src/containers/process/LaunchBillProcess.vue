@@ -26,7 +26,7 @@
         <Form ref="billTitle" :model="billTitle"  :rules="ruleBillTitle" :label-width="82" label-position="left">
             <Row>
               <i-Col span="12">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="出差编码">
@@ -363,16 +363,20 @@
         } else {
           if (this.billDetail.endTime !== '' && value > this.billDetail.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.billDetail.endTime !== '' && value < this.billDetail.endTime) {
+            this.$refs.billDetail.validateField('endTime')
           }
         }
       }
       const validateEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.billDetail.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.billDetail.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.billDetail.startTime) {
+            this.$refs.billDetail.validateField('startTime')
+          }
         }
       }
 
@@ -382,16 +386,20 @@
         } else {
           if (this.addBill.endTime !== '' && value > this.addBill.endTime) {
             callback(new Error('开始时间不能大于结束时间!'))
+          } else if (this.addBill.endTime !== '' && value < this.addBill.endTime) {
+            this.$refs.addBill.validateField('endTime')
           }
         }
       }
       const validateAddEndTime = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请选择结束时间'))
-        } else if (value < this.addBill.startTime) {
-          callback(new Error('结束时间不能小于开始时间!'))
         } else {
-          callback()
+          if (value < this.addBill.startTime) {
+            callback(new Error('结束时间不能小于开始时间!'))
+          } else if (value > this.addBill.startTime) {
+            this.$refs.addBill.validateField('startTime')
+          }
         }
       }
       return {
@@ -568,15 +576,15 @@
           var start = new Date(this.nchrevectionApplyDetail[i].startTime)
           var startYear = start.getFullYear()
           var startMouth = start.getMonth()
-          startMouth = startMouth === 0 ? 1 : startMouth + 1
+          startMouth = startMouth === 0 ? 1 : (startMouth + 1).toString()
           var startDate = start.getDate()
-          startDate = startDate < 10 ? '0' + startDate : startDate
+          startDate = startDate < 10 ? '0' + startDate : startDate.toString()
           var startHours = start.getHours()
-          startHours = startHours < 10 ? '0' + startHours : startHours
+          startHours = startHours < 10 ? '0' + startHours : startHours.toString()
           var startMinutes = start.getMinutes()
-          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
-          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
           start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
           this.nchrevectionApplyDetail[i].startTime = start
           var end = new Date(this.nchrevectionApplyDetail[i].endTime)
@@ -830,20 +838,8 @@
     border: 1px solid #eeeeee;
     padding-left: 16px;
     padding-top: 8px;
-    padding-bottom: 8px;
     background: #ffffff;
   }
-
-  .ivu-form-item {
-    margin-bottom: 0;
-  }
-
 </style>
-<style>
-  .work-report-daily .ivu-form-item-error-tip {
-    top: 15%;
-    right: -94px;
-    left:auto;
-  }
-</style>
+
 

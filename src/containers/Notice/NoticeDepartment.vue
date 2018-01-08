@@ -44,7 +44,7 @@
 					<tr>
 						<td>
 							<FormItem label="相关附件" prop="defaultList">
-								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'">
+								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'" :format="['jpg','jpeg','png','gif','bmp','tif','txt','zip','rar','doc','docx','xls','xlsx','ppt','pptx','accdb','pdf','rtf','psd','wps','pages','numbers','key']" :before-upload="handleBeforeUpload" :on-format-error="handleFormatError" :on-remove="handleRemove">
 									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
 							</FormItem>
@@ -70,7 +70,7 @@
 	  data () {
 	    const validateUpload = (rule, value, callback) => {
 	      if (value.length === 0) {
-	        callback(new Error('请至少上传一张图片'))
+	        callback(new Error('请至少上传一个附件'))
 	      } else {
 	        callback()
 	      }
@@ -98,7 +98,6 @@
 	        value: '3',
 	        label: '活动'
 	      }],
-	      uploadList: [],
 	      visible: false,
 	      header: {
 	        token: this.$ajax.defaults.headers.common['token'],
@@ -141,47 +140,34 @@
 	    }
 	  },
 	  methods: {
-	    handleView (name) {
-	      this.imgName = name
-	      this.visible = true
+	    handleRemove (file, fileList) {
+	      for (let i = 0; i < this.formItem.defaultList.length; i++) {
+	        if (this.formItem.defaultList[i] === file.response.data) {
+	          this.formItem.defaultList.splice(this.formItem.defaultList.indexOf(this.formItem.defaultList[i]), 1)
+	        }
+	      }
+	      this.$refs['formItem'].validate((valid) => {})
 	    },
-	    handleRemove (file) {
-	      this.uploadList.splice(this.uploadList.indexOf(file), 1)
+	    handleBeforeUpload () {
+	      const check = this.$refs.upload.fileList.length < 3
+	      if (!check) {
+	        this.$Notice.warning({
+	          title: '最多上传三个附件'
+	        })
+	      }
+	      return check
 	    },
 	    handleSuccess (res, file) {
 	      if (res.code === '000000') {
-	        this.uploadList.push({
-	          url: this.GLOBAL_.IMG_URL + res.data,
-	          name: res.data,
-	          status: 'finished'
-	        })
 	        this.formItem.defaultList.push(res.data)
 	        this.$refs['formItem'].validate((valid) => {})
 	      }
 	    },
-
-	    formatPostType (postType) {
-	      if (postType.length !== 0) {
-	        let postTypeNum = 0
-	        for (let i = 0; i < postType.length; i++) {
-	          postTypeNum = postTypeNum + postType[i] * 1
-	        }
-	        return postTypeNum
-	      }
-	    },
-
-	    formatAttachPath (attachPath) {
-	      if (attachPath.length !== 0) {
-	        let attachPathStr = ''
-	        for (let i = 0; i < attachPath.length; i++) {
-	          if (i > 0) {
-	            attachPathStr = attachPathStr + ',' + attachPath[i].name
-	          } else {
-	            attachPathStr = attachPath[i].name
-	          }
-	        }
-	        return attachPathStr
-	      }
+	    handleFormatError (file) {
+	      this.$Notice.warning({
+	        title: '上传文件格式有误',
+	        desc: '附件 ' + file.name + ' 格式错误, 请选择以下格式：jpg、jpeg、gif、png、bmp、tif、txt、zip、rar、doc、docx、xls、xlsx、ppt、pptx、accdb、pdf、rtf、psd、wps、pages、numbers、key'
+	      })
 	    },
 
 	// 发布部门公告

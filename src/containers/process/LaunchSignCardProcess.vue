@@ -26,7 +26,7 @@
         <Form ref="billTitle" :model="billTitle"  :rules="ruleBillTitle" :label-width="82" label-position="left">
             <Row>
               <i-Col span="12">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="签卡编码">
@@ -37,7 +37,7 @@
                 </div>
               </i-Col>
               <i-Col span="12">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="申请日期">
@@ -363,15 +363,15 @@
           var start = new Date(this.nCHREvectionApplyDeatil[i].signTime)
           var startYear = start.getFullYear()
           var startMouth = start.getMonth()
-          startMouth = startMouth < 10 ? '0' + (startMouth + 1) : startMouth + 1
+          startMouth = startMouth < 10 ? '0' + (startMouth + 1) : (startMouth + 1).toString()
           var startDate = start.getDate()
-          startDate = startDate < 10 ? '0' + startDate : startDate
+          startDate = startDate < 10 ? '0' + startDate : startDate.toString()
           var startHours = start.getHours()
-          startHours = startHours < 10 ? '0' + startHours : startHours
+          startHours = startHours < 10 ? '0' + startHours : startHours.toString()
           var startMinutes = start.getMinutes()
-          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
+          startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
-          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
+          startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
           start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
           this.nCHREvectionApplyDeatil[i].signTime = start
         }
@@ -464,20 +464,6 @@
     border: 1px solid #eeeeee;
     padding-left: 16px;
     padding-top: 8px;
-    padding-bottom: 8px;
     background: #ffffff;
   }
-
-  .ivu-form-item {
-    margin-bottom: 0;
-  }
-
 </style>
-<style>
-  .work-report-daily .ivu-form-item-error-tip {
-    top: 15%;
-    right: -94px;
-    left:auto;
-  }
-</style>
-
