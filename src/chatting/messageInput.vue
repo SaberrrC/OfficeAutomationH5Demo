@@ -290,6 +290,12 @@ export default {
       console.log('发送文件', input.files, file)
       let alertMsgBox = this.$message
       let allowType = {
+        'jpg': true,
+        'jpeg': true,
+        'gif': true,
+        'png': true,
+        'bmp': true,
+        'tif': true,
         'txt': true,
         'zip': true,
         'rar': true,
@@ -337,31 +343,31 @@ export default {
             'type': file.data.type
           },
           chatType: this.chatType === 'chatGroup' ? 'chatRoom' : 'singleChat',
-          onFileUploadError: function(x) {
-            console.log("onFileUploadError", x);
-            alertMsgBox({message: '文件上传失败', type: 'warning'});
+          onFileUploadError: function (x) {
+            console.log('onFileUploadError', x)
+            alertMsgBox({message: '文件上传失败', type: 'warning'})
           },
-          onFileUploadComplete: function(x) {
+          onFileUploadComplete: function (x) {
             console.log('文件上传成功', x)
             localMsgobj.url = x.uri + '/' + x.entities[0].uuid
           },
-          success: function(id, serverMsgId) {
+          success: function (id, serverMsgId) {
             // console.log('send success', id, serverMsgId)
             localMsgobj.id = serverMsgId
-            that.$store.dispatch("sendText", localMsgobj);
-            input.value = "";
+            that.$store.dispatch('sendText', localMsgobj)
+            input.value = ''
           },
           flashUpload: this.$WebIM.flashUpload
-        };
-        msg.set(option);
-        if (this.chatType === 'chatGroup') {
-          msg.setGroup('groupchat');
         }
-        this.$conn.send(msg.body);
+        msg.set(option)
+        if (this.chatType === 'chatGroup') {
+          msg.setGroup('groupchat')
+        }
+        this.$conn.send(msg.body)
       } else {
-        input.value = "";
-        alertMsgBox({message: '文件格式不允许', type: 'warning'});
-        return;
+        input.value = ''
+        alertMsgBox({message: '文件格式不允许', type: 'warning'})
+        return
       }
     },
     sendPrivateImg () {
@@ -383,8 +389,8 @@ export default {
       console.log('发送图片', input.files, file)
       let alertMsgBox = this.$message
       if (file.filetype.toLowerCase() in allowType) {
-        let id = this.$conn.getUniqueId(); // 生成本地消息id
-        let msg = new this.$WebIM.message('img', id); // 创建图片消息
+        let id = this.$conn.getUniqueId() // 生成本地消息id
+        let msg = new this.$WebIM.message('img', id) // 创建图片消息
         let name = file.filename; // 获取文件名
         let fileSize = parseInt(file.data.size) // 获取文件大小
         let fileType = file.filetype // 获取文件大小
@@ -393,7 +399,7 @@ export default {
         let from = this.userinfo.code
         let sId =  this.other
         let localType = this.chatType === 'chatGroup' ? 'groupchat' : 'chat'
-        let timestamp = Date.parse(new Date()) / 1000;
+        let timestamp = Date.parse(new Date()) / 1000
         let localMsgobj = {
           nameType: 1, // nameType 1 = 发送消息 2 = 接收消息
           formType: 3, // formType 1 = 文本 2 = 文件 3 = 图片
@@ -416,29 +422,29 @@ export default {
             'type': file.data.type
           },
           chatType: this.chatType === 'chatGroup' ? 'chatRoom' : 'singleChat',
-          onFileUploadError: function() {
-            console.log("onFileUploadError");
-            alertMsgBox({message: '图片上传失败', type: 'warning'});
+          onFileUploadError: function () {
+            console.log('onFileUploadError')
+            alertMsgBox({message: '图片上传失败', type: 'warning'})
           },
-          onFileUploadComplete: function(x) {
+          onFileUploadComplete: function (x) {
             console.log('图片上传成功', x)
             localMsgobj.url = x.uri + '/' + x.entities[0].uuid
           },
-          success: function(id, serverMsgId) {
+          success: function (id, serverMsgId) {
             localMsgobj.id = serverMsgId
-            that.$store.dispatch("sendText", localMsgobj);
-            input.value = "";
+            that.$store.dispatch('sendText', localMsgobj)
+            input.value = ''
           },
           flashUpload: this.$WebIM.flashUpload
         };
         msg.set(option);
         if (this.chatType === 'chatGroup') {
-          msg.setGroup('groupchat');
+          msg.setGroup('groupchat')
         }
-        this.$conn.send(msg.body);
+        this.$conn.send(msg.body)
       } else {
-        input.value = "";
-        alertMsgBox({message: '图片格式不对', type: 'warning'});
+        input.value = ''
+        alertMsgBox({message: '图片格式不对', type: 'warning'})
         return;
       }
     },
@@ -602,7 +608,7 @@ export default {
   margin-right: 10px;
 }
 .font_img {
-  z-index: 101;
+  z-index: 1001;
   width: 396px;
   height: 117px;
   background: #ddd;
@@ -637,6 +643,6 @@ export default {
 } */
 .el-icon-document {
   position: relative;
-  z-index: 10;
+  z-index: 1000;
 }
 </style>

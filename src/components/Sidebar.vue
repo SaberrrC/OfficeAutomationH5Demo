@@ -1,7 +1,7 @@
 <template>
   <aside class="sidebar">
     <Menu
-      ref="sidebar"
+      ref="menu"
       theme="dark"
       :active-name="activeName"
       :open-names="openNames"
@@ -38,24 +38,25 @@ export default {
     }
   },
   watch: {
-    '$route' (val) {
-      this.updateSidebar(val.path)
+    '$route' (to) {
+      this.updateSidebar(to.path)
     }
   },
   created () {
-    this.updateSidebar(this.$route.path)
+    this.updateSidebar()
+  },
+  updated () {
+    this.$nextTick(() => {
+      this.$refs.menu.updateActiveName()
+      this.$refs.menu.updateOpened()
+    })
   },
   methods: {
     updateSidebar (path) {
-      var arr = path.substring(1).split('/')
-      this.activeName = arr[0] + '/' + arr[1]
-      console.log('path', path)
-      console.log('activeName', this.activeName)
-      this.addOpenList(path.split('/')[1], this.openNames)
-      this.$nextTick(() => {
-        this.$refs.sidebar.updateActiveName()
-        this.$refs.sidebar.updateOpened()
-      })
+      path = path || this.$route.path
+      const arr = path.split('/')
+      this.activeName = arr[1] + '/' + arr[2]
+      this.addOpenList(arr[1], this.openNames)
     },
     //  防止重复添加数组元素
     addOpenList (item, list) {

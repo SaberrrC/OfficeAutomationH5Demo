@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="header">
-      <Button>取消</Button>
+      <Button @click="handleCancel">取消</Button>
       <Button type="primary" @click="query()">发布</Button>
     </p>
     <div class="summary">
@@ -86,7 +86,7 @@
                     :headers="headers"
                     multiple
                     ref="upload"
-                    :max-size="1024"
+                    :max-size="1024*25"
                     :before-upload="handleBeforeUpload"
                     :on-success="handleSuccess"
                     :on-remove="handleUploadRemove"
@@ -171,6 +171,7 @@
           token: this.$ajax.defaults.headers.common['token'],
           uid: this.$ajax.defaults.headers.common['uid']
         },
+//        action: `http://10.5.203.93:8084/file`,
         action: this.$ajax.defaults.baseURL + `/file`,
         initTreeData: [],
         uploadList: [],
@@ -236,7 +237,7 @@
         this.formItem.time = this.meetList[this.meetTitle].time
         this.formItem.meetingPlace = this.meetList[this.meetTitle].meetingPlace
         this.formItem.moderator = this.meetList[this.meetTitle].moderator
-        this.formItem.recorder = this.meetList[this.meetTitle].recorder
+        this.formItem.recorder = this.$store.state.userInfo.username
         this.formItem.content = this.meetList[this.meetTitle].content
         this.formItem.conclusion = this.meetList[this.meetTitle].conclusion
         if (this.meetList[this.meetTitle].users !== []) {
@@ -319,6 +320,10 @@
           } else {
           }
         })
+      },
+//    点击页面头部取消按钮
+      handleCancel () {
+        this.formItem = {}
       },
 //    选择与会人
       checkUsers () {

@@ -169,7 +169,7 @@
 /*个人信息弹出框*/
 
 .chatting .Personalmes {
-  z-index: 101;
+  z-index: 1001;
   width: 420px;
   /*height: 300px;*/
   border: 1px solid #BCBCBC;
@@ -273,7 +273,7 @@
   top: 50px;
   width: 200px;
   height: 450px;
-  z-index: 101;
+  z-index: 1001;
   /*background-color: pink;*/
   border: 1px solid #ccc;
   padding: 10px;
@@ -354,14 +354,14 @@
 }
 
 .chatting .adddialog {
-  z-index: 102;
+  z-index: 1002;
   width: 400px;
-  height: 400px;
+  height: 420px;
   background-color: #fff;
   border: 1px solid #ccc;
   position: absolute;
   padding: 10px;
-  padding-right: 5px;
+  /* padding-right: 5px; */
   top:50px;
   left:380px;
   /*position: relative;*/
@@ -374,19 +374,18 @@
 }
 
 .chatting .adddialog .addressTreeleft {
-  width: 45%;
+  width: 180px;
   padding-right: 10px;
   padding-top: 10px;
-  border-radius: 5px;
   float: left;
   border-right: 1px solid #ccc;
   padding-right: 5px;
   box-sizing: border-box;
   overflow: hidden;
 }
-.chatting .addressTreeleft .listSearch{
+
+.chatting .addressTreeleft .listSearch {
   width: 100%;
-  /* background-color: red; */
   overflow-y: auto;
   height:320px;
   margin-top: 10px;
@@ -409,20 +408,19 @@
 .chatting .adddialog .addressTreeRight {
   float: right;
   text-align: left;
-  width: 50%;
+  width: 190px;
   height: 92%;
   position: relative;
   box-sizing: border-box;
-  /*height: */
 }
 
-.chatting .addressTreeRight .choice span {
+.chatting .addressTreeRight .choice {
   width: 100%;
-  height: 55px;
-  line-height: 55px;
+  height: 51px;
+  line-height: 51px;
   display: inline-block;
   text-align: center;
-
+  /* border-bottom: 1px solid #ccc; */
 }
 
 .chatting .addressTreeRight .closeSpan:hover {
@@ -432,12 +430,14 @@
 .chatting .addressTreeRight .closeSpan {
   display: inline-block;
   width: 15px;
+  height: 26px;
+  line-height: 26px;
   height: 15px;
   border-radius: 50%;
   /* background:url(../assets/img-chat/closeSpan.png); */
   /* border: 1px solid #ccc; */
   background-size: contain;
-  margin-left: 10px;
+  margin: 3px;
   vertical-align: middle;
   float: right;
 }
@@ -457,11 +457,18 @@
   height: 270px;
   overflow-x: hidden;
   overflow-y: auto;
+  border: 1px solid #d1dbe5;
 }
 .chatting .addressTreeRight ul li {
-  width: 94%;
+  /* width: 94%; */
+  box-sizing: border-box;
 }
-.chatting .addressTreeRight ul li span{
+
+.chatting .addressTreeRight ul li:hover {
+  background-color: #e4e8f1;
+}
+
+.chatting .addressTreeRight ul li span {
   list-style-type: none;
   height: 26px;
   line-height: 26px;
@@ -470,13 +477,18 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
-  width: 160px;
+  width: 140px;
   display: inline-block;
+  text-indent: 5px;
+  cursor: default;
 }
 
 .chatting .addressTreeRight .btn {
-  position: absolute;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
   bottom: 0;
+  padding-top: 5px;
 }
 
 .chatting .TXTleft {
@@ -509,7 +521,7 @@
   cursor: pointer;
   /* border-top:1px solid #000; */
 }
-.chatting .singleChatbox .hidden{
+.chatting .singleChatbox .hidden {
   width: 93%;
   height: 100%;
   /* background-color: pink; */

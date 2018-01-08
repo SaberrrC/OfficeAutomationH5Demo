@@ -1,6 +1,6 @@
 <template>
 	<div class="work-report-no-rate">
-    <p style="height: 53px;text-align: left;padding-top: 10px;background-color: white">
+    <p style="height: 53px;text-align: left;padding-top: 10px;padding-right: 16px;background-color: white">
       <Form :label-width="80">
         <Row>
           <Col span="6">
@@ -28,7 +28,7 @@
         <Table height="450" ref="selection" :columns="dailycolumns" :data="DailyData" v-if="visible"></Table>
         <Table height="450" :columns="weeklycolumns" :data="WeeklyData" v-if="!visible"></Table>
         <br />
-        <Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-sizer show-total></Page>
+        <Page :total="total" :current="pageNum" @on-change="handPageChange" :on-page-size-change="handPageSizeChange" show-total></Page>
       </Card>
     </div>
 		<Modal v-model="modal" title="批量审批" @on-ok="selectSubmit" @on-cancel="selectCancel">

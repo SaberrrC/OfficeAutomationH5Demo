@@ -72,7 +72,16 @@
 				</table>
 				</Col>
 			</Row>
-
+      <Row style="margin: 20px;">
+        <Col span="24" align="center">
+        <h4>评语（选填）</h4>
+        </Col>
+      </Row>
+      <Row style="margin: 20px;">
+        <Col span="24" align="center">
+        <Input type="textarea" placeholder="" v-model="checkmanRating"></Input>
+        </Col>
+      </Row>
 			<Row>
 				<Col span="24">
 				<p class="leader">
@@ -101,6 +110,7 @@ export default {
       checkman: '',
       checkmanId: '',
       searchName: '',
+      checkmanRating: '',
       weeklySummary: [{
         workPlan: '',
         work: '',
@@ -177,6 +187,7 @@ export default {
           this.checkmantext = result.checkman + '———' + result.postName
           this.weeklySummary = result.weeklySummary
           this.nextWeekPlane = result.weekPlane
+          this.checkmanRating = result.checkmainRating
         } else {
 
         }
