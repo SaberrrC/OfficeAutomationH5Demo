@@ -324,10 +324,10 @@
         },
         ruleworkApplyDetail: {
           startTime: [
-            { validator: validateStartTime, trigger: 'change' }
+            { required: true, validator: validateStartTime, trigger: 'change' }
           ],
           endTime: [
-            { validator: validateEndTime, trigger: 'change' }
+            { required: true, validator: validateEndTime, trigger: 'change' }
           ],
           cause: [
             { required: true, message: '请输入加班原因', trigger: 'blur' }
@@ -335,10 +335,10 @@
         },
         ruleaddWorkApply: {
           startTime: [
-            { validator: validateAddStartTime, trigger: 'change' }
+            { required: true, validator: validateAddStartTime, trigger: 'change' }
           ],
           endTime: [
-            { validator: validateAddEndTime, trigger: 'change' }
+            { required: true, validator: validateAddEndTime, trigger: 'change' }
           ],
           cause: [
             { required: true, message: '请输入加班原因', trigger: 'blur' }
