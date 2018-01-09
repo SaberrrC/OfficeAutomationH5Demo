@@ -4,7 +4,7 @@
     <span>
       <Row>
         <i-Col :lg="{span:4}" :md="{span:5}" :sm="{span:6}" :xs="{span:8}" >
-          <Icon type="compose" style="display: inline-block"></Icon>
+          <i class="iconfont icon-shenpiliucheng" style="display: inline-block"></i>
           <h3 style="display: inline-block">审批流程</h3>
         </i-Col>
       </Row>

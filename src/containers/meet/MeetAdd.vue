@@ -25,14 +25,14 @@
                     <i-Col span="8" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                       <Poptip trigger="hover" :content="room.address" :transfer="true">
                         <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-                          <Icon type="ios-location-outline"></Icon>{{room.address}}
+                          <i class="iconfont icon-dingwei-"></i>{{room.address}}
                         </i-Col>
                       </Poptip>
                     </i-Col>
                     <i-Col span="8" v-if="room.device !== ''" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                       <Poptip trigger="hover" :content="room.device" :transfer="true">
                         <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-                          <Icon type="ios-recording-outline"></Icon>{{room.device}}
+                          <i class="iconfont icon-touying"></i>{{room.device}}
                         </i-Col>
                       </Poptip>
                     </i-Col>
