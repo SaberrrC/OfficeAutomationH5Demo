@@ -166,6 +166,7 @@ export default {
         }
       }, {
         title: '操作',
+        width: 200,
         key: 'operation',
         align: 'center',
         render: (h, params) => {

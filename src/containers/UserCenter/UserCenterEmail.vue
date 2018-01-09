@@ -3,7 +3,7 @@
 		<Card :dis-hover="true">
 			<p slot="title">个人邮箱修改</p>
 			<div slot="extra" class="card-title-extra">
-				<Button type="primary" @click="visible = false">修改</Button>
+				<Button type="primary" @click="visible = false" style="margin-right: 20px;">修改</Button>
 				<Button type="primary" @click="submitEmail">保存</Button>
 			</div>
 			<i-form :label-width="80" style="width:400px;">
@@ -85,7 +85,7 @@
 	.user-center-email {
 		padding: 16px;
 		.card-title-extra {
-			width: 117px;
+			width: 137px;
 			position: absolute;
 			top: -4px;
 			right: 0;
