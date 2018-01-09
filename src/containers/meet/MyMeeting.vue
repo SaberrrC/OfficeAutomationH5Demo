@@ -117,7 +117,8 @@ export default {
               h('Button', {
                 props: {
                   type: 'primary',
-                  size: 'small'
+                  size: 'small',
+                  disabled: params.row.end_time < parseInt((new Date().getTime()) / 1000)
                 },
                 style: {
                   marginRight: '5px'
@@ -131,7 +132,8 @@ export default {
               h('Button', {
                 props: {
                   type: 'error',
-                  size: 'small'
+                  size: 'small',
+                  disabled: params.row.end_time < parseInt((new Date().getTime()) / 1000)
                 },
                 on: {
                   click: () => {
