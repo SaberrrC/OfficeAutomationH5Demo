@@ -24,6 +24,7 @@
 
 <script>
 	import qs from 'qs'
+	import chat from '../../module/chatting'
 	export default {
 	  name: 'UserCenterEmail',
 	  data () {
@@ -65,6 +66,7 @@
 	          this.$Message.success('邮箱地址修改成功')
 	          this.visible = true
 	          this.getEmail()
+	          chat.updateCurUserInfo() // IM 当前用户信息更新
 	        } else {
 	          this.$Message.error(res.data.message)
 	        }

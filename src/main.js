@@ -6,6 +6,7 @@ import router from './router'
 import store from './vuex/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import './assets/font-icons/iconfont.css'
 //  import Lockr from 'lockr'
 import config from './config/index.js'
 
@@ -80,7 +81,12 @@ Vue.use(iView)
 Vue.config.productionTip = false
 
 window.axios = axios
-
+window.onbeforeunload = function (event) {
+  if ((event.clientX > document.body.clientWidth && event.clientX < 0) || event.altKey) {
+    //  关闭浏览器
+    localStorage.setItem('haha', 'hehe')
+  }
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -211,9 +211,9 @@ export default {
                 marginRight: '5px'
               },
               on: {
-                'on-change': (v) => {
-                  params.row.totalScore = v
-                  this.DailyData[params.index].totalScore = v
+                'on-blur': () => {
+                  params.row.totalScore = event.target.value * 1
+                  this.DailyData[params.index].totalScore = event.target.value * 1
                 }
               }
             })

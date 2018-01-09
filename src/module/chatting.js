@@ -58,34 +58,7 @@ const chat = {
         console.log(['发信人信息1', store.state.userInfoDb[code]])
         localforage.setItem('cacheUser', store.state.userInfoDb)
         fn && fn()
-      }), (reason, data) => {
-        console.log(['获取用户信息出错，重新获取', reason, data])
-        window.axios.post(config.OA_API + '/user/queryUserByCodes', {
-          codeList: code
-        }).then((response) => {
-          if (response.data && response.data.code === '000000') {
-            const result = response.data.data[0]
-            let tmp = {}
-            if (result) {
-              tmp = Object.assign({}, result, {
-                departmentName: result.organ,
-                name: result.username,
-                img: result.img ? config.OA_IMG + result.img : store.state.image
-              })
-              // console.log('queryUserInfo', tmp)
-              if (store.state.userInfoDb && store.state.userInfoDb[code]) {
-                store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
-              } else {
-                store.state.userInfoDb[code] = tmp
-              }
-            }
-            setTimeout(function () {
-              fn && fn()
-              resolve(tmp)
-            }, 0)
-          }
-        })
-      }
+      })
     } else {
       // console.log(['预处理发信人信息', store.state.userInfoDb])
       localforage.setItem('cacheUser', store.state.userInfoDb)
@@ -116,7 +89,7 @@ const chat = {
               tmp = Object.assign({}, result, {
                 departmentName: result.organ,
                 name: result.username,
-                img: result.img ? config.OA_IMG + result.img : store.state.image
+                img: result.portrait || store.state.image
               })
               // console.log('获取，uid', tmp)
               fn && fn(tmp)
@@ -198,23 +171,7 @@ const chat = {
             setTimeout(function () {
               resolve(store.state.userInfoDb[code])
             }, 0)
-          }), function (reason, data) {
-            console.log(['获取用户信息出错，重新获取', reason, data])
-            window.axios.get(config.OA_API + 'user/getinfo', {
-              params: {
-                code: code
-              },
-              headers: {
-                token: store.state.userinfo.token,
-                uid: store.state.userinfo.uid
-              }
-            }).then(response => {
-              console.log(['发信人信息2', store.state.userInfoDb[code]])
-              setTimeout(function () {
-                resolve(store.state.userInfoDb[code])
-              }, 0)
-            })
-          }
+          })
         } else {
           // console.log(['预处理发信人信息', store.state.userInfoDb])
           localforage.setItem('cacheUser', store.state.userInfoDb)
@@ -596,7 +553,7 @@ const chat = {
     // console.log(strCont)
     return strCont
   },
-  updateGroup (id, type, obj) {
+  updateGroup (id, type, obj) { // 本地变量更新同步操作
     if (!id) {
       return
     }
@@ -818,6 +775,15 @@ const chat = {
       cmd(store.state.list)
     }
   },
+  updateCurUserInfo () { // 更新当前用户信息
+    chat.queryUserInfoById().then((x) => {
+      store.state.userinfo = x
+      store.state.imUser.userName = 'SL_' + x.code
+      if (store.state.otherInfo.code === x.code) {
+        store.state.otherInfo = x
+      }
+    })
+  },
   showNewMsgNotice (obj) {
     if (!obj) {
       return
@@ -844,9 +810,8 @@ const chat = {
       })
     }
   },
-  getGroups () {
+  getGroups () { // 当前用户所在群组
     let conn = Vue.prototype.$conn
-    // let showMsg = Vue.prototype.$message
     conn.getGroup({
       success: function (x) {
         let rData = x.data
