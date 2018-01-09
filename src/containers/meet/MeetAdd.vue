@@ -127,8 +127,8 @@
   .ivu-poptip-rel {
     display: block;
   }
-  .ivu-col-span-8{
-    /*float: left;*/
+  .ivu-poptip, .ivu-poptip-rel {
+    display: block;
   }
 </style>
 

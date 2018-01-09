@@ -68,7 +68,8 @@
         })
       },
 //    调下载日志接口
-      download (item) {     // TODO  参数动态化
+      download (item) {
+
         window.location.href = this.$ajax.defaults.baseURL + '/log/apidownlogs?logname=' + item + '&token=' + this.$ajax.defaults.headers.common['token'] + '&uid=' + this.$ajax.defaults.headers.common['uid']
       },
       changePage (page) {
