@@ -70,6 +70,7 @@
                         v-model="billDetail.signTime"
                         type="datetime"
                         :options="options"
+                        :editable="false"
                         format="yyyy-MM-dd HH:mm:ss"
                         placeholder="请选择签卡时间">
                       </DatePicker>
@@ -127,6 +128,7 @@
                           v-model="addBill.signTime"
                           type="datetime"
                           :options="options"
+                          :editable="false"
                           placeholder="请选择签卡时间">
                         </DatePicker>
                       </FormItem>

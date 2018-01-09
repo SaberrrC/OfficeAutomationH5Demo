@@ -96,6 +96,7 @@
                         v-model="billDetail.startTime"
                         type="datetime"
                         format="yyyy-MM-dd HH:mm:ss"
+                        :editable="false"
                         placeholder="请选择开始时间"
                         @on-open-change="changeStartTime">
                       </DatePicker>
@@ -112,6 +113,7 @@
                       <DatePicker
                         v-model="billDetail.endTime"
                         type="datetime"
+                        :editable="false"
                         format="yyyy-MM-dd HH:mm:ss"
                         @on-open-change="changeEndTime"
                         placeholder="请选择结束时间">
@@ -200,6 +202,7 @@
                         <DatePicker
                           v-model="addBill.startTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddStartTime"
                           placeholder="请选择开始时间">
                         </DatePicker>
@@ -216,8 +219,9 @@
                         <DatePicker
                           v-model="addBill.endTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddEndTime"
-                          placeholder="请选择开始时间"></DatePicker>
+                          placeholder="请选择结束时间"></DatePicker>
                       </FormItem>
                     </i-Col>
                   </Row>

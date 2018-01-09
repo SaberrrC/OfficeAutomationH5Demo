@@ -95,6 +95,7 @@
                       <DatePicker
                         v-model="workApplyDetail.startTime"
                         type="datetime"
+                        :editable="false"
                         format="yyyy-MM-dd HH:mm:ss"
                         placeholder="请选择开始时间"
                         @on-open-change="changeStartTime">
@@ -112,6 +113,7 @@
                       <DatePicker
                         v-model="workApplyDetail.endTime"
                         type="datetime"
+                        :editable="false"
                         format="yyyy-MM-dd HH:mm:ss"
                         @on-open-change="changeEndTime"
                         placeholder="请选择结束时间">
@@ -170,6 +172,7 @@
                         <DatePicker
                           v-model="addWorkApply.startTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddStartTime"
                           placeholder="请选择开始时间">
                         </DatePicker>
@@ -186,8 +189,9 @@
                         <DatePicker
                           v-model="addWorkApply.endTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddEndTime"
-                          placeholder="请选择开始时间"></DatePicker>
+                          placeholder="请选择结束时间"></DatePicker>
                       </FormItem>
                     </i-Col>
                   </Row>
