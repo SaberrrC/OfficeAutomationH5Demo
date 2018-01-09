@@ -89,7 +89,7 @@ export default {
         id: 'launch',
         children: []  //  此处需要异步请求
       },
-      {
+      /* {
         iconType: 'ios-help',
         name: '帮助',
         id: 'help',
@@ -98,7 +98,7 @@ export default {
           {name: '官方qq群', id: 'qq'},
           {name: '反馈', id: 'feedback'}
         ]
-      },
+      }, */
       {
         iconType: 'person',
         name: '我的',
@@ -124,13 +124,7 @@ export default {
         let listData = []
         let arr = response.data.data
         for (let i = 0; i < arr.length; i++) {
-          if (arr[i].id === '7') {
-            continue
-          }
-          if (arr[i].id === '13') {
-            continue
-          }
-          if (arr[i].id === '15') {
+          if (arr[i].id === '7' || arr[i].id === '13' || arr[i].id === '15' || arr[i].id === '12' || arr[i].id === '14') {
             continue
           }
           listData.push(arr[i])
