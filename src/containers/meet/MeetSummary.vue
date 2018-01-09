@@ -21,14 +21,12 @@
               <Row>
                 <i-Col span="8">
                   <FormItem label="会议时间">
-                    <!--<Input v-model="formItem.time" disabled style="border: none"></Input>-->
                     <span>{{formItem.time}}</span>
                   </FormItem>
                 </i-Col>
                 <i-Col span="8">&nbsp;</i-Col>
                 <i-Col span="8">
                   <FormItem label="会议地点">
-                    <!--<Input v-model="formItem.meetingPlace" disabled icon="ios-location-outline"></Input>-->
                     <span>{{formItem.meetingPlace}}</span>
                   </FormItem>
                 </i-Col>
@@ -417,8 +415,8 @@
   .header .ivu-btn {
     margin-right: 16px;
   }
-  .work-report-daily h3{
-    background-color: #F5F6F8 ;
+  .summary h3{
+    background-color: #ffffff ;
     height: 48px;
     line-height: 48px;
     padding-left: 16px;
