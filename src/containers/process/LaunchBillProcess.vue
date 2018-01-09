@@ -610,8 +610,7 @@
           billCode: this.billTitle.billCode,
           type: this.billTitle.type,
           nchrevectionApplyDetail: this.nchrevectionApplyDetail
-        }  // TODO 组装数据
-        console.log('data', data)
+        }
         this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -621,7 +620,7 @@
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message + ',' + response.data.data)
+            this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)

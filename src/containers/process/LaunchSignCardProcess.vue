@@ -389,7 +389,7 @@
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message + ',' + response.data.data)
+            this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)
