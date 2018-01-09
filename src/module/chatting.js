@@ -302,7 +302,7 @@ const chat = {
       conn.getGroupInfo(options)
     })
   },
-  fatchGroupInfo (id) { // 取群组信息并缓存，更新
+  fetchGroupInfo (id) { // 取群组信息并缓存，更新
     if (!id) {
       return
     }
@@ -631,7 +631,7 @@ const chat = {
     }
     if (type === 'add') {
       // console.log('新增群信息')
-      chat.fatchGroupInfo(id)
+      chat.fetchGroupInfo(id)
     }
     if (type === 'adduser') {
       console.log('新增群成员信息', id, obj)
