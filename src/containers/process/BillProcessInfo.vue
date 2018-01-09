@@ -32,7 +32,7 @@
         <Form :model="billTitle" :label-width="82" label-position="left">
           <Row>
             <i-Col span="12">
-              <div class="card" style="padding-bottom: 10px;">
+              <div class="card" style="padding-bottom: 2px;">
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                     <FormItem label="出差单编码">
@@ -43,7 +43,7 @@
               </div>
             </i-Col>
             <i-Col span="12">
-              <div class="card" style="padding-bottom: 10px;">
+              <div class="card" style="padding-bottom: 2px;">
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                     <FormItem label="出差类别">
@@ -197,7 +197,7 @@
           <Form :model="site" :label-width="82" label-position="left">
             <Row>
               <i-Col span="8">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="审批人">
@@ -208,7 +208,7 @@
                 </div>
               </i-Col>
               <i-Col span="8">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="审批状态">
@@ -219,7 +219,7 @@
                 </div>
               </i-Col>
               <i-Col span="8">
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="审批时间">
@@ -232,7 +232,7 @@
             </Row>
             <Row>
               <i-Col>
-                <div class="card" style="padding-bottom: 10px;">
+                <div class="card" style="padding-bottom: 2px;">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="审批意见">
@@ -737,12 +737,7 @@
     border: 1px solid #eeeeee;
     padding-left: 16px;
     padding-top: 8px;
-    padding-bottom: 8px;
     background: #ffffff;
-  }
-
-  .ivu-form-item {
-    margin-bottom: 0;
   }
   .marking {
     margin-top: 20px;
@@ -771,13 +766,6 @@
     background: #ffffff;
     padding: 16px;
     border: 1px solid #eeeeee;
-  }
-</style>
-<style>
-  .work-report-daily .ivu-form-item-error-tip {
-    top: 15%;
-    right: -94px;
-    left:auto;
   }
 </style>
 
