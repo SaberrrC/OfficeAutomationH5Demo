@@ -69,6 +69,7 @@
                       <DatePicker
                         v-model="billDetail.signTime"
                         type="datetime"
+                        :options="options"
                         format="yyyy-MM-dd HH:mm:ss"
                         placeholder="请选择签卡时间">
                       </DatePicker>
@@ -125,6 +126,7 @@
                         <DatePicker
                           v-model="addBill.signTime"
                           type="datetime"
+                          :options="options"
                           placeholder="请选择签卡时间">
                         </DatePicker>
                       </FormItem>
@@ -186,6 +188,11 @@
     name: 'LaunchSignCard',
     data () {
       return {
+        options: {
+          disabledDate (date) {
+            return date && date.valueOf() > Date.now()
+          }
+        },
         showAddBill: false,
         showAddbillButton: true,
         showDeletebillButton: false,
