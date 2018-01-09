@@ -739,7 +739,7 @@ export default {
       img.target.src = this.$store.state.image
       img.onerror = null // onerror不再触发
     },
-    // fatchUserHead(x) {
+    // fetchUserHead(x) {
     //   console.log(x);
     //   let that = this;
     //   let code = x.CODE || x.code;

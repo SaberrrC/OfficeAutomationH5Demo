@@ -226,7 +226,7 @@ export default {
             return
           }
           //message.data = chat.decrpty(message.data,message.from)
-          that.fatchTextMessage(message)
+          that.fetchTextMessage(message)
         }, //  收到文本消息
         onEmojiMessage: function(message) {
           // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
@@ -240,11 +240,11 @@ export default {
         }, // 收到表情消息
         onPictureMessage: function(message) {
           console.log('Picture Message', message)
-          that.fatchPictureMessage(message)
+          that.fetchPictureMessage(message)
         },
         onCmdMessage: function(message) {
           console.log('CMD')
-          that.fatchCmdMessage(message)
+          that.fetchCmdMessage(message)
         }, // 收到命令消息
         onAudioMessage: function(message) {
           console.log('Audio')
@@ -254,7 +254,7 @@ export default {
         }, // 收到位置消息
         onFileMessage: function(message) {
           console.log('File Message', message)
-          that.fatchFileMessage(message)
+          that.fetchFileMessage(message)
         }, // 收到文件消息
         onVideoMessage: function(message) {
           var node = document.getElementById('privateVideo')
@@ -321,7 +321,7 @@ export default {
         }, // 本机网络掉线
         onError: function(message) {
           console.log('Error', message)
-          that.fatchErrorMessage(message)
+          that.fetchErrorMessage(message)
         }, // 失败回调
         onBlacklistUpdate: function(list) {
           // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
@@ -427,7 +427,7 @@ export default {
         let from = e.from.substring(3)
         let tmpUserInfo = await chat.getUserInfo(from)
         // console.log('公开群聊成员加入成功', e, tmpUserInfo)
-        let tmpGroup = await chat.fatchGroupInfo(roomid)
+        let tmpGroup = await chat.fetchGroupInfo(roomid)
         let tmpGName = tmpGroup.name ? tmpGroup.name : tmpGroup.groupname ? tmpGroup.groupname : ''
         this.$message({
           message: '用户' + tmpUserInfo.username + '邀请加入群组' + tmpGName,
@@ -449,7 +449,7 @@ export default {
             console.log('通知群组邀请人')
             let tmpUserInfo = await chat.getUserInfo(mid)
             console.log('公开群聊成员加入成功', e, tmpUserInfo)
-            // let tmpGroup = await chat.fatchGroupInfo(from)
+            // let tmpGroup = await chat.fetchGroupInfo(from)
             // let tmpGName = tmpGroup.name ? tmpGroup.name : tmpGroup.groupname ? tmpGroup.groupname : ''
             // let tmpGId= tmpGroup.id ? tmpGroup.id : tmpGroup.groupId ? tmpGroup.groupId : ''
             // this.$message({
@@ -462,7 +462,7 @@ export default {
           } else if (mid === this.userinfo.code) {
             console.log('通知群组被邀请人')
             console.log('您已被加入群组', e, tmpUserInfo)
-            let tmpGroup = await chat.fatchGroupInfo(from)
+            let tmpGroup = await chat.fetchGroupInfo(from)
             let tmpGName = tmpGroup.name ? tmpGroup.name : tmpGroup.groupname ? tmpGroup.groupname : ''
             this.$message({
               message: '已加入群' + tmpGName,
@@ -484,7 +484,7 @@ export default {
               // chat.updateGroup(from, 'delete')
             }
             // let tmpUserInfo = await chat.queryUserInfo(to)
-            // let tmpGroup = await chat.fatchGroupInfo(from)
+            // let tmpGroup = await chat.fetchGroupInfo(from)
             // let tmpGName = tmpGroup.name ? tmpGroup.name : tmpGroup.groupname ? tmpGroup.groupname : ''
             // this.$message({
             //   message: '用户' + tmpUserInfo.username + '退出群' + tmpGName,
@@ -499,7 +499,7 @@ export default {
           console.log('群组被删除', e)
           if (to === this.userinfo.code && e.original_type === 'notify' && e.destroy) {
             console.log('群组被删除from', from)
-            let tmpGroup = await chat.fatchGroupInfo(from)
+            let tmpGroup = await chat.fetchGroupInfo(from)
             let tmpGName = tmpGroup.name ? tmpGroup.name : tmpGroup.groupname ? tmpGroup.groupname : ''
             this.$message({
               message: '群' + tmpGName + '已解散',
@@ -524,7 +524,7 @@ export default {
               console.log('不是群主2')
               chat.updateGroup(from, 'delete') // 更新群信息，删除一条群，列表删除，对象删除
             }
-            // let tmpGroup = await chat.fatchGroupInfo(from)
+            // let tmpGroup = await chat.fetchGroupInfo(from)
             // let tmpGName = tmpGroup.name ? tmpGroup.name : tmpGroup.groupname ? tmpGroup.groupname : ''
             // chat.updateGroup(from, 'delete') // 更新群信息，删除一条群，列表删除，对象删除
             // this.$message({
@@ -658,7 +658,7 @@ export default {
         chat&& !!sentFromMe && chat.showNewMsgNotice(msg)
       }
     },
-    fatchTextMessage (message) {
+    fetchTextMessage (message) {
       let timestamp = Date.parse(new Date()) / 1000
       let code = message.from.substring(3)
       let type = message.type
@@ -678,7 +678,7 @@ export default {
       }
       this.handleMessage(code, obj)
     },
-    fatchFileMessage (message) {
+    fetchFileMessage (message) {
       let timestamp = Date.parse(new Date()) / 1000
       let code = message.from.substring(3)
       let from = message.from.toUpperCase()
@@ -712,7 +712,7 @@ export default {
       }
       this.$WebIM.utils.download.call(this.$conn, options) // 意义待查
     },
-    fatchPictureMessage (message) {
+    fetchPictureMessage (message) {
       let timestamp = Date.parse(new Date()) / 1000
       let code = message.from.substring(3)
       let from = message.from.toUpperCase()
@@ -746,7 +746,7 @@ export default {
       }
       this.$WebIM.utils.download.call(this.$conn, options) // 意义待查
     },
-    fatchErrorMessage (message) {
+    fetchErrorMessage (message) {
       console.log('Error', message)
       let type = message.type
       if (this.tmpFn && this.tmpFn.destroy) {
@@ -818,7 +818,7 @@ export default {
         console.log('groupchat', a.data)
       }
     },
-    fatchCmdMessage (message) {
+    fetchCmdMessage (message) {
       console.log('received cmd message', message)
       if (message.action === 'UPDATE_GROUP_INFO' && message.to && message.ext) {
         chat && chat.updateGroup(message.to, 'updatename', message.ext)
@@ -830,7 +830,7 @@ export default {
       this.isShowImMask = false
     },
     async openNewGroup (id) {
-      //console.log('打开新的群', chat.fatchGroupInfo(id))
+      //console.log('打开新的群', chat.fetchGroupInfo(id))
       let tmp = await chat.queryGroupInfo(id)
       console.log('打开新群',tmp)
       

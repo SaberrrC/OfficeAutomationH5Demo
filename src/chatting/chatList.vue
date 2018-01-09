@@ -190,7 +190,7 @@
             // }
             // console.log('222',o, oData[i], o[0].name, o[0].groupname)
             // tmp[i]['name'] = o[0].name
-            if(o && o.groupname && o.length > 0 ) {
+            if(o && o.length > 0 ) {
               tmpData = Object.assign({}, tmpData, {
                 type: 'chatgroup',
                 img: this.image,
