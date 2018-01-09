@@ -390,7 +390,18 @@
   height:320px;
   margin-top: 10px;
 }
-.chatting .addressTreeleft .listSearch .child_name{
+
+.chatting .addressTreeleft .listSearch .list_name {
+  height: 30px;
+  line-height: 30px;
+  cursor: default;
+}
+
+.chatting .addressTreeleft .listSearch .list_name:hover {
+  background-color: #e4e8f1;
+}
+
+.chatting .addressTreeleft .listSearch .child_name {
   font-size: 14px;
 }
 .chatting .addressTreeleft .elTree {
