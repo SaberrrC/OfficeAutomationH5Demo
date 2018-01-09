@@ -1,30 +1,30 @@
 <template>
 	<div class='news-all'>
+		<Row style="background-color: #ffffff;height: 53px;padding: 10px 16px 0;">
+			<i-form :label-width="80">
+				<Col span="6">
+					<FormItem label="发布时间">
+						<i-select v-model="newsTime" placeholder="请选择发布时间">
+							<Option v-for="item in newsTimeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+						</i-select>
+					</FormItem>
+				</Col>
+				<Col span="6">
+					<FormItem label="标题">
+						<Input v-model="newsTitle" placeholder="搜索标题" icon="search"></Input>
+					</FormItem>
+				</Col>
+			</i-form>
+	    </Row>
+	    <div style="padding: 16px;">
 		<Card :dis-hover="true">
-			<div slot="title">
-				<i-form :label-width="80">
-					<Row>
-						<Col span="6">
-						<FormItem label="发布时间">
-							<i-select v-model="newsTime" placeholder="请选择发布时间">
-								<Option v-for="item in newsTimeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</i-select>
-						</FormItem>
-						</Col>
-						<Col span="6">
-						<FormItem label="标题">
-							<Input v-model="newsTitle" placeholder="搜索标题" icon="search"></Input>
-						</FormItem>
-						</Col>
-					</Row>
-				</i-form>
-			</div>
 			<div class="container">
 				<Table height="450" :columns="columns" :data="data"></Table>
 				<br>
 				<Page :total="total" :current="pageNum" :on-change="handPageChange" show-total></Page>
 			</div>
 		</Card>
+		</div>
 	</div>
 </template>
 
@@ -204,7 +204,7 @@
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
 	.news-all {
-		padding: 16px;
+		/*padding: 16px;*/
 		.card-title-extra {
 			width: 116px;
 			position: absolute;
