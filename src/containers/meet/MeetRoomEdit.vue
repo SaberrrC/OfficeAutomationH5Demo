@@ -59,8 +59,10 @@
                 <Upload
                   :action="action"
                   :headers="headers"
-                  :format="['jpg','jpeg','png']"
-                  :max-size="2048"
+                  :format="['jpg','jpeg','png','gif','bmp','tif']"
+                  :max-size="1024*100"
+                  :on-format-error="handleFormatError"
+                  :on-exceeded-size="handleMaxSize"
                   :show-upload-list="false"
                   :on-success="handleSuccess"
                 >
@@ -390,6 +392,14 @@
             })
           }
         })
+      },
+//    验证上传图片的格式
+      handleFormatError () {
+        this.$Message.error('图片格式不正确，请上传jpg、jpeg、gif、png、bmp、tif格式的图片')
+      },
+//    验证上传图片的大小
+      handleMaxSize () {
+        this.$Message.error('请上传小于100M的图片')
       }
     },
     created () {

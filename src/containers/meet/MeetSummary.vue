@@ -86,7 +86,10 @@
                     :headers="headers"
                     multiple
                     ref="upload"
-                    :max-size="1024*25"
+                    :format="['txt','zip','rar','doc','docx','xls','xlsx','ppt','pptx','accdb','pdf','rtf','psd','wps','pages','numbers','key']"
+                    :max-size="1024*100"
+                    :on-format-error="handleFormatError"
+                    :on-exceeded-size="handleMaxSize"
                     :before-upload="handleBeforeUpload"
                     :on-success="handleSuccess"
                     :on-remove="handleUploadRemove"
@@ -367,6 +370,14 @@
       },
       handleRemove (name) {
         this[name] = false
+      },
+//    验证上传文件的格式
+      handleFormatError () {
+        this.$Message.error('文件格式不正确，请上传txt、zip、rar、doc、docx、xls、xlsx、ppt、pptx、accdb、pdf、rtf、psd、wps、pages、numbers、key等格式的文件')
+      },
+//    验证上传文件的大小
+      handleMaxSize () {
+        this.$Message.error('请上传小于100M的文件')
       }
     },
     mounted () {
