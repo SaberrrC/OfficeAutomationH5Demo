@@ -599,15 +599,6 @@ export default {
       let that = this
       let msg = obj
       let sentFromMe = code === this.userinfo.code // 消息是自己发的
-      this.handleMsgOptionsInfo(msg)
-      if (msg.type === 'groupchat') {
-        // this.handleMsgOptionsInfo(msg)
-        // 没有当前群，则不处理消息
-        let o = this.$store.state.TXGroup.filter(item => item.id === msg.to)
-        if (!o || o.length === 0) {
-          return
-        }
-      }
       console.log('abc', code, this.userinfo.code, obj.from, obj.to)
       if (sentFromMe && obj.from === obj.to) {
         console.log('自己发自己的信息')
@@ -619,6 +610,17 @@ export default {
           msg.sId = 'G_' + msg.to
         }
         msg.nameType = 1
+      }
+      if (msg.type === 'groupchat') {
+        // this.handleMsgOptionsInfo(msg)
+        // 没有当前群，则不处理消息
+        let id = msg.to
+        chat.fetchGroupInfo(id).then((x) => {
+          console.log('no cached data, fetched data', x)
+        }, (error) => {
+          console.log('no this group', id, error)
+          return
+        })
       }
       if (!this.userInfoDb || !this.userInfoDb[code] || !this.userInfoDb[code].img) {
         chat && chat.queryUserInfo(code).then(function () {
@@ -655,7 +657,7 @@ export default {
         // }
       } else {
         this.$store.dispatch('receiveText', msg)
-        chat&& !!sentFromMe && chat.showNewMsgNotice(msg)
+        chat && !sentFromMe && chat.showNewMsgNotice(msg)
       }
     },
     fetchTextMessage (message) {
@@ -749,8 +751,8 @@ export default {
     fetchErrorMessage (message) {
       console.log('Error', message)
       let type = message.type
-      if (this.tmpFn && this.tmpFn.destroy) {
-        this.tmpFn.destroy()
+      if (this.tmpFn && this.tmpFn.close) {
+        this.tmpFn.close()
         this.tmpFn = null
       }
       switch (type) {
@@ -924,7 +926,7 @@ export default {
       if(newMembers.length <= 0) {
         return
       }
-      console.log('添加人员确定按钮', members, newMembers)
+      // console.log('添加人员确定按钮', members, newMembers)
       chat.addGroupMembers(groupId, members, 'groupAddMembers').then(async function (x) {
         // console.log('--------------邀请已发送1', x)
         let str = ''
