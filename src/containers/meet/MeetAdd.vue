@@ -18,17 +18,28 @@
             <img :src="room.roomimg" alt="会议室图片" >
             <div style="padding: 8px;">
               <Row>
-                <i-Col span="18">
+                <i-Col span="16">
                   <p>{{room.roomname}}</p>
                   <Row>
                     <i-Col span="8"><span>{{room.nop}}人</span></i-Col>
-                    <i-Col span="8"><span><Icon type="ios-location-outline"></Icon>{{room.address}}</span></i-Col>
-                    <i-Col span="8" v-if="room.device !== ''"><span><Icon type="ios-recording-outline"></Icon>{{room.device}}</span></i-Col>
-                    <i-Col span="8" v-else></i-Col>
+                    <i-Col span="8" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                      <Poptip trigger="hover" :content="room.address" :transfer="true">
+                        <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                          <Icon type="ios-location-outline"></Icon>{{room.address}}
+                        </i-Col>
+                      </Poptip>
+                    </i-Col>
+                    <i-Col span="8" v-if="room.device !== ''" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                      <Poptip trigger="hover" :content="room.device" :transfer="true">
+                        <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                          <Icon type="ios-recording-outline"></Icon>{{room.device}}
+                        </i-Col>
+                      </Poptip>
+                    </i-Col>
+                    <i-Col span="8" v-else>&nbsp;</i-Col>
                   </Row>
                 </i-Col>
-                <i-Col span="6" style="text-align: right">
-                  <!--<Button type="warning" style="background: #FFE5AD1A">立即预约</Button>-->
+                <i-Col span="8" style="text-align: right">
                   <Button  style="background: #E5AD1A;border-color: #E5AD1A;color: #ffffff;margin-top: 6px">立即预约</Button>
                 </i-Col>
               </Row>
@@ -106,6 +117,18 @@
     line-height: 53px;
     padding-left: 20px;
     background: #ffffff;
+  }
+
+</style>
+<style>
+  .ivu-poptip {
+    display: block;
+  }
+  .ivu-poptip-rel {
+    display: block;
+  }
+  .ivu-col-span-8{
+    /*float: left;*/
   }
 </style>
 
