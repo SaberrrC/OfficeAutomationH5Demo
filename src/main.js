@@ -6,6 +6,7 @@ import router from './router'
 import store from './vuex/store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import './assets/font-icons/iconfont.css'
 //  import Lockr from 'lockr'
 import config from './config/index.js'
 

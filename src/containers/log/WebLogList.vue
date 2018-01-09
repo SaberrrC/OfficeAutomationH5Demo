@@ -59,7 +59,6 @@
           }
         }).then((response) => {
           if (response.data.code === '000000') {
-            console.log(response.data)
             this.Total = response.data.data.count
             this.logList = response.data.data.list
           }
@@ -68,8 +67,8 @@
         })
       },
 //    调下载日志接口
-      download (item) {     // TODO  参数动态化
-        window.location.href = this.$ajax.defaults.baseURL + '/log/downlogs?logname=' + item + '&token=' + this.$store.state.userInfo.username + '&uid=' + this.$store.state.userInfo.uid
+      download (item) {
+        window.location.href = this.$ajax.defaults.baseURL + '/log/downlogs?logname=' + item + '&token=' + this.$ajax.defaults.headers.common['token'] + '&uid=' + this.$ajax.defaults.headers.common['uid']
       },
       changePage (page) {
         this.CurrentPage = page              // 发起列表当前页数
@@ -82,6 +81,7 @@
     },
     created () {
       this.getLog()
+      console.log()
     }
   }
 </script>

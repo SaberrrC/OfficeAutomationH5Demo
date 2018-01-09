@@ -96,6 +96,7 @@
                         v-model="billDetail.startTime"
                         type="datetime"
                         format="yyyy-MM-dd HH:mm:ss"
+                        :editable="false"
                         placeholder="请选择开始时间"
                         @on-open-change="changeStartTime">
                       </DatePicker>
@@ -112,6 +113,7 @@
                       <DatePicker
                         v-model="billDetail.endTime"
                         type="datetime"
+                        :editable="false"
                         format="yyyy-MM-dd HH:mm:ss"
                         @on-open-change="changeEndTime"
                         placeholder="请选择结束时间">
@@ -200,6 +202,7 @@
                         <DatePicker
                           v-model="addBill.startTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddStartTime"
                           placeholder="请选择开始时间">
                         </DatePicker>
@@ -216,8 +219,9 @@
                         <DatePicker
                           v-model="addBill.endTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddEndTime"
-                          placeholder="请选择开始时间"></DatePicker>
+                          placeholder="请选择结束时间"></DatePicker>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -444,10 +448,10 @@
         },
         rulebillDetail: {
           startTime: [
-            { validator: validateStartTime, trigger: 'change' }
+            { required: true, validator: validateStartTime, trigger: 'change' }
           ],
           endTime: [
-            { validator: validateEndTime, trigger: 'change' }
+            { required: true, validator: validateEndTime, trigger: 'change' }
           ],
           evectionAddress: [
             { required: true, message: '请输入出差地点', trigger: 'blur' }
@@ -461,10 +465,10 @@
         },
         ruleaddBill: {
           startTime: [
-            { validator: validateAddStartTime, trigger: 'change' }
+            { required: true, validator: validateAddStartTime, trigger: 'change' }
           ],
           endTime: [
-            { validator: validateAddEndTime, trigger: 'change' }
+            { required: true, validator: validateAddEndTime, trigger: 'change' }
           ],
           evectionAddress: [
             { required: true, message: '请输入出差地点', trigger: 'blur' }
@@ -610,8 +614,7 @@
           billCode: this.billTitle.billCode,
           type: this.billTitle.type,
           nchrevectionApplyDetail: this.nchrevectionApplyDetail
-        }  // TODO 组装数据
-        console.log('data', data)
+        }
         this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -621,7 +624,7 @@
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message + ',' + response.data.data)
+            this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)

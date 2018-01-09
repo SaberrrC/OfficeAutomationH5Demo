@@ -69,7 +69,7 @@
       },
 //    调下载日志接口
       download (item) {     // TODO  参数动态化
-        window.location.href = this.$ajax.defaults.baseURL + '/log/apidownlogs?logname=' + item + '&token=' + this.$store.state.userInfo.username + '&uid=' + this.$store.state.userInfo.uid
+        window.location.href = this.$ajax.defaults.baseURL + '/log/apidownlogs?logname=' + item + '&token=' + this.$ajax.defaults.headers.common['token'] + '&uid=' + this.$ajax.defaults.headers.common['uid']
       },
       changePage (page) {
         this.CurrentPage = page              // 发起列表当前页数

@@ -738,12 +738,7 @@
     border: 1px solid #eeeeee;
     padding-left: 16px;
     padding-top: 8px;
-    padding-bottom: 8px;
     background: #ffffff;
-  }
-
-  .ivu-form-item {
-    margin-bottom: 0;
   }
   .marking {
     margin-top: 20px;
@@ -774,11 +769,5 @@
     border: 1px solid #eeeeee;
   }
 </style>
-<style>
-  .work-report-daily .ivu-form-item-error-tip {
-    top: 15%;
-    right: -94px;
-    left:auto;
-  }
-</style>
+
 

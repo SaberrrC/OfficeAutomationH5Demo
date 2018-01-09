@@ -95,6 +95,7 @@
                       <DatePicker
                         v-model="workApplyDetail.startTime"
                         type="datetime"
+                        :editable="false"
                         format="yyyy-MM-dd HH:mm:ss"
                         placeholder="请选择开始时间"
                         @on-open-change="changeStartTime">
@@ -112,6 +113,7 @@
                       <DatePicker
                         v-model="workApplyDetail.endTime"
                         type="datetime"
+                        :editable="false"
                         format="yyyy-MM-dd HH:mm:ss"
                         @on-open-change="changeEndTime"
                         placeholder="请选择结束时间">
@@ -170,6 +172,7 @@
                         <DatePicker
                           v-model="addWorkApply.startTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddStartTime"
                           placeholder="请选择开始时间">
                         </DatePicker>
@@ -186,8 +189,9 @@
                         <DatePicker
                           v-model="addWorkApply.endTime"
                           type="datetime"
+                          :editable="false"
                           @on-open-change="changeAddEndTime"
-                          placeholder="请选择开始时间"></DatePicker>
+                          placeholder="请选择结束时间"></DatePicker>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -324,10 +328,10 @@
         },
         ruleworkApplyDetail: {
           startTime: [
-            { validator: validateStartTime, trigger: 'change' }
+            { required: true, validator: validateStartTime, trigger: 'change' }
           ],
           endTime: [
-            { validator: validateEndTime, trigger: 'change' }
+            { required: true, validator: validateEndTime, trigger: 'change' }
           ],
           cause: [
             { required: true, message: '请输入加班原因', trigger: 'blur' }
@@ -335,10 +339,10 @@
         },
         ruleaddWorkApply: {
           startTime: [
-            { validator: validateAddStartTime, trigger: 'change' }
+            { required: true, validator: validateAddStartTime, trigger: 'change' }
           ],
           endTime: [
-            { validator: validateAddEndTime, trigger: 'change' }
+            { required: true, validator: validateAddEndTime, trigger: 'change' }
           ],
           cause: [
             { required: true, message: '请输入加班原因', trigger: 'blur' }
@@ -484,7 +488,7 @@
             this.$Message.success('申请成功')
             this.$router.push({path: 'myLaunch'})
           } else {
-            this.$Message.error(response.data.message + ',' + response.data.data)
+            this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)

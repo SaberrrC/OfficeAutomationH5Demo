@@ -157,8 +157,10 @@ export default {
   		}
   		.qrBox{
   			position: absolute;
+  			width:100%;
+  			text-align: center;
   			top:0;
-  			left:20%;
+  			left:0;
   			opacity: 0;
   			transition: opacity 1.2s;
   		}
