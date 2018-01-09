@@ -3,14 +3,14 @@
   <div class="chatting" :class="{'min': !showMesV}">
     <div class="sidebar">
       <div class="name">
-        <div class="circle"><img :src="reImgUrl(userinfo.img)" @click='personnalMes'></div>
+        <div class="circle"><img :src="reImgUrl(userinfo.img)" @click='personnalMes' @error="headImgError"></div>
         <div>{{userinfo.name}}</div>
       </div>
       <div class="Personalmes" v-show='PersonalmesValue'>
         <div class="title">{{userinfo.name}} 的个人信息</div>
         <div class="personnalbaseImg">
           <div class="close" @click='closepersonnalbase'>X</div>
-          <div class="avatar"><img :src="reImgUrl(userinfo.img)" height="37" width="37" alt=""></div>
+          <div class="avatar"><img :src="reImgUrl(userinfo.img)" height="37" width="37" alt="" @error="headImgError"></div>
           <div class="baseMes">
             <p>{{userinfo.name}}</p>
             <span>{{userinfo.postname}}&nbsp;&nbsp;&nbsp;{{userinfo.sex}}</span>
@@ -1082,6 +1082,10 @@ export default {
     personnalMes (e) {
       this.PersonalmesValue = !this.PersonalmesValue
       this.isShowImMask = true
+    },
+    headImgError (img) {
+      img.target.src = this.$store.state.image
+      img.onerror = null // onerror不再触发
     },
     reImgUrl (url) {
       let oimg = url
