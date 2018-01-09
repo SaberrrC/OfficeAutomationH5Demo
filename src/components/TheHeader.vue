@@ -120,7 +120,22 @@ export default {
       if (response.data && response.data.code === '000000') {
         console.log('导航菜单') // toDel
         console.log(response.data.data) // toDel
-        this.divideNavigation(response.data.data)
+        //  三个功能没有，所以要删除
+        let listData = []
+        let arr = response.data.data
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].id === '7') {
+            continue
+          }
+          if (arr[i].id === '13') {
+            continue
+          }
+          if (arr[i].id === '15') {
+            continue
+          }
+          listData.push(arr[i])
+        }
+        this.divideNavigation(listData)
       }
     }).catch((err) => {
       console.log(err)
