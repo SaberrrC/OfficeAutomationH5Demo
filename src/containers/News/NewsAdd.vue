@@ -1,11 +1,14 @@
 <template>
   <div class="news-add">
-    <Card :dis-hover="true">
-      <p slot="title">公司新闻</p>
-      <div slot="extra" class="card-title-extra">
-        <Button type="primary" @click="handleReset('formItem')">取消</Button>
+  	<Row style="background-color: #ffffff;height: 53px;padding: 10px 16px 0;">
+  		<h3 style="float:left;">公司新闻</h3>
+  		<div style="float:right;">
+  			<Button type="primary" @click="handleReset('formItem')" style="margin-right: 20px;">取消</Button>
         <Button type="primary" @click="handleSubmit('formItem')">发布</Button>
-      </div>
+  		</div>
+		</Row>
+    <div style="padding: 16px;">
+    <Card :dis-hover="true">
       <i-form ref="formItem" :rules="ruleValidate" :model="formItem" :label-width="80">
         <table cellpadding="0" cellspacing="0">
           <tr>
@@ -40,7 +43,7 @@
                 </div>
                 <Upload ref="upload" :action="this.$ajax.defaults.baseURL + '/file'" :show-upload-list="false" :on-success="handleSuccess"
                         :format="['jpg','jpeg','png']" :max-size="1024" :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize" :headers="header" style="display: inline-block;width:58px;">
+                        :on-exceeded-size="handleMaxSize" :headers="header">
                   <div>
                     <Button type="primary" style="width:100px;">点击上传</Button>
                   </div>
@@ -51,6 +54,7 @@
         </table>
       </i-form>
     </Card>
+  </div>
   </div>
 </template>
 
@@ -158,7 +162,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .news-add {
-    padding: 16px;
+    /*padding: 16px;*/
     .card-title-extra {
       width: 117px;
       position: absolute;
@@ -187,6 +191,7 @@
         width: 100px;
         height: 100px;
         border: 1px solid #cccccc;
+        margin-bottom: 5px;
         img {
           width: 100px;
           height: 100px;

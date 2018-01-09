@@ -1,11 +1,14 @@
 <template>
 	<div class="notice-company">
+		<Row style="background-color: #ffffff;height: 53px;padding: 10px 16px 0;">
+	  		<h3 style="float:left;">公司公告</h3>
+	  		<div style="float:right;">
+	  			<Button type="primary" @click="handleReset('formItem')" style="margin-right: 20px;">取消</Button>
+	        	<Button type="primary" @click="handleSubmit('formItem')">发布</Button>
+	  		</div>
+		</Row>
+    	<div style="padding: 16px;">
 		<Card :dis-hover="true">
-			<p slot="title">公司公告</p>
-			<div slot="extra" class="card-title-extra">
-				<Button type="primary" @click="handleReset('formItem')">取消</Button>
-				<Button type="primary" @click="handleSubmit('formItem')">发布</Button>
-			</div>
 			<i-form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80" label-position="left">
 				<table cellpadding="0" cellspacing="0">
 					<tr>
@@ -71,6 +74,7 @@
 				</table>
 			</i-form>
 		</Card>
+	</div>
 	</div>
 </template>
 
@@ -243,7 +247,7 @@
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.notice-company {
-		padding: 16px;
+		/*padding: 16px;*/
 		.card-title-extra {
 			width: 118px;
 			position: absolute;

@@ -1,18 +1,17 @@
 <template>
 	<div class="work-report-weekly">
+		<Row style="background-color: white;height: 53px;padding-top: 10px;padding-left: 16px;">
+	      <Col span="24" align="left">
+	      开始时间
+	      <DatePicker v-model="startTime" type="date" placeholder="Select date" style="width: 200px;margin-right: 20px;" format="yyyy-MM-dd" readonly></DatePicker>
+	      结束时间
+	      <DatePicker type="date" :value="endTime" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" readonly></DatePicker>
+	      </Col>
+	    </Row>
+    <div style="padding: 16px;">
 		<Card shadow>
 			<p slot="title" style="text-align: center;">本周工作总结</p>
-
 			<Row>
-				<Col span="12" style="text-align: center;"> 开始时间
-				<DatePicker v-model="startTime" type="date" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" readonly></DatePicker>
-				</Col>
-				<Col span="12" style="text-align: center;"> 结束时间
-				<DatePicker type="date" :value="endTime" placeholder="Select date" style="width: 200px" format="yyyy-MM-dd" readonly></DatePicker>
-				</Col>
-			</Row>
-
-			<Row style="margin-top: 40px;">
 				<Col span="24">
 				<table cellpadding="0" cellspacing="0">
 					<thead>
@@ -96,6 +95,7 @@
 			</Row>
 		</Card>
 
+		</div>
 	</div>
 </template>
 
@@ -212,7 +212,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.work-report-weekly {
-		padding: 16px;
+		/*padding: 16px;*/
 	}
 
 	h4 {

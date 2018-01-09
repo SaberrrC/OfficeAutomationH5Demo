@@ -1,46 +1,46 @@
 <template>
 	<div class="notice-to">
+		<Row style="background-color: #ffffff;height: 53px;padding: 10px 16px 0;">
+			<i-form :label-width="80">
+				<Col span="6">
+					<FormItem label="公告类型">
+						<i-select v-model="noticeType" placeholder="请选择状态">
+							<Option v-for="item in noticeTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+						</i-select>
+					</FormItem>
+				</Col>
+				<Col span="6">
+					<FormItem label="发布日期">
+						<i-select v-model="dateFilter" placeholder="请选择状态">
+							<Option v-for="item in dateFilterList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+						</i-select>
+					</FormItem>
+				</Col>
+				<Col span="6">
+					<FormItem label="公告类别">
+						<i-select v-model="noticeClass" placeholder="请选择状态">
+							<Option v-for="item in noticeClassList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+						</i-select>
+					</FormItem>
+				</Col>
+				<Col span="6">
+					<FormItem label="首页展示">
+						<i-select v-model="isHomeShow" placeholder="请选择状态">
+							<Option v-for="item in isHomeShowList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+						</i-select>
+					</FormItem>
+				</Col>
+			</i-form>
+	    </Row>
+	    <div style="padding:16px;">
 		<Card :dis-hover="true">
-			<div slot="title">
-				<i-form :label-width="80">
-					<Row>
-						<Col span="6">
-						<FormItem label="公告类型">
-							<i-select v-model="noticeType" placeholder="请选择状态">
-								<Option v-for="item in noticeTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</i-select>
-						</FormItem>
-						</Col>
-						<Col span="6">
-						<FormItem label="发布日期">
-							<i-select v-model="dateFilter" placeholder="请选择状态">
-								<Option v-for="item in dateFilterList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</i-select>
-						</FormItem>
-						</Col>
-						<Col span="6">
-						<FormItem label="公告类别">
-							<i-select v-model="noticeClass" placeholder="请选择状态">
-								<Option v-for="item in noticeClassList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</i-select>
-						</FormItem>
-						</Col>
-						<Col span="6">
-						<FormItem label="首页展示">
-							<i-select v-model="isHomeShow" placeholder="请选择状态">
-								<Option v-for="item in isHomeShowList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-							</i-select>
-						</FormItem>
-						</Col>
-					</Row>
-				</i-form>
-			</div>
 			<div class="container">
 				<Table height="450" :columns="columns" :data="data"></Table>
 				<br>
 				<Page :total="total" :current="pageNum" @on-change="handPageChange" show-total></Page>
 			</div>
 		</Card>
+		</div>
 	</div>
 </template>
 
@@ -306,6 +306,6 @@
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.notice-to {
-		padding: 16px;
+		/*padding: 16px;*/
 	}
 </style>
