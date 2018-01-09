@@ -32,6 +32,7 @@
 </template>
 
 <script>
+	import chat from '../../module/chatting'
 	export default {
 	  name: 'UserCenterBasic',
 	  data () {
@@ -57,6 +58,7 @@
 	      if (res.code === '000000') {
 	        this.visible = true
 	        this.formBasic.portrait = res.data.portrait
+	        chat.updateCurUserInfo() // IM 当前用户信息更新
 	      }
 	    },
 
