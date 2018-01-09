@@ -186,8 +186,8 @@ export default {
     this.htmlHeight = document.documentElement.clientHeight + ''
     this.htmlWidth = document.documentElement.clientWidth + ''
     if (typeof window.addEventListener !== 'undefined') {
-      window.addEventListener('click', this.loadClickEvent, false)
-      window.addEventListener('resize', this.loadResizeEvent, false)
+      window.addEventListener('click', this.loadClickEvent, true)
+      window.addEventListener('resize', this.loadResizeEvent)
     } else {
       window.attachEvent('onclick', this.loadClickEvent)
       window.attachEvent('onresize', this.loadResizeEvent)
