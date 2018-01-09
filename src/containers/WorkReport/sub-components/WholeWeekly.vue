@@ -90,8 +90,13 @@ export default {
       storeData: this.$route.params,
       columns: [
         {
-          title: '部门',
-          key: 'department',
+          title: '一级部门',
+          key: 'depOne',
+          align: 'center'
+        },
+        {
+          title: '二级部门',
+          key: 'depTwo',
           align: 'center'
         },
         {
@@ -151,7 +156,22 @@ export default {
         console.log('列表详情', res.data)
         let result = res.data.data
         if (res.data.code === '000000') {
-          this.listData = result.data
+          let arr = result.data
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].ratingStatus === 3) {
+              arr[i].ratingStatus = '已评分'
+            }
+            if (arr[i].ratingStatus === 9) {
+              arr[i].ratingStatus = '未填写'
+            }
+            if (arr[i].ratingStatus === 1) {
+              arr[i].ratingStatus = '待评分'
+            }
+            if (arr[i].ratingStatus === 2) {
+              arr[i].ratingStatus = '已退回'
+            }
+          }
+          this.listData = arr
           this.total = result.total
         } else {
           if (res.data.code === '020000') {

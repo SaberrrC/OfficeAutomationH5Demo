@@ -148,18 +148,41 @@ export default {
     },
     //  获取日报列表数据
     searchDaiy () {
+      //  时间验证
+      console.log(this.startTime.getTime(), this.endTime.getTime())
+      if (this.startTime.getTime() > this.endTime.getTime()) {
+        this.$Message.error('开始时间不可大于结束时间')
+        return
+      }
       let starttime = this.timeFormat(this.startTime)
       let endtime = this.timeFormat(this.endTime)
-      //  时间验证 todo
       this.loading = true
       this.$ajax({
         method: 'get',
-        url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10'
+        url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10&title=1'
       }).then((res) => {
         console.log('日报列表', res.data)
         let result = res.data.data
         if (res.data.code === '000000') {
-          this.listData = result.data
+          let arr = result.data
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].type === '1') {
+              arr[i].type = '日报'
+            }
+            if (arr[i].type === '2') {
+              arr[i].type = '周报'
+            }
+            if (arr[i].state === 3) {
+              arr[i].state = '已评分'
+            }
+            if (arr[i].state === 9) {
+              arr[i].state = '未填写'
+            }
+            if (arr[i].state === 1) {
+              arr[i].state = '待评分'
+            }
+          }
+          this.listData = arr
           this.total = result.total
           this.GLOBAL_.wholeList = result.data
           this.loading = false
@@ -176,9 +199,14 @@ export default {
     },
     //  获取周报列表数据
     searchWeekly () {
+      //  时间验证
+      console.log(this.startTime.getTime(), this.endTime.getTime())
+      if (this.startTime.getTime() > this.endTime.getTime()) {
+        this.$Message.error('开始时间不可大于结束时间')
+        return
+      }
       let starttime = this.timeFormat(this.startTime)
       let endtime = this.timeFormat(this.endTime)
-      //  时间验证 todo
       this.loading = true
       this.$ajax({
         method: 'get',
@@ -187,7 +215,25 @@ export default {
         console.log('周报列表', res.data)
         let result = res.data.data
         if (res.data.code === '000000') {
-          this.listData = result.data
+          let arr = result.data
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].type === '1') {
+              arr[i].type = '日报'
+            }
+            if (arr[i].type === '2') {
+              arr[i].type = '周报'
+            }
+            if (arr[i].state === 3) {
+              arr[i].state = '已评分'
+            }
+            if (arr[i].state === 9) {
+              arr[i].state = '未填写'
+            }
+            if (arr[i].state === 1) {
+              arr[i].state = '待评分'
+            }
+          }
+          this.listData = arr
           this.total = result.total
           this.GLOBAL_.wholeList = result.data
           this.loading = false
@@ -247,10 +293,7 @@ export default {
     },
     //  导出
     exportReport () {
-      if (this.state === 0) {
-        this.$Message.error('全部状态不可导出，请切换其他状态')
-      }
-      location.href = config.OA_API + '/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token')
+      location.href = config.OA_API + '/dailyreport/export?department=' + this.department + '&name=' + this.searchName + '&startTime=' + this.timeFormat(this.startTime) + '&endTime=' + this.timeFormat(this.endTime) + '&state=' + this.state + '&type=' + this.type + '&uid=' + window.localStorage.getItem('uid') + '&token=' + window.localStorage.getItem('token') + '&title=1'
     }
   },
   mounted () {

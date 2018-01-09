@@ -206,7 +206,6 @@
             <Col span="24" align="right">总评分：{{reportData.totalScore}}</Col>
           </Row>
         </div>
-
       </Card>
     </div>
   </div>
@@ -217,11 +216,15 @@
     name: 'WholeDaily',
     data () {
       return {
-        storeData: this.$route.params,
         columns: [
           {
-            title: '部门',
-            key: 'department',
+            title: '一级部门',
+            key: 'depOne',
+            align: 'center'
+          },
+          {
+            title: '二级部门',
+            key: 'depTwo',
             align: 'center'
           },
           {
@@ -352,12 +355,27 @@
       getListDate (id) {
         this.$ajax({
           method: 'get',
-          url: '/dailyreport/detils/' + id + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.storeData.userId + '&startTime=' + this.storeData.startTime + '&endTime=' + this.storeData.endTime
+          url: '/dailyreport/detils/' + id + '?pageNum=' + this.current + '&pageSize=10&userId=' + this.$route.params.userId + '&startTime=' + this.$route.params.startTime + '&endTime=' + this.$route.params.endTime
         }).then((res) => {
           console.log('列表详情', res.data)
           let result = res.data.data
           if (res.data.code === '000000') {
-            this.listData = result.data
+            let arr = result.data
+            for (let i = 0; i < arr.length; i++) {
+              if (arr[i].state === '3') {
+                arr[i].state = '已评分'
+              }
+              if (arr[i].state === '9') {
+                arr[i].state = '未填写'
+              }
+              if (arr[i].state === '1') {
+                arr[i].state = '待评分'
+              }
+              if (arr[i].ratingStatus === 2) {
+                arr[i].ratingStatus = '已退回'
+              }
+            }
+            this.listData = arr
             this.total = result.total
           } else {
             if (res.data.code === '020000') {
@@ -412,10 +430,10 @@
       }
     },
     mounted () {
-      this.getListDate(this.storeData.userId)
+      this.getListDate(this.$route.params.userId)
     },
     activated () {
-      this.getListDate(this.storeData.userId)
+      this.getListDate(this.$route.params.userId)
     }
   }
 </script>
