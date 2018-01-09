@@ -174,6 +174,7 @@ const mutations = {
         }))
       }
     }
+    store.state.showSid = sId
     state.writeStructIsShow = true
     state.singChatlist = state.singChatbox[sId].value !== undefined ? state.singChatbox[sId].value : []
   },
