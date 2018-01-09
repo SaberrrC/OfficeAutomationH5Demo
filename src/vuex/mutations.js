@@ -7,6 +7,9 @@ const mutations = {
     state.userInfo = newValue
   },
   updateSidebarList (state, newValue) {
+    if (newValue[0].id === 11) {
+      newValue[0].children = newValue[0].children.slice(0, 2)
+    }
     state.sidebar = newValue
   },
   updateOrganization (state, newValue) {

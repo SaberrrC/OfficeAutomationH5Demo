@@ -181,7 +181,7 @@ const actions = {
       }
     }).then((response) => {
       if (response.data && response.data.code === '000000') {
-        console.log(response.data)
+        console.log('二级菜单', response.data)
         const result = response.data.data
         context.commit('updateSidebarList', result)
         return result

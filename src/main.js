@@ -81,12 +81,7 @@ Vue.use(iView)
 Vue.config.productionTip = false
 
 window.axios = axios
-window.onbeforeunload = function (event) {
-  if ((event.clientX > document.body.clientWidth && event.clientX < 0) || event.altKey) {
-    //  关闭浏览器
-    localStorage.setItem('haha', 'hehe')
-  }
-}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -17,6 +17,7 @@
       <Modal
         v-model="cancel"
         title="信息"
+        @on-ok="goHasSend"
       >
         <p>是否放弃当前编辑</p>
       </Modal>
@@ -572,6 +573,10 @@ export default {
         }
       }, (res) => {
       })
+    },
+    //  取消发日报跳转到我发起的
+    goHasSend () {
+      location.hash = '/work_report/my_report/myReportList'
     }
   },
   created () {

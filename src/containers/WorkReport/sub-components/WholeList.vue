@@ -12,7 +12,7 @@
           <Row>
             <Col span="24" align="center">
               <ul class="departmentUl">
-                <li v-for="item in departmentList" @click="changeDepartment(item.id,item.name)">{{item.name}}</li>
+                <li v-for="item in departmentList" @click="changeDepartment(item.id,item.name)" :class="{'cur': item.id === currentLi}">{{item.name}}</li>
               </ul>
             </Col>
           </Row>
@@ -58,7 +58,7 @@
                   </FormItem>
                 </Col>
                 <Col span="8" align="right">
-                  <Button type="primary" @click="search">搜索</Button>
+                  <Button type="primary" @click="search" :loading="loading">搜索</Button>
                   <Button type="primary" @click="exportReport">导出</Button>
                 </Col>
               </Row>
@@ -82,9 +82,10 @@ export default {
   name: 'WholeList',
   data () {
     return {
+      currentLi: -1,
+      loading: false,
       departmentName: '',
       departmentList: [{}],
-
       searchName: '',
       startTime: new Date(),
       endTime: new Date(),
@@ -170,9 +171,19 @@ export default {
       }, (res) => {
 
       })
+      if (!this.departmentName) {
+        this.department = ''
+        this.currentLi = -1
+        if (this.type === 0) {
+          this.searchDaiy()
+        } else {
+          this.searchWeekly()
+        }
+      }
     },
     //  切换部门
     changeDepartment (id, name) {
+      this.currentLi = id
       this.department = id
       this.total = 0
       this.current = 1
@@ -203,6 +214,8 @@ export default {
     searchDaiy () {
       let starttime = this.timeFormat(this.startTime)
       let endtime = this.timeFormat(this.endTime)
+      //  时间验证 todo
+      this.loading = true
       this.$ajax({
         method: 'get',
         url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10'
@@ -212,22 +225,25 @@ export default {
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
-          //  TODO 缓存数据
           this.GLOBAL_.wholeList = result.data
+          this.loading = false
         } else {
           if (res.data.code === '020000') {
             this.listData = []
             this.total = 0
           }
+          this.loading = false
         }
       }, (res) => {
-
+        this.loading = false
       })
     },
     //  获取周报列表数据
     searchWeekly () {
       let starttime = this.timeFormat(this.startTime)
       let endtime = this.timeFormat(this.endTime)
+      // 时间验证 todo
+      this.loading = true
       this.$ajax({
         method: 'get',
         url: '/weekreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10'
@@ -237,13 +253,17 @@ export default {
         if (res.data.code === '000000') {
           this.listData = result.data
           this.total = result.total
-          //  TODO 缓存数据
           this.GLOBAL_.wholeList = result.data
+          this.loading = false
         } else {
-
+          if (res.data.code === '020000') {
+            this.listData = []
+            this.total = 0
+          }
+          this.loading = false
         }
       }, (res) => {
-
+        this.loading = false
       })
     },
     //  分页查询
@@ -301,6 +321,10 @@ export default {
       cursor: pointer;
     }
     li:hover{
+      background-color: #2d8cf0;
+      color: white;
+    }
+    li.cur{
       background-color: #2d8cf0;
       color: white;
     }

@@ -7,7 +7,7 @@
         <div class="list_name" v-for="(item, index) in openedListDom" v-on:click="openChatBox(item, index)" :class="showSid == item.sId ? 'selectBackground' : ''">
         <template v-if="item.type && item.type === 'chatgroup'">
             <div class="circle">
-            <img :src="item.img">
+            <img :src="item.img" @error="headImgError">
             <span class="num" v-if="item.count">{{item.count}}</span>
           </div>
            <div class="text">
@@ -21,7 +21,7 @@
         </template>
         <template v-else-if="item.type && item.type === 'chatroom'">
             <div class="circle">
-            <img :src="addHttp(item.img)">
+            <img :src="addHttp(item.img)" @error="headImgError">
             <span class="num" v-if="item.count">{{item.count}}</span>
           </div>
           <div class="text">
@@ -32,7 +32,7 @@
         </template>
         <template v-else-if="item.roomId && item.roomId != ''">
           <div class="circle">
-            <img :src="addHttp(item.img)">
+            <img :src="addHttp(item.img)" @error="headImgError">
             <span class="num" v-if="item.count">{{item.count}}</span>
           </div>
           <div class="text">
@@ -43,7 +43,7 @@
         </template>
         <template v-else>
           <div class="circle">
-            <img :src="addHttp(item.img)">
+            <img :src="addHttp(item.img)" @error="headImgError">
             <span class="num" v-if="item.count">{{item.count}}</span>
           </div>
           <div class="text">
@@ -288,6 +288,10 @@
         }
         // console.log('最后', oimg)
         return oimg
+      },
+      headImgError (img) {
+        img.target.src = this.$store.state.image
+        img.onerror = null // onerror不再触发
       }
     },
     watch:{

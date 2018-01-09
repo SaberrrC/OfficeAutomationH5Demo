@@ -38,7 +38,7 @@
             </FormItem>
             </Col>
             <Col span="8" align="right">
-            <Button type="primary" @click="search">搜索</Button>
+            <Button type="primary" @click="search" :loading="loading">搜索</Button>
             <Button type="primary" @click="exportReport">导出</Button>
             </Col>
           </Row>
@@ -59,6 +59,7 @@ export default {
   name: 'Setting',
   data () {
     return {
+      loading: false,
       searchName: '',
       startTime: new Date(),
       endTime: new Date(),
@@ -149,6 +150,8 @@ export default {
     searchDaiy () {
       let starttime = this.timeFormat(this.startTime)
       let endtime = this.timeFormat(this.endTime)
+      //  时间验证 todo
+      this.loading = true
       this.$ajax({
         method: 'get',
         url: '/dailyreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10'
@@ -159,23 +162,27 @@ export default {
           this.listData = result.data
           this.total = result.total
           this.GLOBAL_.wholeList = result.data
+          this.loading = false
         } else {
           if (res.data.code === '020000') {
             this.listData = []
             this.total = 0
           }
+          this.loading = false
         }
       }, (res) => {
-
+        this.loading = false
       })
     },
     //  获取周报列表数据
     searchWeekly () {
       let starttime = this.timeFormat(this.startTime)
       let endtime = this.timeFormat(this.endTime)
+      //  时间验证 todo
+      this.loading = true
       this.$ajax({
         method: 'get',
-        url: '/weekreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10'
+        url: '/weekreport/hr?name=' + this.searchName + '&startTime=' + starttime + '&endTime=' + endtime + '&state=' + this.state + '&department=' + this.department + '&pageNum=' + this.current + '&pageSize=10&title=1'
       }).then((res) => {
         console.log('周报列表', res.data)
         let result = res.data.data
@@ -183,11 +190,16 @@ export default {
           this.listData = result.data
           this.total = result.total
           this.GLOBAL_.wholeList = result.data
+          this.loading = false
         } else {
-
+          if (res.data.code === '020000') {
+            this.listData = []
+            this.total = 0
+          }
+          this.loading = false
         }
       }, (res) => {
-
+        this.loading = false
       })
     },
     //  分页查询
