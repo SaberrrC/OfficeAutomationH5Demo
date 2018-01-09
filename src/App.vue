@@ -47,7 +47,7 @@ export default {
 
 <style lang="scss">
 body {
-  background: #ebeff8;
+  background: #ebeff8!important;
 }
 #app {
   font: 14px/1.6 'Microsoft Yahei', Helvetica, Arial, sans-serif;
