@@ -804,11 +804,8 @@ export default {
       var parentNode = document.getElementById("addressTreeleft");
       var a = parentNode.getElementsByClassName("el-tree-node__label");
       for (var i = 0; i < a.length; i++) {
-        if (
-          a[i].parentNode.childNodes[0].classList ==
-          "el-tree-node__expand-icon el-icon-caret-right is-leaf"
-        ) {
-          if (a[i].parentNode.childNodes.length == 5) {
+        if (a[i].parentNode.childNodes[0].classList === "el-tree-node__expand-icon el-icon-caret-right is-leaf") {
+          if (a[i].parentNode.childNodes.length === 5) {
             return;
           } else {
             var img = document.createElement("img");

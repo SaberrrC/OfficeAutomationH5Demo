@@ -54,11 +54,11 @@
         <div class="elTree" v-show="leftTreeShow">
           <el-tree lazy v-show="showTree" :props="props" :load="listLoad"
             @check-change="handleCheckChange"
-            @node-click="nodeClick">
+            @node-click="selectMember">
           </el-tree>
         </div>
         <div class="listSearch" v-show="listSearchShow">
-        <div class="list_name" v-for="(item, index) in listSearch" v-on:click="addgroupmember(item)">
+        <div class="list_name" v-for="(item, index) in listSearch" v-on:click="selectMember(item)">
           <div class="text">
             <div class="child_name">{{item.userName}} -- {{item.departmentName}}</div>
           </div>
@@ -68,13 +68,13 @@
       <div class="addressTreeRight">
         <div class="choice">已选择</div>
         <ul>
-          <li v-for='(item,index) in candidateOptions'>
+          <li v-for='(item, index) in candidateOptions'>
             <span>{{item.label}}</span>
-            <i class="closeSpan el-icon-close" @click='closeSpan(item,index)'></i>
+            <i class="closeSpan el-icon-close" @click='closeSpan(item, index)'></i>
           </li>
         </ul>
         <div class="btn">
-          <el-button class='first'  @click='addCancel'>取消</el-button>
+          <el-button class='first' @click='addCancel'>取消</el-button>
           <el-button class='second' type="primary" @click='addSure'>确定</el-button>
         </div>
       </div>
@@ -89,7 +89,6 @@
 </template>
 
 <script>
-
 import {mapState} from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
@@ -881,7 +880,6 @@ export default {
         })
       }
       // 新建群组
-      this.adddialog = false
       if(this.isGroupChat === false) {
         chat.createGroup({name: groupName.join('、')}).then((x) => {
           console.log('------------群组创建成功', x)
@@ -890,10 +888,6 @@ export default {
           that.openNewGroup(x) // 立即打开新建的群
           this.$store.state.groupIdShow = x
           if (members && members.length > 1) {
-            // that.newAddMembers.push({
-            //   label: that.userinfo.username,
-            //   CODE: that.userinfo.code
-            // })
             if (that.userinfo.username) {
               that.newAddMembers.push({
                 label: that.otherInfo.username,
@@ -903,13 +897,6 @@ export default {
             // console.log('-------------开始邀请人', x, members, that.newAddMembers)
             that.inviteMemberToGroup(x, members, that.newAddMembers)
           }
-        // setTimeout(function() {
-          //   that.$message({
-          //     message: '如果界面更新不及时，请主动刷新网页',
-          //     duration: 5000
-          //     })
-          //     that.inviteMemberToGroup(x, members)
-          // }, 1000)
         }, function () {
           that.addCancel()
           that.$message({message: '群组创建失败', type: 'error'})
@@ -926,6 +913,7 @@ export default {
         // console.log('-------------邀请人1', members, that.newAddMembers)
         this.inviteMemberToGroup(groupId, members, that.newAddMembers)
       }
+      this.adddialog = false
       for (var i = 0; i < this.$children.length; i++) {
         if (this.$children[i].addmembershow) this.$children[i].addmembershow = false
       }
@@ -933,17 +921,10 @@ export default {
     // 添加人员确定按钮
     async inviteMemberToGroup (groupId, members, newMembers) {
       let that = this
-      // 发送邀请，需要用户确认才能加入
-        // chat.inviteToGroup(that.otherInfo.groupId, inviteMembers).then(function (x) {
-        //   console.log('邀请已发送', x)
-        //   that.adddialog = false
-        //   that.candidateOptions = []
-        //   console.log(x.data)
-        // })
-      // 不需要用户确认直接加入
       if(newMembers.length <= 0) {
         return
       }
+      console.log('添加人员确定按钮', members, newMembers)
       chat.addGroupMembers(groupId, members, 'groupAddMembers').then(async function (x) {
         // console.log('--------------邀请已发送1', x)
         let str = ''
@@ -952,7 +933,7 @@ export default {
           // chat.updateGroup(groupId, 'GROUP_MEMBER_ADD', newMembers[i].CODE)
         }
         that.candidateOptions = []
-        console.log('-------------',newMembers)
+        console.log('-------------', newMembers)
 
         that.sendGroupText(str.substring(0,str.length-1), groupId)
         that.newAddMembers = []
@@ -984,29 +965,23 @@ export default {
     handleCheckChange(Nodedata, checked, indeterminate) {
 
     },
-    addgroupmember (data){
-      this.addmemberpackage(data)
-    },
-    addmemberpackage (data) {
-      console.log(data)
-      console.log(this.candidateOptions)
-      console.log(this.newAddMembers)
-      if (data.code) {
-        for(var i = 0; i < this.candidateOptions.length; i++){
-          if(this.candidateOptions[i].code === data.code) return
+    selectMember (item) {
+      // console.log(item)
+      // console.log(this.candidateOptions)
+      // console.log(this.newAddMembers)
+      if (item.code) {
+        for(var i = 0; i < this.candidateOptions.length; i++) {
+          if (this.candidateOptions[i].code === item.code) return
         }
         this.candidateOptions.push({
-          label:data.username,
-          code:data.code
+          label: item.userName || item.username,
+          code: item.code
         })
         this.newAddMembers.push({
-          label:data.username,
-          code:data.code
-        })  
+          label: item.userName || item.username,
+          code: item.code
+        })
       }
-    },
-    nodeClick (data) {
-      this.addmemberpackage(data)
     },
     listLoad (node, resolve) {
       let id = 1
