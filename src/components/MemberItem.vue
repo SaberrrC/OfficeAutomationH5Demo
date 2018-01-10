@@ -60,9 +60,14 @@ export default {
 }
 .post-title {
   float: right;
+  display: inline-block;
+  max-width: 10rem;
   line-height: 32px;
   font-size: 12px;
   color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .complex {
   height: auto;
