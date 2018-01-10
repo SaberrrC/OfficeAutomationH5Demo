@@ -112,5 +112,6 @@
   .card {
     padding: 16px;
     background: #ffffff;
+    cursor: pointer
   }
 </style>

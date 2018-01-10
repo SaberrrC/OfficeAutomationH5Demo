@@ -53,6 +53,7 @@
 	      noticeType: 0,
 	      noticeClass: 0,
 	      dateFilter: 0,
+	      oIds: '',
 	      readList: [{
 	        value: 0,
 	        label: '全部'
@@ -128,7 +129,7 @@
 	        }
 	      }, {
 	        title: '发起人',
-	        key: 'postDeptId',
+	        key: 'postUserName',
 	        sortable: true
 	      }, {
 	        title: '公告类别',
@@ -219,7 +220,22 @@
 	      d = d < 10 ? ('0' + d) : d
 	      return y + '-' + m + '-' + d
 	    },
-
+	    getUserInfoById () {
+	      this.$ajax({
+	        method: 'get',
+	        url: '/user/getUserInfoById',
+	        params: {
+	          uid: this.$ajax.defaults.headers.common['uid']
+	        }
+	      }).then((res) => {
+	        if (res.data.code === '000000') {
+	          this.oIds = res.data.data.oid
+	          this.getNoticeData()
+	        } else {
+	          this.$Message.error(res.data.message)
+	        }
+	      }, (res) => {})
+	    },
 	    getNoticeData () {
 	      this.$ajax({
 	        method: 'get',
@@ -231,7 +247,7 @@
 	          dateFilter: this.dateFilter,
 	          noticeType: this.noticeType,
 	          noticeClass: this.noticeClass,
-	          oIds: this.$store.state.userInfo.oid
+	          oIds: this.oIds
 	        }
 	      }).then((res) => {
 	        console.log('发送给我的公告列表', res.data)
@@ -284,7 +300,7 @@
 	    }
 	  },
 	  mounted () {
-	    this.getNoticeData()
+	    this.getUserInfoById()
 	  }
 	}
 </script>

@@ -199,7 +199,7 @@
               <i-Col span="8">
                 <div class="card" style="padding-bottom: 2px;">
                   <Row>
-                    <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
+                    <i-Col>
                       <FormItem label="审批人">
                         <span>{{ site.checkUserName }}</span>　
                       </FormItem>
@@ -210,7 +210,7 @@
               <i-Col span="8">
                 <div class="card" style="padding-bottom: 2px;">
                   <Row>
-                    <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
+                    <i-Col>
                       <FormItem label="审批状态">
                         <span>{{ site.isCheckCH }}</span>
                       </FormItem>
@@ -221,7 +221,7 @@
               <i-Col span="8">
                 <div class="card" style="padding-bottom: 2px;">
                   <Row>
-                    <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
+                    <i-Col>
                       <FormItem label="审批时间">
                         <span>{{ site.dealDate }}</span>
                       </FormItem>
@@ -236,7 +236,7 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="审批意见">
-                        <span>{{ site.approveResultCH }}</span>
+                        <span>{{ site.checkNote }}</span>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -758,6 +758,7 @@
   }
   .review {
     border: 1px solid #eeeeee;
+    background-color: #ffffff;
   }
   .review .card {
     border: 0;

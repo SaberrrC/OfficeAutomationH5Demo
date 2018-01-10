@@ -79,12 +79,13 @@
             <Row>
               <i-Col span="8">
                 <FormItem label="相关附件">
+                  <!--<Poptip trigger="hover" content="支持jpg、jpeg、gif、png、bmp、tif、txt、zip、rar、doc、docx、xls、xlsx、ppt、pptx、accdb、pdf、rtf、psd、wps、pages、numbers、key等格式的文件" :transfer="true" placement="top-start">-->
                   <Upload
                     :action="action"
                     :headers="headers"
                     multiple
                     ref="upload"
-                    :format="['txt','zip','rar','doc','docx','xls','xlsx','ppt','pptx','accdb','pdf','rtf','psd','wps','pages','numbers','key']"
+                    :format="['jpg','jpeg','png','gif','bmp','tif','txt','zip','rar','doc','docx','xls','xlsx','ppt','pptx','accdb','pdf','rtf','psd','wps','pages','numbers','key']"
                     :max-size="1024*100"
                     :on-format-error="handleFormatError"
                     :on-exceeded-size="handleMaxSize"
@@ -92,8 +93,9 @@
                     :on-success="handleSuccess"
                     :on-remove="handleUploadRemove"
                   >
-                    <Button type="primary">上传附件</Button>
+                    <Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
                   </Upload>
+                  <!--</Poptip>-->
                 </FormItem>
               </i-Col>
               <i-Col span="16"></i-Col>
@@ -370,12 +372,18 @@
         this[name] = false
       },
 //    验证上传文件的格式
-      handleFormatError () {
-        this.$Message.error('文件格式不正确，请上传txt、zip、rar、doc、docx、xls、xlsx、ppt、pptx、accdb、pdf、rtf、psd、wps、pages、numbers、key等格式的文件')
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: '上传文件格式有误',
+          desc: '附件 ' + file.name + ' 格式错误, 请选择以下格式：jpg、jpeg、gif、png、bmp、tif、txt、zip、rar、doc、docx、xls、xlsx、ppt、pptx、accdb、pdf、rtf、psd、wps、pages、numbers、key'
+        })
       },
 //    验证上传文件的大小
-      handleMaxSize () {
-        this.$Message.error('请上传小于100M的文件')
+      handleMaxSize (file) {
+        this.$Notice.warning({
+          title: '附件过大',
+          desc: '附件' + file.name + ' 太大, 请上传小于100M的附件.'
+        })
       }
     },
     mounted () {

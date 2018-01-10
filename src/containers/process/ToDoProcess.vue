@@ -27,7 +27,7 @@
           <p slot="title" class="header">
           <span>
             <Row>
-              <i-Col :lg="{span:10}" :md="{span:12}" :sm="{span:13}" :xs="{span:14}" >
+              <i-Col :lg="{span:12}" :md="{span:13}" :sm="{span:12}" :xs="{span:14}" >
                   <row>
                     <Form :model="formItem" :label-width="80">
                       <i-Col span="11">
@@ -51,9 +51,9 @@
                     </Form>
                     </row>
               </i-Col>
-              <i-Col :lg="{span:6,offset:8}" :md="{span:8,offset:4}" :sm="{span:10,offset:1}" :xs="{span:10,offset:0}" style="text-align: right;padding-right: 16px">
-                <Button type="primary" style="margin-right: 20px" :disabled="disabled" @click="handleBatchAgree">批量同意</Button>
-                <Button type="error" :disabled="disabled" @click="handleBatchReject">批量驳回</Button>
+              <i-Col :lg="{span:8,offset:4}" :md="{span:10,offset:1}" :sm="{span:12,}" :xs="{span:10,offset:0}" style="text-align: right;padding-right: 16px">
+                <Button type="primary"  style="margin-right: 20px" :disabled="disabled" @click="handleBatchAgree">批量同意</Button>
+                <Button type="error"  :disabled="disabled" @click="handleBatchReject">批量驳回</Button>
               </i-Col>
             </Row>
           </span>

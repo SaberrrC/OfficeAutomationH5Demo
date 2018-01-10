@@ -334,9 +334,7 @@
         if (value === '') {
           callback(new Error('请选择开始时间'))
         } else {
-          if (this.furloughDetail.endTime !== '' && value > this.furloughDetail.endTime) {
-            callback(new Error('开始时间不能大于结束时间!'))
-          } else if (this.furloughDetail.endTime !== '' && value < this.furloughDetail.endTime) {
+          if (this.furloughDetail.endTime !== '') {
             this.$refs.furloughDetail.validateField('endTime')
           }
         }
@@ -347,9 +345,8 @@
         } else {
           if (value < this.furloughDetail.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
-          } else if (value > this.furloughDetail.startTime) {
-            this.$refs.furloughDetail.validateField('startTime')
           }
+          callback()
         }
       }
 
@@ -357,9 +354,7 @@
         if (value === '') {
           callback(new Error('请选择开始时间'))
         } else {
-          if (this.addfurlough.endTime !== '' && value > this.addfurlough.endTime) {
-            callback(new Error('开始时间不能大于结束时间!'))
-          } else if (this.addfurlough.endTime !== '' && value < this.addfurlough.endTime) {
+          if (this.addfurlough.endTime !== '') {
             this.$refs.addfurlough.validateField('endTime')
           }
         }
@@ -370,9 +365,8 @@
         } else {
           if (value < this.addfurlough.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
-          } else if (value > this.furloughDetail.startTime) {
-            this.$refs.addfurlough.validateField('startTime')
           }
+          callback()
         }
       }
       return {
@@ -560,7 +554,7 @@
           startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes
           var startSeconds = start.getSeconds()
           startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds
-          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
+          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startMinutes + ':' + startSeconds
           this.nCHREvectionApplyDeatil[i].startTime = start
           var end = new Date(this.nCHREvectionApplyDeatil[i].endTime)
           var endYear = end.getFullYear()
@@ -574,7 +568,7 @@
           endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes.toString()
           var endSeconds = end.getSeconds()
           endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds.toString()
-          end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
+          end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endMinutes + ':' + endSeconds
           this.nCHREvectionApplyDeatil[i].endTime = end
         }
         var data = {

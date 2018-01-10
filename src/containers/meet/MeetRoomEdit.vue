@@ -394,12 +394,18 @@
         })
       },
 //    验证上传图片的格式
-      handleFormatError () {
-        this.$Message.error('图片格式不正确，请上传jpg、jpeg、gif、png、bmp、tif格式的图片')
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: '图片格式有误',
+          desc: '图片 ' + file.name + ' 格式错误, 请选择以下格式：jpg、jpeg、gif、png、bmp、tif'
+        })
       },
 //    验证上传图片的大小
-      handleMaxSize () {
-        this.$Message.error('请上传小于100M的图片')
+      handleMaxSize (file) {
+        this.$Notice.warning({
+          title: '图片过大',
+          desc: '图片' + file.name + ' 太大, 请上传小于100M的图片.'
+        })
       }
     },
     created () {

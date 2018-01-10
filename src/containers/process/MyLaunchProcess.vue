@@ -88,7 +88,7 @@
         loading: false,
         formItem: {
           time: '4',
-          status: ''
+          status: 'all'
         },
         billType: '',                    // 发起类型
         launchTotal: 0,                 // 发起列表总条数
