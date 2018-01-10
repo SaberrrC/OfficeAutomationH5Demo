@@ -93,8 +93,8 @@
 	            if (res.data.code === '000000') {
 	              this.$Message.success('密码修改成功')
 	              window.localStorage.removeItem('token')
-                  window.localStorage.removeItem('uid')
-                  window.location.reload()
+	              window.localStorage.removeItem('uid')
+	              window.location.reload()
 	            } else {
 	              this.$Message.error(res.data.message)
 	            }
