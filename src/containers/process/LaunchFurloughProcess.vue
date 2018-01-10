@@ -145,8 +145,8 @@
               <div class="card">
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                    <FormItem label="休假事由" prop="FurloughRemark">
-                      <Input placeholder="请填写休假事由" v-model="furloughDetail.FurloughRemark"></Input>
+                    <FormItem label="休假事由" prop="furloughRemark">
+                      <Input placeholder="请填写休假事由" v-model="furloughDetail.furloughRemark"></Input>
                     </FormItem>
                   </i-Col>
                 </Row>
@@ -234,8 +234,8 @@
                 <div class="card">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                      <FormItem label="休假事由" prop="FurloughRemark">
-                        <Input placeholder="请填写休假事由" v-model="addfurlough.FurloughRemark"></Input>
+                      <FormItem label="休假事由" prop="furloughRemark">
+                        <Input placeholder="请填写休假事由" v-model="addfurlough.furloughRemark"></Input>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -400,14 +400,14 @@
         furloughDetail: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
-          FurloughRemark: '',    // 休假事由
+          furloughRemark: '',    // 休假事由
           handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
         addfurlough: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
-          FurloughRemark: '',    // 休假事由
+          furloughRemark: '',    // 休假事由
           handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
@@ -424,7 +424,7 @@
           endTime: [
             { required: true, validator: validateEndTime, trigger: 'change' }
           ],
-          FurloughRemark: [
+          furloughRemark: [
             { required: true, message: '请输入休假事由', trigger: 'blur' }
           ],
           handOverPepole: [
@@ -438,7 +438,7 @@
           endTime: [
             { required: true, validator: validateAddEndTime, trigger: 'change' }
           ],
-          FurloughRemark: [
+          furloughRemark: [
             { required: true, message: '请输入休假事由', trigger: 'blur' }
           ],
           handOverPepole: [
@@ -639,7 +639,7 @@
         this.nCHREvectionApplyDeatil.splice(1, 1)
         this.addfurlough.startTime = ''
         this.addfurlough.endTime = ''
-        this.addfurlough.FurloughRemark = ''
+        this.addfurlough.furloughRemark = ''
         this.billAddHandOverPepole = {}
         this.addfurlough.handOverPepole = ''
         this.addfurlough.timeDifference = ''
