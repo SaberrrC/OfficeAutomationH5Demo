@@ -351,6 +351,12 @@
     },
     methods: {
       func (event) {},
+      getTime (date) {
+        let year = date.getFullYear()
+        let mounth = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
+        let day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
+        return year + '-' + mounth + '-' + day
+      },
       //  获取列表数据
       getListDate (id) {
         this.$ajax({
@@ -374,6 +380,7 @@
               if (arr[i].ratingStatus === 2) {
                 arr[i].ratingStatus = '已退回'
               }
+              arr[i].dailyTime = this.getTime(new Date(arr[i].dailyTime))
             }
             this.listData = arr
             this.total = result.total
@@ -413,7 +420,7 @@
       },
       //  关闭
       back () {
-        location.hash = '/report_admin/whole/wholeList'
+        location.hash = '/report_admin/department/departmentList'
       },
       //  左右切换
       goRight () {
