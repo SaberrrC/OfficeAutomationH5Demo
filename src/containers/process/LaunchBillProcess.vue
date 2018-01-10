@@ -365,11 +365,10 @@
         if (value === '') {
           callback(new Error('请选择开始时间'))
         } else {
-          if (this.billDetail.endTime !== '' && value > this.billDetail.endTime) {
-            callback(new Error('开始时间不能大于结束时间!'))
-          } else if (this.billDetail.endTime !== '' && value < this.billDetail.endTime) {
+          if (this.billDetail.endTime !== '') {
             this.$refs.billDetail.validateField('endTime')
           }
+          callback()
         }
       }
       const validateEndTime = (rule, value, callback) => {
@@ -378,9 +377,8 @@
         } else {
           if (value < this.billDetail.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
-          } else if (value > this.billDetail.startTime) {
-            this.$refs.billDetail.validateField('startTime')
           }
+          callback()
         }
       }
 
@@ -388,9 +386,7 @@
         if (value === '') {
           callback(new Error('请选择开始时间'))
         } else {
-          if (this.addBill.endTime !== '' && value > this.addBill.endTime) {
-            callback(new Error('开始时间不能大于结束时间!'))
-          } else if (this.addBill.endTime !== '' && value < this.addBill.endTime) {
+          if (this.addBill.endTime !== '') {
             this.$refs.addBill.validateField('endTime')
           }
         }
@@ -401,9 +397,8 @@
         } else {
           if (value < this.addBill.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
-          } else if (value > this.addBill.startTime) {
-            this.$refs.addBill.validateField('startTime')
           }
+          callback()
         }
       }
       return {
@@ -589,7 +584,7 @@
           startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
           startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
-          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
+          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startMinutes + ':' + startSeconds
           this.nchrevectionApplyDetail[i].startTime = start
           var end = new Date(this.nchrevectionApplyDetail[i].endTime)
           var endYear = end.getFullYear()
@@ -603,7 +598,7 @@
           endMinutes = endMinutes < 10 ? '0' + endMinutes : endMinutes
           var endSeconds = end.getSeconds()
           endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
-          end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endSeconds + ':' + endSeconds
+          end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endMinutes + ':' + endSeconds
           this.nchrevectionApplyDetail[i].endTime = end
           console.log('.nchrevectionApplyDetail', this.nchrevectionApplyDetail)
           console.log('.nchrevectionApplyDetail[i].endTime', this.nchrevectionApplyDetail[i].endTime)

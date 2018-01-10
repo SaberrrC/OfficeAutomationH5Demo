@@ -381,7 +381,7 @@
           startMinutes = startMinutes < 10 ? '0' + startMinutes : startMinutes.toString()
           var startSeconds = start.getSeconds()
           startSeconds = startSeconds < 10 ? '0' + startSeconds : startSeconds.toString()
-          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startSeconds + ':' + startSeconds
+          start = startYear + '-' + startMouth + '-' + startDate + ' ' + startHours + ':' + startMinutes + ':' + startSeconds
           this.nCHREvectionApplyDeatil[i].signTime = start
         }
         var data = {
