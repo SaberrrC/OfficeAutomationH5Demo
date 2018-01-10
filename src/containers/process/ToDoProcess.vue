@@ -286,7 +286,7 @@
           title: title,
           content: content,
           onOk: () => {
-            this.handleEdit(true)
+            this.handleEdit('true')
           }
         })
       },
@@ -298,7 +298,7 @@
           title: title,
           content: content,
           onOk: () => {
-            this.handleEdit(false)
+            this.handleEdit('false')
           }
         })
       },
@@ -308,10 +308,10 @@
         if (len !== 0) {
           this.checkList = []
           this.checkList.push(row)
-          this.handleEdit(true)
+          this.handleEdit('true')
         } else {
           this.checkList.push(row)
-          this.handleEdit(true)
+          this.handleEdit('true')
         }
       },
 //    点击驳回
@@ -320,10 +320,10 @@
         if (len !== 0) {
           this.checkList = []
           this.checkList.push(row)
-          this.handleEdit(false)
+          this.handleEdit('false')
         } else {
           this.checkList.push(row)
-          this.handleEdit(false)
+          this.handleEdit('false')
         }
       },
 //    调同意/驳回接口
@@ -347,17 +347,29 @@
         }
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
-          if (response.data.code === '000000') {
-            if (text === true) {
+          let len = response.data.data.length
+          let number = []
+          for (let i = 0; i < len; i++) {
+            if (response.data.data[i].status === '2') {
+              number.push(response.data.data[i].reason)
+            }
+          }
+          number = number.join(',')
+          if (number === '') {
+            if (text === 'true') {
               this.$Message.success(batch + '审批成功')
-            } else if (text === false) {
+            } else if (text === 'false') {
               this.$Message.success(batch + '驳回成功')
             }
-            this.getToDoList()
-            this.checkList = []
           } else {
-            this.$Message.error(response.data.message)
+            if (text === 'false') {
+              this.$Message.error('单号为：' + number + '的申请审批失败')
+            } else if (text === 'false') {
+              this.$Message.error('单号为：' + number + '的申请驳回失败')
+            }
           }
+          this.getToDoList()
+          this.checkList = []
         }).catch(function (err) {
           console.log(err)
         })
