@@ -354,15 +354,16 @@
               number.push(response.data.data[i].reason)
             }
           }
-          number = number.join(',')
+          number = number.join(';')
+          console.log(number)
           if (number === '') {
             if (text === 'true') {
               this.$Message.success(batch + '审批成功')
             } else if (text === 'false') {
               this.$Message.success(batch + '驳回成功')
             }
-          } else {
-            if (text === 'false') {
+          } else if (number !== '') {
+            if (text === 'true') {
               this.$Message.error('单号为：' + number + '的申请审批失败')
             } else if (text === 'false') {
               this.$Message.error('单号为：' + number + '的申请驳回失败')
@@ -370,6 +371,7 @@
           }
           this.getToDoList()
           this.checkList = []
+          this.disabled = true
         }).catch(function (err) {
           console.log(err)
         })
