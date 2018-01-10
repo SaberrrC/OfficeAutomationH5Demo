@@ -1,55 +1,65 @@
 <template>
   <div class="login">
-  	<div class="formLogin">
-	    <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
-	      <FormItem prop="email">
-	        <Input type="text" v-model="formLogin.email" placeholder="邮箱或工号" @keyup.enter.native="toEnterLogin($event)">
-	        <Icon type="ios-person-outline" slot="prepend"></Icon>
-	        </Input>
-	      </FormItem>
-	      <FormItem prop="pwd">
-	        <Input type="password" v-model="formLogin.pwd" placeholder="请输入密码" @keyup.enter.native="toEnterLogin($event)">
-	        <Icon type="ios-locked-outline" slot="prepend"></Icon>
-	        </Input>
-	      </FormItem>
-	      <FormItem prop="code">
-	        <div style="height:32px">
-	          <Input v-model="formLogin.code" style="float:left;width:80px;margin-right:5px" @keyup.enter.native="toEnterLogin($event)" />
-	          <img :src="`data:image/gif;base64,${codeImg}`" alt="" @click="handleUpdateImg">
-	        </div>
-	      </FormItem>
-	      <FormItem>
-	        <Button type="primary" @click="handleSubmit('formLogin')" long>登 录</Button>
-	      </FormItem>
-	    </Form>
-    </div>
-    <div class="logo">
-    	<Row>
-	        <Col span="6" offset="6" class="hover-box">
-	        	<div class="logoBox">
-	        		<img src="../../static/img/android.png" alt="" />
-	        		<h3>Android版</h3>
-	        		<p>扫码下载安装到您的手机</p>
-	        	</div>
-	        	<div class="qrBox">
-	        		<img src="../../static/img/androidCode.png" alt="" />
-	        		<h3>扫描二维码</h3>
-	        		<h3>下载Android客户端</h3>
-	        	</div>
-	        </Col>
-	        <Col span="6" class="hover-box">
-	        	<div class="logoBox">
-	        		<img src="../../static/img/ios.png" alt="" />
-	        		<h3>iPhone版</h3>
-	        		<p>扫码到App Store商店下载</p>
-	        	</div>
-	        	<div class="qrBox">
-	        		<img src="../../static/img/iosCode.png" alt="" />
-	        		<h3>扫描二维码</h3>
-	        		<h3>下载iPhone客户端</h3>
-	        	</div>
-	        </Col>
-    	</Row>
+  	<div class="login-container">
+  		<div class="header">
+  			<div class="header_left">
+  				<img src="../../static/img/logo.png"/>
+  			</div>
+  			<div class="header_right">
+  				
+  			</div>
+  		</div>
+	  	<div class="formLogin">
+		    <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
+		      <FormItem prop="email">
+		        <Input type="text" v-model="formLogin.email" placeholder="邮箱或工号" @keyup.enter.native="toEnterLogin($event)">
+		        <Icon type="ios-person-outline" slot="prepend"></Icon>
+		        </Input>
+		      </FormItem>
+		      <FormItem prop="pwd">
+		        <Input type="password" v-model="formLogin.pwd" placeholder="请输入密码" @keyup.enter.native="toEnterLogin($event)">
+		        <Icon type="ios-locked-outline" slot="prepend"></Icon>
+		        </Input>
+		      </FormItem>
+		      <FormItem prop="code">
+		        <div style="height:32px">
+		          <Input v-model="formLogin.code" style="float:left;width:80px;margin-right:5px" @keyup.enter.native="toEnterLogin($event)" />
+		          <img :src="`data:image/gif;base64,${codeImg}`" alt="" @click="handleUpdateImg">
+		        </div>
+		      </FormItem>
+		      <FormItem>
+		        <Button type="primary" @click="handleSubmit('formLogin')" long>登 录</Button>
+		      </FormItem>
+		    </Form>
+	    </div>
+	    <div class="logo">
+	    	<Row>
+		        <Col span="6" offset="6" class="hover-box">
+		        	<div class="logoBox">
+		        		<img src="../../static/img/android.png" alt="" />
+		        		<h3>Android版</h3>
+		        		<p>扫码下载安装到您的手机</p>
+		        	</div>
+		        	<div class="qrBox">
+		        		<img src="../../static/img/androidCode.png" alt="" />
+		        		<h3>扫描二维码</h3>
+		        		<h3>下载Android客户端</h3>
+		        	</div>
+		        </Col>
+		        <Col span="6" class="hover-box">
+		        	<div class="logoBox">
+		        		<img src="../../static/img/ios.png" alt="" />
+		        		<h3>iPhone版</h3>
+		        		<p>扫码到App Store商店下载</p>
+		        	</div>
+		        	<div class="qrBox">
+		        		<img src="../../static/img/iosCode.png" alt="" />
+		        		<h3>扫描二维码</h3>
+		        		<h3>下载iPhone客户端</h3>
+		        	</div>
+		        </Col>
+	    	</Row>
+	    </div>
     </div>
   </div>
 </template>
@@ -135,6 +145,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .login {
+	background-color: #fff;
+	.login-container{
+		width:1200px;
+		margin:0 auto;
+		.header{
+			height:100px;
+			background-color: #ff00ff;
+		}
+	}
 	.formLogin{
 	  width: 400px;
 	  margin: auto;
