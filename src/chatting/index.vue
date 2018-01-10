@@ -1,26 +1,11 @@
 <template>
 <div class="chatting-container" :class="{'min': !showMesV}">
   <div class="chatting" :class="{'min': !showMesV}">
+    <member-info v-model="PersonalmesValue" :member="userinfo"></member-info>
     <div class="sidebar">
       <div class="name">
         <div class="circle"><img :src="reImgUrl(userinfo.img)" @click='personnalMes' @error="headImgError"></div>
         <div>{{userinfo.name}}</div>
-      </div>
-      <div class="Personalmes" v-show='PersonalmesValue'>
-        <div class="title">{{userinfo.name}} 的个人信息</div>
-        <div class="personnalbaseImg">
-          <div class="close" @click='closepersonnalbase'>X</div>
-          <div class="avatar"><img :src="reImgUrl(userinfo.img)" height="37" width="37" alt="" @error="headImgError"></div>
-          <div class="baseMes">
-            <p>{{userinfo.name}}</p>
-            <span>{{userinfo.postname}}&nbsp;&nbsp;&nbsp;{{userinfo.sex}}</span>
-          </div>
-          <div class="personnalfoot">
-            <div class="email"><span>邮箱: {{userinfo.email}}</span></div>
-            <div class="phone"><span>电话: {{userinfo.phone}}</span></div>
-            <div class="department"><span>部门: {{userinfo.departmentName}}</span></div>
-          </div>
-        </div>
       </div>
       <div class="webim webim-E" v-on:click="changeSection(1)" :class="sectionType === 1 ? 'classBlue' : ''">
         <span class="num" v-if="grossNumber">{{grossNumber}}</span>
@@ -155,7 +140,8 @@ export default {
     'chat-list': () => import('@/chatting/chatList.vue'),
     'group-book': () => import('@/chatting/groupBook.vue'),
     'single-chat-box': () => import('@/chatting/singleChatbox.vue'),
-    'message-input': () => import('@/chatting/messageInput.vue')
+    'message-input': () => import('@/chatting/messageInput.vue'),
+    'member-info': () => import('@/chatting/MemberInfo.vue')
   },
   computed: {
     ...mapState({
@@ -412,7 +398,7 @@ export default {
       }
       this.$conn.changeGroupSubject(option)
     },
-     //获取群列表
+    // 获取群列表
     listGroups () {
       var that = this
       this.$conn.listRooms({

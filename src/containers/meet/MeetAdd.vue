@@ -85,7 +85,7 @@
       },
 //      点击立即预约
       step (roomId, roomName, nop, device) {
-        this.$router.push({path: 'time', query: {roomId: roomId, roomName: roomName, nop: nop, device: device}})
+        this.$router.push({path: 'time', query: {roomId: roomId, roomName: roomName, nop: nop, device: device, type: this.$route.name}})
       }
     },
     created () {

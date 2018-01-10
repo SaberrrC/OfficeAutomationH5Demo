@@ -118,7 +118,7 @@ export default {
                 props: {
                   type: 'primary',
                   size: 'small',
-                  disabled: params.row.end_time < parseInt((new Date().getTime()) / 1000)
+                  disabled: params.row.start_time < parseInt((new Date().getTime()) / 1000)
                 },
                 style: {
                   marginRight: '5px'
@@ -279,13 +279,7 @@ export default {
       })
     },
     updateTime (row) {
-      let myDate = new Date()
-      let time = Math.round(myDate.getTime() / 1000)      // 当前时间戳
-      if (row.start_time <= time) {
-        this.$Message.error('当前会议已过期，请选择其他会议')
-      } else {
-        this.$router.push({path: 'time', query: {meet_id: row.id, roomId: row.room_id, meet_time: row.start_time}})
-      }
+      this.$router.push({path: 'time', query: {meet_id: row.id, roomId: row.room_id, meet_time: row.start_time, type: this.$route.name}})
     },
     remove (row, index) {
       let myDate = new Date()

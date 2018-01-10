@@ -185,116 +185,13 @@
   z-index: 2007;
 }
 
-.el-tree .headImg {
-  width: 25px;
-  height: 25px;
-  display: inline-block;
-  /*border:1px solid #000;*/
-  vertical-align: middle;
-  border-radius: 50%;
-}
-
-/*个人信息弹出框*/
-
-.Personalmes {
-  width: 380px;
-  /*height: 300px;*/
-  border: 1px solid #bcbcbc;
-  position: absolute;
-  left: 30%;
-  top: 30%;
-  background-color: #fff;
-  z-index: 1001;
-  /*padding: 10px;*/
-}
-
-.Personalmes .title {
-  /*height: 30px;*/
-  background-color: #f2f2f2;
-  padding: 5px;
-}
-
-.Personalmes .personnalbaseImg {
-  position: relative;
-}
-
-.personnalbaseImg .close {
-  position: absolute;
-  top: -25px;
-  right: 10px;
-}
-
-.personnalbaseImg .close:hover {
-  cursor: pointer;
-}
-
-.personnalbaseImg .avatar {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  background-color: #f2f2f2;
-  border-radius: 50%;
-  padding-top: 4px;
-  padding-left: 10px;
-  box-sizing: border-box;
-}
-
-.personnalbaseImg .baseMes {
-  display: inline-block;
-}
-
-.baseMes {
-  margin-left: 10px;
-}
-
-.baseMes p {
-  font-weight: 800;
-  margin: 5px;
-}
-
-.baseMes span {
-  font-size: 14px;
-}
-
-.personnalfoot {
-  margin-top: 10px;
-  border-top: 1px solid #bcbcbc;
-  width: 100%;
-  padding: 10px;
-  padding-left: 10px;
-  box-sizing: border-box;
-}
-
-.personnalfoot .email,
-.personnalfoot .phone {
-  display: inline-block;
-  font-size: 14px;
-  margin-bottom: 10px;
-  margin-top: 5px;
-}
-
-.personnalfoot .email {
-  width: 60%;
-}
-
-.personnalfoot .phone {
-  display: inline-block;
-  width: 38%;
-}
-
-.personnalfoot .department {
-  font-size: 14px;
-}
-
 
 /* 搜索栏 */
-
 
 .chatting .loading {
   font-size: 14px;
   text-align: center;
 }
-
 
 .chatting .group-item.selectBackground {
   background-color: #e4e8f1;
