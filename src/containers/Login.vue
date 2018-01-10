@@ -4,13 +4,13 @@
   			<div class="header_left">
   				<img src="../../static/img/logo.png"/>
   			</div>
-  			<div class="header_right">
+  			<!--<div class="header_right">
   				<ul>
   					<li><a href="">首页</a></li>
   					<li><a href="">下载</a></li>
   					<li><a href="">使用帮助</a></li>
   				</ul>
-  			</div>
+  			</div>-->
   	</div>
   	<div class="banner">
   		<div class="login-container">
