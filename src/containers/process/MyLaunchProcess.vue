@@ -88,7 +88,7 @@
         loading: false,
         formItem: {
           time: '4',
-          status: 'all'
+          status: ''
         },
         billType: '',                    // 发起类型
         launchTotal: 0,                 // 发起列表总条数
@@ -243,7 +243,7 @@
           pageNum: this.launchCurrentPage,            // 发起列表当前页数
           pageSize: this.launchPageSize,              // 发起列表每页显示条数
           time: this.formItem.time,
-          selectApproveState: this.formItem.status,   // 查询单据状态
+          selectApproveState: this.formItem.status === 'all' ? '' : this.formItem.status,   // 查询单据状态
           selectBillType: this.billType,               // 查询方式（加班/签卡/休假/调休/全部）
           index: index
         }
@@ -272,7 +272,8 @@
         this.getMyLaunchList()
       },
 //    选择发起状态
-      checkStatus () {
+      checkStatus (value) {
+        console.log(value)
         this.getMyLaunchList()
       },
 //    选择发起审批类型

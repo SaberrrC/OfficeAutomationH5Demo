@@ -123,7 +123,7 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="出差地点" prop="startTime">
-                        <span>{{item.startTime}}</span>
+                        <span>{{item.evectionAddress}}</span>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -134,7 +134,7 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="出差原因">
-                        <span>{{item.endTime}}</span>
+                        <span>{{item.evectionRemark}}</span>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -417,12 +417,14 @@
           this.$Message.info('已经是第一条')
           return false
         }
+        console.log(123)
         var num = serialNumber - 1
         var nextData = {}
 //        /******调分页接口,获取上一条数据的信息*********/
         let url = ''
         let data = {}
         if (this.type === 'myLaunch') {
+          console.log(234)
           url = '/myApply/queryApproveByAll'
           data = {
             time: this.time,
