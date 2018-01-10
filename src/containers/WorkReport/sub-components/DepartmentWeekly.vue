@@ -210,7 +210,7 @@
       },
       //  关闭
       back () {
-        location.hash = '/report_admin/whole/wholeList'
+        location.hash = '/report_admin/department/departmentList'
       },
       //  左右切换
       goRight () {
