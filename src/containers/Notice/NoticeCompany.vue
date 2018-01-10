@@ -46,7 +46,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<FormItem label="相关附件" prop="defaultList">
+							<FormItem label="相关附件">
 								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'" :format="['jpg','jpeg','png','gif','bmp','tif','txt','zip','rar','doc','docx','xls','xlsx','ppt','pptx','accdb','pdf','rtf','psd','wps','pages','numbers','key']" :before-upload="handleBeforeUpload" :on-format-error="handleFormatError" :on-remove="handleRemove">
 									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
