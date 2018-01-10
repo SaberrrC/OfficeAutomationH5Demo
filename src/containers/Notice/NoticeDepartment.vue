@@ -206,6 +206,7 @@
 	    },
 	    handleReset (name) {
 	      this.$refs[name].resetFields()
+	      this.formItem.defaultList = []
 	      this.$refs.upload.clearFiles()
 	    }
 	  }
