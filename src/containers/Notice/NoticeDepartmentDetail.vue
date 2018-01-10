@@ -29,7 +29,7 @@
 						</td>
 						<td>
 							<FormItem label="发布人">
-								{{this.$store.state.userInfo.username}}
+								{{this.$route.params.postUserName}}
 							</FormItem>
 						</td>
 					</tr>

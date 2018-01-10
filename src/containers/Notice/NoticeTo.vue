@@ -265,6 +265,7 @@
 	          name: 'NoticeCompanyDetail',
 	          params: {
 	            id: row.id,
+	            postUserName: row.postUserName,
 	            type: 2
 	          }
 	        })
@@ -274,6 +275,7 @@
 	          name: 'NoticeDepartmentDetail',
 	          params: {
 	            id: row.id,
+	            postUserName: row.postUserName,
 	            type: 2
 	          }
 	        })
