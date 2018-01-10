@@ -291,11 +291,11 @@
         }]
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
-          if (response.data.code === '000000') {
+          if (response.data.code === '000000' && response.data.data[0].status === '1') {
             this.$Message.success('审批成功')
             this.$router.push({path: this.type})
           } else {
-            this.$Message.success(response.data.message)
+            this.$Message.error('审批失败')
           }
         }).catch(function (err) {
           console.log(err)
@@ -311,11 +311,11 @@
         }]
         this.$ajax.post(`/Approve/allApprove`, approveRequest, {
         }).then((response) => {
-          if (response.data.code === '000000') {
+          if (response.data.code === '000000' && response.data.data[0].status === '1') {
             this.$Message.success('驳回成功')
             this.$router.push({path: this.type})
           } else {
-            this.$Message.success(response.data.message)
+            this.$Message.error('驳回失败')
           }
         }).catch(function (err) {
           console.log(err)
