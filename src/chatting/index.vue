@@ -361,6 +361,12 @@ export default {
         if (h <= o.bottom) {
           this.$refs.ChatIcon.style.top = h - o.height + 'px'
         }
+        if (o.left < 0) {
+          this.$refs.ChatIcon.style.left = 0
+        }
+        if (o.top < 0) {
+          this.$refs.ChatIcon.style.top = 0
+        }
       }, 20)
     },
     clearMessg () {
