@@ -17,12 +17,12 @@
 		  	<div class="formLogin">
 			    <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
 			      <FormItem prop="email">
-			        <Input type="text" v-model="formLogin.email" placeholder="邮箱或工号" @keyup.enter.native="toEnterLogin($event)">
+			        <Input type="text" v-model.trim="formLogin.email" placeholder="邮箱或工号" @keyup.enter.native="toEnterLogin($event)">
 			        <Icon type="ios-person-outline" slot="prepend"></Icon>
 			        </Input>
 			      </FormItem>
 			      <FormItem prop="pwd">
-			        <Input type="password" v-model="formLogin.pwd" placeholder="请输入密码" @keyup.enter.native="toEnterLogin($event)">
+			        <Input type="password" v-model.trim="formLogin.pwd" placeholder="请输入密码" @keyup.enter.native="toEnterLogin($event)">
 			        <Icon type="ios-locked-outline" slot="prepend"></Icon>
 			        </Input>
 			      </FormItem>
@@ -188,9 +188,12 @@ export default {
               }, 0)
             } else {
               this.$Message.error(response.data.message)
+              //  失败后重新换个验证码
+              this.handleUpdateImg()
             }
           }).catch((err) => {
             console.log(err)
+            this.handleUpdateImg()
           })
         } else {
         }
@@ -256,7 +259,7 @@ export default {
 				padding: 16px;
 				margin-top: 25px;
 				background-color: #ffffff;
-	  		
+
 	  		form img {
 	    		display: block;
 	    		float: left;
@@ -276,7 +279,7 @@ export default {
   			height:107px;
   		}
   	}
-  	
+
   	.hover-box{
   		position: relative;
   		.logoBox{
@@ -297,7 +300,7 @@ export default {
   				width:100px;
   			}
   		}
-  		
+
   	}
   	.hover-box:hover{
   		.logoBox{

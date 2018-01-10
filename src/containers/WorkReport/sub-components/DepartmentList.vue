@@ -78,13 +78,13 @@ export default {
       }],
       state: 0,
       typeList: [{
-        value: 0,
+        value: 1,
         label: '日报'
       }, {
-        value: 1,
+        value: 2,
         label: '周报'
       }],
-      type: 0,
+      type: 1,
       department: '',
       columns: [{
         title: '类型',

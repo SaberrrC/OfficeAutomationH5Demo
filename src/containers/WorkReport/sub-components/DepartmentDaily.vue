@@ -318,7 +318,7 @@
           'selfAppearance': '',
           'selfDiscipline': '',
           'supervisorBehavior': '',
-          'supervisorEnvironmental': '',
+          'supervisorEnvironMental': '',
           'supervisorSave': '',
           'supervisorCommunication': '',
           'supervisorAppearance': '',
