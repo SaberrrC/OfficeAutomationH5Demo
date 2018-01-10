@@ -128,7 +128,7 @@
 	        }
 	      }, {
 	        title: '发起人',
-	        key: 'postDeptId',
+	        key: 'postUserName',
 	        sortable: true
 	      }, {
 	        title: '公告类别',
