@@ -612,7 +612,6 @@ export default {
         msg.nameType = 1
       }
       if (msg.type === 'groupchat') {
-        // this.handleMsgOptionsInfo(msg)
         // 没有当前群，则不处理消息
         let id = msg.to
         chat.fetchGroupInfo(id).then((x) => {
@@ -629,32 +628,6 @@ export default {
             chat && !!sentFromMe && chat.showNewMsgNotice(msg)
           })
         })
-        // function(reason, data) {
-        //   window.axios.post(config.OA_API + '/user/queryUserByCodes', {
-        //   codeList: code
-        //   }).then((response) => {
-        //     if (response.data && response.data.code === '000000') {
-        //       const result = response.data.data[0]
-        //       let tmp = Object.assign({}, result, {
-        //         departmentName: result.organ,
-        //         name: result.username,
-        //         img: result.img ? config.OA_IMG + result.img : store.state.image
-        //       })
-        //       console.log('queryUserInfo', tmp)
-        //       if (store.state.userInfoDb && store.state.userInfoDb[code]) {
-        //         store.state.userInfoDb[code] = Object.assign({}, store.state.userInfoDb[code], tmp)
-        //       } else {
-        //         store.state.userInfoDb[code] = tmp
-        //       }
-        //       setTimeout(function () {
-        //         that.$nextTick(function () { // 收到数据推送再来执行
-        //           that.$store.dispatch('receiveText', msg)
-        //           chat && !!sentFromMe && chat.showNewMsgNotice(msg)
-        //         })
-        //       }, 0)
-        //     }
-        //   })
-        // }
       } else {
         this.$store.dispatch('receiveText', msg)
         chat && !sentFromMe && chat.showNewMsgNotice(msg)
@@ -809,15 +782,6 @@ export default {
             duration: 0
           })
           break
-      }
-    },
-    async handleMsgOptionsInfo (message) {
-      let type = message.type
-      let to = message.to
-      if (type === 'groupchat') {
-        // chat && chat.queryGroupInfo(to)
-        let a = await chat.queryGroupInfo(to)
-        console.log('groupchat', a.data)
       }
     },
     fetchCmdMessage (message) {
