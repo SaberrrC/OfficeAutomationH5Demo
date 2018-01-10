@@ -100,7 +100,7 @@ export default {
     };
   },
   mounted() {
-    // this.initGroups()
+    chat.checkGroups()
   },
   created() {
   },
@@ -116,11 +116,10 @@ export default {
       groupIdShow: state => state.groupIdShow,
       showSid: state => state.showSid
     }),
-    groups: function () {
+    groups () {
       let tmp = []
       let arr = this.TXGroup
-      for(var i =0; i< arr.length; i++) {
-        let j = arr[i]
+      for(let i =0; i < arr.length; i++) {
         tmp.push(arr[i])
       }
       return tmp
@@ -128,24 +127,13 @@ export default {
     rooms: function () {
       let tmp = []
       let arr = this.TXRoom
-      for(var i =0; i< arr.length; i++) {
-        let j = arr[i]
+      for(let i =0; i < arr.length; i++) {
         tmp.push(arr[i])
       }
       return tmp
     }
   },
   methods: {
-    initGroups: function () {
-      let tmp = []
-      let arr = this.$store.state.TXGroup
-      for(var i =0; i< arr.length; i++) {
-        let j = arr[i]
-        tmp.push(arr[i])
-      }
-      this.groups =  tmp
-      this.$forceUpdate()
-    },
     strSubString (str) {
       let tmp = ''
       if(str && str.length > 10) {
