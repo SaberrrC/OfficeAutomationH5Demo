@@ -330,7 +330,7 @@ const chat = {
               resolve(store.state.TXGroup[groupLength - 1])
             },
             error: function (e) {
-              reject('Error, getGroupInfo', e)
+              reject(e)
             }
           })
         }
@@ -1004,6 +1004,20 @@ const chat = {
     msg.set(option)
     msg.setGroup('groupchat')
     conn.send(msg.body)
+  },
+  async checkGroups () { // 遍历群组列表，移除不存在的群
+    let arr = store.state.TXGroup
+    for (let i = 0; i < arr.length; i++) {
+      try {
+        let g = await chat.queryGroupInfo(arr[i].groupid)
+        console.log('checkgroup', g)
+      } catch (error) {
+        if (error && error.type === 17 && JSON.parse(error.data).error === 'service_resource_not_found') {
+          chat.updateGroup(arr[i].groupid, 'delete')
+          console.log('no this group', arr[i].groupid)
+        }
+      }
+    }
   },
   // 信息加密 256
   // encrypt (text) {

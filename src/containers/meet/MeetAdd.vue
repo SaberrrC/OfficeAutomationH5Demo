@@ -120,23 +120,12 @@
     background: #ffffff;
   }
   .ivu-poptip {
-    display: block;
+    display: block!important;
   }
   .ivu-poptip-rel {
-    display: block;
+    display: block!important;
   }
   .ivu-poptip, .ivu-poptip-rel {
-    display: block;
-  }
-</style>
-<style>
-  .ivu-poptip {
-    display: block;
-  }
-  .ivu-poptip-rel {
-    display: block;
-  }
-  .ivu-poptip, .ivu-poptip-rel {
-    display: block;
+    display: block!important;
   }
 </style>
