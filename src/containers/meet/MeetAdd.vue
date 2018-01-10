@@ -21,22 +21,22 @@
                 <i-Col span="16">
                   <p>{{room.roomname}}</p>
                   <Row>
-                    <i-Col span="8"><span>{{room.nop}}人</span></i-Col>
-                    <i-Col span="8" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                    <i-Col span="6"><span>{{room.nop}}人</span></i-Col>
+                    <i-Col span="8"  style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                       <Poptip trigger="hover" :content="room.address" :transfer="true">
                         <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                           <i class="iconfont icon-dingwei-"></i>{{room.address}}
                         </i-Col>
                       </Poptip>
                     </i-Col>
-                    <i-Col span="8" v-if="room.device !== ''" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                    <i-Col span="8" offset="2" v-if="room.device !== ''" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                       <Poptip trigger="hover" :content="room.device" :transfer="true">
                         <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                           <i class="iconfont icon-touying"></i>{{room.device}}
                         </i-Col>
                       </Poptip>
                     </i-Col>
-                    <i-Col span="8" v-else>&nbsp;</i-Col>
+                    <i-Col span="8" offset="2" v-else>&nbsp;</i-Col>
                   </Row>
                 </i-Col>
                 <i-Col span="8" style="text-align: right">
@@ -118,7 +118,15 @@
     padding-left: 20px;
     background: #ffffff;
   }
-
+  .ivu-poptip {
+    display: block;
+  }
+  .ivu-poptip-rel {
+    display: block;
+  }
+  .ivu-poptip, .ivu-poptip-rel {
+    display: block;
+  }
 </style>
 <style>
   .ivu-poptip {
@@ -131,4 +139,3 @@
     display: block;
   }
 </style>
-
