@@ -20,18 +20,6 @@
   margin-left: 5px;
 }
 
-.chatting .headImg {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  /* background-color: red; */
-  background: url(../assets/img-chat/5.jpg);
-  /* border:1px solid #ccc; */
-  border-style: none;
-  border-width: 0;
-  background-size: contain;
-}
-
 .panel-c-c .grid-content .el-loading-mask {
   position: absolute;
   z-index: 9;
