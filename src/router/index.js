@@ -408,11 +408,11 @@ const router = new Router({
       component: MeetingAdmin,
       redirect: '/meeting_admin/add',
       children: [
-        { path: 'add', component: MeetAdd, name: 'MeetAdd' },
+        { path: 'add', component: MeetAdd, name: 'add' },
         { path: 'time', component: MeetTime, name: 'MeetTime' },
         { path: 'confirm', component: MeetConfirm, name: 'MeetConfirm' },
         { path: 'meetRoomEdit', component: MeetRoomEdit, name: 'MeetRoomEdit' },
-        { path: 'myMeeting', component: MyMeeting, name: 'MyMeeting' },
+        { path: 'myMeeting', component: MyMeeting, name: 'myMeeting' },
         { path: 'meetSummary', component: MeetSummary, name: 'MeetSummary' }
       ]
     },
