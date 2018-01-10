@@ -106,6 +106,7 @@
   }
   .roomBody {
     border: 1px solid #eeeeee;
+    cursor: pointer
   }
   img {
     width: 100%;
