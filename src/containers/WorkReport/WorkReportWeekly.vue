@@ -147,8 +147,9 @@ export default {
       endTime: '2017-12-12',
       options: {
         disabledDate (date) {
-          return date && date.valueOf() > Date.now()
-          // var monday = this.getTime(this.getMonday(new Date()))
+          if (new Date(date).getDay() !== 1 || (date.valueOf() > Date.now())) {
+            return date
+          }
         }
       },
       checkmantext: '',

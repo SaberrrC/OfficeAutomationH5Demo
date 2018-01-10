@@ -3,7 +3,7 @@
 		<Row style="background-color: #ffffff;height: 53px;padding: 10px 16px 0;">
 	  		<h3 style="float:left;">部门公告</h3>
 	  		<div style="float:right;">
-	  			<Button type="primary" @click="handleReset('formItem')" style="margin-right: 20px;">取消</Button>
+	  			<Button type="primary" @click="handleReset('formItem')" style="margin-right: 20px;">清空</Button>
 	        	<Button type="primary" @click="handleSubmit('formItem')">发布</Button>
 	  		</div>
 		</Row>
@@ -14,7 +14,7 @@
 					<tr>
 						<td>
 							<FormItem label="标题" prop="title">
-								<Input v-model="formItem.title" :maxlength="10" placeholder="请输入标题"></Input>
+								<Input v-model="formItem.title" placeholder="请输入标题"></Input>
 							</FormItem>
 						</td>
 						<td>
@@ -46,7 +46,7 @@
 					</tr>
 					<tr>
 						<td>
-							<FormItem label="相关附件" prop="defaultList">
+							<FormItem label="相关附件">
 								<Upload ref="upload" :on-success="handleSuccess" multiple :headers="header" :action="this.$ajax.defaults.baseURL + '/notice/upload'" :format="['jpg','jpeg','png','gif','bmp','tif','txt','zip','rar','doc','docx','xls','xlsx','ppt','pptx','accdb','pdf','rtf','psd','wps','pages','numbers','key']" :before-upload="handleBeforeUpload" :on-format-error="handleFormatError" :on-remove="handleRemove">
 									<Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
 								</Upload>
@@ -206,6 +206,7 @@
 	    },
 	    handleReset (name) {
 	      this.$refs[name].resetFields()
+	      this.formItem.defaultList = []
 	      this.$refs.upload.clearFiles()
 	    }
 	  }

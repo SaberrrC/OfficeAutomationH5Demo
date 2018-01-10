@@ -55,8 +55,7 @@
 
 .chatting-container .chatting-icon,
 .chatting .sidebar .name .circle,
-.chatting .sidebar .webim,
-.chatting .personnalbaseImg .close {
+.chatting .sidebar .webim {
   cursor: pointer;
 }
 
@@ -182,15 +181,18 @@
   color: #3a8ee6 !important;
 }
 
+/* MemberInfo */
 .chatting .Personalmes {
   z-index: 1001;
-  text-align: left;
   width: 420px;
+  text-align: left;
+  /* height: 300px; */
   border: 1px solid #bcbcbc;
-  position: absolute;
-  left: 50%;
-  top: 6%;
+  position: fixed;
+  left: 40%;
+  top: 20%;
   background-color: #fff;
+  /* padding: 10px; */
   border-radius: 5px;
 }
 
@@ -210,17 +212,19 @@
   position: absolute;
   top: -25px;
   right: 10px;
+  cursor: pointer;
 }
 
 .chatting .personnalbaseImg .avatar {
   display: inline-block;
   width: 50px;
   height: 50px;
-  background-color: #f2f2f2;
-  /*border-radius: 50%;*/
-  padding-top: 4px;
+  border-radius: 50%;
+  padding-top: 6px;
   padding-left: 7px;
+  margin-left: 5px;
   box-sizing: border-box;
+  background-color: #f2f2f2;
 }
 
 .chatting .personnalbaseImg img {
@@ -229,18 +233,15 @@
 
 .chatting .personnalbaseImg .baseMes {
   display: inline-block;
-}
-
-.chatting .baseMes {
   margin-left: 10px;
 }
 
-.chatting .baseMes p {
+.chatting .personnalbaseImg .baseMes p {
   font-weight: 800;
   margin: 5px;
 }
 
-.chatting .baseMes span {
+.chatting .personnalbaseImg .baseMes span {
   font-size: 14px;
 }
 
@@ -254,22 +255,9 @@
 }
 
 .chatting .personnalfoot .email,
-.chatting .personnalfoot .phone {
-  display: inline-block;
-  font-size: 14px;
-  margin-bottom: 10px;
-  margin-top: 5px;
-}
-
-.chatting .personnalfoot .email {
-  width: 100%;
-}
-
-.chatting .personnalfoot .phone {
-  display: inline-block;
-  width: 34%;
-}
-
+.chatting .personnalfoot .phone,
 .chatting .personnalfoot .department {
   font-size: 14px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
