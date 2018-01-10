@@ -166,7 +166,8 @@ export default {
       if (id) {
         //  判断是否外链
         if (~id.indexOf('://')) {
-          window.location.href = id
+          //  window.location.href = id
+          window.open(id)
         } else {
           this.$router.push(`/${id}`, () => {
             if (next) next()
