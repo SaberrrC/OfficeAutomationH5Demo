@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <h1 id="logo"><img src="../assets/images/logo.png" alt="善林OA"></h1>
+    <h1 id="logo"><img src="../assets/images/logo.png" alt="善林OA" @click="$router.push({path: '/home'})"></h1>
     <nav class="navigation">
       <Menu
         ref="navigation"
@@ -203,6 +203,7 @@ export default {
   float: left;
   width: 240px;
   padding: 12px 0 14px;
+  cursor: pointer;
   img {
     display: block;
     margin: auto;

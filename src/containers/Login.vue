@@ -3,18 +3,18 @@
   	<div class="formLogin">
 	    <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
 	      <FormItem prop="email">
-	        <Input type="text" v-model="formLogin.email" placeholder="邮箱或工号">
+	        <Input type="text" v-model="formLogin.email" placeholder="邮箱或工号" @keyup.enter.native="toEnterLogin($event)">
 	        <Icon type="ios-person-outline" slot="prepend"></Icon>
 	        </Input>
 	      </FormItem>
 	      <FormItem prop="pwd">
-	        <Input type="password" v-model="formLogin.pwd" placeholder="请输入密码">
+	        <Input type="password" v-model="formLogin.pwd" placeholder="请输入密码" @keyup.enter.native="toEnterLogin($event)">
 	        <Icon type="ios-locked-outline" slot="prepend"></Icon>
 	        </Input>
 	      </FormItem>
 	      <FormItem prop="code">
 	        <div style="height:32px">
-	          <Input v-model="formLogin.code" style="float:left;width:80px;margin-right:5px"/>
+	          <Input v-model="formLogin.code" style="float:left;width:80px;margin-right:5px" @keyup.enter.native="toEnterLogin($event)" />
 	          <img :src="`data:image/gif;base64,${codeImg}`" alt="" @click="handleUpdateImg">
 	        </div>
 	      </FormItem>
@@ -121,6 +121,12 @@ export default {
         } else {
         }
       })
+    },
+    toEnterLogin (ev) {
+    // 按回车登录
+      if (ev.keyCode === 13) {
+        this.handleSubmit('formLogin')
+      }
     }
   }
 }
