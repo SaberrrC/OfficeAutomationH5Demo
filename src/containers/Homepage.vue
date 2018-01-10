@@ -47,7 +47,7 @@
           <ul>
             <li
               v-for="item in notices"
-              @click="handleToNoticeDetail(item.id)"
+              @click="handleToNoticeDetail(item)"
               :title="item.title">
               <span class="notice-title">{{item.title}}</span><span class="notice-name">{{item.postTitle}}</span><span
               class="notice-type">{{noticeType(item.noticeClass)}}</span><span class="notice-time">{{formatDate(item.createTime*1000,false)}}</span>
@@ -203,11 +203,12 @@ export default {
     })
   },
   methods: {
-    handleToNoticeDetail (id) {
+    handleToNoticeDetail (row) {
       this.$router.push({
         name: 'NoticeCompanyDetail',
         params: {
-          id: id,
+          id: row.id,
+          postUserName: row.postUserName,
           type: 1
         }
       })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="header">
-      <Button @click="handleCancel">取消</Button>
+      <Button @click="handleCancel">清空</Button>
       <Button type="primary" @click="query()">发布</Button>
     </p>
     <div class="summary">
@@ -324,9 +324,11 @@
           }
         })
       },
-//    点击页面头部取消按钮
+//    点击页面头部清空按钮
       handleCancel () {
         this.formItem = {}
+        this.uploadList = []
+        this.$refs.upload.fileList = []
       },
 //    选择与会人
       checkUsers () {

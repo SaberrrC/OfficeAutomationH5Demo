@@ -47,6 +47,7 @@
         roomName: this.$route.query.roomName,
         nop: this.$route.query.nop,
         device: this.$route.query.device,
+        type: this.$route.query.type,
         date: '',                     // 当前日期
         weekOneDate: '',              // 周一日期
         weekSevenDate: '',            // 周日日期
@@ -321,7 +322,7 @@
     methods: {
 //    点击返回按钮
       fallBack () {
-        this.$router.push({ path: 'add' })
+        this.$router.push({ path: this.type })
       },
 //    数组去重方法
       removeArrayRepElement (arr) {
