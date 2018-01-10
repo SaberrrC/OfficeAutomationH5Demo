@@ -343,7 +343,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.furloughDetail.startTime) {
+          if (value <= this.furloughDetail.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -363,7 +363,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.addfurlough.startTime) {
+          if (value <= this.addfurlough.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -599,7 +599,7 @@
           this.duration = '小时'
           if (this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
             // 判断开始时间小于结束时间
-            if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+            if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
               this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
             }
           }
@@ -610,7 +610,7 @@
           this.duration = '天'
           if (this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
             // 判断开始时间小于结束时间
-            if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+            if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
               this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
             }
           }
@@ -650,7 +650,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
         // 判断开始时间小于结束时间
-          if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+          if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
             this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
           }
         }
@@ -660,7 +660,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+          if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
             this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
           }
         }
@@ -669,7 +669,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addfurlough.startTime !== '' && this.addfurlough.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addfurlough.startTime < this.addfurlough.endTime) {
+          if (this.addfurlough.startTime <= this.addfurlough.endTime) {
             this.getTimeDifference(this.addfurlough.startTime, this.addfurlough.endTime, 'add')
           }
         }
@@ -679,7 +679,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addfurlough.startTime !== '' && this.addfurlough.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addfurlough.startTime < this.addfurlough.endTime) {
+          if (this.addfurlough.startTime <= this.addfurlough.endTime) {
             this.getTimeDifference(this.addfurlough.startTime, this.addfurlough.endTime, 'add')
           }
         }

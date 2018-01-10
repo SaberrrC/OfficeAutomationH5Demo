@@ -247,22 +247,17 @@
           selectBillType: this.billType,               // 查询方式（加班/签卡/休假/调休/全部）
           index: index
         }
-        console.log(data)
         switch (row.billType) {
           case '6402':
-            console.log('签卡申请')
             this.$router.push({path: 'signCardLaunchInfo', query: data})
             break
           case '6403':
-            console.log('出差申请')
             this.$router.push({path: 'billLaunchInfo', query: data})
             break
           case '6404':
-            console.log('休假申请')
             this.$router.push({path: 'furloughLaunchInfo', query: data})
             break
           case '6405':
-            console.log('加班申请')
             this.$router.push({path: 'workApplyLaunchInfo', query: data})
             break
         }
