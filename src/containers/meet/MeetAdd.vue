@@ -129,14 +129,3 @@
     display: block;
   }
 </style>
-<style>
-  .ivu-poptip {
-    display: block;
-  }
-  .ivu-poptip-rel {
-    display: block;
-  }
-  .ivu-poptip, .ivu-poptip-rel {
-    display: block;
-  }
-</style>
