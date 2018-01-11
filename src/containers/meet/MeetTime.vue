@@ -429,18 +429,21 @@
         this.nowTime = this.nowTime - 3600 * 24 * 7
         this.getDate(this.nowTime)
         this.getAllMeetings()
+        this.click_time = []
       },
 //    点击本周
       thisWeek () {
         this.nowTime = parseInt(new Date().getTime() / 1000)
         this.getDate(this.nowTime)
         this.getAllMeetings()
+        this.click_time = []
       },
 //    点击下一周
       nextWeek () {
         this.nowTime = this.nowTime + 3600 * 24 * 7
         this.getDate(this.nowTime)
         this.getAllMeetings()
+        this.click_time = []
       },
 //    格式化时间
       getDate (time) {
