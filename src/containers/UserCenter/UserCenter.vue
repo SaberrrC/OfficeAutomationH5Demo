@@ -8,7 +8,7 @@
   export default {
     name: 'UserCenter',
     created () {
-      this.$store.dispatch('querySidebarList', 'user_center')
+      this.$store.dispatch('querySidebarList', '8')
     }
   }
 </script>

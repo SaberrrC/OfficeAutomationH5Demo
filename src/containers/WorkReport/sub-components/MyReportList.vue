@@ -223,7 +223,7 @@ export default {
         case 0:
           return '未提交'
         case 1:
-          return '已提交'
+          return '待评分'
         case 2:
           return '已退回'
         case 3:
