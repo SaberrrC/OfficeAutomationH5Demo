@@ -19,7 +19,7 @@
             <div style="padding: 8px;">
               <Row>
                 <i-Col span="16">
-                  <Poptip trigger="hover" :content="room.roomname" :transfer="true">
+                  <Poptip trigger="hover" :content="room.roomname" :transfer="true" placement="top-start">
                   <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{room.roomname}}</i-Col>
                   </Poptip>
                   <Row>
