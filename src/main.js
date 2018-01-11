@@ -16,6 +16,7 @@ axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可
 axios.defaults.baseURL = config.OA_API
 axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
 axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''
+window.axios = axios
 /*
 axios.defaults.transformRequest = [(data) => {
   return qs.stringify(data || {})
@@ -34,6 +35,7 @@ axios.interceptors.request.use(function (config) {
     //  alert('前: ' + JSON.stringify(localStorage))
     if (!localStorage.token) {
       location.hash = '/login?redirect=/home'
+      localStorage.clear()
     } else {
       return config
     }
@@ -45,7 +47,7 @@ axios.interceptors.request.use(function (config) {
 })
 
 // 添加响应拦截器
-/* axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   return response
 }, function (error) {
@@ -53,12 +55,22 @@ axios.interceptors.request.use(function (config) {
   console.log(error)
   if (error.toString() === 'Error: Request failed with status code 401') {
     //  token失效
-    window.localStorage.removeItem('token')
-    window.localStorage.removeItem('uid')
-    location.hash = '/login?redirect=/home'
+    //  window.localStorage.removeItem('token')
+    //  window.localStorage.removeItem('uid')
+    if (localStorage.cango) {
+      //  存在，则说明不是登录，那就跳出
+      //  localStorage.removeItem('cango')
+      location.hash = '/login?redirect=/home'
+      localStorage.clear()
+      window.location.reload()
+    } else {
+      //  登录状态下 不进行拦截
+    }
+
+
   }
   return Promise.reject(error)
-}) */
+})
 
 Vue.prototype.$ajax = axios
 Vue.prototype.GLOBAL_ = {
@@ -80,7 +92,7 @@ Vue.prototype.GLOBAL_ = {
 Vue.use(iView)
 Vue.config.productionTip = false
 
-window.axios = axios
+
 
 /* eslint-disable no-new */
 new Vue({

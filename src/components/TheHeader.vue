@@ -118,6 +118,7 @@ export default {
     this.activeName = this.getCurrentActiveName()
     this.$ajax.get('/navit/queryNaviList').then((response) => {
       if (response.data && response.data.code === '000000') {
+        localStorage.setItem('cango', '1')
         console.log('导航菜单') // toDel
         console.log(response.data.data) // toDel
         //  三个功能没有，所以要删除
@@ -183,6 +184,7 @@ export default {
         window.localStorage.removeItem('token')
         window.localStorage.removeItem('uid')
         window.location.reload()
+        localStorage.clear()
       } else {
         this.handleSelect(id, () => {
           //  更新 navigation 的 currentActiveName
