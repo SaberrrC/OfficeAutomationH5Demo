@@ -3,7 +3,7 @@
   	<Row style="background-color: #ffffff;height: 53px;padding: 10px 16px 0;">
   		<h3 style="float:left;">公司新闻</h3>
   		<div style="float:right;">
-  			<Button type="primary" @click="handleReset('formItem')" style="margin-right: 20px;">清空</Button>
+  			<Button @click="handleReset('formItem')" style="margin-right: 20px;">重置</Button>
         <Button type="primary" @click="handleSubmit('formItem')">发布</Button>
   		</div>
 		</Row>
