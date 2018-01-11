@@ -137,6 +137,9 @@
 	          let result = res.data.data
 	          if (result.length !== 0) {
 	            this.formItem = result[0]
+	            if (!this.formItem.attachList[0]) {
+	              this.formItem.attachList = []
+	            }
 	            this.oids = result[0].oids.split(',')
 	          }
 	        } else {
