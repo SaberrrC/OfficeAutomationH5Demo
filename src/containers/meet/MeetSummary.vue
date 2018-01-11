@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="header">
-      <Button @click="handleCancel">清空</Button>
+      <Button @click="handleCancel">重置</Button>
       <Button type="primary" @click="query()">发布</Button>
     </p>
     <div class="summary">
