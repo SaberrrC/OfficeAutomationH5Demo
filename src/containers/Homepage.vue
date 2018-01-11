@@ -173,11 +173,13 @@ export default {
           })
         })
         data.ycWorkAttendanceList.forEach((item) => {
-          if (!item.calendar) return
-          events.push({
-            title: new Date(item.calendar).getDate(),
-            start: item.calendar,
-            cssClass: 'abnormal'
+          item.forEach((_item) => {
+            if (!_item.calendar) return
+            events.push({
+              title: new Date(_item.calendar).getDate(),
+              start: _item.calendar,
+              cssClass: 'abnormal'
+            })
           })
         })
         data.jbWorkAttendanceList.forEach((item) => {
