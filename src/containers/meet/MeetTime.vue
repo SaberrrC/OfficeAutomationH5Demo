@@ -362,6 +362,8 @@
           arr = this.removeArrayRepElement(arr)
           if (arr.length > 1) {     // 判断选择是否在同一天(不在)
             this.$Message.info('请选择连续的时间')
+            this.click_time = []
+            this.getAllMeetings()
           } else {          // 在同一天时，判断时间点是否连续
 //            var len = this.click_time.length
             var clock = []
@@ -372,6 +374,8 @@
             clock = clock.sort(this.sortNumber)
             if (clock[0] + len - 1 !== clock[clock.length - 1]) {
               this.$Message.info('请选择连续的时间')
+              this.click_time = []
+              this.getAllMeetings()
             } else {
               startClock = clock[0]     // 开始时间点
               endClock = clock[0] + len   // 结束时间点
