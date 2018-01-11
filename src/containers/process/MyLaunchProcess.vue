@@ -88,7 +88,7 @@
         loading: false,
         formItem: {
           time: '4',
-          status: 'all'
+          status: ''
         },
         billType: '',                    // 发起类型
         launchTotal: 0,                 // 发起列表总条数
@@ -243,26 +243,21 @@
           pageNum: this.launchCurrentPage,            // 发起列表当前页数
           pageSize: this.launchPageSize,              // 发起列表每页显示条数
           time: this.formItem.time,
-          selectApproveState: this.formItem.status,   // 查询单据状态
+          selectApproveState: this.formItem.status === 'all' ? '' : this.formItem.status,   // 查询单据状态
           selectBillType: this.billType,               // 查询方式（加班/签卡/休假/调休/全部）
           index: index
         }
-        console.log(data)
         switch (row.billType) {
           case '6402':
-            console.log('签卡申请')
             this.$router.push({path: 'signCardLaunchInfo', query: data})
             break
           case '6403':
-            console.log('出差申请')
             this.$router.push({path: 'billLaunchInfo', query: data})
             break
           case '6404':
-            console.log('休假申请')
             this.$router.push({path: 'furloughLaunchInfo', query: data})
             break
           case '6405':
-            console.log('加班申请')
             this.$router.push({path: 'workApplyLaunchInfo', query: data})
             break
         }
@@ -272,7 +267,8 @@
         this.getMyLaunchList()
       },
 //    选择发起状态
-      checkStatus () {
+      checkStatus (value) {
+        console.log(value)
         this.getMyLaunchList()
       },
 //    选择发起审批类型

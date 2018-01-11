@@ -119,7 +119,7 @@
               <tr>
                 <td>2.环境卫生</td>
                 <td colspan="3" style="text-align: left;"> 保持个人工作环境干净整洁,无灰尘无死角,桌面地面无纸屑杂物,办公用品摆放整齐</td>
-                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfEnvironmental"></Input></td>
+                <td><Input type="textarea" placeholder="" readonly v-model="reportData.selfEnvironMental"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.supervisorEnvironMental"></Input></td>
                 <td><Input type="textarea" placeholder="" readonly v-model="reportData.checkEnvironMental"></Input></td>
               </tr>
@@ -312,13 +312,13 @@ export default {
         'checkRatingSeven': '',
         'checkRatingEigth': '',
         'selfBehavior': '',
-        'selfEnvironmental': '',
+        'selfEnvironMental': '',
         'selfSave': '',
         'selfCommunication': '',
         'selfAppearance': '',
         'selfDiscipline': '',
         'supervisorBehavior': '',
-        'supervisorEnvironmental': '',
+        'supervisorEnvironMental': '',
         'supervisorSave': '',
         'supervisorCommunication': '',
         'supervisorAppearance': '',
@@ -351,6 +351,12 @@ export default {
   },
   methods: {
     func (event) {},
+    getTime (date) {
+      let year = date.getFullYear()
+      let mounth = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
+      let day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()
+      return year + '-' + mounth + '-' + day
+    },
     //  获取列表数据
     getListDate (id) {
       this.$ajax({
@@ -374,6 +380,7 @@ export default {
             if (arr[i].ratingStatus === 2) {
               arr[i].ratingStatus = '已退回'
             }
+            arr[i].dailyTime = this.getTime(new Date(arr[i].dailyTime))
           }
           this.listData = arr
           this.total = result.total

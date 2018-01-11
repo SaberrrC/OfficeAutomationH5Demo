@@ -19,7 +19,9 @@
             <div style="padding: 8px;">
               <Row>
                 <i-Col span="16">
-                  <p>{{room.roomname}}</p>
+                  <Poptip trigger="hover" :content="room.roomname" :transfer="true" placement="top-start">
+                  <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{room.roomname}}</i-Col>
+                  </Poptip>
                   <Row>
                     <i-Col span="6"><span>{{room.nop}}人</span></i-Col>
                     <i-Col span="8"  style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
@@ -119,6 +121,17 @@
     padding-left: 20px;
     background: #ffffff;
   }
+  .ivu-poptip {
+    display: block!important;
+  }
+  .ivu-poptip-rel {
+    display: block!important;
+  }
+  .ivu-poptip, .ivu-poptip-rel {
+    display: block!important;
+  }
+</style>
+<style>
   .ivu-poptip {
     display: block!important;
   }

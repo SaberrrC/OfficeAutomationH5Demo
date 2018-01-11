@@ -145,8 +145,8 @@
               <div class="card">
                 <Row>
                   <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                    <FormItem label="休假事由" prop="FurloughRemark">
-                      <Input placeholder="请填写休假事由" v-model="furloughDetail.FurloughRemark"></Input>
+                    <FormItem label="休假事由" prop="furloughRemark">
+                      <Input placeholder="请填写休假事由" v-model="furloughDetail.furloughRemark"></Input>
                     </FormItem>
                   </i-Col>
                 </Row>
@@ -234,8 +234,8 @@
                 <div class="card">
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
-                      <FormItem label="休假事由" prop="FurloughRemark">
-                        <Input placeholder="请填写休假事由" v-model="addfurlough.FurloughRemark"></Input>
+                      <FormItem label="休假事由" prop="furloughRemark">
+                        <Input placeholder="请填写休假事由" v-model="addfurlough.furloughRemark"></Input>
                       </FormItem>
                     </i-Col>
                   </Row>
@@ -343,7 +343,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.furloughDetail.startTime) {
+          if (value <= this.furloughDetail.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -363,7 +363,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.addfurlough.startTime) {
+          if (value <= this.addfurlough.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -400,14 +400,14 @@
         furloughDetail: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
-          FurloughRemark: '',    // 休假事由
+          furloughRemark: '',    // 休假事由
           handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
         addfurlough: {
           startTime: '',         // 开始日期
           endTime: '',           // 结束日期
-          FurloughRemark: '',    // 休假事由
+          furloughRemark: '',    // 休假事由
           handOverPepole: '',    // 工作交接人
           timeDifference: ''     // 时长
         },
@@ -424,7 +424,7 @@
           endTime: [
             { required: true, validator: validateEndTime, trigger: 'change' }
           ],
-          FurloughRemark: [
+          furloughRemark: [
             { required: true, message: '请输入休假事由', trigger: 'blur' }
           ],
           handOverPepole: [
@@ -438,7 +438,7 @@
           endTime: [
             { required: true, validator: validateAddEndTime, trigger: 'change' }
           ],
-          FurloughRemark: [
+          furloughRemark: [
             { required: true, message: '请输入休假事由', trigger: 'blur' }
           ],
           handOverPepole: [
@@ -599,7 +599,7 @@
           this.duration = '小时'
           if (this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
             // 判断开始时间小于结束时间
-            if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+            if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
               this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
             }
           }
@@ -610,7 +610,7 @@
           this.duration = '天'
           if (this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
             // 判断开始时间小于结束时间
-            if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+            if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
               this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
             }
           }
@@ -639,7 +639,7 @@
         this.nCHREvectionApplyDeatil.splice(1, 1)
         this.addfurlough.startTime = ''
         this.addfurlough.endTime = ''
-        this.addfurlough.FurloughRemark = ''
+        this.addfurlough.furloughRemark = ''
         this.billAddHandOverPepole = {}
         this.addfurlough.handOverPepole = ''
         this.addfurlough.timeDifference = ''
@@ -650,7 +650,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
         // 判断开始时间小于结束时间
-          if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+          if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
             this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
           }
         }
@@ -660,7 +660,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.furloughDetail.startTime < this.furloughDetail.endTime) {
+          if (this.furloughDetail.startTime <= this.furloughDetail.endTime) {
             this.getTimeDifference(this.furloughDetail.startTime, this.furloughDetail.endTime, 'furloughDetail')
           }
         }
@@ -669,7 +669,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addfurlough.startTime !== '' && this.addfurlough.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addfurlough.startTime < this.addfurlough.endTime) {
+          if (this.addfurlough.startTime <= this.addfurlough.endTime) {
             this.getTimeDifference(this.addfurlough.startTime, this.addfurlough.endTime, 'add')
           }
         }
@@ -679,7 +679,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addfurlough.startTime !== '' && this.addfurlough.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addfurlough.startTime < this.addfurlough.endTime) {
+          if (this.addfurlough.startTime <= this.addfurlough.endTime) {
             this.getTimeDifference(this.addfurlough.startTime, this.addfurlough.endTime, 'add')
           }
         }

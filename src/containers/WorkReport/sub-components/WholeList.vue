@@ -20,56 +20,57 @@
       </Col>
 
       <Col span="18">
-        <Card shadow>
-          <div slot="title">
-            <Form :label-width="80">
+        <div style="background-color: white;padding-right: 16px;padding-top: 20px;border-left: 1px solid #ebeff8;">
+        <Form :label-width="80">
 
-              <Row>
-                <Col span="8">
-                  <FormItem label="姓名">
-                    <Input v-model="searchName" placeholder=""></Input>
-                  </FormItem>
-                </Col>
-                <Col span="8">
-                  <FormItem label="开始时间">
-                    <DatePicker type="date" placeholder="Select date" v-model="startTime" format="yyyy-MM-dd" :clearable="false"></DatePicker>
-                  </FormItem>
-                </Col>
-                <Col span="8">
-                  <FormItem label="结束时间">
-                    <DatePicker type="date" placeholder="Select date" v-model="endTime" format="yyyy-MM-dd" :clearable="false"></DatePicker>
-                  </FormItem>
-                </Col>
-              </Row>
+          <Row>
+            <Col span="8">
+            <FormItem label="姓名">
+              <Input v-model="searchName" placeholder=""></Input>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="开始时间">
+              <DatePicker type="date" placeholder="Select date" v-model="startTime" format="yyyy-MM-dd" :clearable="false" style="width: 100%"></DatePicker>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="结束时间">
+              <DatePicker type="date" placeholder="Select date" v-model="endTime" format="yyyy-MM-dd" :clearable="false" style="width: 100%"></DatePicker>
+            </FormItem>
+            </Col>
+          </Row>
 
-              <Row>
-                <Col span="8">
-                  <FormItem label="状态">
-                    <Select v-model="state">
-                      <Option v-for="item in stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </FormItem>
-                </Col>
-                <Col span="8">
-                  <FormItem label="类型">
-                    <Select v-model="type">
-                      <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </FormItem>
-                </Col>
-                <Col span="8" align="right">
-                  <Button type="primary" @click="search" :loading="loading">搜索</Button>
-                  <Button type="primary" @click="exportReport">导出</Button>
-                </Col>
-              </Row>
+          <Row>
+            <Col span="8">
+            <FormItem label="状态">
+              <Select v-model="state">
+                <Option v-for="item in stateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </FormItem>
+            </Col>
+            <Col span="8">
+            <FormItem label="类型">
+              <Select v-model="type">
+                <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </FormItem>
+            </Col>
+            <Col span="8" align="right">
+            <Button type="primary" @click="search" :loading="loading" style="margin-right: 20px;">搜索</Button>
+            <Button type="primary" @click="exportReport">导出</Button>
+            </Col>
+          </Row>
 
-            </Form>
-          </div>
+        </Form>
+      </div>
+        <div style="padding: 16px;">
+          <Card shadow>
 
-
-          <Table :columns="columns" :data="listData" height="400" @on-row-click="goDetail"></Table>
-          <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
-        </Card>
+            <Table :columns="columns" :data="listData" height="400" @on-row-click="goDetail"></Table>
+            <Page :total="total" show-total style="margin-top: 10px;" :current="current" :page-size="10" @on-change="changePage"></Page>
+          </Card>
+        </div>
       </Col>
     </Row>
 
@@ -104,13 +105,13 @@ export default {
       }],
       state: 0,
       typeList: [{
-        value: 0,
+        value: 1,
         label: '日报'
       }, {
-        value: 1,
+        value: 2,
         label: '周报'
       }],
-      type: 0,
+      type: 1,
       department: '',
       columns: [{
         title: '类型',
@@ -174,7 +175,7 @@ export default {
       if (!this.departmentName) {
         this.department = ''
         this.currentLi = -1
-        if (this.type === 0) {
+        if (this.type === 1) {
           this.searchDaiy()
         } else {
           this.searchWeekly()
@@ -187,7 +188,7 @@ export default {
       this.department = id
       this.total = 0
       this.current = 1
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -204,7 +205,7 @@ export default {
     search () {
       this.total = 0
       this.current = 1
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -315,7 +316,7 @@ export default {
     //  分页查询
     changePage (e) {
       this.current = e
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -326,7 +327,7 @@ export default {
       console.log(row, index)
       this.GLOBAL_.currentIndex = index
       console.log({
-        'name': this.type === 0 ? 'WholeDaily' : 'WholeWeekly',
+        'name': this.type === 1 ? 'WholeDaily' : 'WholeWeekly',
         'params': {
           current: this.current,
           index: index,
@@ -337,7 +338,7 @@ export default {
         }
       })
       this.$router.push({
-        'name': this.type === 0 ? 'WholeDaily' : 'WholeWeekly',
+        'name': this.type === 1 ? 'WholeDaily' : 'WholeWeekly',
         'params': {
           current: this.current,
           index: index,
@@ -363,7 +364,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .whole-list{
-  padding: 16px;
   .departmentUl{
     margin-top: 20px;
     overflow: auto;

@@ -264,7 +264,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.workApplyDetail.startTime) {
+          if (value <= this.workApplyDetail.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -284,7 +284,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.addWorkApply.startTime) {
+          if (value <= this.addWorkApply.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -370,6 +370,8 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.type = response.data.data
+            this.workApplyTitle.type = response.data.data[0].id
+            this.duration = '小时'
           }
           console.log(this.type)
         }).catch(function (err) {
@@ -494,7 +496,7 @@
           this.duration = '小时'
           if (this.workApplyDetail.startTime !== '' && this.workApplyDetail.endTime !== '') {
             // 判断开始时间小于结束时间
-            if (this.workApplyDetail.startTime < this.workApplyDetail.endTime) {
+            if (this.workApplyDetail.startTime <= this.workApplyDetail.endTime) {
               this.getTimeDifference(this.workApplyDetail.startTime, this.workApplyDetail.endTime, 'workApplyDetail')
             }
           }
@@ -532,7 +534,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.workApplyDetail.startTime !== '' && this.workApplyDetail.endTime !== '') {
         // 判断开始时间小于结束时间
-          if (this.workApplyDetail.startTime < this.workApplyDetail.endTime) {
+          if (this.workApplyDetail.startTime <= this.workApplyDetail.endTime) {
             this.getTimeDifference(this.workApplyDetail.startTime, this.workApplyDetail.endTime, 'workApplyDetail')
           }
         }
@@ -542,7 +544,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.workApplyDetail.startTime !== '' && this.workApplyDetail.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.workApplyDetail.startTime < this.workApplyDetail.endTime) {
+          if (this.workApplyDetail.startTime <= this.workApplyDetail.endTime) {
             this.getTimeDifference(this.workApplyDetail.startTime, this.workApplyDetail.endTime, 'workApplyDetail')
           }
         }
@@ -551,7 +553,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addWorkApply.startTime !== '' && this.addWorkApply.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addWorkApply.startTime < this.addWorkApply.endTime) {
+          if (this.addWorkApply.startTime <= this.addWorkApply.endTime) {
             this.getTimeDifference(this.addWorkApply.startTime, this.addWorkApply.endTime, 'add')
           }
         }
@@ -561,7 +563,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addWorkApply.startTime !== '' && this.addWorkApply.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addWorkApply.startTime < this.addWorkApply.endTime) {
+          if (this.addWorkApply.startTime <= this.addWorkApply.endTime) {
             this.getTimeDifference(this.addWorkApply.startTime, this.addWorkApply.endTime, 'add')
           }
         }

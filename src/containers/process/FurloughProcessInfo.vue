@@ -134,7 +134,7 @@
                   <Row>
                     <i-Col :lg="{span:12}" :md="{span:16}" :sm="{span:20}" :xs="{span:24}">
                       <FormItem label="休假事由" prop="startTime">
-                        <span>{{item.FurloughRemark}}</span>
+                        <span>{{item.furloughRemark}}</span>
                       </FormItem>
                     </i-Col>
                   </Row>

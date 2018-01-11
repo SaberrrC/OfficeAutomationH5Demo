@@ -375,7 +375,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.billDetail.startTime) {
+          if (value <= this.billDetail.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -395,7 +395,7 @@
         if (value === '') {
           callback(new Error('请选择结束时间'))
         } else {
-          if (value < this.addBill.startTime) {
+          if (value <= this.addBill.startTime) {
             callback(new Error('结束时间不能小于开始时间!'))
           }
           callback()
@@ -631,7 +631,7 @@
           this.duration = '天'
           if (this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
             // 判断开始时间小于结束时间
-            if (this.billDetail.startTime < this.billDetail.endTime) {
+            if (this.billDetail.startTime <= this.billDetail.endTime) {
               this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
             }
           }
@@ -642,7 +642,7 @@
           this.duration = '小时'
           if (this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
             // 判断开始时间小于结束时间
-            if (this.billDetail.startTime < this.billDetail.endTime) {
+            if (this.billDetail.startTime <= this.billDetail.endTime) {
               this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
             }
           }
@@ -683,7 +683,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
         // 判断开始时间小于结束时间
-          if (this.billDetail.startTime < this.billDetail.endTime) {
+          if (this.billDetail.startTime <= this.billDetail.endTime) {
             var start = new Date(this.billDetail.startTime)
             start = start.getFullYear() + '-' + (start.getMonth() + 1) + '-' + start.getDate() + ' ' + start.getHours() + ':' + start.getMinutes() + ':' + start.getSeconds()
             this.billDetail.startTime = start
@@ -699,7 +699,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.billDetail.startTime !== '' && this.billDetail.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.billDetail.startTime < this.billDetail.endTime) {
+          if (this.billDetail.startTime <= this.billDetail.endTime) {
             this.getTimeDifference(this.billDetail.startTime, this.billDetail.endTime, 'billDetail')
           }
         }
@@ -709,7 +709,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addBill.startTime < this.addBill.endTime) {
+          if (this.addBill.startTime <= this.addBill.endTime) {
             this.getTimeDifference(this.addBill.startTime, this.addBill.endTime, 'add')
           }
         }
@@ -719,7 +719,7 @@
         // 判断时间选择器关闭并且开始时间和结束时间都不为空
         if (isOpen === false && this.addBill.startTime !== '' && this.addBill.endTime !== '') {
           // 判断开始时间小于结束时间
-          if (this.addBill.startTime < this.addBill.endTime) {
+          if (this.addBill.startTime <= this.addBill.endTime) {
             this.getTimeDifference(this.addBill.startTime, this.addBill.endTime, 'add')
           }
         }
