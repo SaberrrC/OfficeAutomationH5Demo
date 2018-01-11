@@ -134,21 +134,25 @@ body {
           border-radius: 50%;
         }
         .leave {
+          z-index: 4;
           display: block;
           color: #fff;
           background-color: #19be6b;
         }
         .abnormal {
+          z-index: 3;
           display: block;
           color: #fff;
           background-color: #ed3f14;
         }
         .overtime {
+          z-index: 5;
           display: block;
           color: #fff;
           background-color: #f90;
         }
         .business {
+          z-index: 6;
           display: block;
           color: #fff;
           background-color: #2d8cf0;
@@ -216,15 +220,19 @@ body {
   }
   .leave i {
     background-color: #19be6b;
+    z-index: 4;
   }
   .abnormal i {
     background-color: #ed3f14;
+    z-index: 3;
   }
   .overtime i {
     background-color: #f90;
+    z-index: 5;
   }
   .business i {
     background-color: #2d8cf0;
+    z-index: 6;
   }
 }
 </style>

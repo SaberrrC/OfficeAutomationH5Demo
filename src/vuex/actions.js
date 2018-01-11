@@ -25,12 +25,12 @@ const actions = {
       ])
     }
 
-    if (id === 'user_center') {
+    if (id === '8') {
       context.commit('updateSidebarList', [
         {
           iconType: 'person',
           name: '个人中心',
-          id: 'user_center',
+          id: '8',
           url: 'user_center',
           children: [
             {name: '个人中心', id: 'basic', url: 'basic'},
