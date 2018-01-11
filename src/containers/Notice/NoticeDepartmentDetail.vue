@@ -112,6 +112,9 @@
 	          let result = res.data.data
 	          if (result.length !== 0) {
 	            this.formItem = result[0]
+	            if (!this.formItem.attachList[0]) {
+	              this.formItem.attachList = []
+	            }
 	          }
 	        } else {
 	          this.$Message.error(res.data.message)

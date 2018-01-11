@@ -140,7 +140,7 @@ export default {
     search () {
       this.total = 0
       this.current = 1
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -251,7 +251,7 @@ export default {
     //  分页查询
     changePage (e) {
       this.current = e
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -262,7 +262,7 @@ export default {
       console.log(row, index)
       this.GLOBAL_.currentIndex = index
       this.$router.push({
-        'name': this.type === 0 ? 'DepartmentDaily' : 'DepartmentWeekly',
+        'name': this.type === 1 ? 'DepartmentDaily' : 'DepartmentWeekly',
         'params': {
           current: this.current,
           index: index,

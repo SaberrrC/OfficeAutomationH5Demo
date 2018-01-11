@@ -175,7 +175,7 @@ export default {
       if (!this.departmentName) {
         this.department = ''
         this.currentLi = -1
-        if (this.type === 0) {
+        if (this.type === 1) {
           this.searchDaiy()
         } else {
           this.searchWeekly()
@@ -188,7 +188,7 @@ export default {
       this.department = id
       this.total = 0
       this.current = 1
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -205,7 +205,7 @@ export default {
     search () {
       this.total = 0
       this.current = 1
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -316,7 +316,7 @@ export default {
     //  分页查询
     changePage (e) {
       this.current = e
-      if (this.type === 0) {
+      if (this.type === 1) {
         this.searchDaiy()
       } else {
         this.searchWeekly()
@@ -327,7 +327,7 @@ export default {
       console.log(row, index)
       this.GLOBAL_.currentIndex = index
       console.log({
-        'name': this.type === 0 ? 'WholeDaily' : 'WholeWeekly',
+        'name': this.type === 1 ? 'WholeDaily' : 'WholeWeekly',
         'params': {
           current: this.current,
           index: index,
@@ -338,7 +338,7 @@ export default {
         }
       })
       this.$router.push({
-        'name': this.type === 0 ? 'WholeDaily' : 'WholeWeekly',
+        'name': this.type === 1 ? 'WholeDaily' : 'WholeWeekly',
         'params': {
           current: this.current,
           index: index,
