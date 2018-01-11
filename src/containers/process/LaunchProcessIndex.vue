@@ -79,7 +79,6 @@
       },
 //    点击办公用品申请
       launchOfficeSupplies () {
-//        this.$router.push({ path: 'launchSignCard' })
         this.$Message.info('该功能正在开发中，敬请期待')
       }
     },

@@ -5,7 +5,7 @@
             <h3>行政流程类</h3>
             <ul>
               <li>
-                <Button type="text">
+                <Button type="text" @click="launchOfficeSupplies">
                   <span>办公用品申请</span>
                 </Button>
               </li>
@@ -315,6 +315,10 @@
       pageSizeChange (pageSize) {
         this.launchPageSize = pageSize              // 发起列表每页显示条数
         this.getMyLaunchList()
+      },
+      //    点击办公用品申请
+      launchOfficeSupplies () {
+        this.$Message.info('该功能正在开发中，敬请期待')
       }
     },
     created () {
