@@ -11,7 +11,10 @@
 				</Col>
 				<Col span="6">
 					<FormItem label="标题">
-						<Input v-model="newsTitle" placeholder="搜索标题" icon="search"></Input>
+						<Input v-model="newsTitle" placeholder="搜索标题">
+							<Button slot="append" icon="ios-search" @click="getNewsData"></Button>
+						</Input>
+						
 					</FormItem>
 				</Col>
 			</i-form>
@@ -186,12 +189,9 @@
 	// 时间切换 获取新的新闻列表
 	    newsTime () {
 	      this.getNewsData()
-	    },
+	    }
 
 	// 搜索对应标题的新闻列表
-	    newsTitle () {
-	      this.getNewsData()
-	    }
 	  },
 
 	  mounted () {
