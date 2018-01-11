@@ -133,7 +133,7 @@ export default {
                 props: {
                   type: 'error',
                   size: 'small',
-                  disabled: params.row.end_time < parseInt((new Date().getTime()) / 1000)
+                  disabled: params.row.start_time < parseInt((new Date().getTime()) / 1000)
                 },
                 on: {
                   click: () => {
