@@ -66,8 +66,6 @@ axios.interceptors.response.use(function (response) {
     } else {
       //  登录状态下 不进行拦截
     }
-
-
   }
   return Promise.reject(error)
 })
@@ -91,8 +89,6 @@ Vue.prototype.GLOBAL_ = {
 
 Vue.use(iView)
 Vue.config.productionTip = false
-
-
 
 /* eslint-disable no-new */
 new Vue({
