@@ -183,8 +183,8 @@ export default {
               const data = response.data.data
               localStorage.setItem('token', data.token)
               localStorage.setItem('uid', data.uid)
-              this.$router.replace(this.$route.query.redirect)
               setTimeout(() => {
+                this.$router.replace(this.$route.query.redirect)
                 window.location.reload()
               }, 0)
             } else {
