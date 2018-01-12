@@ -136,7 +136,7 @@
               <row>
                 <i-Col span="18" offset="3">
                   <FormItem label="选择会议">
-                    <Input v-model="title" icon="ios-search" @on-change="getTitle"></Input>
+                    <Input v-model="title" icon="ios-search" @on-enter="getTitle" @on-click="getTitle"></Input>
                   </FormItem>
                 </i-Col>
               </row>
