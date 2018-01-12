@@ -285,9 +285,9 @@
 						</Modal>
 					</p>
 					<p class="btn">
-						<Button type="info" @click="cancel=true">取消</Button>
-						<Button type="info" @click="saveDraft">存草稿</Button>
-						<Button type="info" @click="submitReport" :loading="loading">提交</Button>
+						<Button type="warning" @click="cancel=true" style="margin-right: 20px;">取消</Button>
+						<Button type="success" @click="saveDraft" style="margin-right: 20px;">存草稿</Button>
+						<Button type="info" @click="submitReport" :loading="loading" style="margin-right: 20px;">提交</Button>
 					</p>
 					</Col>
 				</Row>

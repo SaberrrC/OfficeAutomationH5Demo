@@ -3,7 +3,7 @@
 		<Card :dis-hover="true">
 			<p slot="title">公司公告</p>
 			<div slot="extra" class="card-title-extra">
-				<Button type="primary" @click="exit">退出</Button>
+				<Button type="primary" @click="exit">返回</Button>
 			</div>
 			<i-form :model="formItem" :label-width="80" label-position="left">
 				<table cellpadding="0" cellspacing="0">
