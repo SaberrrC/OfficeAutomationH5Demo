@@ -355,7 +355,6 @@
             }
           }
           number = number.join(';')
-          console.log(number)
           if (number === '') {
             if (text === 'true') {
               this.$Message.success(batch + '审批成功')

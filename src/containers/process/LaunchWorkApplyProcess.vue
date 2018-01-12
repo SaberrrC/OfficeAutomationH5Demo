@@ -265,7 +265,7 @@
           callback(new Error('请选择结束时间'))
         } else {
           if (value <= this.workApplyDetail.startTime) {
-            callback(new Error('结束时间不能小于开始时间!'))
+            callback(new Error('结束时间应大于开始时间!'))
           }
           callback()
         }
@@ -285,7 +285,7 @@
           callback(new Error('请选择结束时间'))
         } else {
           if (value <= this.addWorkApply.startTime) {
-            callback(new Error('结束时间不能小于开始时间!'))
+            callback(new Error('结束时间应大于开始时间!'))
           }
           callback()
         }
@@ -373,7 +373,6 @@
             this.workApplyTitle.type = response.data.data[0].id
             this.duration = '小时'
           }
-          console.log(this.type)
         }).catch(function (err) {
           console.log(err)
         })
@@ -515,7 +514,6 @@
           this.nCHREvectionApplyDeatil.push(this.workApplyDetail)
         }
         this.nCHREvectionApplyDeatil.push(this.addWorkApply)
-        console.log(this.nCHREvectionApplyDeatil)
       },
 //    点击取消添加
       deleteWorkApplyDeatil () {
@@ -527,7 +525,6 @@
         this.addWorkApply.endTime = ''
         this.addWorkApply.cause = ''
         this.addWorkApply.timeDifference = ''
-        console.log(this.nCHREvectionApplyDeatil)
       },
 //    开始时间改变(加班明细)
       changeStartTime (isOpen) {

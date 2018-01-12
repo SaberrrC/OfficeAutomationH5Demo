@@ -376,7 +376,7 @@
           callback(new Error('请选择结束时间'))
         } else {
           if (value <= this.billDetail.startTime) {
-            callback(new Error('结束时间不能小于开始时间!'))
+            callback(new Error('结束时间应大于开始时间!'))
           }
           callback()
         }
@@ -396,7 +396,7 @@
           callback(new Error('请选择结束时间'))
         } else {
           if (value <= this.addBill.startTime) {
-            callback(new Error('结束时间不能小于开始时间!'))
+            callback(new Error('结束时间应大于开始时间!'))
           }
           callback()
         }
@@ -564,13 +564,11 @@
           } else if (this.nchrevectionApplyDetail.length === 1 && this.showAddBill === true) {
             this.nchrevectionApplyDetail.push(this.addBill)
           }
-          console.log(this.nchrevectionApplyDetail)
         } else {
           return false
         }
 //      调添加出差申请接口   // TODO
         var len = this.nchrevectionApplyDetail.length
-        console.log('nchrevectionApplyDetail=', this.nchrevectionApplyDetail)
         for (var i = 0; i < len; i++) {
           var start = new Date(this.nchrevectionApplyDetail[i].startTime)
           var startYear = start.getFullYear()
@@ -600,8 +598,6 @@
           endSeconds = endSeconds < 10 ? '0' + endSeconds : endSeconds
           end = endYear + '-' + endMouth + '-' + endDate + ' ' + endHours + ':' + endMinutes + ':' + endSeconds
           this.nchrevectionApplyDetail[i].endTime = end
-          console.log('.nchrevectionApplyDetail', this.nchrevectionApplyDetail)
-          console.log('.nchrevectionApplyDetail[i].endTime', this.nchrevectionApplyDetail[i].endTime)
         }
 
         var data = {
@@ -661,7 +657,6 @@
           this.nchrevectionApplyDetail.push(this.billDetail)
         }
         this.nchrevectionApplyDetail.push(this.addBill)
-        console.log(this.nchrevectionApplyDetail)
       },
 //    点击取消添加
       deleteBillDeatil () {
@@ -676,7 +671,6 @@
         this.billAddHandOverPepole = {}
         this.addBill.handOverPepole = ''
         this.addBill.timeDifference = ''
-        console.log(this.nchrevectionApplyDetail)
       },
 //    开始时间改变(出差明细)
       changeStartTime (isOpen) {
@@ -760,7 +754,6 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.handOverPepole = response.data.data
-            console.log(this.handOverPepole)
           }
         }).catch(function (err) {
           console.log(err)
@@ -778,15 +771,12 @@
       ok () {
         this.billDetailHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
         this.billDetail.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
-        console.log(this.billDetailHandOverPepole)
         this.$refs.billDetail.validateField('handOverPepole')
-//        console.log(this.$refs.billDetail)
       },
 //    点击ok(add)
       handleAddOk () {
         this.billAddHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
         this.addBill.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
-        console.log(this.billDetailHandOverPepole)
         this.$refs.addBill.validateField('handOverPepole')
       },
 //    页面关闭

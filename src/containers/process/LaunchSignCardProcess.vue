@@ -277,7 +277,6 @@
             }
             this.type = response.data.data
           }
-          console.log(this.type)
         }).catch(function (err) {
           console.log(err)
         })
@@ -293,29 +292,15 @@
       },
 //    选择签卡原因
       setOption (value, type) {
-        console.log(type)
-        console.log('add')
         if (type === 'billDetail') {
           this.billDetail.signCause = value.label
-          console.log(this.billDetail)
-          console.log(1)
         }
         if (type === 'add') {
           this.addBill.signCause = value.label
-          console.log(this.addBill)
-          console.log(2)
         }
-      },
-//    选择签卡原因(添加)
-      setAddOption (value, type) {
-        console.log(value)
-        console.log(type)
-        this.addBill.signCause = value.label
-        console.log(this.addBill)
       },
 //    点击确定按钮（提交）
       submitEvectionApply () {
-        console.log(this.nCHREvectionApplyDeatil)
         var step = true
         if (this.showAddBill === false) {
           //      验证签卡类型
@@ -362,7 +347,6 @@
           } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddBill === true) {
             this.nCHREvectionApplyDeatil.push(this.addBill)
           }
-          console.log(this.nCHREvectionApplyDeatil)
         } else {
           return false
         }
@@ -409,11 +393,10 @@
         this.showAddBill = true
         this.showAddbillButton = false
         this.showDeletebillButton = true
-        if (this.nCHREvectionApplyDeatil.length === 0) {              // TODO
+        if (this.nCHREvectionApplyDeatil.length === 0) {
           this.nCHREvectionApplyDeatil.push(this.billDetail)
         }
         this.nCHREvectionApplyDeatil.push(this.addBill)
-        console.log(this.nCHREvectionApplyDeatil)
       },
 //    点击取消添加
       deleteBillDeatil () {
@@ -425,7 +408,6 @@
         this.addBill.signCause = ''
         this.addBill.signCauseId = ''
         this.addBill.signTime = ''
-        console.log(this.nCHREvectionApplyDeatil)
       },
       pageClose () {
         this.$router.push({path: 'launchIndex'})

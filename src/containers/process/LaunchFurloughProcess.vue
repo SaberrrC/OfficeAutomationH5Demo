@@ -344,7 +344,7 @@
           callback(new Error('请选择结束时间'))
         } else {
           if (value <= this.furloughDetail.startTime) {
-            callback(new Error('结束时间不能小于开始时间!'))
+            callback(new Error('结束时间应大于开始时间!'))
           }
           callback()
         }
@@ -364,7 +364,7 @@
           callback(new Error('请选择结束时间'))
         } else {
           if (value <= this.addfurlough.startTime) {
-            callback(new Error('结束时间不能小于开始时间!'))
+            callback(new Error('结束时间应大于开始时间!'))
           }
           callback()
         }
@@ -473,6 +473,12 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.type = response.data.data
+            let len = this.type.length
+            for (let i = 0; i < len; i++) {
+              if (this.type[i].name === '加班转调休') {
+                this.furloughTitle.type = this.type[i].id
+              }
+            }
           }
         }).catch(function (err) {
           console.log(err)
@@ -535,7 +541,6 @@
           } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddfurlough === true) {
             this.nCHREvectionApplyDeatil.push(this.addfurlough)
           }
-          console.log(this.nCHREvectionApplyDeatil)
         } else {
           return false
         }
@@ -577,7 +582,7 @@
           date: this.furloughTitle.date,
           type: this.furloughTitle.type,
           nchrfurloughApplyDetail: this.nCHREvectionApplyDeatil
-        }  // TODO 组装数据
+        }
         this.$ajax.post(`/nchrFurlough/submitFurlough`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -595,7 +600,7 @@
       },
 //    选择休假类型
       setOption (value, type) {
-        if (value.label === '加班转调休' || value.label === '哺乳假') {
+        if (value.label === '加班转调休' || value.label === '哺乳假' || value.label === '') {
           this.duration = '小时'
           if (this.furloughDetail.startTime !== '' && this.furloughDetail.endTime !== '') {
             // 判断开始时间小于结束时间
@@ -629,7 +634,6 @@
           this.nCHREvectionApplyDeatil.push(this.furloughDetail)
         }
         this.nCHREvectionApplyDeatil.push(this.addfurlough)
-        console.log(this.nCHREvectionApplyDeatil)
       },
 //    点击取消添加
       deletefurloughDeatil () {
@@ -643,7 +647,6 @@
         this.billAddHandOverPepole = {}
         this.addfurlough.handOverPepole = ''
         this.addfurlough.timeDifference = ''
-        console.log(this.nCHREvectionApplyDeatil)
       },
 //    开始时间改变(休假明细)
       changeStartTime (isOpen) {
@@ -724,7 +727,6 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.handOverPepole = response.data.data
-            console.log(this.handOverPepole)
           }
         }).catch(function (err) {
           console.log(err)
@@ -742,14 +744,12 @@
       ok () {
         this.billDetailHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
         this.furloughDetail.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
-        console.log(this.billDetailHandOverPepole)
         this.$refs.furloughDetail.validateField('handOverPepole')
       },
 //    点击ok(add)
       handleAddOk () {
         this.billAddHandOverPepole = this.handOverPepole[this.handOverPepoleIndex]
         this.addfurlough.handOverPepole = this.handOverPepole[this.handOverPepoleIndex].pk_psnjob
-        console.log(this.billDetailHandOverPepole)
         this.$refs.addfurlough.validateField('handOverPepole')
       },
 //    页面关闭

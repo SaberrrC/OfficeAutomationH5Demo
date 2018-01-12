@@ -417,14 +417,12 @@
           this.$Message.info('已经是第一条')
           return false
         }
-        console.log(123)
         var num = serialNumber - 1
         var nextData = {}
 //        /******调分页接口,获取上一条数据的信息*********/
         let url = ''
         let data = {}
         if (this.type === 'myLaunch') {
-          console.log(234)
           url = '/myApply/queryApproveByAll'
           data = {
             time: this.time,
