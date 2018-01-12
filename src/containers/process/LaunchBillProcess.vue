@@ -450,13 +450,13 @@
           ],
           evectionAddress: [
             { required: true, message: '请输入出差地点', trigger: 'blur' }
-          ],
-          evectionRemark: [
-            { required: true, message: '请输入出差原因', trigger: 'blur' }
-          ],
-          handOverPepole: [
-            { required: true, message: '请选择交接人', trigger: 'blur' }
           ]
+//          evectionRemark: [
+//            { required: true, message: '请输入出差原因', trigger: 'blur' }
+//          ],
+//          handOverPepole: [
+//            { required: true, message: '请选择交接人', trigger: 'blur' }
+//          ]
         },
         ruleaddBill: {
           startTime: [
@@ -467,13 +467,13 @@
           ],
           evectionAddress: [
             { required: true, message: '请输入出差地点', trigger: 'blur' }
-          ],
-          evectionRemark: [
-            { required: true, message: '请输入出差原因', trigger: 'blur' }
-          ],
-          handOverPepole: [
-            { required: true, message: '请选择交接人', trigger: 'blur' }
           ]
+//          evectionRemark: [
+//            { required: true, message: '请输入出差原因', trigger: 'blur' }
+//          ],
+//          handOverPepole: [
+//            { required: true, message: '请选择交接人', trigger: 'blur' }
+//          ]
         }
       }
     },

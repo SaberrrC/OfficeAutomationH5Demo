@@ -423,13 +423,13 @@
           ],
           endTime: [
             { required: true, validator: validateEndTime, trigger: 'change' }
-          ],
-          furloughRemark: [
-            { required: true, message: '请输入休假事由', trigger: 'blur' }
-          ],
-          handOverPepole: [
-            { required: true, message: '请选择交接人', trigger: 'blur' }
           ]
+//          furloughRemark: [
+//            { required: true, message: '请输入休假事由', trigger: 'blur' }
+//          ],
+//          handOverPepole: [
+//            { required: true, message: '请选择交接人', trigger: 'blur' }
+//          ]
         },
         ruleaddfurlough: {
           startTime: [
@@ -437,13 +437,13 @@
           ],
           endTime: [
             { required: true, validator: validateAddEndTime, trigger: 'change' }
-          ],
-          furloughRemark: [
-            { required: true, message: '请输入休假事由', trigger: 'blur' }
-          ],
-          handOverPepole: [
-            { required: true, message: '请选择交接人', trigger: 'blur' }
           ]
+//          furloughRemark: [
+//            { required: true, message: '请输入休假事由', trigger: 'blur' }
+//          ],
+//          handOverPepole: [
+//            { required: true, message: '请选择交接人', trigger: 'blur' }
+//          ]
         }
       }
     },
