@@ -26,7 +26,7 @@
           <tr>
             <td>
               <FormItem label="新闻标题" prop="newsTitle">
-                <i-input v-model="formItem.newsTitle" :maxlength="10" placeholder="请填写公告标题"></i-input>
+                <i-input v-model="formItem.newsTitle" :maxlength="10" placeholder="请填写新闻标题"></i-input>
               </FormItem>
             </td>
             <td>
@@ -44,7 +44,7 @@
                 <Upload ref="upload" :action="this.$ajax.defaults.baseURL + '/file'" :show-upload-list="false" :on-success="handleSuccess"
                         :format="['jpg','jpeg','png']" :max-size="1024" :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize" :headers="header">
-                  <div>
+                  <div style="margin-top: 20px;">
                     <Button type="primary" style="width:100px;">点击上传</Button>
                   </div>
                 </Upload>

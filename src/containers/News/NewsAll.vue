@@ -14,7 +14,7 @@
 						<Input v-model="newsTitle" placeholder="搜索标题">
 							<Button slot="append" icon="ios-search" @click="getNewsData"></Button>
 						</Input>
-						
+
 					</FormItem>
 				</Col>
 			</i-form>
@@ -24,7 +24,7 @@
 			<div class="container">
 				<Table height="450" :columns="columns" :data="data"></Table>
 				<br>
-				<Page :total="total" :current="pageNum" :on-change="handPageChange" show-total></Page>
+				<Page :total="total" :current="pageNum" @on-change="handPageChange" show-total></Page>
 			</div>
 		</Card>
 		</div>
