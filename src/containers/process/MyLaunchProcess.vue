@@ -28,7 +28,7 @@
           <span>
             <Row>
               <Form :model="formItem" :label-width="80">
-                <i-Col :lg="{span:10}" :md="{span:12}" :sm="{span:14}" :xs="{span:16}" >
+                <i-Col :lg="{span:12}" :md="{span:17}" :sm="{span:22}" :xs="{span:24}" >
                     <row>
                       <i-Col span="11">
                         <FormItem label="提交日期">
@@ -214,7 +214,6 @@
         this.$ajax.get(`/myApply/queryApproveByAll`, {
           params: data
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000' && response.data.data.dataList.length !== 0) {
             this.launchTotal = response.data.data.total
             this.myLaunchList = response.data.data.dataList
@@ -232,8 +231,6 @@
       },
 //    点击表格的行触发事件
       showInfo (row, index) {
-        console.log(row)
-        console.log(index)
         var data = {
           billType: row.billType,          // 单据类型
           billCode: row.billCode,          // 单据编码
@@ -268,7 +265,6 @@
       },
 //    选择发起状态
       checkStatus (value) {
-        console.log(value)
         this.getMyLaunchList()
       },
 //    选择发起审批类型
@@ -295,7 +291,6 @@
         }
         this.$ajax.post(`/myApply/approveCallBack`, approveRequest, {
         }).then((response) => {
-          console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('收回成功')
             this.getMyLaunchList()

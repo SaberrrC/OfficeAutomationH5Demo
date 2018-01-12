@@ -28,7 +28,7 @@
           <p slot="title" class="header">
           <span>
             <Row>
-              <i-Col :lg="{span:10}" :md="{span:12}" :sm="{span:14}" :xs="{span:16}" >
+             <i-Col :lg="{span:12}" :md="{span:17}" :sm="{span:22}" :xs="{span:24}" >
                     <row>
                     <Form :model="formItem" :label-width="80">
                       <i-Col span="11">
