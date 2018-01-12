@@ -7,6 +7,7 @@
           <Row>
             <Col span="24">
               <Input v-model="departmentName" placeholder="搜索部门" style="width: 80%;margin-left: 20px;margin-top:1px;" icon="ios-search-strong" @on-enter="searchDepartment" @on-click="searchDepartment"></Input>
+              <div style="padding-left: 20px"><span>{{prompt}}</span></div>
             </Col>
           </Row>
           <Row>
@@ -83,6 +84,7 @@ export default {
   name: 'WholeList',
   data () {
     return {
+      prompt: '',
       currentLi: -1,
       loading: false,
       departmentName: '',
@@ -166,8 +168,12 @@ export default {
         let result = res.data.data
         if (res.data.code === '000000') {
           this.departmentList = result.dataList
+          this.prompt = ''
         } else {
-
+          if (res.data.code === '020000') {
+            this.prompt = '没有符合条件的结果'
+            this.departmentList = []
+          }
         }
       }, (res) => {
 
