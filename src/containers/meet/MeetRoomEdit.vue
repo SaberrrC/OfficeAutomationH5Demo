@@ -4,7 +4,7 @@
     <span>
       <Row>
         <i-Col :lg="{span:3}" :xs="{span:6}">
-          <a href="javascript:void (0)"><h3>会议室设置</h3></a>
+          <h3>会议室设置</h3>
         </i-Col>
         <i-Col :lg="{span:3,offset:18}" :xs="{span:3,offset:15}" style="text-align: right;padding-right: 16px">
           <Button type="primary" @click="establish()">新建</Button>
@@ -22,24 +22,24 @@
     >
       <Form ref="formItem" :model="formItem" :rules="ruleFormItem" :label-width="82">
       <Row>
-        <i-Col span="12">
+        <i-Col span="11">
             <FormItem label="会议室名称" prop="roomname">
               <Input v-model="formItem.roomname" placeholder="请输入会议室名称"></Input>
             </FormItem>
         </i-Col>
-        <i-Col span="12">
+        <i-Col span="11" offset="2">
             <FormItem label="会议室地点"  prop="address">
               <Input v-model="formItem.address" placeholder="请输入会议室地点"></Input>
             </FormItem>
         </i-Col>
       </Row>
         <Row>
-          <i-Col span="12">
+          <i-Col span="11">
             <FormItem label="会议室设备"  prop="device">
               <Input v-model="formItem.device" placeholder="请输入会议室设备"></Input>
             </FormItem>
           </i-Col>
-          <i-Col span="12">
+          <i-Col span="11" offset="2">
             <FormItem label="会议室容量" prop="nop">
               <!--<Input v-model="formItem.nop" placeholder="请输入会议室容量(纯数字)"></Input>-->
               <Select v-model="formItem.nop" placeholder="请选择会议室容量">
@@ -49,13 +49,13 @@
           </i-Col>
         </Row>
         <Row>
-          <i-Col span="12">
+          <i-Col span="11">
             <FormItem label="会议室图片" prop="roomimg">
-              <div>
-                <img v-if="formItem.roomimg !== ''" :src="roomimg" alt="会议室图片" style="width: 100px;height: 100px">
-                <img v-else style="width: 100px;height: 100px">
+              <div style="width: 100px;height: 100px; border: 1px solid #cccccc">
+                <img v-if="formItem.roomimg !== ''" :src="roomimg" style="width: 100px;height: 100px">
+                <img v-else>
               </div>
-              <div style="width:100px;text-align: center">
+              <div style="width:100px;text-align: center;margin-top: 10px">
                 <Upload
                   :action="action"
                   :headers="headers"
