@@ -3,6 +3,7 @@
     <div class="search-bar">
       <Input
         v-model="searchValue"
+        @on-enter="handleSearch"
         placeholder="搜索">
       <Button
         slot="append"
