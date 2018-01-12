@@ -1,7 +1,7 @@
 <template>
   <div class="whole-daily">
     <div style="height: 53px;padding-top: 10px;padding-right: 16px;background-color: white;text-align: right">
-      <Button type="error" @click="back">关闭</Button>
+      <Button type="error" @click="back">返回</Button>
       <Button type="primary" @click="goLeft">
         <Icon type="chevron-left"></Icon>
       </Button>
