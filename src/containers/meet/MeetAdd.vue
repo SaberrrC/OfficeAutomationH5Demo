@@ -4,7 +4,7 @@
     <span>
       <Row>
         <i-Col :lg="{span:5}" :xs="{span:10}">
-          <a href="javascript:void (0)"><h3 style="display: inline-block">会议室预定</h3></a>
+          <h3>会议室预定</h3>
         </i-Col>
       </Row>
     </span>
@@ -20,21 +20,23 @@
               <Row>
                 <i-Col span="16">
                   <Poptip trigger="hover" :content="room.roomname" :transfer="true" placement="top-start">
-                  <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{room.roomname}}</i-Col>
+                  <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                    <h4>{{room.roomname}}</h4>
+                  </i-Col>
                   </Poptip>
-                  <Row>
+                  <Row style="height: 25px;line-height: 25px">
                     <i-Col span="6"><span>{{room.nop}}人</span></i-Col>
                     <i-Col span="8"  style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                       <Poptip trigger="hover" :content="room.address" :transfer="true">
                         <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-                          <i class="iconfont icon-dingwei-"></i>{{room.address}}
+                          <i class="iconfont icon-dingwei-" style="margin-right: 3px"></i>{{room.address}}
                         </i-Col>
                       </Poptip>
                     </i-Col>
                     <i-Col span="8" offset="2" v-if="room.device !== ''" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                       <Poptip trigger="hover" :content="room.device" :transfer="true">
                         <i-Col style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-                          <i class="iconfont icon-touying"></i>{{room.device}}
+                          <i class="iconfont icon-touying" style="margin-right: 3px"></i>{{room.device}}
                         </i-Col>
                       </Poptip>
                     </i-Col>
@@ -140,5 +142,6 @@
   }
   .ivu-poptip, .ivu-poptip-rel {
     display: block!important;
+    /*float: left;*/
   }
 </style>
