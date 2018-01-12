@@ -6,7 +6,7 @@
           <div style="height: 57px;line-height: 50px;" align="center">组织架构</div>
           <Row>
             <Col span="24">
-              <Input v-model="departmentName" placeholder="搜索部门" style="width: 80%;margin-left: 20px;margin-top:1px;" icon="ios-search-strong" @on-click="searchDepartment"></Input>
+              <Input v-model="departmentName" placeholder="搜索部门" style="width: 80%;margin-left: 20px;margin-top:1px;" icon="ios-search-strong" @on-enter="searchDepartment" @on-click="searchDepartment"></Input>
             </Col>
           </Row>
           <Row>
