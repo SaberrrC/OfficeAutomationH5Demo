@@ -79,6 +79,7 @@
 }
 
 .chatting .name div {
+  color: #fff;
   text-align: center;
   overflow: hidden;
 }
