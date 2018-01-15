@@ -301,7 +301,7 @@ export default {
     },
     //  跳转签卡
     handleBtnClick (date) {
-      this.$router.push(`/process/launchIndex?date=${date}`)
+      this.$router.push(`/process/launchSignCard?date=${date}`)
     }
   }
 }
