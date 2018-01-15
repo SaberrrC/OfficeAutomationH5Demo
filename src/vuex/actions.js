@@ -182,7 +182,11 @@ const actions = {
     }).then((response) => {
       if (response.data && response.data.code === '000000') {
         console.log('二级菜单', response.data)
-        const result = response.data.data
+        let result = response.data.data
+        //  result[0].children
+        result[0].children.sort(function (a, b) {
+          return a.id - b.id
+        })
         context.commit('updateSidebarList', result)
         return result
       }
