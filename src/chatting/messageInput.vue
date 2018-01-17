@@ -118,7 +118,7 @@ export default {
       }
     },
     emoji (item) {
-      return 'http://testoa.shanlinjinrong.com/static/faces/' + item
+      return 'http://oa.shanlinjinrong.com/static/faces/' + item
     },
     keyboardEvent(e) {
       // console.log(e)
@@ -178,7 +178,7 @@ export default {
 
       for (var i in emotion) {     
         var item = emotion[i];
-        var strimg ='<img style="width: 32px;height: 32px;vertical-align: middle" src="http://testoa.shanlinjinrong.com/static/faces/' + item.name + '">';
+        var strimg ='<img style="width: 32px;height: 32px;vertical-align: middle" src="http://oa.shanlinjinrong.com/static/faces/' + item.name + '">';
         strCont=strCont.replace(new RegExp(strimg,'g'), item.text);
       }    
     return strCont;
@@ -246,7 +246,7 @@ export default {
       //console.log(item
       if (this.showFlag == true) {
         let tmp = this.$refs.message.innerHTML
-        var str ='<img style="width: 32px;height: 32px;vertical-align: middle" src="http://testoa.shanlinjinrong.com/static/faces/' + item + '" />';
+        var str ='<img style="width: 32px;height: 32px;vertical-align: middle" src="http://oa.shanlinjinrong.com/static/faces/' + item + '" />';
         this.$refs.message.innerHTML = tmp + str
         //this.$refs.message.innerHTML =  tmp + itemMes
         this.showFlag = false;

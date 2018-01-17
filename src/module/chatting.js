@@ -543,7 +543,7 @@ const chat = {
     ]
     for (var i in emotion) {
       var item = emotion[i]
-      var strimg = '<img style="width: 32px;height: 32px;vertical-align: middle" src="http://testoa.shanlinjinrong.com/static/faces/' + item.name + '" />'
+      var strimg = '<img style="width: 32px;height: 32px;vertical-align: middle" src="http://oa.shanlinjinrong.com/static/faces/' + item.name + '" />'
       //strCont=strCont.replace(new RegExp(item.text,'g'),strimg)
       // strCont=strCont.replace(item.text,strimg)
       while (strCont.indexOf(item.text) > -1) {
