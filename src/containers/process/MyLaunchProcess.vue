@@ -189,7 +189,23 @@
                       event.stopPropagation()
                     }
                   }
-                }, '收回')
+                }, '收回'),
+                h('Button', {
+                  props: {
+                    type: 'error',
+                    size: 'small',
+                    disabled: params.row.approveState !== '-1'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: (event) => {
+                      this.approveDelete(params.row, params.index)
+                      event.stopPropagation()
+                    }
+                  }
+                }, '删除')
               ])
             }
           }
@@ -295,7 +311,28 @@
             this.$Message.success('收回成功')
             this.getMyLaunchList()
           } else {
-            this.$Message.success(response.data.message)
+            this.$Message.error(response.data.message)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+//    点击删除
+      approveDelete (row, index) {
+        console.log(row)
+        this.$ajax.get(`/nchrSign/deleteBillByCode`, {
+          params: {
+            billCode: row.billCode,
+            billType: row.billType
+          }
+        }).then((response) => {
+          console.log(response)
+          if (response.data.code === '000000') {
+            this.$Message.success('删除成功')
+            this.myLaunchList.splice(index, 1)
+            this.launchTotal = this.launchTotal - 1
+          } else {
+            this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)

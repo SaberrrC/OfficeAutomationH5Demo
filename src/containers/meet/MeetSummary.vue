@@ -315,7 +315,7 @@
                 this.$Message.success('会议纪要发布成功')
                 this.$router.push({path: 'myMeeting'})
               } else {
-                this.$Message.success(response.data.message)
+                this.$Message.error(response.data.message)
               }
             }).catch(function (err) {
               console.log(err)

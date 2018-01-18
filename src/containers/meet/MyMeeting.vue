@@ -305,6 +305,8 @@ export default {
               if (response.data.code === '000000') {
                 this.launchTableData.splice(index, 1)
                 this.$Message.success('取消会议成功')
+              } else {
+                this.$Message.error(response.data.message)
               }
             }).catch(function (err) {
               console.log(err)

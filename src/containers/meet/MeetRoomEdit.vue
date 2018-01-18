@@ -386,6 +386,8 @@
                 this.roomList.splice(index, 1)
                 this.$Message.success('删除会议室成功')
                 this.$Modal.remove()
+              } else {
+                this.$Message.error(response.data.message)
               }
             }).catch(function (err) {
               console.log(err)

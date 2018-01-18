@@ -12,6 +12,9 @@
         <i-Col span="3" offset="9" v-if="type === 'myLaunch' && approveState === '3' " style="text-align: right;padding-right: 16px">
           <Button type="primary" @click="approveCallBack()">收回</Button>
         </i-Col>
+        <i-Col span="3" offset="9" v-if="type === 'myLaunch' && approveState === '-1' " style="text-align: right;padding-right: 16px">
+          <Button type="error" @click="approveDelete()">删除</Button>
+        </i-Col>
         <i-Col span="6" offset="6" v-if="type === 'todo'" style="text-align: right;padding-right: 16px">
                 <Button type="primary" @click="handleAgree('true')" style="margin-right: 20px">同意</Button>
                 <Button type="error" @click="handleReject('false')">驳回</Button>
@@ -394,7 +397,26 @@
             this.$Message.success('收回成功')
             this.$router.push({path: this.type})
           } else {
-            this.$Message.success(response.data.message)
+            this.$Message.error(response.data.message)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      },
+//    点击删除
+      approveDelete () {
+        this.$ajax.get(`/nchrSign/deleteBillByCode`, {
+          params: {
+            billCode: this.billTitle.billCode,
+            billType: this.$route.query.billType
+          }
+        }).then((response) => {
+          console.log(response)
+          if (response.data.code === '000000') {
+            this.$Message.success('删除成功')
+            this.$router.push({path: this.type})
+          } else {
+            this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
           console.log(err)
