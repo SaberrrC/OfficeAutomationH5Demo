@@ -382,7 +382,7 @@
         if (this.pageNum === 1) {
           serialNumber = this.index + 1
         } else {
-          serialNumber = this.pageNum * this.pageSize + this.index + 1
+          serialNumber = (this.pageNum - 1) * this.pageSize + this.index + 1
         }
         if (serialNumber === 1) {
           this.$Message.info('已经是第一条')
@@ -528,7 +528,7 @@
         if (this.pageNum === 1) {
           serialNumber = this.index + 1
         } else {
-          serialNumber = this.pageNum * this.pageSize + this.index + 1
+          serialNumber = (this.pageNum - 1) * this.pageSize + this.index + 1
         }
         var num = serialNumber
         if (num === this.total) {
