@@ -23,7 +23,7 @@
             </div>
           </i-Col>
         </Row>
-        <Form ref="billTitle" :model="billTitle"  :rules="ruleBillTitle" :label-width="82" label-position="left">
+        <Form  :model="billTitle"  :label-width="82" label-position="left">
             <Row>
               <i-Col span="12">
                 <div class="card" style="padding-bottom: 2px;">
@@ -205,7 +205,7 @@
         type: [],              // 签卡原因
         nCHREvectionApplyDeatil: [],               // 签卡明细
         billDetail: {
-          signTime: this.$route.query.date ? this.$route.query.date : '',          // 签卡时间
+          signTime: this.$route.query.date ? this.$route.query.date + '09:00:00' : '',          // 签卡时间
           signRemark: '',        // 签卡说明
           signCause: '',         // 签卡原因
           signCauseId: ''          // 签卡原因ID
@@ -218,11 +218,6 @@
 
         },
         duration: '',          // 时长(单位)
-        ruleBillTitle: {
-          type: [
-            { required: true, message: '请选择签卡类型', trigger: 'change' }
-          ]
-        },
         rulebillDetail: {
           signTime: [
             { required: true, type: 'date', message: '请选择签卡时间', trigger: 'change' }
@@ -231,7 +226,7 @@
             { required: true, message: '请输入签卡说明', trigger: 'blur' }
           ],
           signCause: [
-            { required: true, message: '请选择签卡原因', trigger: 'blur' }
+            { required: true, message: '请选择签卡原因', trigger: 'change' }
           ]
         },
         ruleaddBill: {
@@ -242,7 +237,7 @@
             { required: true, message: '请输入签卡说明', trigger: 'blur' }
           ],
           signCause: [
-            { required: true, message: '请选择签卡原因', trigger: 'blur' }
+            { required: true, message: '请选择签卡原因', trigger: 'change' }
           ]
         }
       }
@@ -303,13 +298,6 @@
       submitEvectionApply () {
         var step = true
         if (this.showAddBill === false) {
-          //      验证签卡类型
-          this.$refs.billTitle.validate((valid) => {
-            if (valid) {
-            } else {
-              step = false
-            }
-          })
 //      验证签卡明细
           this.$refs.billDetail.validate((valid) => {
             if (valid) {
@@ -319,13 +307,6 @@
           })
         }
         if (this.showAddBill === true) {
-          //      验证签卡类型
-          this.$refs.billTitle.validate((valid) => {
-            if (valid) {
-            } else {
-              step = false
-            }
-          })
 //      验证签卡明细
           this.$refs.billDetail.validate((valid) => {
             if (valid) {
