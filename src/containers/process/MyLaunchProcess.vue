@@ -307,11 +307,11 @@
         }
         this.$ajax.post(`/myApply/approveCallBack`, approveRequest, {
         }).then((response) => {
-          if (response.data.code === '000000') {
+          if (response.data.code === '000000' && response.data.data.status === '1') {
             this.$Message.success('收回成功')
             this.getMyLaunchList()
           } else {
-            this.$Message.error(response.data.message)
+            this.$Message.error(response.data.data.reason)
           }
         }).catch(function (err) {
           console.log(err)
@@ -329,8 +329,7 @@
           console.log(response)
           if (response.data.code === '000000') {
             this.$Message.success('删除成功')
-            this.myLaunchList.splice(index, 1)
-            this.launchTotal = this.launchTotal - 1
+            this.getMyLaunchList()
           } else {
             this.$Message.error(response.data.message)
           }

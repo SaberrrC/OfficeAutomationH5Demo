@@ -364,11 +364,11 @@
         }
         this.$ajax.post(`/myApply/approveCallBack`, approveRequest, {
         }).then((response) => {
-          if (response.data.code === '000000') {
+          if (response.data.code === '000000' && response.data.data.status === '1') {
             this.$Message.success('收回成功')
             this.$router.push({path: this.type})
           } else {
-            this.$Message.error(response.data.message)
+            this.$Message.error(response.data.data.reason)
           }
         }).catch(function (err) {
           console.log(err)
