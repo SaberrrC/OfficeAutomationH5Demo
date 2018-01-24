@@ -178,8 +178,12 @@ export default {
   methods: {
     getRateData () {
       this.$ajax({
-        method: 'get',
-        url: '/weekreport/' + this.$route.params.dailyid
+        method: 'post',
+        url: '/weekreport/detail',
+        data: {
+          'id': this.$route.params.dailyid,
+          'titleType': '2'
+        }
       }).then((res) => {
         console.log('草稿数据', res.data)
         let result = res.data.data

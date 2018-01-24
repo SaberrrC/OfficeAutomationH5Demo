@@ -304,8 +304,12 @@ export default {
     func (event) {},
     getDetail () {
       this.$ajax({
-        method: 'get',
-        url: '/dailyreport/' + this.dailyid
+        method: 'post',
+        url: '/dailyreport/detils',
+        data: {
+          'id': this.dailyid,
+          'titleType': '2'
+        }
       }).then((res) => {
         console.log('日报展示', res.data)
         let result = res.data.data

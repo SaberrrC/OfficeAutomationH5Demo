@@ -176,8 +176,12 @@ export default {
     //  获取周报数据
     getReportWeeklyData () {
       this.$ajax({
-        method: 'get',
-        url: '/weekreport/' + this.$route.params.id
+        method: 'post',
+        url: '/weekreport/detail',
+        data: {
+          'id': this.$route.params.id,
+          'titleType': '1'
+        }
       }).then((res) => {
         console.log('获取周报数据', res.data)
         let result = res.data.data

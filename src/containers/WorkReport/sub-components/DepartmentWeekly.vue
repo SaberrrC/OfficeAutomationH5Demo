@@ -192,8 +192,12 @@
       openDetail (row, index) {
         console.log(row, index)
         this.$ajax({
-          method: 'get',
-          url: '/weekreport/' + row.id
+          method: 'post',
+          url: '/weekreport/detail',
+          data: {
+            'id': row.id,
+            'titleType': '3'
+          }
         }).then((res) => {
           console.log('周报详情', res.data)
           let result = res.data.data

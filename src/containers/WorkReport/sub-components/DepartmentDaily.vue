@@ -403,8 +403,12 @@
       openDetail (row, index) {
         console.log(row, index)
         this.$ajax({
-          method: 'get',
-          url: '/dailyreport/' + row.dailyid
+          method: 'post',
+          url: '/dailyreport/detils',
+          data: {
+            'id': row.dailyid,
+            'titleType': '3'
+          }
         }).then((res) => {
           console.log('日报展示', res.data)
           let result = res.data.data

@@ -310,8 +310,12 @@ export default {
     //  通过日报id获取日报数据
     getData () {
       this.$ajax({
-        method: 'get',
-        url: '/dailyreport/' + this.dailyid
+        method: 'post',
+        url: '/dailyreport/detils',
+        data: {
+          'id': this.dailyid,
+          'titleType': '1'
+        }
       }).then((res) => {
         console.log('日报展示', res.data)
         let result = res.data.data
