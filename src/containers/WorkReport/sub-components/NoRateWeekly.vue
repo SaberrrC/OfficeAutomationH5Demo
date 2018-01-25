@@ -79,7 +79,7 @@
 			</Row>
 			<Row style="margin: 20px;">
 				<Col span="24" align="center">
-				<Input type="textarea" placeholder="" v-model="checkManRating" :maxlength="800"></Input>
+				<Input type="textarea" placeholder="" v-model="checkManRating" :maxlength="200"></Input>
 				</Col>
 			</Row>
 			<Row style="margin: 20px;">
