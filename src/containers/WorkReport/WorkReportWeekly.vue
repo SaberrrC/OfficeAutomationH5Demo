@@ -36,18 +36,18 @@
 					<tbody>
 						<tr v-for="(item, index) in weeklySummary">
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.workPlan"></Input>
+								<Input type="textarea" placeholder="" v-model="item.workPlan" :maxlength="50"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.work"></Input>
+								<Input type="textarea" placeholder="" v-model="item.work" :maxlength="50"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.difference"></Input>
+								<Input type="textarea" placeholder="" v-model="item.difference" :maxlength="50"></Input>
 							</td>
 							<td>
 								<Row>
 									<Col span="14">
-									<Input type="textarea" placeholder="" v-model="item.remark"></Input>
+									<Input type="textarea" placeholder="" v-model="item.remark" :maxlength="50"></Input>
 									</Col>
 									<Col span="10" align="center">
 									<Button type="error" style="margin-top: 10px;" v-show="item.del" @click="delLine(index)">删除</Button>
@@ -80,15 +80,15 @@
 
 						<tr v-for="(item, index) in nextWeekPlane">
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.nextWorkPlan"></Input>
+								<Input type="textarea" placeholder="" v-model="item.nextWorkPlan" :maxlength="50"></Input>
 							</td>
 							<td>
-								<Input type="textarea" placeholder="" v-model="item.personLiable"></Input>
+								<Input type="textarea" placeholder="" v-model="item.personLiable" :maxlength="50"></Input>
 							</td>
 							<td>
 								<Row>
 									<Col span="14">
-									<Input type="textarea" placeholder="" v-model="item.remark"></Input>
+									<Input type="textarea" placeholder="" v-model="item.remark" :maxlength="50"></Input>
 									</Col>
 									<Col span="10" align="center">
 									<Button type="error" style="margin-top: 10px;" v-show="item.del" @click="delLineNext(index)">删除</Button>

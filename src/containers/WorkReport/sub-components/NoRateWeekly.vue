@@ -67,7 +67,6 @@
 								<Input type="textarea" placeholder="" v-model="item.remark" readonly></Input>
 							</td>
 						</tr>
-
 					</tbody>
 				</table>
 				</Col>
@@ -80,7 +79,7 @@
 			</Row>
 			<Row style="margin: 20px;">
 				<Col span="24" align="center">
-				<Input type="textarea" placeholder="" v-model="checkManRating"></Input>
+				<Input type="textarea" placeholder="" v-model="checkManRating" :maxlength="800"></Input>
 				</Col>
 			</Row>
 			<Row style="margin: 20px;">
