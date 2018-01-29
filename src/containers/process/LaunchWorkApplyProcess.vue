@@ -8,7 +8,7 @@
           <h3 @click="pageClose()" style="padding: 0 5px"><Button type="text" icon="close-round"></Button></h3>
         </i-Col>
         <i-Col span="3" offset="18" style="text-align: right;padding-right: 16px">
-          <Button type="primary" @click="submitEvectionApply()">提交</Button>
+          <Button type="primary" @click="submitEvectionApply()" :loading="loading">提交</Button>
         </i-Col>
       </Row>
     </span>
@@ -291,6 +291,7 @@
         }
       }
       return {
+        loading: false,
         showAddWorkApply: false,
         showAddworkApplyButton: true,
         showDeleteworkApplyButton: false,
@@ -431,8 +432,10 @@
         if (step === true) {
           if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddWorkApply === false) {
             this.nCHREvectionApplyDeatil.push(this.workApplyDetail)
+            this.loading = true
           } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddWorkApply === true) {
             this.nCHREvectionApplyDeatil.push(this.addWorkApply)
+            this.loading = true
           }
         } else {
           return false
@@ -481,6 +484,7 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
+            this.loading = false
             this.$router.push({path: 'myLaunch'})
           } else {
             this.$Message.error(response.data.message)

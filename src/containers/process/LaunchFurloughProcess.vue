@@ -8,7 +8,7 @@
           <h3 @click="pageClose()" style="padding: 0 5px"><Button type="text" icon="close-round"></Button></h3>
         </i-Col>
         <i-Col span="3" offset="18" style="text-align: right;padding-right: 16px">
-          <Button type="primary" @click="submitEvectionApply()">提交</Button>
+          <Button type="primary" @click="submitEvectionApply()" :loading="loading">提交</Button>
         </i-Col>
       </Row>
     </span>
@@ -370,6 +370,7 @@
         }
       }
       return {
+        loading: false,
         checkUser: false,
         checkAddUser: false,
         handOverPepole: [],
@@ -538,8 +539,10 @@
         if (step === true) {
           if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddfurlough === false) {
             this.nCHREvectionApplyDeatil.push(this.furloughDetail)
+            this.loading = true
           } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddfurlough === true) {
             this.nCHREvectionApplyDeatil.push(this.addfurlough)
+            this.loading = true
           }
         } else {
           return false
@@ -590,6 +593,7 @@
         }).then((response) => {
           if (response.data.code === '000000') {
             this.$Message.success('申请成功')
+            this.loading = false
             this.$router.push({path: 'myLaunch'})
           } else {
             this.$Message.error(response.data.message)

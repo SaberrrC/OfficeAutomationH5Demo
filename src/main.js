@@ -16,6 +16,7 @@ axios.defaults.withCredentials = true //  TODO 测试时跨域设置，后期可
 axios.defaults.baseURL = config.OA_API
 axios.defaults.headers.common['token'] = window.localStorage.getItem('token') || ''
 axios.defaults.headers.common['uid'] = window.localStorage.getItem('uid') || ''
+axios.defaults.headers.common['X-Source'] = 'pc'
 window.axios = axios
 /*
 axios.defaults.transformRequest = [(data) => {
