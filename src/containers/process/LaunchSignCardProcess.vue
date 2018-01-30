@@ -326,10 +326,8 @@
         if (step === true) {
           if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddBill === false) {
             this.nCHREvectionApplyDeatil.push(this.billDetail)
-            this.loading = true
           } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddBill === true) {
             this.nCHREvectionApplyDeatil.push(this.addBill)
-            this.loading = true
           }
         } else {
           return false
@@ -356,7 +354,8 @@
           date: this.billTitle.applyDate,
           monocode: this.billTitle.billCode,
           nchrSignDetails: this.nCHREvectionApplyDeatil
-        }  // TODO 组装数据
+        }
+        this.loading = true
         this.$ajax.post(`/nchrSign/saveSign`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -366,6 +365,7 @@
             this.$Message.success('申请成功')
             this.loading = false
             this.$router.push({path: 'myLaunch'})
+            this.loading = false
           } else {
             this.$Message.error(response.data.message)
           }

@@ -539,10 +539,8 @@
         if (step === true) {
           if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddfurlough === false) {
             this.nCHREvectionApplyDeatil.push(this.furloughDetail)
-            this.loading = true
           } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddfurlough === true) {
             this.nCHREvectionApplyDeatil.push(this.addfurlough)
-            this.loading = true
           }
         } else {
           return false
@@ -586,6 +584,7 @@
           type: this.furloughTitle.type,
           nchrfurloughApplyDetail: this.nCHREvectionApplyDeatil
         }
+        this.loading = true
         this.$ajax.post(`/nchrFurlough/submitFurlough`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -596,6 +595,7 @@
             this.loading = false
             this.$router.push({path: 'myLaunch'})
           } else {
+            this.loading = false
             this.$Message.error(response.data.message)
           }
         }).catch(function (err) {

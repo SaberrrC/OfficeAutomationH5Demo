@@ -432,10 +432,8 @@
         if (step === true) {
           if (this.nCHREvectionApplyDeatil.length === 0 && this.showAddWorkApply === false) {
             this.nCHREvectionApplyDeatil.push(this.workApplyDetail)
-            this.loading = true
           } else if (this.nCHREvectionApplyDeatil.length === 1 && this.showAddWorkApply === true) {
             this.nCHREvectionApplyDeatil.push(this.addWorkApply)
-            this.loading = true
           }
         } else {
           return false
@@ -477,6 +475,7 @@
           type: this.workApplyTitle.type,
           detailList: this.nCHREvectionApplyDeatil
         }
+        this.loading = true
         this.$ajax.post(`/WorkApply/addWorkApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -487,6 +486,7 @@
             this.loading = false
             this.$router.push({path: 'myLaunch'})
           } else {
+            this.loading = false
             this.$Message.error(response.data.message)
           }
         }).catch(function (err) {

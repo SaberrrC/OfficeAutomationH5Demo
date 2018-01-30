@@ -561,11 +561,9 @@
         }
         if (step === true) {
           if (this.nchrevectionApplyDetail.length === 0 && this.showAddBill === false) {
-            this.loading = true
             this.nchrevectionApplyDetail.push(this.billDetail)
           } else if (this.nchrevectionApplyDetail.length === 1 && this.showAddBill === true) {
             this.nchrevectionApplyDetail.push(this.addBill)
-            this.loading = true
           }
         } else {
           return false
@@ -609,6 +607,7 @@
           type: this.billTitle.type,
           nchrevectionApplyDetail: this.nchrevectionApplyDetail
         }
+        this.loading = true
         this.$ajax.post(`/nchrEvection/submitEvectionApply`, JSON.stringify(data), {
           headers: {
             'Content-Type': 'application/json'
@@ -619,6 +618,7 @@
             this.loading = false
             this.$router.push({path: 'myLaunch'})
           } else {
+            this.loading = false
             this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
