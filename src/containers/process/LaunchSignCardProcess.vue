@@ -365,8 +365,8 @@
             this.$Message.success('申请成功')
             this.loading = false
             this.$router.push({path: 'myLaunch'})
-            this.loading = false
           } else {
+            this.loading = false
             this.$Message.error(response.data.message)
           }
         }).catch(function (err) {
