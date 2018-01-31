@@ -455,7 +455,7 @@
               pageSize: 1
             }
           } else if (this.type === 'haveTodo') {
-            url = '/myApply/queryApproveByAll'
+            url = '/MyAplication/selectMyAplication'
             data = {
               checkmanId: this.$store.state.userInfo.code,
               userName: '',
@@ -603,7 +603,7 @@
               pageSize: 1
             }
           } else if (this.type === 'haveTodo') {
-            url = '/myApply/queryApproveByAll'
+            url = '/MyAplication/selectMyAplication'
             data = {
               checkmanId: this.$store.state.userInfo.code,
               userName: '',
